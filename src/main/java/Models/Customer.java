@@ -23,7 +23,16 @@ public class Customer extends User implements Packable{
         return cart;
     }
 
-    public HashMap<Integer, Discount> getAllDiscounts() {
-        return allDiscounts;
+    public HashMap<Integer, Discount> getAllDiscountsForCustomer() {
+        return allDiscountsForCustomer;
+    }
+
+
+    public Data pack(Object object) {
+        return null;
+    }
+
+    public Object unpack(Data data) {
+        return null;
     }
 }

@@ -8,7 +8,7 @@ public class Category implements Packable {
     private Category parentCategory;
     private ArrayList<Category> subCategories;
     private ArrayList<Product> products;
-    public static ArrayList<Category> allCategories;
+    private static ArrayList<Category> allCategories;
 
     public String getName() {
         return name;
@@ -28,5 +28,14 @@ public class Category implements Packable {
 
     public ArrayList<Product> getProducts() {
         return products;
+    }
+
+
+    public Data pack(Object object) {
+        return null;
+    }
+
+    public Object unpack(Data data) {
+        return null;
     }
 }

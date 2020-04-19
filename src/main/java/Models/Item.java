@@ -8,7 +8,7 @@ public class Item implements Packable{
     private int count;
     private User user;
     private long initialPrice;
-    public static ArrayList<Item> allItems;
+    private static ArrayList<Item> allItems;
 
     public Product getProduct() {
         return product;
@@ -28,5 +28,14 @@ public class Item implements Packable{
 
     public long getInitialPrice() {
         return initialPrice;
+    }
+
+
+    public Data pack(Object object) {
+        return null;
+    }
+
+    public Object unpack(Data data) {
+        return null;
     }
 }

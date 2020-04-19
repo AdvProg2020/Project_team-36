@@ -12,7 +12,7 @@ public class Log implements Packable {
     private User user;
     private String status;
     private Discount discount;
-    public static ArrayList<Log> allLogs;
+    private static ArrayList<Log> allLogs;
 
     public String getId() {
         return id;
@@ -44,5 +44,14 @@ public class Log implements Packable {
 
     public Discount getDiscount() {
         return discount;
+    }
+
+
+    public Data pack(Object object) {
+        return null;
+    }
+
+    public Object unpack(Data data) {
+        return null;
     }
 }

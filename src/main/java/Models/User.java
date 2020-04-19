@@ -38,4 +38,12 @@ public abstract class User implements Packable{
     public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
+
+    public Data pack(Object object) {
+        return null;
+    }
+
+    public Object unpack(Data data) {
+        return null;
+    }
 }

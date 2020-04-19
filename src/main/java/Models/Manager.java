@@ -8,4 +8,13 @@ public class Manager extends User implements Packable {
     public static ArrayList<Manager> getAllManagers() {
         return allManagers;
     }
+
+
+    public Data pack(Object object) {
+        return null;
+    }
+
+    public Object unpack(Data data) {
+        return null;
+    }
 }

@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Request implements Packable {
 
     private Pendable pendableRequest;
-    private ConfirmationStatusStatus status;
-    public static ArrayList<Request> allRequests;
+    private ConfirmationStatus status;
+    private static ArrayList<Request> allRequests;
 
     public Pendable getPendableRequest() {
         return pendableRequest;
     }
 
-    public ConfirmationStatusStatus getStatus() {
+    public ConfirmationStatus getStatus() {
         return status;
     }
 
@@ -24,4 +24,11 @@ public class Request implements Packable {
 
     }
 
+    public Data pack(Object object) {
+        return null;
+    }
+
+    public Object unpack(Data data) {
+        return null;
+    }
 }
