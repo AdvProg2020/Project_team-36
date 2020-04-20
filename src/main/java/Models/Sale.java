@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Sale implements Pendable {
     private String offId;
-    private ArrayList<Product> productsInSale = new ArrayList<>();
+    private ArrayList<Product> productsInSale = new ArrayList<Product>();
     private ProductionStatus status;
     private Date startTime;
     private Date endTime;

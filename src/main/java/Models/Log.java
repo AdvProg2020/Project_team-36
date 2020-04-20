@@ -8,7 +8,7 @@ public class Log implements Packable {
     private Date date;
     private long totalPrice;
     private Sale sale;
-    private ArrayList<item> allItems;
+    private ArrayList<Item> allItems;
     private User user;
     private String status;
     private Discount discount;
@@ -30,7 +30,7 @@ public class Log implements Packable {
         return sale;
     }
 
-    public ArrayList<item> getAllItems() {
+    public ArrayList<Item> getAllItems() {
         return allItems;
     }
 

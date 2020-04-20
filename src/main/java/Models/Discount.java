@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Discount implements Packable{
-    private static ArrayList<Disount> allDiscounts;
+    private static ArrayList<Discount> allDiscounts;
     private String id;
     private Date startTime;
     private Date endTime;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Seller extends User implements Pendable {
     private static ArrayList<Seller> allSellers;
-    private ArrayList<Log> allLogs = new ArrayList<>();
-    private ArrayList<Product> allProducts = new ArrayList<>();
-    private ArrayList<Sale> allSales = new ArrayList<>();
+    private ArrayList<Log> allLogs = new ArrayList<Log>();
+    private ArrayList<Product> allProducts = new ArrayList<Product>();
+    private ArrayList<Sale> allSales = new ArrayList<Sale>();
 
     public static ArrayList<Seller> getAllSellers() {
         return allSellers;

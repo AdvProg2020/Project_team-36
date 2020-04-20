@@ -9,9 +9,9 @@ public class Product implements Pendable,Packable {
     private String name;
     private String company;
     private Category category;
-    private ArrayList<Field> fieldsOfCategory = new ArrayList<>();
+    private ArrayList<Field> fieldsOfCategory = new ArrayList<Field>();
     private String information;
-    private ArrayList<ProductFieald> productFiealds = new ArrayList<>();
+    private ArrayList<ProductField> productFields = new ArrayList<ProductField>();
 
     public String getProductId() {
         return productId;
@@ -41,16 +41,14 @@ public class Product implements Pendable,Packable {
         return information;
     }
 
-    public ArrayList<ProductFieald> getProductFiealds() {
-        return productFiealds;
+    public ArrayList<ProductField> getProductFields() {
+        return productFields;
     }
 
-    @Override
     public Data pack(Object object) {
         return null;
     }
 
-    @Override
     public Object unpack(Data data) {
         return null;
     }

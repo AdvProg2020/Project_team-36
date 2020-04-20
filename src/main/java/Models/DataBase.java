@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DataBase {
-    private HashMap<String,String> fileAddress = new HashMap<>();
+    private HashMap<String,String> fileAddress = new HashMap<String, String>();
 
     public String getAddress(String name){
         return fileAddress.get(name);
