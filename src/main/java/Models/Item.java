@@ -6,6 +6,7 @@ public class Item implements Packable{
     private Product product;
     private String productId;
     private String company;
+    private int itemId;
     private int count;
     private User user;
     private long initialPrice;
@@ -25,6 +26,10 @@ public class Item implements Packable{
 
     public User getUser() {
         return user;
+    }
+
+    public int getItemId() {
+        return itemId;
     }
 
     public long getInitialPrice() {

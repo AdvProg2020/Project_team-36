@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public abstract class User implements Packable{
     private static ArrayList<User> allUsers;
+    protected int userId;
     protected String username;
     protected String firstname;
     protected String lastname;
@@ -33,6 +34,10 @@ public abstract class User implements Packable{
 
     public String getPassword() {
         return password;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public static ArrayList<User> getAllUsers() {

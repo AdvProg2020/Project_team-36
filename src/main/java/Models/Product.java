@@ -3,9 +3,8 @@ package Models;
 import java.util.ArrayList;
 
 public class Product implements Pendable,Packable {
-
     private static ArrayList<Product> allProducts;
-    private String productId;
+    private int productId;
     private String name;
     private String company;
     private Category category;
@@ -13,7 +12,7 @@ public class Product implements Pendable,Packable {
     private String information;
     private ArrayList<ProductField> productFields = new ArrayList<ProductField>();
 
-    public String getProductId() {
+    public int getProductId() {
         return productId;
     }
 

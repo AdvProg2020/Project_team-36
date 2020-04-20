@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Category implements Packable {
     private String name;
+    private int categoryId;
     private ArrayList<Field> allFields;
     private Category parentCategory;
     private ArrayList<Category> subCategories;
@@ -30,6 +31,9 @@ public class Category implements Packable {
         return products;
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
 
     public Data pack(Object object) {
         return null;
