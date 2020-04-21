@@ -3,7 +3,7 @@ package Models;
 import java.util.ArrayList;
 
 public abstract class User implements Packable{
-    private static ArrayList<User> allUsers;
+    private static ArrayList<User> allUsers = new ArrayList<User>();
     protected int userId;
     protected String username;
     protected String firstname;
@@ -12,6 +12,10 @@ public abstract class User implements Packable{
     protected String phoneNumber;
     protected String password;
 
+    public User(String username){
+        this.username = username;
+        this.userId = makeUserId();
+    }
     public String getUsername() {
         return username;
     }
@@ -40,8 +44,47 @@ public abstract class User implements Packable{
         return userId;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+
+    private int makeUserId(){
+        if(allUsers.size()==0)
+            return 1;
+        return allUsers.get(allUsers.size()-1).getUserId()+1;
+    }
+
     public static ArrayList<User> getAllUsers() {
         return allUsers;
+    }
+
+    public static boolean isThereUsername(String username){
+        for (User user : allUsers) {
+            if(user.getUsername().equals(username))
+                return true;
+        }
+        return false;
+    }
+
+    public static void addNewUser(User user){
+        allUsers.add(user);
     }
 
     public Data pack(Object object) {

@@ -1,7 +1,11 @@
 package Controllers;
 
-public abstract class Controller {
-    protected GlobalVariables user;
+public class Controller {
+     GlobalVariables userVariables ;
+
+    public Controller(GlobalVariables globalVariable){
+        this.userVariables = globalVariable;
+    }
 
     public void logout(){}
 }

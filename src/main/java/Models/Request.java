@@ -6,7 +6,7 @@ public class Request implements Packable {
     private Pendable pendableRequest;
     private int requestId;
     private ConfirmationStatus status;
-    private static ArrayList<Request> allRequests;
+    private static ArrayList<Request> allRequests = new ArrayList<Request>();
 
     public Pendable getPendableRequest() {
         return pendableRequest;

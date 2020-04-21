@@ -1,4 +1,8 @@
 package Controllers;
 
-public class CustomerController {
+public class CustomerController extends Controller {
+
+    public CustomerController(GlobalVariables globalVariable) {
+        super(globalVariable);
+    }
 }

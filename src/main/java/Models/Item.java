@@ -10,7 +10,7 @@ public class Item implements Packable{
     private int count;
     private User user;
     private long initialPrice;
-    private static ArrayList<Item> allItems;
+    private static ArrayList<Item> allItems = new ArrayList<Item>();
 
     public Product getProduct() {
         return product;
