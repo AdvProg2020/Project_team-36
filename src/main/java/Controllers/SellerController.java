@@ -1,8 +1,8 @@
 package Controllers;
 
-public class SellerController extends Controller{
+public class SellerController extends UserController{
 
-    public SellerController(GlobalVariables globalVariable) {
-        super(globalVariable);
+    public SellerController(GlobalVariables userVariables) {
+        super(userVariables);
     }
 }

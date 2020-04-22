@@ -1,8 +1,8 @@
 package Controllers;
 
-public class ProductController extends Controller {
-
-    public ProductController(GlobalVariables globalVariable) {
-        super(globalVariable);
+public class ProductController {
+    GlobalVariables userVariables;
+    public ProductController(GlobalVariables userVariables) {
+        this.userVariables = userVariables;
     }
 }

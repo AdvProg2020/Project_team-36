@@ -1,8 +1,10 @@
 package Controllers;
 
-public class ManagerController extends Controller {
-
-    public ManagerController(GlobalVariables globalVariable) {
-        super(globalVariable);
+public class ManagerController extends UserController{
+    GlobalVariables userVariables;
+    public ManagerController(GlobalVariables userVariables) {
+        super(userVariables);
     }
+
+
 }

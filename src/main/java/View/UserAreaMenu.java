@@ -3,23 +3,22 @@ package View;
 public class UserAreaMenu extends Menu{
     public UserAreaMenu(Menu parentMenu) {
         super("UserAreaMenu",parentMenu);
-        subMenus.put("EntryMenu", new EntryMenu());
+        subMenus.put("EntryMenu", new EntryMenu(this));
     }
 
-    private void newManagerloggedIn(){
-        this.subMenus.put("UserMenu",new ManagerMenu());
+    public void newUserMenu(String type){
+       // if(type.matches("manager"))
+         //   this.subMenus.put("UserMenu",new ManagerMenu(this));
+        //else if(type.matches("customer"))
+           // this.subMenus.put("UserMenu", new CustomerMenu(this));
+        //else if(type.matches("seller"))
+        //    this.subMenus.put("UserMenu", new SellerMenu(this));
+        //this.subMenus.remove("EntryMenu");
     }
 
-    private void newCustomerLoggedIn(){
-        this.subMenus.put("UserMenu", new CustomerMenu());
-    }
-
-    private void newSellerMenu(){
-        this.subMenus.put("UserMenu", new SellerMenu());
-    }
-
-    private void logout(){
+    public void logout(){
         this.subMenus.remove("UserMenu");
+        subMenus.put("EntryMenu",new EntryMenu(this));
     }
 
     @Override

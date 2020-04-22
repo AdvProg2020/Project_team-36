@@ -4,21 +4,29 @@ import java.util.ArrayList;
 
 public class Manager extends User implements Packable {
 
+    private static ArrayList<Manager> allManagers = new ArrayList<>();
+
+
     public Manager(String username){
         super(username);
     }
-    private static ArrayList<Manager> allManagers;
+
+    @Override
+    public String getType() {
+        return "manager";
+    }
 
     public static ArrayList<Manager> getAllManagers() {
         return allManagers;
     }
 
     public static boolean canManagerRegister(){
-        if(allManagers.isEmpty())
-            return true;
-        return false;
+        return allManagers.isEmpty();
     }
 
+    public static void addNewManager(Manager manager){
+        allManagers.add(manager);
+    }
 
     public Data pack(Object object) {
         return null;

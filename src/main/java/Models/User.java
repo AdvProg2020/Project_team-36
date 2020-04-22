@@ -3,7 +3,7 @@ package Models;
 import java.util.ArrayList;
 
 public abstract class User implements Packable{
-    private static ArrayList<User> allUsers = new ArrayList<User>();
+    private static ArrayList<User> allUsers = new ArrayList<>();
     protected int userId;
     protected String username;
     protected String firstname;
@@ -44,6 +44,15 @@ public abstract class User implements Packable{
         return userId;
     }
 
+    public static User getUserByUsername(String username){
+        for (User user : allUsers) {
+            if(user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -63,7 +72,6 @@ public abstract class User implements Packable{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
 
     private int makeUserId(){
         if(allUsers.size()==0)
@@ -86,6 +94,8 @@ public abstract class User implements Packable{
     public static void addNewUser(User user){
         allUsers.add(user);
     }
+
+    public abstract String getType();
 
     public Data pack(Object object) {
         return null;

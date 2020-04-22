@@ -1,8 +1,8 @@
 package Controllers;
 
-public class OffController extends Controller {
-
-    public OffController(GlobalVariables globalVariable) {
-        super(globalVariable);
+public class OffController  {
+    GlobalVariables userVariables;
+    public OffController(GlobalVariables userVariables) {
+        this.userVariables = userVariables;
     }
 }
