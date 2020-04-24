@@ -7,13 +7,13 @@ public class Customer extends User implements Packable{
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<Log> allLogs;
-    private HashMap<Integer,Product> cart;
+    private ArrayList<Item> cart;
     private HashMap<Integer,Discount> allDiscountsForCustomer;
 
     public Customer(String username){
         super(username);
         this.allLogs = new ArrayList<>();
-        this.cart = new HashMap<>();
+        this.cart = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
     }
 
@@ -30,7 +30,7 @@ public class Customer extends User implements Packable{
         return allLogs;
     }
 
-    public HashMap<Integer, Product> getCart() {
+    public ArrayList<Item> getCart() {
         return cart;
     }
 

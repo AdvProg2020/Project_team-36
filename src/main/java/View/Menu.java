@@ -43,7 +43,29 @@ public abstract class Menu {
         Menu.sellerController = new SellerController(user);
     }
 
-    public abstract void execute();
+    public void execute(){
+        String input = scanner.nextLine().trim();
+        Menu chosenMenu = null;
+        if(input.matches("back")) {
+            parentMenu.execute();
+        }else if(input.matches("help")){
+            help();
+            execute();
+        }else {
+            for (String regex : subMenus.keySet()) {
+                if(input.matches(regex)){
+                    chosenMenu = subMenus.get(regex);
+                    break;
+                }
+            }
+        }
+        if(chosenMenu != null)
+            chosenMenu.execute();
+        else {
+            System.err.println("Invalid command! Try again please!");
+            this.execute();
+        }
+    }
 
     public abstract void help();
 

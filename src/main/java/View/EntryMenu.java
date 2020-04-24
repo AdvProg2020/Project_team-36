@@ -26,7 +26,7 @@ public class EntryMenu extends Menu {
             parentMenu.getParentMenu().execute();
             return;
         }
-        if ((matcher = getMatcher(input, "create\\s+account\\s+(\\w+)\\s+(\\S+)")).matches()) {
+        else if ((matcher = getMatcher(input, "create\\s+account\\s+(\\w+)\\s+(\\S+)")).matches()) {
             try {
                 entryController.setUsernameRegister(matcher.group(1), matcher.group(2));
                 registerProcess();
