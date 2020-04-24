@@ -1,18 +1,55 @@
 package View;
 
 import Controllers.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class Menu {
-    protected String name;
+    private String name;
     protected HashMap<String,Menu> subMenus;//regex
-    protected Menu parentMenu;
-    protected EntryMenu entryMenu;
-    protected ManagerController managerController;
-    protected CustomerController customerController;
-    protected SellerController sellerController;
-    protected OffController offController;
-    protected EntryController entryController;
-    protected Scanner scanner;
+    public Menu parentMenu;
+    protected static EntryMenu entryMenu;
+    protected static ManagerController managerController;
+    protected static CustomerController customerController;
+    protected static SellerController sellerController;
+    protected static OffController offController;
+    protected static EntryController entryController;
+    protected static Scanner scanner;
+
+    public Menu(String name, Menu parentMenu) {
+        this.name = name;
+        this.parentMenu = parentMenu;
+        this.subMenus = new HashMap<>();
+    }
+
+    public Menu getParentMenu() {
+        return parentMenu;
+    }
+
+    public static void setScanner(Scanner scanner){
+        Menu.scanner = scanner;
+    }
+
+    public static void setControllers(){
+        GlobalVariables user = new GlobalVariables();
+        Menu.customerController = new CustomerController(user);
+        Menu.entryController = new EntryController(user);
+        Menu.managerController = new ManagerController(user);
+        Menu.offController = new OffController(user);
+        Menu.sellerController = new SellerController(user);
+    }
+
+    public abstract void execute();
+
+    public abstract void help();
+
+    public Matcher getMatcher(String input, String regex){
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(input);
+    }
+
 }

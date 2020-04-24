@@ -1,8 +1,8 @@
 package Controllers;
 
-public class OffController  {
+public class ProductController {
     GlobalVariables userVariables;
-    public OffController(GlobalVariables userVariables) {
+    public ProductController(GlobalVariables userVariables) {
         this.userVariables = userVariables;
     }
 }

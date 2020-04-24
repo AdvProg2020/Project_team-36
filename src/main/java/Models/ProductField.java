@@ -9,8 +9,8 @@ public class ProductField {
     private Seller seller;
     private int supply;
     private Date productionDate;
-    private ArrayList<Comment> allComments = new ArrayList<Comment>();
-    private ArrayList<Score> allScore =  new ArrayList<Score>();
+    private ArrayList<Comment> allComments;
+    private ArrayList<Score> allScore;
 
     public ProductionStatus getStatus() {
         return status;
