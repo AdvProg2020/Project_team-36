@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 
 public class EntryMenu extends Menu {
     public EntryMenu(Menu parentMenu) {
-        super("UserAreaMenu", parentMenu);
+        super("EntryMenu", parentMenu);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class EntryMenu extends Menu {
             try {
                 entryController.setUsernameRegister(matcher.group(1), matcher.group(2));
                 registerProcess();
-                System.out.println("register successfull");
+                System.out.println("register successful");
                 execute();
                 return;
             } catch (EntryController.InvalidUsernameException | EntryController.ManagerExistsException | EntryController.InvalidTypeException e) {
@@ -94,7 +94,7 @@ public class EntryMenu extends Menu {
         while (true) {
             try {
                 entryController.setPasswordLogin(scanner.nextLine(), (UserAreaMenu) parentMenu);
-                System.out.println("login successfull");
+                System.out.println("login successful");
                 break;
             } catch (EntryController.WrongPasswordException e) {
                 System.err.println(e.getMessage());
