@@ -39,4 +39,8 @@ public class ProductField {
     public ArrayList<Score> getAllScore() {
         return allScore;
     }
+
+    public void buyFromSeller(int count){
+        this.supply -= count;
+    }
 }

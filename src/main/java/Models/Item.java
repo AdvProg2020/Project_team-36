@@ -4,16 +4,20 @@ import java.util.ArrayList;
 
 public class Item implements Packable{
     private Product product;
+    private String productName;
     private String productId;
     private String company;
-    private int itemId;
     private int count;
     private User user;
     private long initialPrice;
-    private static ArrayList<Item> allItems = new ArrayList<Item>();
+
 
     public Product getProduct() {
         return product;
+    }
+
+    public String getProductName() {
+        return productName;
     }
 
     public String getProductId() {
@@ -26,10 +30,6 @@ public class Item implements Packable{
 
     public User getUser() {
         return user;
-    }
-
-    public int getItemId() {
-        return itemId;
     }
 
     public long getInitialPrice() {
