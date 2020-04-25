@@ -43,7 +43,7 @@ public abstract class Menu {
         Menu.sellerController = new SellerController(user);
     }
 
-    public void execute() throws Exception {
+    public void execute() {
         String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
         if (input.matches("back")) {

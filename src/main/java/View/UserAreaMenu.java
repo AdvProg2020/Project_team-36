@@ -28,9 +28,7 @@ public class UserAreaMenu extends Menu{
     public void execute() {
         if(subMenus.containsKey("UserMenu")){
             subMenus.get("UserMenu").execute();
-        } else{
-            subMenus.get("EntryMenu").execute();
-        }
+        } else subMenus.get("EntryMenu").execute();
 
     }
 }

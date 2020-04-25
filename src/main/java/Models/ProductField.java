@@ -43,4 +43,8 @@ public class ProductField {
     public void buyFromSeller(int count){
         this.supply -= count;
     }
+
+    public void increaseSupply(int amount){
+        this.supply +=amount;
+    }
 }

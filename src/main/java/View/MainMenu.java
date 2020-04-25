@@ -3,8 +3,8 @@ package View;
 public class MainMenu extends Menu {
 
     public MainMenu() {
-        super("MainMenu",null);
-        this.subMenus.put("user\\s+area",new UserAreaMenu(this));
+        super("MainMenu", null);
+        this.subMenus.put("user\\s+area", new UserAreaMenu(this));
     }
 
 
@@ -15,17 +15,24 @@ public class MainMenu extends Menu {
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
-        for (String subMenu : subMenus.keySet()) {
-            if(input.matches(subMenu)){
-                chosenMenu = subMenus.get(subMenu);
+
+        if (input.matches("help")) {
+            help();
+            execute();
+        } else {
+            for (String regex : subMenus.keySet()) {
+                if (input.matches(regex)) {
+                    chosenMenu = subMenus.get(regex);
+                    break;
+                }
             }
         }
-        if(chosenMenu != null)
+        if (chosenMenu != null)
             chosenMenu.execute();
-        else{
-            System.err.println("Invalid input! Try again please");
+        else {
+            System.err.println("Invalid command! Try again please!");
             this.execute();
         }
     }

@@ -7,6 +7,7 @@ public class ItemInCart {
     ArrayList<Seller> sellers;
     ArrayList<Integer> countFromEachSeller;
 
+
     public ItemInCart(Product product) {
         this.product = product;
     }
@@ -31,9 +32,36 @@ public class ItemInCart {
         return sum;
     }
 
-    public void buyFromSeller(Seller seller,int count){
+    public void increaseAmountFromSeller(Seller seller, int count){
         int index = sellers.indexOf(seller);
         countFromEachSeller.set(index,countFromEachSeller.get(index)+count);
+    }
+
+    public void decreaseAmountFromSeller(Seller seller,int count) throws NoSellersForItemInCart {
+        int index = sellers.indexOf(seller);
+        countFromEachSeller.set(index,countFromEachSeller.get(index)-count);
+        this.product.getProductFieldBySeller(seller).increaseSupply(1);
+        if(countFromEachSeller.get(index)==0){
+            countFromEachSeller.remove(index);
+            sellers.remove(index);
+        }
+        if(sellers.isEmpty())
+            throw new NoSellersForItemInCart();
+    }
+
+    public long getTotalPrice(){
+        long sum = 0;
+        int i=0;
+        for (Seller seller : sellers) {
+            Long eachPrice = product.getProductFieldBySeller(seller).getPrice();
+            sum+=eachPrice*countFromEachSeller.get(i);
+            i++;
+        }
+        return sum;
+    }
+
+    public static class NoSellersForItemInCart extends Exception{
+
     }
 
 

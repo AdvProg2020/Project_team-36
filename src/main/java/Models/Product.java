@@ -88,4 +88,12 @@ public class Product implements Pendable,Packable {
     public Object unpack(Data data) {
         return null;
     }
+
+    public ProductField getProductFieldBySeller(Seller seller){
+        for (ProductField productField : productFields) {
+            if(productField.getSeller().equals(seller))
+                return productField;
+        }
+        return null;
+    }
 }

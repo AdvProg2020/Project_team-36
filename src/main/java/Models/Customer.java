@@ -54,6 +54,18 @@ public class Customer extends User implements Packable{
         return null;
     }
 
+    public void removeItemFromCart(ItemInCart item){
+        this.cart.remove(item);
+    }
+
+    public long getCartPrice(){
+        long sum=0;
+        for (ItemInCart item : cart) {
+            sum+= item.getTotalPrice();
+        }
+        return sum;
+    }
+
 
     public Data pack(Object object) {
         return null;
