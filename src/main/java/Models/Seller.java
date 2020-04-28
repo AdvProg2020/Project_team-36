@@ -7,6 +7,7 @@ public class Seller extends User implements Pendable,Packable {
     private ArrayList<Log> allLogs;
     private ArrayList<Product> allProducts;
     private ArrayList<Sale> allSales;
+    private long credit;
 
     public Seller(String username){
         super(username);
@@ -14,6 +15,14 @@ public class Seller extends User implements Pendable,Packable {
         this.allSales = new ArrayList<>();
         this.allSales = new ArrayList<>();
         this.allProducts = new ArrayList<>();
+    }
+
+    public long getCredit() {
+        return credit;
+    }
+
+    public void setCredit(long credit) {
+        this.credit = credit;
     }
 
     @Override
