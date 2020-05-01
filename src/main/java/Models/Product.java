@@ -9,14 +9,16 @@ public class Product implements Pendable,Packable {
     private String company;
     private Category category;
     private ArrayList<Field> fieldsOfCategory;
+    private Sale sale;
     private String information;
     private ArrayList<ProductField> productFields;
+    private ArrayList<Score> allScore;
+    private ArrayList<Comment> allComments;
+
 
     public int getProductId() {
         return productId;
     }
-
-
 
     public String getName() {
         return name;
@@ -30,12 +32,24 @@ public class Product implements Pendable,Packable {
         return null;
     }
 
+    public ArrayList<Comment> getAllComments() {
+        return allComments;
+    }
+
+    public ArrayList<Score> getAllScore() {
+        return allScore;
+    }
+
     public static ArrayList<Product> getAllProducts() {
         return allProducts;
     }
 
     public String getCompany() {
         return company;
+    }
+
+    public Sale getSale() {
+        return sale;
     }
 
     public Category getCategory() {
@@ -54,7 +68,6 @@ public class Product implements Pendable,Packable {
         return fieldsOfCategory;
     }
 
-
     public String getInformation() {
         return information;
     }
@@ -71,6 +84,10 @@ public class Product implements Pendable,Packable {
 
     public ArrayList<ProductField> getProductFields() {
         return productFields;
+    }
+
+    public void addScore(Score score){
+        this.allScore.add(score);
     }
 
     public void buyProductFromSeller(Seller seller, int count){
@@ -95,5 +112,15 @@ public class Product implements Pendable,Packable {
                 return productField;
         }
         return null;
+    }
+
+    public boolean isThereBuyer(Customer customer){
+        for (ProductField productField : this.productFields) {
+            for (Customer buyer : productField.getAllBuyers()) {
+                if(buyer.equals(customer))
+                    return true;
+            }
+        }
+        return false;
     }
 }

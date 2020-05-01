@@ -11,6 +11,7 @@ public class CustomerMenu extends Menu{
         subMenus.put("view\\s+cart",new CartMenu("cartMenu",this));
         subMenus.put("view\\s+discount\\s+codes",getDiscountCodesMenu());
         subMenus.put("view\\s+balance",getBalanceMenu());
+        subMenus.put("view\\s+orders",new OrderMenu("orderMenu",this));
 
     }
 

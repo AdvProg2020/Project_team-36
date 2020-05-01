@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Discount implements Packable{
     private static ArrayList<Discount> allDiscounts = new ArrayList<>();
-    private String id;
+    private int id;
     private Date startTime;
     private Date endTime;
     private double discountPercent;//bar hasbe darsad nist
@@ -13,7 +13,7 @@ public class Discount implements Packable{
     private int repetitionForEachUser;
     private ArrayList<Customer> customersIncluded;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

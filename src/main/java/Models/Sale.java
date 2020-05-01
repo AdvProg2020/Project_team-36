@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Sale implements Pendable {
-    private String offId;
+    private int offId;
     private ArrayList<Product> productsInSale;
     private ProductionStatus status;
     private Date startTime;
     private Date endTime;
     private Double salePercent;
 
-    public String getOffId() {
+    public int getOffId() {
         return offId;
     }
 

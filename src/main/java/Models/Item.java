@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Item implements Packable{
     private Product product;
     private String productName;
-    private String productId;
+    private int productId;
     private String company;
     private int count;
     private User user;
@@ -20,7 +20,7 @@ public class Item implements Packable{
         return productName;
     }
 
-    public String getProductId() {
+    public int getProductId() {
         return productId;
     }
 

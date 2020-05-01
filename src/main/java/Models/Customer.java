@@ -38,6 +38,24 @@ public class Customer extends User implements Packable{
         return cart;
     }
 
+    public boolean isThereLog(int logId){
+        for (Log log : allLogs) {
+            if(log.getId()==logId)
+                return true;
+        }
+        return false;
+    }
+
+
+    public Log getLog(int logId) {
+        for (Log log : allLogs) {
+            if(log.getId()== logId){
+                return log;
+            }
+        }
+        return null;
+    }
+
     public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
         this.updateDiscounts();
         return allDiscountsForCustomer;
@@ -85,7 +103,6 @@ public class Customer extends User implements Packable{
         return sum;
     }
 
-
     public Data pack(Object object) {
         return null;
     }
@@ -93,4 +110,6 @@ public class Customer extends User implements Packable{
     public Object unpack(Data data) {
         return null;
     }
+
+
 }

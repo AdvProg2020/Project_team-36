@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerController extends UserController {
+
     public CustomerController(GlobalVariables userVariables) {
         super(userVariables);
     }
@@ -85,10 +86,24 @@ public class CustomerController extends UserController {
     public HashMap<Discount, Integer> getDiscountCodes() {
 
         return ((Customer) userVariables.getLoggedInUser()).getAllDiscountsForCustomer();
-}
+    }
 
     public long getBalance() {
         return ((Customer) userVariables.getLoggedInUser()).getCredit();
+    }
+
+    public Log getOrder(int orderId) throws NoLogWithId {
+        if (!((Customer) userVariables.getLoggedInUser()).isThereLog(orderId))
+            throw new NoLogWithId("There is no log with this id!");
+        Log log = ((Customer) userVariables.getLoggedInUser()).getLog(orderId);
+        return log;
+    }
+
+    public void rateProduct(int productId, int rate) throws NoProductWithIdInLog {
+        if(Product.getProduct(productId)==null)
+            throw new NoProductWithIdInLog("No product with this id in your log!");
+        Score score = new Score((Customer)userVariables.getLoggedInUser(),rate);
+        Product.getProduct(productId).addScore(score);
     }
 
     public ArrayList<Log> getAllLogs() {
@@ -115,6 +130,18 @@ public class CustomerController extends UserController {
 
     public static class NotEnoughSupply extends Exception {
         public NotEnoughSupply() {
+        }
+    }
+
+    public static class NoLogWithId extends Exception {
+        public NoLogWithId(String message) {
+            super(message);
+        }
+    }
+
+    public static class NoProductWithIdInLog extends Exception {
+        public NoProductWithIdInLog(String message) {
+            super(message);
         }
     }
 }

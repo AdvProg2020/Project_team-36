@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Log implements Packable {
-    private String id;
+    private int id;
     private Date date;
     private long totalPrice;
-    private Sale sale;
+    private double sale;
     private ArrayList<Item> allItems;
     private User user;
     private String status;
-    private Discount discount;
+    private double discount;
     private static ArrayList<Log> allLogs = new ArrayList<>();
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -26,7 +26,7 @@ public class Log implements Packable {
         return totalPrice;
     }
 
-    public Sale getSale() {
+    public double getSale() {
         return sale;
     }
 
@@ -42,7 +42,7 @@ public class Log implements Packable {
         return status;
     }
 
-    public Discount getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
