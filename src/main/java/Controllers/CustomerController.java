@@ -23,7 +23,7 @@ public class CustomerController extends UserController {
         return item.getSellers().size() > 1;
     }
 
-    public void increaseProductInCart(int productId) throws NoProductWithIdInCart,MoreThanOneSellerForItem,NotEnoughSupply {
+    public void increaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem, NotEnoughSupply {
         ItemInCart item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
         if (!((Customer) userVariables.getLoggedInUser()).isThereProductInCart(productId))
             throw new NoProductWithIdInCart("There is no product with this id in your cart!");
@@ -58,15 +58,15 @@ public class CustomerController extends UserController {
             throw new NoProductWithIdInCart("There is no product with this id in your cart!");
         else if (item.getSellers().size() > 1) {
             throw new MoreThanOneSellerForItem(item.getSellers());
-        } else{
-            try{item.decreaseAmountFromSeller(item.getSellers().get(0),1);}
-            catch(ItemInCart.NoSellersForItemInCart e){
+        } else {
+            try {
+                item.decreaseAmountFromSeller(item.getSellers().get(0), 1);
+            } catch (ItemInCart.NoSellersForItemInCart e) {
                 ((Customer) userVariables.getLoggedInUser()).removeItemFromCart(item);
             }
         }
 
     }
-
 
     public void decreaseProductInCart(int sellerNumber, int productId) {
         ItemInCart item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
@@ -82,16 +82,17 @@ public class CustomerController extends UserController {
         return ((Customer) userVariables.getLoggedInUser()).getCartPrice();
     }
 
-    public HashMap<Integer,Discount> getDiscountCodes(){
-        return ((Customer)userVariables.getLoggedInUser()).getAllDiscountsForCustomer();
+    public HashMap<Discount, Integer> getDiscountCodes() {
+
+        return ((Customer) userVariables.getLoggedInUser()).getAllDiscountsForCustomer();
+}
+
+    public long getBalance() {
+        return ((Customer) userVariables.getLoggedInUser()).getCredit();
     }
 
-    public long getBalance(){
-       return  ((Customer)userVariables.getLoggedInUser()).getCredit();
-    }
-
-    public ArrayList<Log> getAllLogs(){
-        return ((Customer)userVariables.getLoggedInUser()).getAllLogs();
+    public ArrayList<Log> getAllLogs() {
+        return ((Customer) userVariables.getLoggedInUser()).getAllLogs();
     }
 
     public static class NoProductWithIdInCart extends Exception {

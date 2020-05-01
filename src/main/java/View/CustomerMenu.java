@@ -27,15 +27,14 @@ public class CustomerMenu extends Menu{
 
             @Override
             public void execute() {
-                HashMap<Integer, Discount> discounts = customerController.getDiscountCodes();
+                HashMap<Discount, Integer> discounts = customerController.getDiscountCodes();
                 if(discounts.isEmpty()){
                     System.out.println("You have no available discount!");
                     this.getParentMenu().execute();
                 }
                 System.out.println("Discount code    Repetition    EndTime");
-                for (Integer repetition : discounts.keySet()) {
-                    Discount discount = discounts.get(repetition);
-                    System.out.printf("%10s%10d%20s",discount.getId(),repetition,discount.getEndTime());
+                for (Discount discount : discounts.keySet()) {
+                    System.out.printf("%10s%10d%20s",discount.getId(),discounts.get(discount),discount.getEndTime());
                     System.out.println();
                 }
                 this.getParentMenu().execute();

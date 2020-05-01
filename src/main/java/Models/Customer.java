@@ -1,14 +1,18 @@
 package Models;
 
+import javafx.scene.effect.SepiaTone;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Customer extends User implements Packable{
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<Log> allLogs;
     private ArrayList<ItemInCart> cart;
-    private HashMap<Integer,Discount> allDiscountsForCustomer;
+    private HashMap<Discount,Integer> allDiscountsForCustomer;
 
     public Customer(String username){
         super(username);
@@ -34,8 +38,23 @@ public class Customer extends User implements Packable{
         return cart;
     }
 
-    public HashMap<Integer, Discount> getAllDiscountsForCustomer() {
+    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
+        this.updateDiscounts();
         return allDiscountsForCustomer;
+    }
+
+    private void updateDiscounts(){
+        Set<Discount> temp = new HashSet<>();
+        for (Discount discount : this.allDiscountsForCustomer.keySet()) {
+            if(!discount.isDiscountAvailable()){
+                temp.add(discount);
+            }
+            else if(this.allDiscountsForCustomer.get(discount)==0){
+                temp.add(discount);
+            }
+        }
+        this.allDiscountsForCustomer.keySet().removeAll(temp);
+
     }
 
     public boolean isThereProductInCart(int productId){

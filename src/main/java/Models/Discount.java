@@ -41,6 +41,11 @@ public class Discount implements Packable{
         return customersIncluded;
     }
 
+    public boolean isDiscountAvailable(){
+        Date now = new Date();
+        return (now.after(this.startTime)&& now.before(this.endTime))||now.equals(this.startTime)||now.equals(this.endTime);
+    }
+
     public Data pack(Object object) {
         return null;
     }
