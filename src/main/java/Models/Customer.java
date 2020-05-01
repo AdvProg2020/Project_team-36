@@ -23,7 +23,7 @@ public class Customer extends User implements Packable{
     }
 
     public long getCredit() {
-        return credit;
+        return this.credit;
     }
 
     public ArrayList<Log> getAllLogs() {

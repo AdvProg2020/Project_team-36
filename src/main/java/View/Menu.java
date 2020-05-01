@@ -26,6 +26,10 @@ public abstract class Menu {
         this.subMenus = new HashMap<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Menu getParentMenu() {
         return parentMenu;
     }

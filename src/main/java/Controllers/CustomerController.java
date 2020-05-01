@@ -3,6 +3,7 @@ package Controllers;
 import Models.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CustomerController extends UserController {
     public CustomerController(GlobalVariables userVariables) {
@@ -79,6 +80,18 @@ public class CustomerController extends UserController {
 
     public long getTotalCartPrice() {
         return ((Customer) userVariables.getLoggedInUser()).getCartPrice();
+    }
+
+    public HashMap<Integer,Discount> getDiscountCodes(){
+        return ((Customer)userVariables.getLoggedInUser()).getAllDiscountsForCustomer();
+    }
+
+    public long getBalance(){
+       return  ((Customer)userVariables.getLoggedInUser()).getCredit();
+    }
+
+    public ArrayList<Log> getAllLogs(){
+        return ((Customer)userVariables.getLoggedInUser()).getAllLogs();
     }
 
     public static class NoProductWithIdInCart extends Exception {

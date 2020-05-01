@@ -20,6 +20,10 @@ public class CartMenu extends Menu {
 
     }
 
+    public int getProductId() {
+        return productId;
+    }
+
     private Menu getShowCartMenu() {
         return new Menu("ShowCartMenu", this) {
             @Override
@@ -50,11 +54,11 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
-                if (customerController.isThereProductInCart(productId)) {
+                if (customerController.isThereProductInCart(((CartMenu)this.parentMenu).getProductId())) {
                     System.err.println("There is no product with this id in your cart!");
                     return;
                 }
-                ProductMenu productMenu = new ProductMenu(productId);
+                ProductMenu productMenu = new ProductMenu(((CartMenu)this.parentMenu).getProductId());
             }
         };
     }
@@ -68,7 +72,7 @@ public class CartMenu extends Menu {
             @Override
             public void execute() {
                 try {
-                    customerController.increaseProductInCart(productId);
+                    customerController.increaseProductInCart(((CartMenu)this.parentMenu).getProductId());
                     System.out.println("Increased successfully!");
                     return;
                 } catch (CustomerController.NoProductWithIdInCart e) {
@@ -100,7 +104,7 @@ public class CartMenu extends Menu {
                         System.out.println("invalid command! Try again please");
                     } else {
                         try {
-                            customerController.increaseProductInCart(Integer.parseInt(input), productId);
+                            customerController.increaseProductInCart(Integer.parseInt(input), ((CartMenu)this.parentMenu).getProductId());
                             System.out.println("Increased successfully");
                             return;
                         } catch (CustomerController.NotEnoughSupply e) {
@@ -122,7 +126,7 @@ public class CartMenu extends Menu {
             @Override
             public void execute() {
                 try {
-                    customerController.decreaseProductInCart(productId);
+                    customerController.decreaseProductInCart(((CartMenu)this.parentMenu).getProductId());
                     System.out.println("Decreased successfully");
                 } catch (CustomerController.NoProductWithIdInCart e) {
                     System.out.println(e.getMessage());
@@ -146,7 +150,7 @@ public class CartMenu extends Menu {
                     else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
                         System.out.println("invalid command! Try again please");
                     } else {
-                        customerController.decreaseProductInCart(Integer.parseInt(input), productId);
+                        customerController.decreaseProductInCart(Integer.parseInt(input), ((CartMenu)this.parentMenu).getProductId());
                         System.out.println("Decreased successfully");
                         return;
                     }
