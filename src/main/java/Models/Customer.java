@@ -8,7 +8,7 @@ public class Customer extends User implements Packable{
     private long credit;
     private ArrayList<Log> allLogs;
     private ArrayList<Item> cart;
-    private HashMap<Integer,Discount> allDiscountsForCustomer;
+    private HashMap<Discount,Integer> allDiscountsForCustomer;
 
     public Customer(String username){
         super(username);
@@ -34,10 +34,26 @@ public class Customer extends User implements Packable{
         return cart;
     }
 
-    public HashMap<Integer, Discount> getAllDiscountsForCustomer() {
+    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
         return allDiscountsForCustomer;
     }
 
+    public static ArrayList<Customer> getAllCustomers() {
+        return allCustomers;
+    }
+
+    public void setDiscountForCustomer(Discount discount) {
+        this.allDiscountsForCustomer.put(discount,discount.getRepetitionForEachUser());
+    }
+
+    public static boolean isThereCustomerWithUsername(String username){
+        for (Customer customer : allCustomers) {
+            if (customer.getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public Data pack(Object object) {
         return null;

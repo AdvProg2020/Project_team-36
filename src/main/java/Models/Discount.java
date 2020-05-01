@@ -3,17 +3,29 @@ package Models;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Discount implements Packable{
-    private static ArrayList<Discount> allDiscounts = new ArrayList<Discount>();
-    private String id;
+public class Discount implements Packable {
+    private static ArrayList<Discount> allDiscounts = new ArrayList<>();
+    private int id;
     private Date startTime;
     private Date endTime;
     private double discountPercent;//bar hasbe darsad nist
-    private Long discountLimit;
+    private long discountLimit;
     private int repetitionForEachUser;
+    private int totalCodesMade = 0;
     private ArrayList<Customer> customersIncluded;
 
-    public String getId() {
+    public Discount(Date startTime, Date endTime, double discountPercent, long discountLimit, int repetitionForEachUser, ArrayList<Customer> customersIncluded) {
+        this.id = makeNewId();
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.discountPercent = discountPercent;
+        this.discountLimit = discountLimit;
+        this.repetitionForEachUser = repetitionForEachUser;
+        this.customersIncluded = customersIncluded;
+        allDiscounts.add(this);
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -41,6 +53,14 @@ public class Discount implements Packable{
         return customersIncluded;
     }
 
+    public boolean isDiscountAvailable() {
+        Date now = new Date();
+        return (now.after(this.startTime) && now.before(this.endTime)) || now.equals(this.startTime) || now.equals(this.endTime);
+    }
+
+    private int makeNewId(){
+        return totalCodesMade+=1;
+    }
 
     public Data pack(Object object) {
         return null;
