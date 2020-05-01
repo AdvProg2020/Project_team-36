@@ -12,6 +12,9 @@ public class Log implements Packable {
     private User user;
     private String status;
     private double discount;
+    private String customerAddress;
+    private String customerPhoneNumber;
+
     private static ArrayList<Log> allLogs = new ArrayList<>();
 
     public int getId() {
@@ -24,6 +27,14 @@ public class Log implements Packable {
 
     public long getTotalPrice() {
         return totalPrice;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
     }
 
     public double getSale() {
