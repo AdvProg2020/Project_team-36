@@ -27,6 +27,14 @@ public class ManagerController extends UserController{
         }
     }
 
+    public void removeDiscount(int id) throws InvalidDiscountIdException{
+        if(Discount.isThereDiscountWithId(id)){
+            Discount.getDiscountWithId(id).removeDiscount();
+        } else {
+            throw new ManagerController.InvalidDiscountIdException("there is no discount with this id");
+        }
+    }
+
 
     public static class InvalidDiscountIdException extends Exception {
         public InvalidDiscountIdException(String message) {

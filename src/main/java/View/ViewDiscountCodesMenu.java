@@ -101,7 +101,13 @@ public class ViewDiscountCodesMenu extends Menu {
 
 
             public void execute() {
-
+                try {
+                    managerController.removeDiscount(id);
+                    parentMenu.execute();
+                } catch (ManagerController.InvalidDiscountIdException invalidIdError){
+                    System.err.println(invalidIdError.getMessage());
+                    parentMenu.execute();
+                }
             }
         };
     }

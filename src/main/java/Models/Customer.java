@@ -46,6 +46,10 @@ public class Customer extends User implements Packable{
         this.allDiscountsForCustomer.put(discount,discount.getRepetitionForEachUser());
     }
 
+    public void removeDiscount(Discount discount){
+        allDiscountsForCustomer.remove(discount);
+    }
+
     public static boolean isThereCustomerWithUsername(String username){
         for (Customer customer : allCustomers) {
             if (customer.getUsername().equals(username)){

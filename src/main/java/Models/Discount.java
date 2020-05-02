@@ -80,6 +80,13 @@ public class Discount implements Packable {
                 ;
     }
 
+    public void removeDiscount(){
+        for (Customer customer : customersIncluded) {
+            customer.removeDiscount(this);
+        }
+        allDiscounts.remove(this);
+    }
+
     public boolean isDiscountAvailable() {
         Date now = new Date();
         return (now.after(this.startTime) && now.before(this.endTime)) || now.equals(this.startTime) || now.equals(this.endTime);
