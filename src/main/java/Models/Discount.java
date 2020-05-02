@@ -1,5 +1,6 @@
 package Models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -53,13 +54,52 @@ public class Discount implements Packable {
         return customersIncluded;
     }
 
+    public static Discount getDiscountWithId(int id){
+        for (Discount discount : allDiscounts) {
+            if(discount.getId() == id){
+                return discount;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm");
+        ArrayList<String> customersUsername = new ArrayList<>();
+        for (Customer customer : customersIncluded) {
+            customersUsername.add(customer.getUsername());
+        }
+        return  "  id=" + id +
+                "\n  start time=" + formatter.format(startTime) +
+                "\n  end time=" + formatter.format(endTime) +
+                "\n  discount percent=" + discountPercent +
+                "\n  discount limit=" + discountLimit +
+                "\n  repetition for each user=" + repetitionForEachUser +
+                "\n  customers included=" + customersUsername
+                ;
+    }
+
     public boolean isDiscountAvailable() {
         Date now = new Date();
         return (now.after(this.startTime) && now.before(this.endTime)) || now.equals(this.startTime) || now.equals(this.endTime);
     }
 
+    public static boolean isThereDiscountWithId(int id){
+        for (Discount discount : allDiscounts) {
+            if(discount.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private int makeNewId(){
         return totalCodesMade+=1;
+    }
+
+    public static ArrayList<Discount> getAllDiscounts() {
+        return allDiscounts;
     }
 
     public Data pack(Object object) {
