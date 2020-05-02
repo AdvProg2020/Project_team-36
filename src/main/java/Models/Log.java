@@ -8,11 +8,12 @@ public class Log implements Packable {
     private int id;
     private Date date;
     private long totalPrice;
-    private double sale;
+    private Sale sale;
     private ArrayList<Item> allItems;
     private User user;
     private LogStatus status;
-    private double discount;
+    private double discountPercent;
+    private Discount discount;
     private String customerAddress;
     private String customerPhoneNumber;
     private static ArrayList<Log> allLogs = new ArrayList<>();
@@ -52,6 +53,15 @@ public class Log implements Packable {
         }
     }
 
+    public void setDiscount(Discount discount) {
+        if(this.discount!=null){
+            ((Customer)this.user).unUseDiscount(this.discount);
+        }
+        ((Customer)this.user).useDiscount(discount);
+        this.discount = discount;
+        this.discountPercent = discount.getDiscountPercent();
+    }
+
     public String getCustomerAddress() {
         return customerAddress;
     }
@@ -60,7 +70,7 @@ public class Log implements Packable {
         return customerPhoneNumber;
     }
 
-    public double getSale() {
+    public Sale getSale() {
         return sale;
     }
 
@@ -86,10 +96,9 @@ public class Log implements Packable {
         return status;
     }
 
-    public double getDiscount() {
-        return discount;
+    public double getDiscountPercent() {
+        return discountPercent;
     }
-
 
     public Data pack(Object object) {
         return null;

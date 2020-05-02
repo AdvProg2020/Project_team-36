@@ -116,6 +116,13 @@ public class CustomerController extends UserController {
         ((Customer)userVariables.getLoggedInUser()).getWaitingLog().setCustomerPhoneNumber(phoneNumber);
     }
 
+    public void setDiscountCodeForPurchase(int discountCode) throws NoDiscountAvailableWithId{
+        Customer customer = (Customer)userVariables.getLoggedInUser();
+        if(customer.isThereDiscountCode(discountCode))
+            throw new NoDiscountAvailableWithId("No Discount with Id");
+        customer.getWaitingLog().setDiscount(Discount.getDiscount(discountCode));
+    }
+
     public ArrayList<Log> getAllLogs() {
         return ((Customer) userVariables.getLoggedInUser()).getAllLogs();
     }
@@ -151,6 +158,12 @@ public class CustomerController extends UserController {
 
     public static class NoProductWithIdInLog extends Exception {
         public NoProductWithIdInLog(String message) {
+            super(message);
+        }
+    }
+
+    public static class NoDiscountAvailableWithId extends Exception{
+        public NoDiscountAvailableWithId(String message) {
             super(message);
         }
     }

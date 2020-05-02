@@ -33,6 +33,14 @@ public class Discount implements Packable{
         return discountLimit;
     }
 
+    public static Discount getDiscount(int id){
+        for (Discount discount : allDiscounts) {
+            if(discount.getId()== id)
+                return discount;
+        }
+        return null;
+    }
+
     public int getRepetitionForEachUser() {
         return repetitionForEachUser;
     }

@@ -7,15 +7,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Customer extends User implements Packable{
+public class Customer extends User implements Packable {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<Log> allLogs;
     private Log waitingLog;
     private ArrayList<ItemInCart> cart;
-    private HashMap<Discount,Integer> allDiscountsForCustomer;
+    private HashMap<Discount, Integer> allDiscountsForCustomer;
 
-    public Customer(String username){
+    public Customer(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
         this.cart = new ArrayList<>();
@@ -47,17 +47,35 @@ public class Customer extends User implements Packable{
         return waitingLog;
     }
 
-    public boolean isThereLog(int logId){
+    public boolean isThereLog(int logId) {
         for (Log log : allLogs) {
-            if(log.getId()==logId)
+            if (log.getId() == logId)
                 return true;
         }
         return false;
     }
 
+    public boolean isThereDiscountCode(int discountCode) {
+        for (Discount discount : allDiscountsForCustomer.keySet()) {
+            if (discount.getId() == discountCode && allDiscountsForCustomer.get(discount) > 0)
+                return true;
+        }
+        return false;
+    }
+
+    public void useDiscount(Discount discount){
+        Integer oldValue = allDiscountsForCustomer.get(discount);
+        allDiscountsForCustomer.replace(discount,oldValue-1);
+    }
+
+    public void unUseDiscount(Discount discount){
+        Integer oldValue = allDiscountsForCustomer.get(discount);
+        allDiscountsForCustomer.replace(discount,oldValue+1);
+    }
+
     public Log getLog(int logId) {
         for (Log log : allLogs) {
-            if(log.getId()== logId){
+            if (log.getId() == logId) {
                 return log;
             }
         }
@@ -69,13 +87,12 @@ public class Customer extends User implements Packable{
         return allDiscountsForCustomer;
     }
 
-    private void updateDiscounts(){
+    private void updateDiscounts() {
         Set<Discount> temp = new HashSet<>();
         for (Discount discount : this.allDiscountsForCustomer.keySet()) {
-            if(!discount.isDiscountAvailable()){
+            if (!discount.isDiscountAvailable()) {
                 temp.add(discount);
-            }
-            else if(this.allDiscountsForCustomer.get(discount)==0){
+            } else if (this.allDiscountsForCustomer.get(discount) == 0) {
                 temp.add(discount);
             }
         }
@@ -83,30 +100,30 @@ public class Customer extends User implements Packable{
 
     }
 
-    public boolean isThereProductInCart(int productId){
+    public boolean isThereProductInCart(int productId) {
         for (ItemInCart item : cart) {
-            if(item.getProduct().getProductId()==productId)
+            if (item.getProduct().getProductId() == productId)
                 return true;
         }
         return false;
     }
 
-    public ItemInCart getProductInCart(int productId){
+    public ItemInCart getProductInCart(int productId) {
         for (ItemInCart item : cart) {
-            if (item.getProduct().getProductId()==productId)
+            if (item.getProduct().getProductId() == productId)
                 return item;
         }
         return null;
     }
 
-    public void removeItemFromCart(ItemInCart item){
+    public void removeItemFromCart(ItemInCart item) {
         this.cart.remove(item);
     }
 
-    public long getCartPrice(){
-        long sum=0;
+    public long getCartPrice() {
+        long sum = 0;
         for (ItemInCart item : cart) {
-            sum+= item.getTotalPrice();
+            sum += item.getTotalPrice();
         }
         return sum;
     }
