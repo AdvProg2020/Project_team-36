@@ -14,6 +14,7 @@ public class EnterDiscountCodeMenu extends Menu {
     @Override
     public void execute() {
 
+
         //TODO: receive discount information,check if it is valid, and if input = next go to nexxt menu!
     }
 }
