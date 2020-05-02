@@ -8,9 +8,19 @@ public class Item implements Packable{
     private int productId;
     private String company;
     private int count;
-    private User user;
-    private long initialPrice;
+    private Seller seller;
+    private long initialPrice;//per product
 
+
+    public Item(Product product, int count, Seller seller) {
+        this.product = product;
+        this.count = count;
+        this.seller = seller;
+        this.productId = product.getProductId();
+        this.productName = product.getName();
+        this.company = product.getCompany();
+        this.initialPrice = product.getProductFieldBySeller(seller).getPrice();
+    }
 
     public Product getProduct() {
         return product;
@@ -28,8 +38,8 @@ public class Item implements Packable{
         return count;
     }
 
-    public User getUser() {
-        return user;
+    public Seller getUser() {
+        return seller;
     }
 
     public long getInitialPrice() {

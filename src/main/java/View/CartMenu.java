@@ -16,6 +16,7 @@ public class CartMenu extends Menu {
         subMenus.put("increase\\s+(\\d+)", getIncreaseAmountMenu());
         subMenus.put("decrease\\s+(\\d+)", getDecreaseAmountMenu());
         subMenus.put("show\\s+total\\s+price", getShowTotalPriceMenu());
+        subMenus.put("purchase",new ReceiveInformationMenu("receiveInformationMenu",this));
 
 
     }
@@ -202,7 +203,7 @@ public class CartMenu extends Menu {
             }
             if (chosenMenu == null) {
                 System.err.println("Invalid command! Try again please");
-                execute();
+                this.execute();
             } else {
                 chosenMenu.execute();
                 this.execute();

@@ -11,6 +11,7 @@ public class Customer extends User implements Packable{
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<Log> allLogs;
+    private Log waitingLog;
     private ArrayList<ItemInCart> cart;
     private HashMap<Discount,Integer> allDiscountsForCustomer;
 
@@ -38,6 +39,14 @@ public class Customer extends User implements Packable{
         return cart;
     }
 
+    public void setWaitingLog(Log waitingLog) {
+        this.waitingLog = waitingLog;
+    }
+
+    public Log getWaitingLog() {
+        return waitingLog;
+    }
+
     public boolean isThereLog(int logId){
         for (Log log : allLogs) {
             if(log.getId()==logId)
@@ -45,7 +54,6 @@ public class Customer extends User implements Packable{
         }
         return false;
     }
-
 
     public Log getLog(int logId) {
         for (Log log : allLogs) {

@@ -95,8 +95,8 @@ public class CustomerController extends UserController {
     public Log getOrder(int orderId) throws NoLogWithId {
         if (!((Customer) userVariables.getLoggedInUser()).isThereLog(orderId))
             throw new NoLogWithId("There is no log with this id!");
-        Log log = ((Customer) userVariables.getLoggedInUser()).getLog(orderId);
-        return log;
+        return((Customer) userVariables.getLoggedInUser()).getLog(orderId);
+
     }
 
     public void rateProduct(int productId, int rate) throws NoProductWithIdInLog {
@@ -104,6 +104,16 @@ public class CustomerController extends UserController {
             throw new NoProductWithIdInLog("No product with this id in your log!");
         Score score = new Score((Customer)userVariables.getLoggedInUser(),rate);
         Product.getProduct(productId).addScore(score);
+    }
+
+    public void setAddressForPurchase(String address){
+        Customer customer = ((Customer)userVariables.getLoggedInUser());
+        customer.setWaitingLog(new Log(customer,address));
+        customer.getWaitingLog().setAllItems(customer.getCart());
+    }
+
+    public void setPhoneNumberForPurchase(String phoneNumber){
+        ((Customer)userVariables.getLoggedInUser()).getWaitingLog().setCustomerPhoneNumber(phoneNumber);
     }
 
     public ArrayList<Log> getAllLogs() {

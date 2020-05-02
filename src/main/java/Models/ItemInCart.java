@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class ItemInCart {
     private Product product;
-    ArrayList<Seller> sellers;
-    ArrayList<Integer> countFromEachSeller;
+    private ArrayList<Seller> sellers;
+    private ArrayList<Integer> countFromEachSeller;
 
 
     public ItemInCart(Product product) {

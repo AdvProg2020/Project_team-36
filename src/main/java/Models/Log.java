@@ -3,6 +3,7 @@ package Models;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 public class Log implements Packable {
     private int id;
     private Date date;
@@ -10,12 +11,20 @@ public class Log implements Packable {
     private double sale;
     private ArrayList<Item> allItems;
     private User user;
-    private String status;
+    private LogStatus status;
     private double discount;
     private String customerAddress;
     private String customerPhoneNumber;
-
     private static ArrayList<Log> allLogs = new ArrayList<>();
+
+    public Log(Customer customer, String customerAddress) {
+        allItems = new ArrayList<>();
+        this.user = customer;
+        this.customerAddress = customerAddress;
+        this.status = LogStatus.NOT_PAID;
+        this.id = randomId();
+
+    }
 
     public int getId() {
         return id;
@@ -27,6 +36,20 @@ public class Log implements Packable {
 
     public long getTotalPrice() {
         return totalPrice;
+    }
+
+    public void setCustomerPhoneNumber(String customerPhoneNumber) {
+        this.customerPhoneNumber = customerPhoneNumber;
+    }
+
+    public void setAllItems(ArrayList<ItemInCart> itemInCart){
+        for (ItemInCart inCart : itemInCart) {
+            ArrayList<Seller> sellers = inCart.getSellers();
+            ArrayList<Integer> count = inCart.getCountFromEachSeller();
+            for(int i = 0;i<sellers.size();i++){
+                allItems.add(new Item(inCart.getProduct(),count.get(i),sellers.get(i)));
+            }
+        }
     }
 
     public String getCustomerAddress() {
@@ -41,6 +64,16 @@ public class Log implements Packable {
         return sale;
     }
 
+    private int randomId() {
+        if (allLogs.isEmpty())
+            return 1;
+        else {
+            return allLogs.get(allLogs.size() - 1).getId() + 1;
+        }
+
+
+    }
+
     public ArrayList<Item> getAllItems() {
         return allItems;
     }
@@ -49,7 +82,7 @@ public class Log implements Packable {
         return user;
     }
 
-    public String getStatus() {
+    public LogStatus getStatus() {
         return status;
     }
 
