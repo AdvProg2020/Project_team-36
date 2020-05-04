@@ -3,32 +3,24 @@ package Models;
 import java.util.ArrayList;
 import java.util.Date;
 
-
-public class Log implements Packable {
-    private int id;
+public class Log {
+    private static ArrayList<Log> allLogs;
+    private static int totalLogsMade;
     private Date date;
-    private long totalPrice;
-    private long payablePrice;
-    private Sale sale;
-    private ArrayList<Item> allItems;
-    private User user;
-    private LogStatus status;
-    private double discountPercent;
-    private Discount discount;
+    private int id;
+    private int user;
+    private double discountPercent;//be darsad nist yani0.2 mishe 20 darsad masan
+    private long discountAmount;
     private String customerAddress;
     private String customerPhoneNumber;
-    private static ArrayList<Log> allLogs = new ArrayList<>();
+    private LogStatus logStatus;
+    private long totalPrice;
+    private long totalPayable;
+    private ArrayList<ItemInLog> allItems;
 
-    public Log(Customer customer, String customerAddress) {
-        allItems = new ArrayList<>();
-        this.user = customer;
-        this.customerAddress = customerAddress;
-        this.status = LogStatus.NOT_PAID;
-        this.id = randomId();
-
+    public static ArrayList<Log> getAllLogs() {
+        return allLogs;
     }
-
-
 
     public int getId() {
         return id;
@@ -38,31 +30,16 @@ public class Log implements Packable {
         return date;
     }
 
-    public long getTotalPrice() {
-        return totalPrice;
+    public int getUser() {
+        return user;
     }
 
-    public void setCustomerPhoneNumber(String customerPhoneNumber) {
-        this.customerPhoneNumber = customerPhoneNumber;
+    public double getDiscountPercent() {
+        return discountPercent;
     }
 
-    public void setAllItems(ArrayList<ItemInCart> itemInCart){
-        for (ItemInCart inCart : itemInCart) {
-            ArrayList<Seller> sellers = inCart.getSellers();
-            ArrayList<Integer> count = inCart.getCountFromEachSeller();
-            for(int i = 0;i<sellers.size();i++){
-                allItems.add(new Item(inCart.getProduct(),count.get(i),sellers.get(i)));
-            }
-        }
-    }
-
-    public void setDiscount(Discount discount) {
-        if(this.discount!=null){
-            ((Customer)this.user).increaseDiscountCode(discount,1);
-        }
-        ((Customer)this.user).decreaseDiscountCode(discount,1);
-        this.discount = discount;
-        this.discountPercent = discount.getDiscountPercent();
+    public long getDiscountAmount() {
+        return discountAmount;
     }
 
     public String getCustomerAddress() {
@@ -73,41 +50,19 @@ public class Log implements Packable {
         return customerPhoneNumber;
     }
 
-    public Sale getSale() {
-        return sale;
+    public LogStatus getLogStatus() {
+        return logStatus;
     }
 
-    private int randomId() {
-        if (allLogs.isEmpty())
-            return 1;
-        else {
-            return allLogs.get(allLogs.size() - 1).getId() + 1;
-        }
-
-
+    public long getTotalPrice() {
+        return totalPrice;
     }
 
-    public ArrayList<Item> getAllItems() {
+    public long getTotalPayable() {
+        return totalPayable;
+    }
+
+    public ArrayList<ItemInLog> getAllItems() {
         return allItems;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public LogStatus getStatus() {
-        return status;
-    }
-
-    public double getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
     }
 }

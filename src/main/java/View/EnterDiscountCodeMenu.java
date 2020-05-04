@@ -18,7 +18,7 @@ public class EnterDiscountCodeMenu extends Menu {
     public void execute() {
         String input;
         System.out.println("enter a discount code then/or type next!");
-        while ((input = scanner.nextLine()).matches("back|next")) {
+        while ((input = scanner.nextLine().trim()).matches("back|next")) {
             if (input.matches("\\d+")) {
                 try {
                     customerController.setDiscountCodeForPurchase(Integer.parseInt(input));

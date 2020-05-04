@@ -1,29 +1,24 @@
 package Models;
 
-import java.util.ArrayList;
 
-public class Item implements Packable{
-    private Product product;
+
+public class ItemInLog implements Packable{
     private String productName;
     private int productId;
     private String company;
     private int count;
     private Seller seller;
+    private Sale sale;
     private long initialPrice;//per product
 
 
-    public Item(Product product, int count, Seller seller) {
-        this.product = product;
+    public ItemInLog(Product product, int count, Seller seller) {
         this.count = count;
         this.seller = seller;
         this.productId = product.getProductId();
         this.productName = product.getName();
         this.company = product.getCompany();
         this.initialPrice = product.getProductFieldBySeller(seller).getPrice();
-    }
-
-    public Product getProduct() {
-        return product;
     }
 
     public String getProductName() {

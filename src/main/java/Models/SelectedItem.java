@@ -2,13 +2,13 @@ package Models;
 
 import java.util.ArrayList;
 
-public class ItemInCart {
+public class SelectedItem {
     private Product product;
     private ArrayList<Seller> sellers;
     private ArrayList<Integer> countFromEachSeller;
 
 
-    public ItemInCart(Product product) {
+    public SelectedItem(Product product) {
         this.product = product;
     }
 

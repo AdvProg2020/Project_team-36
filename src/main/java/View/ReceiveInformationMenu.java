@@ -1,10 +1,12 @@
 package View;
 
+import Controllers.CustomerController;
+
 public class ReceiveInformationMenu extends Menu {
 
     public ReceiveInformationMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
-        subMenus.put("next menu",new EnterDiscountCodeMenu("DiscountCodeMenu",this));
+        subMenus.put("next menu", new EnterDiscountCodeMenu("DiscountCodeMenu", this));
     }
 
     @Override
@@ -17,7 +19,12 @@ public class ReceiveInformationMenu extends Menu {
         System.out.println("Enter your complete address");
         if ((input = scanner.nextLine().trim()).matches("back"))
             return;
-        customerController.setAddressForPurchase(input);
+        try {
+            customerController.setAddressForPurchase(input);
+        } catch (CustomerController.EmptyCart e) {
+            System.err.println("Empty cart!");
+            return;
+        }
         System.out.println("Enter your phone number:");
         while (!(input = scanner.nextLine().trim()).matches("back")) {
             if (input.matches("\\d+")) {
@@ -27,7 +34,7 @@ public class ReceiveInformationMenu extends Menu {
                 System.err.println("Wrong format of phone number! Try again");
             }
         }
-        if(input.matches("back"))
+        if (input.matches("back"))
             return;
         subMenus.get("Discount Code Menu").execute();
 

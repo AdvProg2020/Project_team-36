@@ -33,13 +33,13 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
-                ArrayList<ItemInCart> cart = customerController.getCart();
+                ArrayList<SelectedItem> cart = customerController.getCart();
                 if (cart.isEmpty()) {
                     System.out.println("There is nothing to show!");
                     return;
                 }
                 System.out.format("%20s%9s%s", "Product name", "ProductId", "count in cart");
-                for (ItemInCart item : cart) {
+                for (SelectedItem item : cart) {
                     Product product = item.getProduct();
                     System.out.format("%20s%9d%10d", product.getName(), product.getProductId(), item.getCount());
                 }
@@ -197,6 +197,7 @@ public class CartMenu extends Menu {
                     try {
                         this.productId = Integer.parseInt(matcher.group(1));
                     } catch (Exception e) {
+                        //there is no group
                     }
                     break;
                 }

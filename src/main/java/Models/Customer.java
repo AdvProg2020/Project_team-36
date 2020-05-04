@@ -1,7 +1,5 @@
 package Models;
 
-import javafx.scene.effect.SepiaTone;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,8 +9,8 @@ public class Customer extends User implements Packable {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<Log> allLogs;
-    private Log waitingLog;
-    private ArrayList<ItemInCart> cart;
+    private WaitingLog waitingLog;
+    private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
 
     public Customer(String username) {
@@ -35,15 +33,15 @@ public class Customer extends User implements Packable {
         return allLogs;
     }
 
-    public ArrayList<ItemInCart> getCart() {
+    public ArrayList<SelectedItem> getCart() {
         return cart;
     }
 
-    public void setWaitingLog(Log waitingLog) {
+    public void setWaitingLog(WaitingLog waitingLog) {
         this.waitingLog = waitingLog;
     }
 
-    public Log getWaitingLog() {
+    public WaitingLog getWaitingLog() {
         return waitingLog;
     }
 
@@ -94,8 +92,6 @@ public class Customer extends User implements Packable {
         for (Discount discount : this.allDiscountsForCustomer.keySet()) {
             if (!discount.isDiscountAvailable()) {
                 temp.add(discount);
-            } else if (this.allDiscountsForCustomer.get(discount) == 0) {
-                temp.add(discount);
             }
         }
         this.allDiscountsForCustomer.keySet().removeAll(temp);
@@ -103,28 +99,28 @@ public class Customer extends User implements Packable {
     }
 
     public boolean isThereProductInCart(int productId) {
-        for (ItemInCart item : cart) {
+        for (SelectedItem item : cart) {
             if (item.getProduct().getProductId() == productId)
                 return true;
         }
         return false;
     }
 
-    public ItemInCart getProductInCart(int productId) {
-        for (ItemInCart item : cart) {
+    public SelectedItem getProductInCart(int productId) {
+        for (SelectedItem item : cart) {
             if (item.getProduct().getProductId() == productId)
                 return item;
         }
         return null;
     }
 
-    public void removeItemFromCart(ItemInCart item) {
+    public void removeItemFromCart(SelectedItem item) {
         this.cart.remove(item);
     }
 
     public long getCartPrice() {
         long sum = 0;
-        for (ItemInCart item : cart) {
+        for (SelectedItem item : cart) {
             sum += item.getTotalPrice();
         }
         return sum;
