@@ -116,8 +116,23 @@ public class ManagerController extends UserController {
         }
     }
 
-    public void editDiscountRepetitionForEachUser() {
-
+    public void editDiscountRepetitionForEachUser(String newRepetitionNumber,Discount discount) {
+        try {
+            int repetitionNumber = Integer.parseInt(newRepetitionNumber);
+            int difference = Math.abs(repetitionNumber-discount.getRepetitionForEachUser());
+            if(repetitionNumber<discount.getRepetitionForEachUser()){
+                for (Customer customer : discount.getCustomersIncluded()) {
+                    customer.decreaseDiscountCode(discount,difference);
+                }
+            } else {
+                for (Customer customer : discount.getCustomersIncluded()) {
+                    customer.increaseDiscountCode(discount,difference);
+                }
+            }
+            discount.setRepetitionForEachUser(repetitionNumber);
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("you can't enter anything but number");
+        }
     }
 
     public ArrayList<Customer> getCustomersWithoutThisCode(int id){
