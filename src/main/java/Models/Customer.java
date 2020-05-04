@@ -63,14 +63,16 @@ public class Customer extends User implements Packable {
         return false;
     }
 
-    public void useDiscount(Discount discount){
+    public void decreaseDiscountCode(Discount discount, int count){
         Integer oldValue = allDiscountsForCustomer.get(discount);
-        allDiscountsForCustomer.replace(discount,oldValue-1);
+        allDiscountsForCustomer.replace(discount,oldValue-count);
+        if(allDiscountsForCustomer.get(discount)<0)
+            allDiscountsForCustomer.replace(discount,0);
     }
 
-    public void unUseDiscount(Discount discount){
+    public void increaseDiscountCode(Discount discount,int count){
         Integer oldValue = allDiscountsForCustomer.get(discount);
-        allDiscountsForCustomer.replace(discount,oldValue+1);
+        allDiscountsForCustomer.replace(discount,oldValue+count);
     }
 
     public Log getLog(int logId) {

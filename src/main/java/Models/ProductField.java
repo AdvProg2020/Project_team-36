@@ -6,6 +6,7 @@ import java.util.Date;
 public class ProductField {
     private ProductionStatus status;
     private Long price;
+    private Sale sale;
     private Seller seller;
     private int supply;
     private Date productionDate;

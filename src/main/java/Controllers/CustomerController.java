@@ -123,6 +123,12 @@ public class CustomerController extends UserController {
         customer.getWaitingLog().setDiscount(Discount.getDiscount(discountCode));
     }
 
+    public void purchase() throws NotEnoughMoney{
+        Log finalLog = ((Customer)userVariables.getLoggedInUser()).getWaitingLog();
+
+        //TODO check sale,discount,create logs,show customer log
+    }
+
     public ArrayList<Log> getAllLogs() {
         return ((Customer) userVariables.getLoggedInUser()).getAllLogs();
     }
@@ -165,6 +171,19 @@ public class CustomerController extends UserController {
     public static class NoDiscountAvailableWithId extends Exception{
         public NoDiscountAvailableWithId(String message) {
             super(message);
+        }
+
+
+    }
+
+    public static class NotEnoughMoney extends Exception{
+        Long amount;//amount of money that is needed!
+        public NotEnoughMoney(long amount){
+            this.amount = amount;
+        }
+
+        public Long getAmount() {
+            return amount;
         }
     }
 }

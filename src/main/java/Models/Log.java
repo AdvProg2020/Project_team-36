@@ -8,6 +8,7 @@ public class Log implements Packable {
     private int id;
     private Date date;
     private long totalPrice;
+    private long payablePrice;
     private Sale sale;
     private ArrayList<Item> allItems;
     private User user;
@@ -26,6 +27,8 @@ public class Log implements Packable {
         this.id = randomId();
 
     }
+
+
 
     public int getId() {
         return id;
@@ -55,9 +58,9 @@ public class Log implements Packable {
 
     public void setDiscount(Discount discount) {
         if(this.discount!=null){
-            ((Customer)this.user).unUseDiscount(this.discount);
+            ((Customer)this.user).increaseDiscountCode(discount,1);
         }
-        ((Customer)this.user).useDiscount(discount);
+        ((Customer)this.user).decreaseDiscountCode(discount,1);
         this.discount = discount;
         this.discountPercent = discount.getDiscountPercent();
     }

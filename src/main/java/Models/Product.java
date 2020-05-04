@@ -9,7 +9,6 @@ public class Product implements Pendable,Packable {
     private String company;
     private Category category;
     private ArrayList<Field> fieldsOfCategory;
-    private Sale sale;
     private String information;
     private ArrayList<ProductField> productFields;
     private ArrayList<Score> allScore;
@@ -46,10 +45,6 @@ public class Product implements Pendable,Packable {
 
     public String getCompany() {
         return company;
-    }
-
-    public Sale getSale() {
-        return sale;
     }
 
     public Category getCategory() {

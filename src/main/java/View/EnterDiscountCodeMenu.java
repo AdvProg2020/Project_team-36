@@ -2,12 +2,11 @@ package View;
 
 import Controllers.CustomerController;
 
-import java.sql.SQLOutput;
-
 public class EnterDiscountCodeMenu extends Menu {
 
     public EnterDiscountCodeMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
+        subMenus.put("PurchaseMenu",new PurchaseMenu("Purchase Menu",this));
     }
 
     @Override
@@ -34,9 +33,9 @@ public class EnterDiscountCodeMenu extends Menu {
             }
         }
         if (input.matches("back"))
-            return;
+            this.parentMenu.execute();
         else if (input.matches("next")) {
-            //TODO: call execute of another menu(finalPurchase)
+            subMenus.get("Purchase Menu").execute();
         }
     }
 }
