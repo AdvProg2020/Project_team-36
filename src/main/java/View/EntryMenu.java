@@ -26,7 +26,7 @@ public class EntryMenu extends Menu {
             parentMenu.getParentMenu().execute();
             return;
         }
-        if ((matcher = getMatcher(input, "create\\s+account\\s+(\\w+)\\s+(\\S+)")).matches()) {
+        else if ((matcher = getMatcher(input, "create\\s+account\\s+(\\w+)\\s+(\\S+)")).matches()) {
             try {
                 entryController.setUsernameRegister(matcher.group(1), matcher.group(2));
                 registerProcess();
@@ -94,7 +94,7 @@ public class EntryMenu extends Menu {
         while (true) {
             try {
                 entryController.setPasswordLogin(scanner.nextLine(), (UserAreaMenu) parentMenu);
-                System.out.println("login successfull");
+                System.out.println("login successful");
                 break;
             } catch (EntryController.WrongPasswordException e) {
                 System.err.println(e.getMessage());
@@ -102,7 +102,4 @@ public class EntryMenu extends Menu {
         }
     }
 
-    public void execute(String username) {
-
-    }
 }

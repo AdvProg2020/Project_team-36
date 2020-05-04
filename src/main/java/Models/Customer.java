@@ -25,6 +25,10 @@ public class Customer extends User implements Packable {
         return "customer";
     }
 
+    public static void addNewCustomer(Customer customer){
+        allCustomers.add(customer);
+    }
+
     public long getCredit() {
         return this.credit;
     }
