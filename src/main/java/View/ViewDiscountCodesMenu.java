@@ -2,9 +2,13 @@ package View;
 
 import Controllers.DiscountController;
 import Controllers.ManagerController;
+import Models.Customer;
 import Models.Discount;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.regex.Matcher;
+
 
 public class ViewDiscountCodesMenu extends Menu {
 
@@ -19,7 +23,10 @@ public class ViewDiscountCodesMenu extends Menu {
 
     @Override
     public void help() {
-
+        System.out.println("you can view edit and remove discount codes with the following commands :\n" +
+                "view discount code [code]\n" +
+                "edit discount code [code]\n" +
+                "remove discount code [code]");
     }
 
     @Override
@@ -65,6 +72,7 @@ public class ViewDiscountCodesMenu extends Menu {
         return new Menu("viewDiscountCode", this) {
             @Override
             public void help() {
+                System.out.println("view discount code");
             }
 
             public void execute() {
@@ -84,19 +92,112 @@ public class ViewDiscountCodesMenu extends Menu {
         return new Menu("editDiscountCode", this) {
             @Override
             public void help() {
+                System.out.println("edit discount code");
             }
-
 
             public void execute() {
-
+                try {
+                    Discount discount = managerController.getDiscountWithId(id);
+                    System.out.println(discount);
+                    System.out.println("choose the field you want to edit using these commands :\n" +
+                            "start time\n" +
+                            "termination time\n" +
+                            "discount percent\n" +
+                            "discount limit\n" +
+                            "usage frequency\n" +
+                            "customers included"
+                    );
+                    String chosenField = scanner.nextLine().trim();
+                    if (chosenField.matches("back")) {
+                        this.parentMenu.execute();
+                    }
+                    if (chosenField.matches("customers\\s+included")) {
+                        editCustomersIncluded(discount);
+                        this.execute();
+                    }
+                    Method editor = managerController.getFieldEditor(chosenField, managerController);
+                    System.out.println("enter your desired new value :");
+                    while (true) {
+                        try {
+                            String newValue = scanner.nextLine().trim();
+                            managerController.invokeEditor(newValue, discount, editor);
+                            parentMenu.execute();
+                            break;
+                        } catch (Exception e) {
+                            System.err.println(e.getCause().getMessage());
+                        }
+                    }
+                } catch (ManagerController.InvalidDiscountIdException invalidIdError) {
+                    System.err.println(invalidIdError.getMessage());
+                    parentMenu.execute();
+                } catch (NoSuchMethodException wrongCommand) {
+                    System.err.println("you can only edit the fields above, and also please enter the required command.");
+                    this.execute();
+                } catch (Exception e) {
+                    System.err.println(e.getCause().getMessage());
+                    this.execute();
+                }
             }
         };
+    }
+
+    private void editCustomersIncluded(Discount discount) {
+        System.out.println("do you want to add customers or remove them?[add\\remove]");
+        while (true) {
+            String choice = scanner.nextLine().trim();
+            if (choice.matches("add")) {
+                addDiscountToCustomers(discount);
+                return;
+            } else if (choice.matches("remove")) {
+                removeDiscountFromCustomers(discount);
+                return;
+            } else {
+                System.out.println("please enter either remove or add");
+            }
+        }
+    }
+
+    private void addDiscountToCustomers(Discount discount) {
+        System.out.println("choose the customers you want to give this discount code to and when you're done enter end :");
+        String input;
+        int number = 1;
+        for (Customer customer : managerController.getCustomersWithoutThisCode(id)) {
+            System.out.println(number + ") " + customer.getUsername());
+            number++;
+        }
+        while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
+            try {
+                managerController.setCustomersForEditingDiscountCode(input);
+            } catch (ManagerController.InvalidUsernameException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+        managerController.giveCodeToSelectedCustomers(discount);
+    }
+
+    private void removeDiscountFromCustomers(Discount discount) {
+        System.out.println("choose the customers you want to remove this discount code from and when you're done enter end :");
+        String input;
+        int number = 1;
+        for (Customer customer : managerController.getCustomersWithThisCode(id)) {
+            System.out.println(number + ") " + customer.getUsername());
+            number++;
+        }
+        while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
+            try {
+                managerController.setCustomersForEditingDiscountCode(input);
+            } catch (ManagerController.InvalidUsernameException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+        managerController.removeCodeFromSelectedCustomers(discount);
     }
 
     private Menu removeDiscountCode() {
         return new Menu("removeDiscountCode", this) {
             @Override
             public void help() {
+                System.out.println("remove discount code");
             }
 
 
@@ -104,7 +205,7 @@ public class ViewDiscountCodesMenu extends Menu {
                 try {
                     managerController.removeDiscount(id);
                     parentMenu.execute();
-                } catch (ManagerController.InvalidDiscountIdException invalidIdError){
+                } catch (ManagerController.InvalidDiscountIdException invalidIdError) {
                     System.err.println(invalidIdError.getMessage());
                     parentMenu.execute();
                 }

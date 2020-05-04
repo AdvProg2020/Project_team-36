@@ -4,11 +4,14 @@ import Controllers.DiscountController;
 import Controllers.ManagerController;
 import Models.Customer;
 
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class ManagerMenu extends Menu {
+
 
     public ManagerMenu(Menu parentMenu) {
         super("ManagerMenu",parentMenu);
@@ -131,6 +134,7 @@ public class ManagerMenu extends Menu {
             }
         }
     }
+
 
     private void  setUsageFrequency(DiscountController discountController){
         int frequency;

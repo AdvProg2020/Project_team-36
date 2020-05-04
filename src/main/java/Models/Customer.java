@@ -50,6 +50,26 @@ public class Customer extends User implements Packable{
         allDiscountsForCustomer.remove(discount);
     }
 
+    public boolean isThereDiscountCode(int discountCode) {
+        for (Discount discount : allDiscountsForCustomer.keySet()) {
+            if (discount.getId() == discountCode && allDiscountsForCustomer.get(discount) > 0)
+                return true;
+        }
+        return false;
+    }
+
+    public void decreaseDiscountCode(Discount discount, int count){
+        Integer oldValue = allDiscountsForCustomer.get(discount);
+        allDiscountsForCustomer.replace(discount,oldValue-count);
+        if(allDiscountsForCustomer.get(discount)<0)
+            allDiscountsForCustomer.replace(discount,0);
+    }
+
+    public void increaseDiscountCode(Discount discount,int count){
+        Integer oldValue = allDiscountsForCustomer.get(discount);
+        allDiscountsForCustomer.replace(discount,oldValue+count);
+    }
+
     public static boolean isThereCustomerWithUsername(String username){
         for (Customer customer : allCustomers) {
             if (customer.getUsername().equals(username)){
