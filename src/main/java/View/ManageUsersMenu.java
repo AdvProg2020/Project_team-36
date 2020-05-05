@@ -1,14 +1,15 @@
 package View;
 
 import Controllers.ManagerController;
+import Controllers.NewManagerController;
 import Models.User;
 
 import java.util.regex.Matcher;
 
 public class ManageUsersMenu extends Menu {
 
-    String username;
-    String role;
+    private String username;
+    private String role;
 
     public ManageUsersMenu(Menu parentMenu) {
         super("ManageUsersMenu", parentMenu);
@@ -117,6 +118,46 @@ public class ManageUsersMenu extends Menu {
                 System.out.println("create a new manager profile");
             }
 
+            @Override
+            public void execute() {
+                NewManagerController newManagerController = new NewManagerController();
+                System.out.println("please fill each field wanted :");
+                System.out.println("username: ");
+                while (true){
+                    try {
+                        newManagerController.setUsername(scanner.nextLine());
+                        break;
+                    } catch (NewManagerController.InvalidInputException e){
+                        System.err.println(e.getMessage());
+                    }
+                }
+                System.out.print("password: ");
+                newManagerController.setPassword(scanner.nextLine());
+                System.out.print("firstname: ");
+                newManagerController.setFirstname(scanner.nextLine());
+                System.out.print("lastname: ");
+                newManagerController.setLastname(scanner.nextLine());
+                System.out.println("email: ");
+                while (true) {
+                    try {
+                        newManagerController.setEmail(scanner.nextLine());
+                        break;
+                    } catch (NewManagerController.InvalidInputException e){
+                        System.err.println(e.getMessage());
+                    }
+                }
+                System.out.print("phoneNumber: ");
+                while (true) {
+                    try {
+                        newManagerController.setPhoneNumber(scanner.nextLine());
+                        break;
+                    } catch (NewManagerController.InvalidInputException e){
+                        System.err.println(e.getMessage());
+                    }
+                }
+                newManagerController.finalizeMakingNewManagerProfile();
+                System.out.println("a new manager profile was made successfully");
+            }
         };
     }
 }
