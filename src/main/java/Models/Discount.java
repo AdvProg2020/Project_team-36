@@ -50,8 +50,24 @@ public class Discount implements Packable {
         return repetitionForEachUser;
     }
 
+    public long getPayableAfterDiscount(long totalPrice){
+        if(totalPrice*this.discountPercent>this.discountLimit){
+            return totalPrice-this.discountLimit;
+        }else{
+            return totalPrice - (long)(totalPrice*this.discountPercent);
+        }
+    }
+
     public ArrayList<Customer> getCustomersIncluded() {
         return customersIncluded;
+    }
+
+    public static Discount getDiscount(int id){
+        for (Discount discount : allDiscounts) {
+            if(discount.getId()== id)
+                return discount;
+        }
+        return null;
     }
 
     public static Discount getDiscountWithId(int id){

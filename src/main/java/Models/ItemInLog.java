@@ -5,11 +5,11 @@ package Models;
 public class ItemInLog implements Packable{
     private String productName;
     private int productId;
-    private String company;
     private int count;
     private Seller seller;
-    private Sale sale;
+    private double salePercent;
     private long initialPrice;//per product
+    private long currentPrice;
 
 
     public ItemInLog(Product product, int count, Seller seller) {
@@ -17,8 +17,9 @@ public class ItemInLog implements Packable{
         this.seller = seller;
         this.productId = product.getProductId();
         this.productName = product.getName();
-        this.company = product.getCompany();
-        this.initialPrice = product.getProductFieldBySeller(seller).getPrice();
+        this.salePercent = product.getProductFieldBySeller(seller).getSale().getSalePercent();
+        this.initialPrice = product.getProductFieldBySeller(seller).getCurrentPrice();
+        this.currentPrice = initialPrice-(long)(initialPrice*salePercent);
     }
 
     public String getProductName() {
@@ -41,9 +42,6 @@ public class ItemInLog implements Packable{
         return initialPrice;
     }
 
-    public String getCompany() {
-        return company;
-    }
 
     public Data pack(Object object) {
         return null;

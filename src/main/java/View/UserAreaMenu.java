@@ -10,7 +10,7 @@ public class UserAreaMenu extends Menu{
         if(type.matches("manager"))
             this.subMenus.put("UserMenu",new ManagerMenu(this));
         else if(type.matches("customer"))
-            this.subMenus.put("UserMenu", new CustomerMenu(this));
+            this.subMenus.put("UserMenu", new CustomerMenu("CustomerMenu",this));
         //else if(type.matches("seller"))
         //    this.subMenus.put("UserMenu", new SellerMenu(this));
         //this.subMenus.remove("EntryMenu");

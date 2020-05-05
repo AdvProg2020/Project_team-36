@@ -53,7 +53,7 @@ public class SelectedItem {
         long sum = 0;
         int i=0;
         for (Seller seller : sellers) {
-            Long eachPrice = product.getProductFieldBySeller(seller).getPrice();
+            Long eachPrice = product.getProductFieldBySeller(seller).getCurrentPrice();
             sum+=eachPrice*countFromEachSeller.get(i);
             i++;
         }

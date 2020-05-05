@@ -8,7 +8,7 @@ public class Log {
     private static int totalLogsMade;
     private Date date;
     private int id;
-    private int user;
+    private User user;
     private double discountPercent;//be darsad nist yani0.2 mishe 20 darsad masan
     private long discountAmount;
     private String customerAddress;
@@ -30,7 +30,7 @@ public class Log {
         return date;
     }
 
-    public int getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -64,5 +64,9 @@ public class Log {
 
     public ArrayList<ItemInLog> getAllItems() {
         return allItems;
+    }
+
+    public static void createLogs(WaitingLog waitingLog){
+        //TODO create logs for customer and seller
     }
 }

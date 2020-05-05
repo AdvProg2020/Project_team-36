@@ -128,8 +128,12 @@ public class CustomerController extends UserController {
 
     public void purchase() throws NotEnoughMoney{
         WaitingLog waitingLog = ((Customer)userVariables.getLoggedInUser()).getWaitingLog();
-
-        //TODO check sale,discount,create logs,show customer log
+        Customer customer  =(Customer)userVariables.getLoggedInUser();
+        if(waitingLog.getPayablePrice()>customer.getCredit())
+            throw new NotEnoughMoney(waitingLog.getPayablePrice()-customer.getCredit());
+        else{
+        Log.createLogs(waitingLog);
+        }
     }
 
     public ArrayList<Log> getAllLogs() {

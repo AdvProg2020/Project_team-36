@@ -28,7 +28,7 @@ public class PurchaseMenu extends Menu {
             customerController.purchase();
             System.out.println("Purchased successfully\n Returning to cartMenu...");
         }catch(CustomerController.NotEnoughMoney e){
-            System.err.println("Not enough money in your account! try again after recharging your account!\nReturning to cart menu...");
+            System.err.println("Not enough money in your account!\nYou need "+ e.getAmount()+" rials!\ntry again after recharging your account!\nReturning to cart menu...");
             return;
         }
     }

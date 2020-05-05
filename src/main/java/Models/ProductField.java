@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ProductField {
     private ProductionStatus status;
-    private Long price;
+    private long price;
     private Sale sale;
     private Seller seller;
     private int supply;
@@ -16,7 +16,23 @@ public class ProductField {
         return status;
     }
 
-    public Long getPrice() {
+    public long getCurrentPrice() {
+        if(this.sale == null){
+            return price;
+        }else{
+            return price - (long) (price*sale.getSalePercent());
+        }
+    }
+
+    public long getOfficialPrice(){
+        return this.price;
+    }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public long getPrice() {
         return price;
     }
 

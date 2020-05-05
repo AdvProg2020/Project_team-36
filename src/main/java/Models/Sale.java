@@ -9,7 +9,7 @@ public class Sale implements Pendable {
     private ProductionStatus status;
     private Date startTime;
     private Date endTime;
-    private Double salePercent;
+    private Double salePercent;//be darsad nist
 
     public int getOffId() {
         return offId;

@@ -25,7 +25,7 @@ public class Customer extends User implements Packable {
         return "customer";
     }
 
-    public static void addNewCustomer(Customer customer){
+    public static void addNewCustomer(Customer customer) {
         allCustomers.add(customer);
     }
 
@@ -57,6 +57,10 @@ public class Customer extends User implements Packable {
         return false;
     }
 
+    public void removeDiscount(Discount discount) {
+        allDiscountsForCustomer.remove(discount);
+    }
+
     public boolean isThereDiscountCode(int discountCode) {
         for (Discount discount : allDiscountsForCustomer.keySet()) {
             if (discount.getId() == discountCode && allDiscountsForCustomer.get(discount) > 0)
@@ -65,16 +69,20 @@ public class Customer extends User implements Packable {
         return false;
     }
 
-    public void decreaseDiscountCode(Discount discount, int count){
+    public void decreaseDiscountCode(Discount discount, int count) {
         Integer oldValue = allDiscountsForCustomer.get(discount);
-        allDiscountsForCustomer.replace(discount,oldValue-count);
-        if(allDiscountsForCustomer.get(discount)<0)
-            allDiscountsForCustomer.replace(discount,0);
+        allDiscountsForCustomer.replace(discount, oldValue - count);
+        if (allDiscountsForCustomer.get(discount) < 0)
+            allDiscountsForCustomer.replace(discount, 0);
     }
 
-    public void increaseDiscountCode(Discount discount,int count){
+    public static ArrayList<Customer> getAllCustomers() {
+        return allCustomers;
+    }
+
+    public void increaseDiscountCode(Discount discount, int count) {
         Integer oldValue = allDiscountsForCustomer.get(discount);
-        allDiscountsForCustomer.replace(discount,oldValue+count);
+        allDiscountsForCustomer.replace(discount, oldValue + count);
     }
 
     public Log getLog(int logId) {
@@ -121,6 +129,20 @@ public class Customer extends User implements Packable {
     public void removeItemFromCart(SelectedItem item) {
         this.cart.remove(item);
     }
+
+    public static boolean isThereCustomerWithUsername(String username) {
+        for (Customer customer : allCustomers) {
+            if (customer.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setDiscountForCustomer(Discount discount) {
+        this.allDiscountsForCustomer.put(discount, discount.getRepetitionForEachUser());
+    }
+
 
     public long getCartPrice() {
         long sum = 0;
