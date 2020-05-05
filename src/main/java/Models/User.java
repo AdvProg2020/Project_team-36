@@ -91,6 +91,17 @@ public abstract class User implements Packable{
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "  userId : " + userId +
+
+                "\n  username : " + username +
+                "\n  firstname : " + firstname +
+                "\n  lastname : " + lastname +
+                "\n  email : " + email +
+                "\n  phoneNumber : " + phoneNumber;
+    }
+
     public static void addNewUser(User user){
         allUsers.add(user);
     }

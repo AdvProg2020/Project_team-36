@@ -180,6 +180,13 @@ public class ManagerController extends UserController {
         }
     }
 
+    public User getUserWithUsername(String username) throws InvalidUsernameException {
+        if(!User.isThereUsername(username)){
+            throw new InvalidUsernameException("there's no user with this username");
+        } else {
+            return User.getUserByUsername(username);
+        }
+    }
 
 
     private void writeDiscountFieldsSetters() {

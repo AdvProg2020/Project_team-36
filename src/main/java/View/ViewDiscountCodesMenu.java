@@ -1,11 +1,9 @@
 package View;
 
-import Controllers.DiscountController;
 import Controllers.ManagerController;
 import Models.Customer;
 import Models.Discount;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 
@@ -26,7 +24,7 @@ public class ViewDiscountCodesMenu extends Menu {
         System.out.println("you can view edit and remove discount codes with the following commands :\n" +
                 "view discount code [code]\n" +
                 "edit discount code [code]\n" +
-                "remove discount code [code]");
+                "remove discount code [code]\n");
     }
 
     @Override
@@ -79,10 +77,8 @@ public class ViewDiscountCodesMenu extends Menu {
                 try {
                     Discount discount = managerController.getDiscountWithId(id);
                     System.out.println(discount);
-                    parentMenu.execute();
                 } catch (ManagerController.InvalidDiscountIdException invalidIdError) {
                     System.err.println(invalidIdError.getMessage());
-                    parentMenu.execute();
                 }
             }
         };
@@ -113,7 +109,8 @@ public class ViewDiscountCodesMenu extends Menu {
                     }
                     if (chosenField.matches("customers\\s+included")) {
                         editCustomersIncluded(discount);
-                        this.execute();
+                        System.out.println("edit was done successfully");
+                        return;
                     }
                     Method editor = managerController.getFieldEditor(chosenField, managerController);
                     System.out.println("enter your desired new value :");
@@ -121,15 +118,14 @@ public class ViewDiscountCodesMenu extends Menu {
                         try {
                             String newValue = scanner.nextLine().trim();
                             managerController.invokeEditor(newValue, discount, editor);
-                            parentMenu.execute();
-                            break;
+                            System.out.println("edit was done successfully");
+                            return;
                         } catch (Exception e) {
                             System.err.println(e.getCause().getMessage());
                         }
                     }
                 } catch (ManagerController.InvalidDiscountIdException invalidIdError) {
                     System.err.println(invalidIdError.getMessage());
-                    parentMenu.execute();
                 } catch (NoSuchMethodException wrongCommand) {
                     System.err.println("you can only edit the fields above, and also please enter the required command.");
                     this.execute();
@@ -200,14 +196,12 @@ public class ViewDiscountCodesMenu extends Menu {
                 System.out.println("remove discount code");
             }
 
-
             public void execute() {
                 try {
                     managerController.removeDiscount(id);
-                    parentMenu.execute();
+                    System.out.println("discount code was removed successfully");
                 } catch (ManagerController.InvalidDiscountIdException invalidIdError) {
                     System.err.println(invalidIdError.getMessage());
-                    parentMenu.execute();
                 }
             }
         };
