@@ -39,14 +39,18 @@ public class EntryController extends UserController  {
     }
 
     public void register(){
-        User.addNewUser(userVariables.getLoggedInUser());
+        User user = userVariables.getLoggedInUser();
+        User.addNewUser(user);
+        if(user instanceof Manager)
+            Manager.addNewManager((Manager) user);
+        else if(user instanceof Customer)
+            Customer.addNewCustomer((Customer)user);
     }
 
     private void createNewAccount(String username, String type) throws ManagerExistsException {
         User newUser;
         if (type.matches("customer")) {
             newUser = new Customer(username);
-            userVariables.setLoggedInUser(newUser);
         } else if (type.matches("seller")) {
             newUser = new Seller(username);
         } else {
@@ -54,11 +58,11 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
-                Manager.addNewManager((Manager) newUser);
             }
-            userVariables.setLoggedInUser(newUser);
         }
+        userVariables.setLoggedInUser(newUser);
     }
+
     public static class InvalidUsernameException extends Exception {
         public InvalidUsernameException(String message) {
             super(message);

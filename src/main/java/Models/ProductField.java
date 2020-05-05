@@ -6,11 +6,11 @@ import java.util.Date;
 public class ProductField {
     private ProductionStatus status;
     private Long price;
+    private Sale sale;
     private Seller seller;
     private int supply;
     private Date productionDate;
-    private ArrayList<Comment> allComments;
-    private ArrayList<Score> allScore;
+    private ArrayList<Customer> allBuyers;
 
     public ProductionStatus getStatus() {
         return status;
@@ -28,15 +28,19 @@ public class ProductField {
         return supply;
     }
 
+    public ArrayList<Customer> getAllBuyers() {
+        return allBuyers;
+    }
+
     public Date getProductionDate() {
         return productionDate;
     }
 
-    public ArrayList<Comment> getAllComments() {
-        return allComments;
+    public void buyFromSeller(int count){
+        this.supply -= count;
     }
 
-    public ArrayList<Score> getAllScore() {
-        return allScore;
+    public void increaseSupply(int amount){
+        this.supply +=amount;
     }
 }

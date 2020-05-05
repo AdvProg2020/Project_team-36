@@ -3,18 +3,26 @@ package Models;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Log implements Packable {
-    private String id;
+public class Log {
+    private static ArrayList<Log> allLogs;
+    private static int totalLogsMade;
     private Date date;
+    private int id;
+    private int user;
+    private double discountPercent;//be darsad nist yani0.2 mishe 20 darsad masan
+    private long discountAmount;
+    private String customerAddress;
+    private String customerPhoneNumber;
+    private LogStatus logStatus;
     private long totalPrice;
-    private Sale sale;
-    private ArrayList<Item> allItems;
-    private User user;
-    private String status;
-    private Discount discount;
-    private static ArrayList<Log> allLogs = new ArrayList<>();
+    private long totalPayable;
+    private ArrayList<ItemInLog> allItems;
 
-    public String getId() {
+    public static ArrayList<Log> getAllLogs() {
+        return allLogs;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -22,36 +30,39 @@ public class Log implements Packable {
         return date;
     }
 
+    public int getUser() {
+        return user;
+    }
+
+    public double getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public long getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
+
+    public LogStatus getLogStatus() {
+        return logStatus;
+    }
+
     public long getTotalPrice() {
         return totalPrice;
     }
 
-    public Sale getSale() {
-        return sale;
+    public long getTotalPayable() {
+        return totalPayable;
     }
 
-    public ArrayList<Item> getAllItems() {
+    public ArrayList<ItemInLog> getAllItems() {
         return allItems;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
-
-
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
     }
 }

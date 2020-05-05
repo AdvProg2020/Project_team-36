@@ -11,10 +11,12 @@ public abstract class User implements Packable{
     protected String email;
     protected String phoneNumber;
     protected String password;
+    private static int totalUsersMade;
 
     public User(String username){
         this.username = username;
-        this.userId = makeUserId();
+        this.userId = totalUsersMade+1;
+        totalUsersMade +=1;
     }
     public String getUsername() {
         return username;
@@ -71,12 +73,6 @@ public abstract class User implements Packable{
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    private int makeUserId(){
-        if(allUsers.size()==0)
-            return 1;
-        return allUsers.get(allUsers.size()-1).getUserId()+1;
     }
 
     public static ArrayList<User> getAllUsers() {

@@ -102,7 +102,4 @@ public class EntryMenu extends Menu {
         }
     }
 
-    public void execute(String username) {
-
-    }
 }
