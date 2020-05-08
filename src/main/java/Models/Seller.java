@@ -8,6 +8,8 @@ public class Seller extends User implements Pendable,Packable {
     private ArrayList<Product> allProducts;
     private ArrayList<Sale> allSales;
     private long credit;
+    private String companyName;
+    private String companyInfo;
 
     public Seller(String username){
         super(username);
@@ -15,6 +17,22 @@ public class Seller extends User implements Pendable,Packable {
         this.allSales = new ArrayList<>();
         this.allSales = new ArrayList<>();
         this.allProducts = new ArrayList<>();
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setCompanyInfo(String companyInfo) {
+        this.companyInfo = companyInfo;
     }
 
     public long getCredit() {

@@ -1,4 +1,5 @@
 package Controllers;
+import Exceptions.NoLoggedInUserException;
 import Models.*;
 
 import java.lang.reflect.Field;
@@ -16,7 +17,10 @@ public class GlobalVariables {
         this.loggedInUser = loggedInUser;
     }
 
-    public User getLoggedInUser() {
+    public User getLoggedInUser() throws NoLoggedInUserException {
+        if(loggedInUser == null){
+            throw new NoLoggedInUserException("No user has logged in!");
+        }
         return loggedInUser;
     }
 }
