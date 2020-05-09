@@ -32,6 +32,20 @@ public class ItemInLog implements Packable {
         return productId;
     }
 
+    public double getSalePercent() {
+        return salePercent;
+    }
+
+    public long getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+
+
     public int getCount() {
         return count;
     }

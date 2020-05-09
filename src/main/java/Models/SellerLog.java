@@ -29,11 +29,24 @@ public class SellerLog {
         this.allItems = new ArrayList<>();
         allItems.addAll(allItems);
         allLogs.add(this);
+        this.setPrices();
     }
 
     private int randomId() {
         totalLogsMade += 1;
         return totalLogsMade;
+    }
+
+    private void setPrices(){
+        long totalPrice =0;
+        long cash = 0;
+        for (ItemInLog item : allItems) {
+            int count = item.getCount();
+            totalPrice += item.getInitialPrice()*count;
+            cash+=item.getCurrentPrice();
+        }
+        this.totalPrice = totalPrice;
+        this.sale = totalPrice - cash;
     }
 
     public static ArrayList<SellerLog> createSellerLogs(WaitingLog waitingLog) {
