@@ -19,6 +19,7 @@ public abstract class Menu {
     protected static OffController offController;
     protected static EntryController entryController;
     protected static Scanner scanner;
+    protected static ProductController productController;
 
     public Menu(String name, Menu parentMenu) {
         this.name = name;
@@ -68,6 +69,10 @@ public abstract class Menu {
     }
 
     public abstract void help();
+
+    public String getName() {
+        return name;
+    }
 
     public Matcher getMatcher(String input, String regex){
         Pattern pattern = Pattern.compile(regex);

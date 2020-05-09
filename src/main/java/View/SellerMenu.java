@@ -3,6 +3,10 @@ package View;
 import Controllers.SellerController;
 import Exceptions.NoLoggedInSellerException;
 import Exceptions.NoLoggedInUserException;
+import Exceptions.NoProductForThisSellerException;
+import Exceptions.NoProductWithThisIdException;
+import Models.Product;
+import Models.Seller;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -14,6 +18,7 @@ public class SellerMenu extends Menu{
         subMenus = new HashMap<>();
         subMenus.put("view\\s+balance",getViewBalanceMenu());
         subMenus.put("view\\s+company\\s+information",getViewCompanyInformationMenu());
+        subMenus.put("remove\\s+product\\s+(\\d+)",getRemoveProductMenu());
     }
 
     public Menu getViewBalanceMenu(){
@@ -49,6 +54,35 @@ public class SellerMenu extends Menu{
 
             @Override
             public void help() {}
+        };
+    }
+
+    public Menu getRemoveProductMenu(){
+        return new Menu("remove\\s+product\\s+(\\d+)",this) {
+            Matcher matcher = getMatcher(this.getName(),"remove\\s+product\\s+(\\d+)");
+            int productId = Integer.parseInt(matcher.group(1));
+
+            @Override
+            public void execute() {
+                try {
+                    Product productToBeRemoved = productController.getProductById(productId);
+                    Seller loggedInSeller = sellerController.getLoggedInSeller();
+                    sellerController.removeSellerProduct(productToBeRemoved);
+                    productController.removeSellerFromProduct(productToBeRemoved,loggedInSeller);
+                }catch (NoLoggedInUserException e ){
+                    System.err.println(e.getMessage());
+                }catch (NoLoggedInSellerException e){
+                    System.err.println(e.getMessage());
+                }catch (NoProductWithThisIdException e){
+                    System.err.println(e.getMessage());
+                }catch (NoProductForThisSellerException e){
+                    System.err.println(e.getMessage());
+                }
+            }
+
+            @Override
+            public void help() {
+            }
         };
     }
 

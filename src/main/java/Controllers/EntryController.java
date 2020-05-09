@@ -39,7 +39,7 @@ public class EntryController extends UserController  {
         }
     }
 
-    public void register(){
+    public void register() throws NoLoggedInUserException{
         User.addNewUser(userVariables.getLoggedInUser());
     }
 
@@ -49,7 +49,7 @@ public class EntryController extends UserController  {
             newUser = new Customer(username);
             userVariables.setLoggedInUser(newUser);
         } else if (type.matches("seller")) {
-            newUser = new Seller(username, );
+            newUser = new Seller(username);
         } else {
             if (!Manager.canManagerRegister()) {
                 throw new ManagerExistsException("There is a manager!You cannot register");
