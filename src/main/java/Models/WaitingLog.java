@@ -118,16 +118,18 @@ public class WaitingLog {
         this.customer.increaseDiscountCode(this.discount, 1);
     }
 
+    public void addCustomerToBuyers(){
+        for (SelectedItem item : allSelectedItems) {
+            Product product = item.getProduct();
+            for (Seller seller : item.getSellers()) {
+                product.getProductFieldBySeller(seller).addBuyer(this.customer);
+            }
+        }
+    }
 
     public ArrayList<SelectedItem> getAllItems() {
         return allSelectedItems;
     }
 
-    public Data pack(Object object) {
-        return null;
-    }
 
-    public Object unpack(Data data) {
-        return null;
-    }
 }

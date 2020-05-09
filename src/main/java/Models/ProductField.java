@@ -2,6 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 public class ProductField {
     private ProductionStatus status;
@@ -10,7 +11,7 @@ public class ProductField {
     private Seller seller;
     private int supply;
     private Date productionDate;
-    private ArrayList<Customer> allBuyers;
+    private HashSet<Customer> allBuyers;
 
     public ProductionStatus getStatus() {
         return status;
@@ -44,8 +45,12 @@ public class ProductField {
         return supply;
     }
 
-    public ArrayList<Customer> getAllBuyers() {
+    public HashSet<Customer> getAllBuyers() {
         return allBuyers;
+    }
+
+    public void addBuyer(Customer buyer){
+        this.allBuyers.add(buyer);
     }
 
     public Date getProductionDate() {

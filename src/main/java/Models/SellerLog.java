@@ -1,10 +1,12 @@
 package Models;
 
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class SellerLog {
-    private static ArrayList<CustomerLog> allLogs;
+    private static ArrayList<SellerLog> allLogs = new ArrayList<>();
     private static int totalLogsMade;
     private Date date;
     private int id;
@@ -17,7 +19,49 @@ public class SellerLog {
     private ArrayList<ItemInLog> allItems;
 
 
-    public static void createSellerLog(WaitingLog waitingLog){
-        //TODO create seller logs and add them to their arrayLists
+    public SellerLog(Customer customer,String customerAddress,String customerPhoneNumber,ArrayList<ItemInLog> allItems){
+        this.date = new Date();
+        this.id = randomId();
+        this.customer = customer;
+        this.customerAddress = customerAddress;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.logStatus = LogStatus.WAITING_TO_BE_SENT;
+        this.allItems = new ArrayList<>();
+        allItems.addAll(allItems);
+        allLogs.add(this);
+    }
+
+    private int randomId() {
+        totalLogsMade += 1;
+        return totalLogsMade;
+    }
+
+    public static ArrayList<SellerLog> createSellerLogs(WaitingLog waitingLog) {
+        ArrayList<SellerLog> logs = new ArrayList<>();
+        HashMap<Seller, ArrayList<ItemInLog>> allItems = getSellersItems(waitingLog.getAllItems());
+        for (Seller seller : allItems.keySet()) {
+            ArrayList<ItemInLog> item = allItems.get(seller);
+            SellerLog log = new SellerLog(waitingLog.getCustomer(),waitingLog.getCustomerAddress(),waitingLog.getCustomerPhoneNumber(),item);
+            logs.add(log);
+            seller.addNewLog(log);
+        }
+        return logs;
+    }
+
+    private static HashMap<Seller, ArrayList<ItemInLog>> getSellersItems(ArrayList<SelectedItem> selectedItems) {
+        HashMap<Seller, ArrayList<ItemInLog>> allItemsForSellers = new HashMap<>();
+        for (SelectedItem selectedItem : selectedItems) {
+            for (Seller seller : selectedItem.getSellers()) {
+                ItemInLog itemInLog = ItemInLog.createItemInLog(selectedItem, seller);
+                if (allItemsForSellers.containsKey(seller))
+                    allItemsForSellers.get(seller).add(itemInLog);
+                else {
+                    ArrayList<ItemInLog> temp = new ArrayList<>();
+                    temp.add(itemInLog);
+                    allItemsForSellers.put(seller, temp);
+                }
+            }
+        }
+        return allItemsForSellers;
     }
 }

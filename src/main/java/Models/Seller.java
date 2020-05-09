@@ -39,6 +39,10 @@ public class Seller extends User implements Pendable,Packable {
         return allSales;
     }
 
+    public void addNewLog(SellerLog sellerLog){
+        this.allLogs.add(sellerLog);
+    }
+
     public void increaseCredit(long amount){
         this.credit += amount;
     }

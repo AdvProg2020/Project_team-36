@@ -3,7 +3,7 @@ package Models;
 
 import java.util.ArrayList;
 
-public class ItemInLog implements Packable{
+public class ItemInLog implements Packable {
     private String productName;
     private int productId;
     private int count;
@@ -18,9 +18,10 @@ public class ItemInLog implements Packable{
         this.seller = seller;
         this.productId = product.getProductId();
         this.productName = product.getName();
-        this.salePercent = product.getProductFieldBySeller(seller).getSale().getSalePercent();
-        this.initialPrice = product.getProductFieldBySeller(seller).getCurrentPrice();
-        this.currentPrice = initialPrice-(long)(initialPrice*salePercent);
+        if (product.getProductFieldBySeller(seller).getSale().isSaleAvailable())
+            this.salePercent = product.getProductFieldBySeller(seller).getSale().getSalePercent();
+        this.initialPrice = product.getProductFieldBySeller(seller).getPrice();
+        this.currentPrice = product.getProductFieldBySeller(seller).getCurrentPrice();
     }
 
     public String getProductName() {
@@ -43,11 +44,22 @@ public class ItemInLog implements Packable{
         return initialPrice;
     }
 
-    public static ArrayList<ItemInLog> createItemInLog(ArrayList<SelectedItem> selectedItems){
+    public static ArrayList<ItemInLog> createItemInLog(ArrayList<SelectedItem> selectedItems) {
+        ArrayList<ItemInLog> itemsInLog = new ArrayList<>();
+        for (SelectedItem item : selectedItems) {
+            for (Seller seller : item.getSellers()) {
+                int index = item.getSellers().indexOf(seller);
+                int count = item.getCountFromEachSeller().get(index);
+                itemsInLog.add(new ItemInLog(item.getProduct(), count, seller));
+            }
+        }
+        return itemsInLog;
+    }
 
-        //TODO create
-return null;
-
+    public static ItemInLog createItemInLog(SelectedItem selectedItem, Seller seller){
+        int index = selectedItem.getSellers().indexOf(seller);
+        int count = selectedItem.getCountFromEachSeller().get(index);
+        return new ItemInLog(selectedItem.getProduct(),count,seller);
     }
 
 
