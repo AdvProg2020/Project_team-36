@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.*;
+import Models.Gifts.Gift;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,9 +70,8 @@ public class CustomerController extends UserController {
 
     }
 
-    public void decreaseProductInCart(int sellerNumber, int productId) {
+    public void decreaseProductInCart(Seller seller, int productId) {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
-        Seller seller = item.getSellers().get(sellerNumber - 1);
         try {
             item.decreaseAmountFromSeller(seller, 1);
         } catch (SelectedItem.NoSellersForItemInCart e) {
@@ -92,51 +92,60 @@ public class CustomerController extends UserController {
         return ((Customer) userVariables.getLoggedInUser()).getCredit();
     }
 
-    public Log getOrder(int orderId) throws NoLogWithId {
+    public CustomerLog getOrder(int orderId) throws NoLogWithId {
         if (!((Customer) userVariables.getLoggedInUser()).isThereLog(orderId))
             throw new NoLogWithId("There is no log with this id!");
-        return((Customer) userVariables.getLoggedInUser()).getLog(orderId);
+        return ((Customer) userVariables.getLoggedInUser()).getLog(orderId);
 
     }
 
     public void rateProduct(int productId, int rate) throws NoProductWithIdInLog {
-        if(Product.getProduct(productId)==null)
+        if (Product.getProduct(productId) == null)
             throw new NoProductWithIdInLog("No product with this id in your log!");
-        Score score = new Score((Customer)userVariables.getLoggedInUser(),rate);
-        Product.getProduct(productId).addScore(score);
+        else {
+            Score score = new Score((Customer) userVariables.getLoggedInUser(), rate);
+            Product.getProduct(productId).addScore(score);
+        }
     }
 
     public void setAddressForPurchase(String address) throws EmptyCart {
 
-        Customer customer = ((Customer)userVariables.getLoggedInUser());
-        if(customer.getCart().isEmpty())
+        Customer customer = ((Customer) userVariables.getLoggedInUser());
+        if (customer.getCart().isEmpty())
             throw new EmptyCart();
-        customer.setWaitingLog(new WaitingLog(customer,address));
+        customer.setWaitingLog(new WaitingLog(customer, address));
         customer.getWaitingLog().setAllItems(customer.getCart());
     }
 
-    public void setPhoneNumberForPurchase(String phoneNumber){
-        ((Customer)userVariables.getLoggedInUser()).getWaitingLog().setCustomerPhoneNumber(phoneNumber);
+    public void setPhoneNumberForPurchase(String phoneNumber) {
+        ((Customer) userVariables.getLoggedInUser()).getWaitingLog().setCustomerPhoneNumber(phoneNumber);
     }
 
-    public void setDiscountCodeForPurchase(int discountCode) throws NoDiscountAvailableWithId{
-        Customer customer = (Customer)userVariables.getLoggedInUser();
-        if(customer.isThereDiscountCode(discountCode))
+    public void setDiscountCodeForPurchase(int discountCode) throws NoDiscountAvailableWithId {
+        Customer customer = (Customer) userVariables.getLoggedInUser();
+        if (customer.isThereDiscountCode(discountCode))
             throw new NoDiscountAvailableWithId("No Discount with Id");
         customer.getWaitingLog().setDiscount(Discount.getDiscount(discountCode));
     }
 
-    public void purchase() throws NotEnoughMoney{
-        WaitingLog waitingLog = ((Customer)userVariables.getLoggedInUser()).getWaitingLog();
-        Customer customer  =(Customer)userVariables.getLoggedInUser();
-        if(waitingLog.getPayablePrice()>customer.getCredit())
-            throw new NotEnoughMoney(waitingLog.getPayablePrice()-customer.getCredit());
-        else{
-        Log.createLogs(waitingLog);
-        }
+    public ArrayList<Gift> getGifts() {
+        WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
+        Gift.giveGift(waitingLog);
+        return waitingLog.getGiftDiscount();
     }
 
-    public ArrayList<Log> getAllLogs() {
+    public CustomerLog purchase() throws NotEnoughMoney {
+        WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
+        Customer customer = (Customer) userVariables.getLoggedInUser();
+        if (waitingLog.getPayablePrice() > customer.getCredit()) {
+            waitingLog.removeDiscount();
+            throw new NotEnoughMoney(waitingLog.getPayablePrice() - customer.getCredit());
+        }
+        CustomerLog log = CustomerLog.createCustomerLog(waitingLog);
+        return log;
+    }
+
+    public ArrayList<CustomerLog> getAllLogs() {
         return ((Customer) userVariables.getLoggedInUser()).getAllLogs();
     }
 
@@ -146,7 +155,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public static class EmptyCart extends Exception{
+    public static class EmptyCart extends Exception {
         public EmptyCart() {
         }
     }
@@ -180,7 +189,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public static class NoDiscountAvailableWithId extends Exception{
+    public static class NoDiscountAvailableWithId extends Exception {
         public NoDiscountAvailableWithId(String message) {
             super(message);
         }
@@ -188,9 +197,10 @@ public class CustomerController extends UserController {
 
     }
 
-    public static class NotEnoughMoney extends Exception{
+    public static class NotEnoughMoney extends Exception {
         Long amount;//amount of money that is needed!
-        public NotEnoughMoney(long amount){
+
+        public NotEnoughMoney(long amount) {
             this.amount = amount;
         }
 

@@ -1,6 +1,9 @@
 package View;
 
 import Controllers.CustomerController;
+import Models.Gifts.Gift;
+
+import java.util.ArrayList;
 
 public class PurchaseMenu extends Menu {
 
@@ -24,11 +27,19 @@ public class PurchaseMenu extends Menu {
             else
                 System.err.println("invalid command!Try again please");
         }
+        ArrayList<Gift> gifts =  customerController.getGifts();
+        System.out.println("Gifts available for your purchase:");
+        if(gifts.isEmpty())
+            System.out.println("No gifts!");
+        for (Gift gift : gifts) {
+            System.out.println(gift.toString());
+        }
         try {
             customerController.purchase();
             System.out.println("Purchased successfully\n Returning to cartMenu...");
         }catch(CustomerController.NotEnoughMoney e){
-            System.err.println("Not enough money in your account!\nYou need "+ e.getAmount()+" rials!\ntry again after recharging your account!\nReturning to cart menu...");
+            System.err.println("Not enough money in your account!\nYou need "+ e.getAmount()+" rials!\ntry again after recharging your account!" +
+                    "\nReturning to cart menu...");
             return;
         }
     }

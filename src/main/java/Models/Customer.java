@@ -8,7 +8,7 @@ import java.util.Set;
 public class Customer extends User implements Packable {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
-    private ArrayList<Log> allLogs;
+    private ArrayList<CustomerLog> allLogs;
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
@@ -33,7 +33,7 @@ public class Customer extends User implements Packable {
         return this.credit;
     }
 
-    public ArrayList<Log> getAllLogs() {
+    public ArrayList<CustomerLog> getAllLogs() {
         return allLogs;
     }
 
@@ -50,7 +50,7 @@ public class Customer extends User implements Packable {
     }
 
     public boolean isThereLog(int logId) {
-        for (Log log : allLogs) {
+        for (CustomerLog log : allLogs) {
             if (log.getId() == logId)
                 return true;
         }
@@ -85,8 +85,8 @@ public class Customer extends User implements Packable {
         allDiscountsForCustomer.replace(discount, oldValue + count);
     }
 
-    public Log getLog(int logId) {
-        for (Log log : allLogs) {
+    public CustomerLog getLog(int logId) {
+        for (CustomerLog log : allLogs) {
             if (log.getId() == logId) {
                 return log;
             }

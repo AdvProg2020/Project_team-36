@@ -3,14 +3,14 @@ package Models;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Log {
-    private static ArrayList<Log> allLogs;
+public class CustomerLog {
+    private static ArrayList<CustomerLog> allLogs;
     private static int totalLogsMade;
     private Date date;
     private int id;
-    private User user;
     private double discountPercent;//be darsad nist yani0.2 mishe 20 darsad masan
     private long discountAmount;
+    private long giftDiscount;
     private String customerAddress;
     private String customerPhoneNumber;
     private LogStatus logStatus;
@@ -18,7 +18,8 @@ public class Log {
     private long totalPayable;
     private ArrayList<ItemInLog> allItems;
 
-    public static ArrayList<Log> getAllLogs() {
+
+    public static ArrayList<CustomerLog> getAllLogs() {
         return allLogs;
     }
 
@@ -28,10 +29,6 @@ public class Log {
 
     public Date getDate() {
         return date;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public double getDiscountPercent() {
@@ -66,7 +63,10 @@ public class Log {
         return allItems;
     }
 
-    public static void createLogs(WaitingLog waitingLog){
+    public static CustomerLog createCustomerLog(WaitingLog waitingLog){
         //TODO create logs for customer and seller
+
+        return null;
     }
+
 }

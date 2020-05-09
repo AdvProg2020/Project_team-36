@@ -2,12 +2,14 @@ package Models;
 
 import Models.Gifts.Gift;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 public class WaitingLog {
     private long totalPrice;
-    private Gift gift;
+    private ArrayList<Gift> gifts;
+    private Long giftDiscount;
     private ArrayList<SelectedItem> allSelectedItems;
     private Customer customer;
     private Discount discount;
@@ -15,34 +17,45 @@ public class WaitingLog {
     private String customerPhoneNumber;
 
     public WaitingLog(Customer customer, String customerAddress) {
-        allSelectedItems = new ArrayList<>();
+        this.allSelectedItems = new ArrayList<>();
+        this.gifts = new ArrayList<>();
         this.customer = customer;
         this.customerAddress = customerAddress;
     }
 
+
+    public void setGifts(ArrayList<Gift> gifts) {
+        this.gifts = gifts;
+    }
+
+    public void addGiftDiscount(Long giftDiscount) {
+        this.giftDiscount += giftDiscount;
+    }
 
     public long getTotalPrice() {
         return totalPrice;
     }
 
     public long getPayablePrice(){
+        long payable;
         if(discount==null)
-            return totalPrice;
+            payable = totalPrice - giftDiscount;
         else{
-            return this.discount.getPayableAfterDiscount(totalPrice);
+            payable =  this.discount.getPayableAfterDiscount(totalPrice)-giftDiscount;
         }
+        return payable;
     }
 
     public Customer getCustomer() {
         return customer;
     }
 
-    public void setGiftDiscount(Gift gift) {
-        this.gift = gift;
+    public void addGift(Gift gift) {
+        gifts.add(gift);
     }
 
-    public Gift getGiftDiscount() {
-        return this.gift;
+    public ArrayList<Gift> getGiftDiscount() {
+        return this.gifts;
     }
 
     public void setTotalPrice(long totalPrice) {
@@ -76,6 +89,10 @@ public class WaitingLog {
 
     public String getCustomerPhoneNumber() {
         return customerPhoneNumber;
+    }
+
+    public void removeDiscount(){
+        this.customer.increaseDiscountCode(this.discount,1);
     }
 
 

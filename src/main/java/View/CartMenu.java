@@ -151,7 +151,7 @@ public class CartMenu extends Menu {
                     else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
                         System.out.println("invalid command! Try again please");
                     } else {
-                        customerController.decreaseProductInCart(Integer.parseInt(input), ((CartMenu)this.parentMenu).getProductId());
+                        customerController.decreaseProductInCart(sellers.get(Integer.parseInt(input)-1), ((CartMenu)this.parentMenu).getProductId());
                         System.out.println("Decreased successfully");
                         return;
                     }

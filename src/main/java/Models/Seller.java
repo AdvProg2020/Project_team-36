@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Seller extends User implements Pendable,Packable {
     private static ArrayList<Seller> allSellers = new ArrayList<>();
-    private ArrayList<Log> allLogs;
+    private ArrayList<SellerLog> allLogs;
     private ArrayList<Product> allProducts;
     private ArrayList<Sale> allSales;
 
@@ -25,7 +25,7 @@ public class Seller extends User implements Pendable,Packable {
         return allSellers;
     }
 
-    public ArrayList<Log> getAllLogs() {
+    public ArrayList<SellerLog> getAllLogs() {
         return allLogs;
     }
 

@@ -7,12 +7,13 @@ import Models.WaitingLog;
 import java.util.ArrayList;
 
 public class Gift {
+    private String name;
     private Action action;
     private Event event;
-    private static ArrayList<Gift> allGifts;
+    private static ArrayList<Gift> allGifts = new ArrayList<>();
 
 
-    public Gift(Action action, Event event) {
+    public Gift(String name,Action action, Event event) {
         this.action = action;
         this.event = event;
     }
@@ -37,7 +38,22 @@ public class Gift {
         return event.isEventActive(waitingLog);
     }
 
+    public static void giveGift(WaitingLog waitingLog){
+        ArrayList<Gift> properGifts = new ArrayList<>();
+        for (Gift gift : allGifts) {
+            if(gift.includedInEvent(waitingLog)) {
+                properGifts.add(gift);
+            }
+        }
+        waitingLog.setGifts(properGifts);
+    }
+
     public void perform(WaitingLog waitingLog){
         action.action(waitingLog);
+    }
+
+    @Override
+    public String toString() {
+        return this.name+"\n"+this.action.toString();
     }
 }

@@ -1,9 +1,7 @@
 package View;
 
 import Controllers.CustomerController;
-import Models.Customer;
-import Models.Log;
-import com.sun.xml.internal.bind.v2.TODO;
+import Models.CustomerLog;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -23,9 +21,9 @@ public class OrderMenu extends Menu {
 
     @Override
     public void execute() {
-        ArrayList<Log> logs = customerController.getAllLogs();
+        ArrayList<CustomerLog> logs = customerController.getAllLogs();
         System.out.printf("%5s%10s%10s", "logId", "Date", "Total price");
-        for (Log log : logs) {
+        for (CustomerLog log : logs) {
             System.out.printf("%5s%10s%10d", log.getId(), log.getDate(), log.getTotalPrice());
         }
         String input;
@@ -49,7 +47,7 @@ public class OrderMenu extends Menu {
 
     private void showOrderMenu(int orderId) {
         try {
-            Log log = customerController.getOrder(orderId);
+            CustomerLog log = customerController.getOrder(orderId);
             System.out.println(log);
         } catch(CustomerController.NoLogWithId e){
             System.err.println(e.getMessage());
