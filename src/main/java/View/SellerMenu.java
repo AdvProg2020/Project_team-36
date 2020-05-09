@@ -27,9 +27,7 @@ public class SellerMenu extends Menu{
             public void execute() {
                 try{
                     System.out.println(sellerController.getLoggedInSellerBalance());
-                }catch (NoLoggedInSellerException e ){
-                    System.err.println(e.getMessage());
-                }catch (NoLoggedInUserException e){
+                }catch (NoLoggedInSellerException|NoLoggedInUserException e ){
                     System.err.println(e.getMessage());
                 }
             }
@@ -45,9 +43,7 @@ public class SellerMenu extends Menu{
             public void execute() {
                 try {
                     System.out.println(sellerController.getLoggedInSellerCompanyInformation());
-                }catch (NoLoggedInSellerException e ){
-                    System.err.println(e.getMessage());
-                }catch (NoLoggedInUserException e){
+                }catch (NoLoggedInSellerException|NoLoggedInUserException e ){
                     System.err.println(e.getMessage());
                 }
             }
@@ -69,13 +65,7 @@ public class SellerMenu extends Menu{
                     Seller loggedInSeller = sellerController.getLoggedInSeller();
                     sellerController.removeSellerProduct(productToBeRemoved);
                     productController.removeSellerFromProduct(productToBeRemoved,loggedInSeller);
-                }catch (NoLoggedInUserException e ){
-                    System.err.println(e.getMessage());
-                }catch (NoLoggedInSellerException e){
-                    System.err.println(e.getMessage());
-                }catch (NoProductWithThisIdException e){
-                    System.err.println(e.getMessage());
-                }catch (NoProductForThisSellerException e){
+                }catch (NoLoggedInUserException|NoLoggedInSellerException|NoProductWithThisIdException|NoProductForThisSellerException e ){
                     System.err.println(e.getMessage());
                 }
             }

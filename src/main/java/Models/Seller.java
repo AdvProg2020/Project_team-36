@@ -43,10 +43,6 @@ public class Seller extends User implements Pendable,Packable {
         this.credit = credit;
     }
 
-    public void removeProduct(int productId){
-
-    }
-
     @Override
     public String getType() {
         return "seller";
