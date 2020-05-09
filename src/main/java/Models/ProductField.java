@@ -17,7 +17,7 @@ public class ProductField {
     }
 
     public long getCurrentPrice() {
-        if(this.sale == null){
+        if(this.sale == null||!sale.isSaleAvailable()){
             return price;
         }else{
             return price - (long) (price*sale.getSalePercent());

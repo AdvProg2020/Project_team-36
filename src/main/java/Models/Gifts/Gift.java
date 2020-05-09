@@ -43,6 +43,7 @@ public class Gift {
         for (Gift gift : allGifts) {
             if(gift.includedInEvent(waitingLog)) {
                 properGifts.add(gift);
+                gift.perform(waitingLog);
             }
         }
         waitingLog.setGifts(properGifts);

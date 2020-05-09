@@ -131,16 +131,19 @@ public class CustomerController extends UserController {
     public ArrayList<Gift> getGifts() {
         WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
         Gift.giveGift(waitingLog);
-        return waitingLog.getGiftDiscount();
+        return waitingLog.getGifts();
     }
 
     public CustomerLog purchase() throws NotEnoughMoney {
         WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
         Customer customer = (Customer) userVariables.getLoggedInUser();
+
         if (waitingLog.getPayablePrice() > customer.getCredit()) {
             waitingLog.removeDiscount();
             throw new NotEnoughMoney(waitingLog.getPayablePrice() - customer.getCredit());
         }
+        waitingLog.applyCreditChanges();
+        //TODO createSellerLog
         CustomerLog log = CustomerLog.createCustomerLog(waitingLog);
         return log;
     }

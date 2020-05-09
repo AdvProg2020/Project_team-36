@@ -25,12 +25,17 @@ public class Customer extends User implements Packable {
         return "customer";
     }
 
+
     public static void addNewCustomer(Customer customer) {
         allCustomers.add(customer);
     }
 
     public long getCredit() {
         return this.credit;
+    }
+
+    public void addNewLog(CustomerLog customerLog){
+        this.allLogs.add(customerLog);
     }
 
     public ArrayList<CustomerLog> getAllLogs() {
@@ -110,6 +115,10 @@ public class Customer extends User implements Packable {
 
     }
 
+    public void decreaseCredit(long totalDecrease){
+        this.credit -= totalDecrease;
+    }
+
     public boolean isThereProductInCart(int productId) {
         for (SelectedItem item : cart) {
             if (item.getProduct().getProductId() == productId)
@@ -147,7 +156,7 @@ public class Customer extends User implements Packable {
     public long getCartPrice() {
         long sum = 0;
         for (SelectedItem item : cart) {
-            sum += item.getTotalPrice();
+            sum += item.getItemTotalPrice();
         }
         return sum;
     }

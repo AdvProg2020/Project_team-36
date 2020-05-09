@@ -49,7 +49,7 @@ public class SelectedItem {
             throw new NoSellersForItemInCart();
     }
 
-    public long getTotalPrice(){
+    public long getItemTotalPrice(){
         long sum = 0;
         int i=0;
         for (Seller seller : sellers) {
@@ -58,6 +58,13 @@ public class SelectedItem {
             i++;
         }
         return sum;
+    }
+
+    public long getSellerTotalPrice(Seller seller){
+        int index = this.sellers.indexOf(seller);
+        int count  = countFromEachSeller.get(index);
+        return (this.product.getProductFieldBySeller(seller).getCurrentPrice())*count;
+
     }
 
     public static class NoSellersForItemInCart extends Exception{

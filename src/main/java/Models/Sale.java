@@ -23,6 +23,12 @@ public class Sale implements Pendable {
         return status;
     }
 
+    public boolean isSaleAvailable(){
+        Date now = new Date();
+        return (now.after(this.startTime) && now.before(this.endTime)) || now.equals(this.startTime) || now.equals(this.endTime);
+
+    }
+
     public Date getStartTime() {
         return startTime;
     }

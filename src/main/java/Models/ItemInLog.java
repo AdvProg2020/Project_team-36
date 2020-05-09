@@ -1,6 +1,7 @@
 package Models;
 
 
+import java.util.ArrayList;
 
 public class ItemInLog implements Packable{
     private String productName;
@@ -40,6 +41,13 @@ public class ItemInLog implements Packable{
 
     public long getInitialPrice() {
         return initialPrice;
+    }
+
+    public static ArrayList<ItemInLog> createItemInLog(ArrayList<SelectedItem> selectedItems){
+
+        //TODO create
+return null;
+
     }
 
 

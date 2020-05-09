@@ -2,7 +2,6 @@ package Models;
 
 import Models.Gifts.Gift;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -10,6 +9,7 @@ public class WaitingLog {
     private long totalPrice;
     private ArrayList<Gift> gifts;
     private Long giftDiscount;
+    private long discountAmount;
     private ArrayList<SelectedItem> allSelectedItems;
     private Customer customer;
     private Discount discount;
@@ -28,6 +28,14 @@ public class WaitingLog {
         this.gifts = gifts;
     }
 
+    public long getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public long getGiftDiscount(){
+       return  this.giftDiscount;
+    }
+
     public void addGiftDiscount(Long giftDiscount) {
         this.giftDiscount += giftDiscount;
     }
@@ -36,14 +44,28 @@ public class WaitingLog {
         return totalPrice;
     }
 
-    public long getPayablePrice(){
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public long getPayablePrice() {
         long payable;
-        if(discount==null)
+        if (discount == null)
             payable = totalPrice - giftDiscount;
-        else{
-            payable =  this.discount.getPayableAfterDiscount(totalPrice)-giftDiscount;
+        else {
+            payable = this.discount.getPayableAfterDiscount(totalPrice) - giftDiscount;
         }
         return payable;
+    }
+
+    public void applyCreditChanges() {
+        this.customer.decreaseCredit(this.getPayablePrice());
+        for (SelectedItem item : allSelectedItems) {
+            for (Seller seller : item.getSellers()) {
+                long amount = item.getSellerTotalPrice(seller);
+                seller.increaseCredit(amount);
+            }
+        }
     }
 
     public Customer getCustomer() {
@@ -54,7 +76,7 @@ public class WaitingLog {
         gifts.add(gift);
     }
 
-    public ArrayList<Gift> getGiftDiscount() {
+    public ArrayList<Gift> getGifts() {
         return this.gifts;
     }
 
@@ -66,21 +88,22 @@ public class WaitingLog {
         this.customerPhoneNumber = customerPhoneNumber;
     }
 
-    public void setAllItems(ArrayList<SelectedItem> selectedItems){
+    public void setAllItems(ArrayList<SelectedItem> selectedItems) {
         this.allSelectedItems.addAll(selectedItems);
         long sum = 0;
         for (SelectedItem item : allSelectedItems) {
-            sum +=item.getTotalPrice();
+            sum += item.getItemTotalPrice();
         }
         this.totalPrice = sum;
     }
 
     public void setDiscount(Discount discount) {
-        if(this.discount!=null){
-            this.customer.increaseDiscountCode(discount,1);
+        if (this.discount != null) {
+            this.customer.increaseDiscountCode(discount, 1);
         }
-        this.customer.decreaseDiscountCode(discount,1);
+        this.customer.decreaseDiscountCode(discount, 1);
         this.discount = discount;
+        this.discountAmount= discount.getPayableAfterDiscount(totalPrice);
     }
 
     public String getCustomerAddress() {
@@ -91,8 +114,8 @@ public class WaitingLog {
         return customerPhoneNumber;
     }
 
-    public void removeDiscount(){
-        this.customer.increaseDiscountCode(this.discount,1);
+    public void removeDiscount() {
+        this.customer.increaseDiscountCode(this.discount, 1);
     }
 
 
