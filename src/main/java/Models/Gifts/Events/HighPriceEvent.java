@@ -22,4 +22,6 @@ public class HighPriceEvent implements Event{
         Date now = new Date();
         return (now.after(this.start) && now.before(this.end)) || now.equals(this.start) || now.equals(this.end);
     }
+
+
 }

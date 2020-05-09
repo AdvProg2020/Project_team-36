@@ -19,6 +19,7 @@ public class ManagerMenu extends Menu {
 //      subMenus.put("manage\\s+users", new ManageUsersMenu(this));
 //      subMenus.put("manage\\s+all\\s+products", new ManageAllProductsMenu(this));
         subMenus.put("create\\s+discount\\s+code",createDiscountCode());
+        subMenus.put("create\\s+new\\s+gift",new GiftMenu("GiftMenu",this));
 
     }
 

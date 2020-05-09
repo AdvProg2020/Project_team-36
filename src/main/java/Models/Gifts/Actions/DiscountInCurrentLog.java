@@ -20,4 +20,6 @@ public class DiscountInCurrentLog implements Action {
     public String toString() {
         return "add discount to this log"+ "\ndiscount percent: "+this.discountPercent*100;
     }
+
+
 }

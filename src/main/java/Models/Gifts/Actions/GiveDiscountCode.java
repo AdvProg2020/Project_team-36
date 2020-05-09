@@ -18,4 +18,5 @@ public class GiveDiscountCode implements Action {
         return "add discount code to users codes" + "\ncode id: " + discount.getId() + "\ndiscountPercent: " +
                 (discount.getDiscountPercent() * 100) + "%";
     }
+
 }

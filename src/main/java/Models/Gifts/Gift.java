@@ -1,10 +1,13 @@
 package Models.Gifts;
 
 import Models.Gifts.Actions.Action;
+
 import Models.Gifts.Events.Event;
 import Models.WaitingLog;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+
 
 public class Gift {
     private String name;
@@ -13,9 +16,11 @@ public class Gift {
     private static ArrayList<Gift> allGifts = new ArrayList<>();
 
 
-    public Gift(String name,Action action, Event event) {
+    public Gift(String name, Action action, Event event) {
+        this.name = name;
         this.action = action;
         this.event = event;
+
     }
 
     public void setEvent(Event event) {
@@ -34,14 +39,14 @@ public class Gift {
         return event;
     }
 
-    public boolean includedInEvent(WaitingLog waitingLog){
+    public boolean includedInEvent(WaitingLog waitingLog) {
         return event.isEventActive(waitingLog);
     }
 
-    public static void giveGift(WaitingLog waitingLog){
+    public static void giveGift(WaitingLog waitingLog) {
         ArrayList<Gift> properGifts = new ArrayList<>();
         for (Gift gift : allGifts) {
-            if(gift.includedInEvent(waitingLog)) {
+            if (gift.includedInEvent(waitingLog)) {
                 properGifts.add(gift);
                 gift.perform(waitingLog);
             }
@@ -49,12 +54,14 @@ public class Gift {
         waitingLog.setGifts(properGifts);
     }
 
-    public void perform(WaitingLog waitingLog){
+    public void perform(WaitingLog waitingLog) {
         action.action(waitingLog);
     }
 
+
+
     @Override
     public String toString() {
-        return this.name+"\n"+this.action.toString();
+        return this.name + "\n" + this.action.toString();
     }
 }
