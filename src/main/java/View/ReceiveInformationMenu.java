@@ -11,22 +11,25 @@ public class ReceiveInformationMenu extends Menu {
 
     @Override
     public void help() {
+        System.out.println("logout\n");
     }
 
     @Override
     public void execute() {
+        if (customerController.getCart().isEmpty()) {
+            System.err.println("There is nothing in your cart! Returning to cart menu...");
+            return;
+        }
         String input;
         System.out.println("Enter your complete address");
         if ((input = scanner.nextLine().trim()).matches("back"))
             return;
-        try {
-            customerController.setAddressForPurchase(input);
-        } catch (CustomerController.EmptyCart e) {
-            System.err.println("Empty cart!");
-            return;
-        }
+        else if (input.matches("logout"))
+            logoutChangeMenu();
+        customerController.setAddressForPurchase(input);
+
         System.out.println("Enter your phone number:");
-        while (!(input = scanner.nextLine().trim()).matches("back")) {
+        while (!(input = scanner.nextLine().trim()).matches("back|logout")) {
             if (input.matches("\\d+")) {
                 customerController.setPhoneNumberForPurchase(input);
                 break;
@@ -36,6 +39,8 @@ public class ReceiveInformationMenu extends Menu {
         }
         if (input.matches("back"))
             return;
+        else if(input.matches("logout"))
+            logoutChangeMenu();
         subMenus.get("Discount Code Menu").execute();
 
     }

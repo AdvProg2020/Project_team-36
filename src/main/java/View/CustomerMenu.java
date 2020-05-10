@@ -17,7 +17,12 @@ public class CustomerMenu extends Menu{
 
     @Override
     public void help() {
-        System.out.println("view personal info\nview cart\nview orders\nview balance\nview discount codes");
+        System.out.println("view personal info\n" +
+                "view cart\n" +
+                "view orders\n" +
+                "view balance\n" +
+                "view discount codes\n" +
+                "logout");
     }
 
     private Menu getDiscountCodesMenu(){

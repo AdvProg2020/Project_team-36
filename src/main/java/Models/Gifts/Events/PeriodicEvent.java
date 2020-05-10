@@ -5,8 +5,8 @@ import Models.WaitingLog;
 import java.util.Date;
 
 public class PeriodicEvent implements Event {
-    Date start;
-    Date end;
+    private Date start;
+    private Date end;
 
     public PeriodicEvent(Date start, Date end) {
         this.start = start;

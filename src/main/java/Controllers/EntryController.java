@@ -47,6 +47,10 @@ public class EntryController extends UserController  {
             Customer.addNewCustomer((Customer)user);
     }
 
+    public void logout(){
+        this.userVariables.setLoggedInUser(null);
+    }
+
     private void createNewAccount(String username, String type) throws ManagerExistsException {
         User newUser;
         if (type.matches("customer")) {

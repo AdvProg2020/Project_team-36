@@ -108,11 +108,9 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void setAddressForPurchase(String address) throws EmptyCart {
+    public void setAddressForPurchase(String address)  {
 
         Customer customer = ((Customer) userVariables.getLoggedInUser());
-        if (customer.getCart().isEmpty())
-            throw new EmptyCart();
         customer.setWaitingLog(new WaitingLog(customer, address));
         customer.getWaitingLog().setAllItems(customer.getCart());
     }

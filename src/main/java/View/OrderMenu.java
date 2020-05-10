@@ -16,7 +16,9 @@ public class OrderMenu extends Menu {
     @Override
     public void help() {
 
-        System.out.println("show order [orderId]\n rate [productId] [1-5]");
+        System.out.println("show order [orderId]\n " +
+                "rate [productId] [1-5]\n" +
+                "logout");
     }
 
     @Override
@@ -27,7 +29,7 @@ public class OrderMenu extends Menu {
             System.out.printf("%5s%10s%10d", log.getId(), log.getDate(), log.getTotalPrice());
         }
         String input;
-        while (!(input = scanner.nextLine().trim()).equals("back")) {
+        while (!(input = scanner.nextLine().trim()).matches("back|logout")) {
             Matcher matcher;
             if (input.equals("help")) {
                 this.help();
@@ -41,8 +43,10 @@ public class OrderMenu extends Menu {
             }
 
 
-        }
+        }if(input.matches("back"))
         this.parentMenu.execute();
+        else if(input.matches("logout"))
+            logoutChangeMenu();
     }
 
     private void showOrderMenu(int orderId) {

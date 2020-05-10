@@ -60,6 +60,7 @@ public class CartMenu extends Menu {
                     return;
                 }
                 ProductMenu productMenu = new ProductMenu(((CartMenu)this.parentMenu).getProductId());
+                productMenu.execute();
             }
         };
     }
@@ -98,7 +99,9 @@ public class CartMenu extends Menu {
                     i++;
                 }
                 while (true) {
-                    input = scanner.nextLine();
+                    input = scanner.nextLine().trim();
+                    if(input.matches("logout"))
+                        logoutChangeMenu();
                     if (input.matches("back"))
                         return;
                     else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
@@ -145,7 +148,9 @@ public class CartMenu extends Menu {
                     i++;
                 }
                 while (true) {
-                    input = scanner.nextLine();
+                    input = scanner.nextLine().trim();
+                    if(input.matches("logout"))
+                        logoutChangeMenu();
                     if (input.matches("back"))
                         return;
                     else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
@@ -176,14 +181,21 @@ public class CartMenu extends Menu {
 
     @Override
     public void help() {
-        System.out.println("show products\nview [productId]\n" +
-                "increase [productId]\ndecrease [productId]\nshow total price\npurchase");
+        System.out.println("show products\n" +
+                "view [productId]\n" +
+                "increase [productId]\n" +
+                "decrease [productId]\n" +
+                "show total price\n" +
+                "purchase\n"+
+                "logout");
     }
 
     @Override
     public void execute() {
         String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
+        if(input.matches("logout"))
+            logoutChangeMenu();
         if (input.matches("back")) {
             this.parentMenu.execute();
         } else if (input.matches("help")) {

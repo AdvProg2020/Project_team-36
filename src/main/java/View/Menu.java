@@ -47,15 +47,33 @@ public abstract class Menu {
         Menu.sellerController = new SellerController(user);
     }
 
+    public void logoutChangeMenu() {
+        Menu parent = this;
+        while (!(parent instanceof UserAreaMenu)) {
+            parent = parent.getParentMenu();
+        }
+        ((UserAreaMenu)parent).logout();
+        entryController.logout();
+        parent.getParentMenu().help();
+        parent.getParentMenu().execute();
+    }
+
+    public HashMap<String, Menu> getSubMenus() {
+        return subMenus;
+    }
+
     public void execute() {
         String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
         if (input.matches("back")) {
             parentMenu.execute();
+
         } else if (input.matches("help")) {
             help();
-            execute();
-        } else {
+            this.execute();
+        } else if (input.matches("logout")) {
+            logoutChangeMenu();
+        }else{
             for (String regex : subMenus.keySet()) {
                 if (input.matches(regex)) {
                     chosenMenu = subMenus.get(regex);

@@ -21,7 +21,10 @@ public class MainMenu extends Menu {
         if (input.matches("help")) {
             help();
             execute();
-        } else {
+        } else if(input.matches("logout")&&subMenus.get("user\\s+area").getSubMenus().containsKey("UserMenu")){
+            logoutChangeMenu();
+        }
+        else {
             for (String regex : subMenus.keySet()) {
                 if (input.matches(regex)) {
                     chosenMenu = subMenus.get(regex);

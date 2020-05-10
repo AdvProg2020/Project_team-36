@@ -13,7 +13,9 @@ public class PurchaseMenu extends Menu {
 
     @Override
     public void help() {
-        System.out.println("purchase");
+        System.out.println("purchase\n" +
+                "back\n" +
+                "logout");
     }
 
     @Override
@@ -24,6 +26,8 @@ public class PurchaseMenu extends Menu {
                 help();
             else if(input.matches("back"))
                 this.parentMenu.execute();
+            else if(input.matches("logout"))
+                logoutChangeMenu();
             else
                 System.err.println("invalid command!Try again please");
         }

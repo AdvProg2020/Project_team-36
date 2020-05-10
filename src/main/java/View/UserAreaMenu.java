@@ -22,7 +22,9 @@ public class UserAreaMenu extends Menu{
     }
 
     @Override
-    public void help() {}
+    public void help() {
+        System.out.println("User Area Menu!");
+    }
 
     @Override
     public void execute() {
