@@ -1,7 +1,7 @@
 package View;
 
 public class ManageCategoriesMenu extends Menu {
-
+    private String category;
 
     public ManageCategoriesMenu( Menu parentMenu) {
         super("ManageCategories",parentMenu);
@@ -17,8 +17,9 @@ public class ManageCategoriesMenu extends Menu {
                 "logout");
     }
 
+    @Override
+    public void execute() {
+        String input;
 
-
-
-
+    }
 }

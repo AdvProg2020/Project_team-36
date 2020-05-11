@@ -26,6 +26,21 @@ public abstract class Menu {
         this.subMenus = new HashMap<>();
     }
 
+    public void logoutChangeMenu() {
+        Menu parent = this;
+        while (!(parent instanceof UserAreaMenu)) {
+            parent = parent.getParentMenu();
+        }
+        ((UserAreaMenu)parent).logout();
+        entryController.logout();
+        parent.getParentMenu().help();
+        parent.getParentMenu().execute();
+    }
+
+    public HashMap<String, Menu> getSubMenus() {
+        return subMenus;
+    }
+
     public Menu getParentMenu() {
         return parentMenu;
     }

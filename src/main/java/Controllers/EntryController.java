@@ -19,6 +19,10 @@ public class EntryController extends UserController  {
         }
     }
 
+    public void logout(){
+        this.userVariables.setLoggedInUser(null);
+    }
+
     public void setUserNameLogin(String username) throws InvalidUsernameException{
         if(!User.isThereUsername(username)){
             throw new InvalidUsernameException("There is no user with this username");

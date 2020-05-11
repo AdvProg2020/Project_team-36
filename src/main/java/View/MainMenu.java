@@ -17,15 +17,25 @@ public class MainMenu extends Menu {
     public void execute() {
         String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
-        for (String subMenu : subMenus.keySet()) {
-            if(input.matches(subMenu)){
-                chosenMenu = subMenus.get(subMenu);
+
+        if (input.matches("help")) {
+            help();
+            execute();
+        } else if(input.matches("logout")&&subMenus.get("user\\s+area").getSubMenus().containsKey("UserMenu")){
+            logoutChangeMenu();
+        }
+        else {
+            for (String regex : subMenus.keySet()) {
+                if (input.matches(regex)) {
+                    chosenMenu = subMenus.get(regex);
+                    break;
+                }
             }
         }
-        if(chosenMenu != null)
+        if (chosenMenu != null)
             chosenMenu.execute();
-        else{
-            System.err.println("Invalid input! Try again please");
+        else {
+            System.err.println("Invalid command! Try again please!");
             this.execute();
         }
     }
