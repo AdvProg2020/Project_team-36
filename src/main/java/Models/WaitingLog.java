@@ -58,12 +58,14 @@ public class WaitingLog {
         return payable;
     }
 
-    public void applyCreditChanges() {
+    public void applyPurchaseChanges() {
         this.customer.decreaseCredit(this.getPayablePrice());
         for (SelectedItem item : allSelectedItems) {
             for (Seller seller : item.getSellers()) {
                 long amount = item.getSellerTotalPrice(seller);
                 seller.increaseCredit(amount);
+                int count= item.getCountFromEachSeller().get(item.getSellers().indexOf(seller));
+                item.getProduct().getProductFieldBySeller(seller).buyFromSeller(count);
             }
         }
     }

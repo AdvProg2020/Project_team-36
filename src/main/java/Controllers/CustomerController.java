@@ -174,7 +174,8 @@ public class CustomerController extends UserController {
             waitingLog.removeDiscount();
             throw new NotEnoughMoney(waitingLog.getPayablePrice() - customer.getCredit());
         }
-        waitingLog.applyCreditChanges();
+        waitingLog.applyPurchaseChanges();
+        waitingLog.addCustomerToBuyers();
         SellerLog.createSellerLogs(waitingLog);
         CustomerLog log = CustomerLog.createCustomerLog(waitingLog);
         return log;
