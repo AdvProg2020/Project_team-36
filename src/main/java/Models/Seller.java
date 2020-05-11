@@ -8,6 +8,8 @@ public class Seller extends User implements Pendable,Packable {
     private ArrayList<Product> allProducts;
     private ArrayList<Sale> allSales;
     private long credit;
+    private String companyName;
+    private String companyInfo;
 
     public Seller(String username){
         super(username);

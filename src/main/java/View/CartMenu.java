@@ -38,11 +38,14 @@ public class CartMenu extends Menu {
                     System.out.println("There is nothing to show!");
                     return;
                 }
-                System.out.format("%20s%9s%s", "Product name", "ProductId", "count in cart");
+                System.out.format("%20s%9s%s%s", "Product name", " ProductId  ", "  count in cart  ","Availability");
                 for (SelectedItem item : cart) {
                     Product product = item.getProduct();
-                    System.out.format("%20s%9d%10d", product.getName(), product.getProductId(), item.getCount());
+                    System.out.format("%20s%9d%10d%s", product.getName(), product.getProductId(), item.getCount(),item.getTag());
                 }
+                System.err.println("NOTE:");
+                System.out.println("If one or more items in your cart are not available, you can edit them of if you want to purchase," +
+                        " we automatically edit your cart!");
             }
         };
     }

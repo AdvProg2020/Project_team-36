@@ -34,11 +34,13 @@ public class EnterDiscountCodeMenu extends Menu {
                 System.err.println("Invalid type of discount code! Try again or press next");
             }
         }
-        if (input.matches("back"))
-            this.parentMenu.execute();
+        if (input.matches("back")){
+            customerController.cancelPurchase();
+            this.parentMenu.execute();}
         else if (input.matches("next")) {
             subMenus.get("Purchase Menu").execute();
         }else if(input.matches("logout")){
+            customerController.cancelPurchase();
             logoutChangeMenu();
         }
     }

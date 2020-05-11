@@ -16,8 +16,8 @@ public class ReceiveInformationMenu extends Menu {
 
     @Override
     public void execute() {
-        if (customerController.getCart().isEmpty()) {
-            System.err.println("There is nothing in your cart! Returning to cart menu...");
+        if (customerController.isThereAvailableItemInCart()) {
+            System.err.println("There is nothing available in your cart! Returning to cart menu...");
             return;
         }
         String input;
@@ -26,8 +26,8 @@ public class ReceiveInformationMenu extends Menu {
             return;
         else if (input.matches("logout"))
             logoutChangeMenu();
-        customerController.setAddressForPurchase(input);
 
+        customerController.setAddressForPurchase(input);
         System.out.println("Enter your phone number:");
         while (!(input = scanner.nextLine().trim()).matches("back|logout")) {
             if (input.matches("\\d+")) {

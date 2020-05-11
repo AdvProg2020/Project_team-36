@@ -43,15 +43,18 @@ public class Customer extends User implements Packable {
     }
 
     public ArrayList<SelectedItem> getCart() {
-        return cart;
+        for (SelectedItem selectedItem : this.cart) {
+            selectedItem.checkTag();
+        }
+        return this.cart;
+    }
+
+    public WaitingLog getWaitingLog(){
+        return this.waitingLog;
     }
 
     public void setWaitingLog(WaitingLog waitingLog) {
         this.waitingLog = waitingLog;
-    }
-
-    public WaitingLog getWaitingLog() {
-        return waitingLog;
     }
 
     public boolean isThereLog(int logId) {
