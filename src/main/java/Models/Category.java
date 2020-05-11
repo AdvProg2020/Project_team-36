@@ -10,6 +10,8 @@ public class Category implements Packable {
     private ArrayList<Category> subCategories;
     private ArrayList<Product> products;
     private static ArrayList<Category> allCategories = new ArrayList<>();
+    private static Category mainCategory = new Category();
+
 
     public String getName() {
         return name;

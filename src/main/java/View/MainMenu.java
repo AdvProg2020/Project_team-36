@@ -15,7 +15,7 @@ public class MainMenu extends Menu {
 
     @Override
     public void execute() {
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
         for (String subMenu : subMenus.keySet()) {
             if(input.matches(subMenu)){

@@ -3,7 +3,7 @@ package Models;
 import java.util.ArrayList;
 
 public class Product implements Pendable,Packable {
-    private static ArrayList<Product> allProducts = new ArrayList<Product>();
+    private static ArrayList<Product> allProducts = new ArrayList<>();
     private int productId;
     private String name;
     private String company;
