@@ -9,16 +9,12 @@ import java.util.HashMap;
 public class ManagerController extends UserController{
     GlobalVariables userVariables;
     private HashMap<Integer,String> giftEvents;
-    private HashMap<Integer,String> giftActions;
     public ManagerController(GlobalVariables userVariables) {
         super(userVariables);
         giftEvents = new HashMap<>();
-        giftActions = new HashMap<>();
-        giftActions.put(1,"discount in current log");
-        giftActions.put(2, "give discount code");
-        giftEvents.put(1," first buy gift");
-        giftEvents.put(2,"high log price event");
-        giftEvents.put(3," periodic gift");
+        giftEvents.put(1,"first buy gift");
+        giftEvents.put(2,"high log price gift");
+        giftEvents.put(3,"periodic gift");
 
     }
 
@@ -48,14 +44,6 @@ public class ManagerController extends UserController{
 
     public HashMap<Integer,String> getGiftEventsName(){
         return this.giftEvents;
-    }
-
-    public HashMap<Integer,String> getGiftActionsName(){
-        return this.giftActions;
-    }
-
-    public void createGift(int event,int action){
-
     }
 
 

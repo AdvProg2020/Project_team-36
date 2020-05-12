@@ -8,6 +8,11 @@ public class FirstBuyEvent implements Event {
     private Date start;
     private Date end;
 
+    public FirstBuyEvent(Date start, Date end) {
+        this.start = start;
+        this.end = end;
+    }
+
     @Override
     public Boolean isEventActive(WaitingLog waitingLog) {
         if(this.checkDate()){

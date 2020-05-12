@@ -7,8 +7,14 @@ import java.util.Date;
 public class HighPriceEvent implements Event{
     private Date start;
     private Date end;
-   private  Long minimumLogPrice;
+    private Long minimumLogPrice;
 
+
+    public HighPriceEvent(Date start, Date end, Long minimumLogPrice) {
+        this.start = start;
+        this.end = end;
+        this.minimumLogPrice = minimumLogPrice;
+    }
 
     @Override
     public Boolean isEventActive(WaitingLog waitingLog) {

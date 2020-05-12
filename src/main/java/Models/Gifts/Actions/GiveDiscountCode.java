@@ -7,6 +7,10 @@ import Models.WaitingLog;
 public class GiveDiscountCode implements Action {
     private Discount discount;
 
+    public GiveDiscountCode(Discount discount) {
+        this.discount = discount;
+    }
+
     @Override
     public void action(WaitingLog waitingLog) {
         Customer customer = waitingLog.getCustomer();

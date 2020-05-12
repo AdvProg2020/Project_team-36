@@ -20,6 +20,7 @@ public class Gift {
         this.name = name;
         this.action = action;
         this.event = event;
+        allGifts.add(this);
     }
 
     public void setEvent(Event event) {
