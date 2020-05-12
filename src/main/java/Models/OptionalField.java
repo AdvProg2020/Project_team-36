@@ -11,6 +11,11 @@ public class OptionalField implements Field {
         return name;
     }
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getOption() {
         return option;
     }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class CategoryController {
     private Category category;
+    Field field;
 
 
     public Category getMainCategory() {
@@ -36,7 +37,7 @@ public class CategoryController {
             parentCategory = allCategories.get(i - 1);
 
         category.setParentCategory(parentCategory);
-        category.setParentCategoriesFields();
+
     }
 
     public void setIntegerField(String name) throws ThereIsFieldWithNameException {
@@ -55,6 +56,45 @@ public class CategoryController {
         category.addCategory();
     }
 
+    public void editCategory(String name) throws InvalidCategoryName{
+        for (Category category : Category.getAllCategories()) {
+            if(category.getName().equalsIgnoreCase(name)){
+                this.category = category;
+                return;
+            }
+        }
+        throw new InvalidCategoryName();
+    }
+
+    public void editName(String name){
+        this.category.setName(name);
+    }
+
+    public Category getPendableCategory(){
+        return this.category;
+    }
+
+    public void editField(String name)throws NoFieldWithNameException{
+        for (Field field : this.category.getAllFields()) {
+            if(field.getName().equalsIgnoreCase(name)){
+                this.field = field;
+            return;}
+        }
+        throw new NoFieldWithNameException();
+    }
+
+    public void renameField(String newName) throws ThereIsFieldWithNameException,ThereIsFieldWithNameInSubCategory{
+        if(category.isThereField(newName))
+            throw new ThereIsFieldWithNameException();
+        if(category.isThereFieldInSubCategoryDifferentType(this.field,newName)!=null)
+            throw new ThereIsFieldWithNameInSubCategory(category.isThereFieldInSubCategoryDifferentType(this.field,newName));
+        this.category.renameField(this.field,newName);
+    }
+
+    public void removeField(String name){
+        category.removeField(name);
+    }
+
 
     public static class InvalidCategoryName extends Exception {
 
@@ -62,5 +102,21 @@ public class CategoryController {
 
     public static class ThereIsFieldWithNameException extends Exception {
 
+    }
+
+    public static class NoFieldWithNameException extends Exception{
+
+    }
+
+    public static class ThereIsFieldWithNameInSubCategory extends Exception{
+        Category category;
+
+        public ThereIsFieldWithNameInSubCategory(Category category) {
+            this.category = category;
+        }
+
+        public Category getCategory() {
+            return category;
+        }
     }
 }

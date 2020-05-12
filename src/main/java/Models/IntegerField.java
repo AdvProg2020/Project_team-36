@@ -12,6 +12,11 @@ public class IntegerField implements Field{
         return name;
     }
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getQuantity() {
         return quantity;
     }
