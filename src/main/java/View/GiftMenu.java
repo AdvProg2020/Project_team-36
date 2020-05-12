@@ -33,7 +33,6 @@ public class GiftMenu extends Menu {
     @Override
     public void execute() {
         HashMap<Integer,String> eventName = managerController.getGiftEventsName();
-       // HashMap<Integer,String> actionNAme = managerController.getGiftActionsName();
         Matcher matcher;
         Menu chosenMenu = null;
         String input;
@@ -182,29 +181,8 @@ public class GiftMenu extends Menu {
     }
 
     private void addGiveDiscountCodeAsAction(GiftController giftController){
-        System.out.println("choose the discount code you want to give as a gift:");
-        int number = 1;
-        for (Discount discountCode : managerController.getAllDiscountCodes()) {
-            System.out.println(number + ") " + discountCode.getId());
-            number += 1;
-        }
-        while (true){
-            String input = scanner.nextLine().trim();
-            if(input.matches("back")){
-                this.parentMenu.execute();
-            } else {
-                try {
-                    int id = Integer.parseInt(input);
-                    Discount discount = managerController.getDiscountWithId(id);
-                    giftController.setDiscount(discount);
-                    return;
-                } catch (ManagerController.InvalidDiscountIdException invalidIdError) {
-                    System.err.println(invalidIdError.getMessage());
-                } catch (NumberFormatException e){
-                    System.err.println("you can't write anything but numbers as id");
-                }
-            }
-        }
+        CreateDiscountCodeMenu createDiscountCodeMenu = new CreateDiscountCodeMenu(this.parentMenu);
+        giftController.setDiscount(createDiscountCodeMenu.newCodeForGift());
     }
 
     private void addDiscountInCurrentLogAsAction(GiftController giftController){
