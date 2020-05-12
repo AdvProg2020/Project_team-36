@@ -1,13 +1,5 @@
 package View;
 
-import Controllers.DiscountController;
-import Controllers.ManagerController;
-import Models.Customer;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class ManagerMenu extends Menu {
 
     public ManagerMenu(Menu parentMenu) {

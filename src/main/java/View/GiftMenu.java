@@ -1,14 +1,8 @@
 package View;
 
-import Controllers.DiscountController;
 import Controllers.GiftController;
-import Controllers.ManagerController;
-import Models.Discount;
-import Models.Gifts.Gift;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -297,12 +291,4 @@ public class GiftMenu extends Menu {
         }
     }
 
-
-
-            private void getEventInformation(int event){
-        ArrayList<String> data = new ArrayList<>();
-        String input;
-        System.out.println("write ");
-
-    }
 }
