@@ -12,9 +12,9 @@ public class ManageCategoriesMenu extends Menu {
 
     public ManageCategoriesMenu(Menu parentMenu) {
         super("ManageCategories", parentMenu);
-        subMenus.put("edit\\s+(\\D+)", getEditCategoryMenu());
+        //subMenus.put("edit\\s+(\\D+)", getEditCategoryMenu());
         subMenus.put("add\\s+(\\D+)", getAddCategoryMenu());
-        subMenus.put("remove\\s+(\\D+)", getRemoveCategoryMenu());
+        //subMenus.put("remove\\s+(\\D+)", getRemoveCategoryMenu());
     }
 
     @Override
@@ -61,8 +61,8 @@ public class ManageCategoriesMenu extends Menu {
                     i++;
                 }
                 System.out.println("enter the number of category you want to put this in,or press 0 if you dont want it to be in any category");
-                String input = scanner.nextLine().trim();
                 while (true) {
+                    String input = scanner.nextLine().trim();
                     if (input.matches("back"))
                         throw new BackIsPressed();
                     else if (input.matches("logout"))
@@ -130,9 +130,7 @@ public class ManageCategoriesMenu extends Menu {
     private Menu getRemoveCategoryMenu() {
         return new Menu("removeCategoryMenu", this) {
             @Override
-            public void help() {
-
-            }
+            public void help() {}
         };
     }
 
