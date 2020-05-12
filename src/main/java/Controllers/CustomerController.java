@@ -110,6 +110,7 @@ public class CustomerController extends UserController {
         return ((Customer) userVariables.getLoggedInUser()).getCartPrice();
     }
 
+
     public HashMap<Discount, Integer> getDiscountCodes() {
 
         return ((Customer) userVariables.getLoggedInUser()).getAllDiscountsForCustomer();
