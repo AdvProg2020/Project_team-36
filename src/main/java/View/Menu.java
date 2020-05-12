@@ -89,4 +89,10 @@ public abstract class Menu {
         return pattern.matcher(input);
     }
 
+    public static class BackIsPressed extends Exception{
+
+    }
+
+    public static class LogoutIsPressesException extends Exception{}
+
 }

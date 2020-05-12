@@ -15,7 +15,7 @@ public class Category implements Packable {
     private static Category mainCategory = new Category("General Category");
 
 
-    public Category(String name){
+    public Category(String name) {
         this.name = name;
         this.categoryId = randomId();
         this.products = new ArrayList<>();
@@ -23,16 +23,25 @@ public class Category implements Packable {
         this.allFields = new HashSet<>();
     }
 
-    private int randomId(){
-        totalCategoriesMade+= 1;
+    private int randomId() {
+        totalCategoriesMade += 1;
         return totalCategoriesMade;
     }
 
-    public void setParentCategory(Category parentCategory) {
-        this.parentCategory = parentCategory;
+    public static ArrayList<Category> getAllCategories() {
+        return allCategories;
     }
 
-    public void addSubCategory(Category category){
+    public void setParentCategory(Category parentCategory) {
+            this.parentCategory = parentCategory;
+    }
+
+    public void setParentCategoriesFields() {
+        HashSet<Field> fields = this.parentCategory.getAllFields();
+        this.allFields.addAll(fields);
+    }
+
+    public void addSubCategory(Category category) {
         this.subCategories.add(category);
     }
 
@@ -40,13 +49,38 @@ public class Category implements Packable {
         this.subCategories = subCategories;
     }
 
-    public void setField(Field field){
-        allFields.add(field);
+    public void setField(Field field) {
+        this.allFields.add(field);
     }
 
-    public static void addCategory(Category category){
-        allCategories.add(category);
-        category.getParentCategory().addSubCategory(category);
+    public boolean isThereIntegerField(String name) {
+        for (Field field : allFields) {
+            if (field.getName().equalsIgnoreCase(name) && field instanceof IntegerField)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean isThereOptionalField(String name) {
+        for (Field field : allFields) {
+            if (field.getName().equalsIgnoreCase(name) && field instanceof OptionalField)
+                return true;
+        }
+        return false;
+    }
+
+    public Field getField(String name){
+        for (Field field : allFields) {
+            if(field.getName().equalsIgnoreCase(name))
+                return field;
+        }
+        return null;
+    }
+
+
+    public void addCategory() {
+        allCategories.add(this);
+        this.getParentCategory().addSubCategory(this);
     }
 
     public String getName() {
@@ -59,6 +93,10 @@ public class Category implements Packable {
 
     public Category getParentCategory() {
         return parentCategory;
+    }
+
+    public static Category getMainCategory() {
+        return mainCategory;
     }
 
     public ArrayList<Category> getSubCategories() {
