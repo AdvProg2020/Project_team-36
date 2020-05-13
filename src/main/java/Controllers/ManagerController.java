@@ -205,6 +205,10 @@ public class ManagerController extends UserController {
         }
     }
 
+    public ArrayList<Product> getAllProducts(){
+        return Product.getAllProducts();
+    }
+
     private void writeDiscountFieldsSetters() {
         discountFieldsSetters.put("start\\s+time", "editDiscountStartTime");
         discountFieldsSetters.put("termination\\s+time", "editDiscountEndTime");
