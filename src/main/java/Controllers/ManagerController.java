@@ -24,6 +24,10 @@ public class ManagerController extends UserController {
         return !Manager.isMainManager(userVariables.getLoggedInUser().getUsername());
     }
 
+    public boolean usersTypeIsTheSame(String newType,User user){
+        return user.getType().equals(newType);
+    }
+
     public ArrayList<User> getAllUsers() {
         return User.getAllUsers();
     }
@@ -189,6 +193,13 @@ public class ManagerController extends UserController {
         }
     }
 
+//    public void changeTypeToManager(User user){
+//        if(Manager.isMainManager(userVariables.getLoggedInUser().getUsername())){
+//           // User.getAllUsers().remove(user);
+//            NewManagerController newManager
+//        }
+//    }
+
     public ArrayList<Request> getAllRequests(){
         return Request.getAllRequests();
     }
@@ -222,7 +233,6 @@ public class ManagerController extends UserController {
         discountFieldsSetters.put("customers\\s+included", "editDiscountCustomersIncluded");
     }
 
-
     public static class InvalidDiscountIdException extends Exception {
         public InvalidDiscountIdException(String message) {
             super(message);
@@ -249,6 +259,12 @@ public class ManagerController extends UserController {
 
     public static class InvalidRequestIdException extends Exception {
         public InvalidRequestIdException(String message) {
+            super(message);
+        }
+    }
+
+    public static class NotTheMainManagerException extends Exception {
+        public NotTheMainManagerException(String message) {
             super(message);
         }
     }

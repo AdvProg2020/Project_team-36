@@ -109,7 +109,36 @@ public class ManageUsersMenu extends Menu {
                 System.out.println("change the type of the user");
             }
 
+            @Override
+            public void execute() {
+                try {
+                    User user = managerController.getUserWithUsername(username);
+                    if(!role.matches("manager|seller|customer")){
+                        System.err.println("the desired type isn't valid");
+                        return;
+                    }else if(managerController.usersTypeIsTheSame(role,user)){
+                        System.err.println("users type is already what you want");
+                        return;
+                    } else {
+                        callChangeTypeMethod(user);
+                    }
+                } catch (ManagerController.InvalidUsernameException e){
+                    System.err.println(e.getMessage());
+                }
+            }
         };
+    }
+
+    private void callChangeTypeMethod(User user){
+        switch (role){
+            case "manager":
+
+                break;
+            case "seller":
+                //
+                break;
+            case "customer":
+        }
     }
 
     private Menu createManagerProfile() {
