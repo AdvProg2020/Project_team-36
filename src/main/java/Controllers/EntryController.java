@@ -1,9 +1,6 @@
 package Controllers;
 
-import Models.Customer;
-import Models.Manager;
-import Models.Seller;
-import Models.User;
+import Models.*;
 import View.*;
 
 public class EntryController extends UserController  {
@@ -17,10 +14,6 @@ public class EntryController extends UserController  {
         }else{
             userAreaMenu.newUserMenu(userVariables.getLoggedInUser().getType());
         }
-    }
-
-    public void logout(){
-        this.userVariables.setLoggedInUser(null);
     }
 
     public void setUserNameLogin(String username) throws InvalidUsernameException{
@@ -42,15 +35,35 @@ public class EntryController extends UserController  {
         }
     }
 
+    public void setCompany(String name){
+        ((Seller)userVariables.getLoggedInUser()).setCompanyName(name);
+    }
+
+    public void setCompanyInfo(String info){
+        ((Seller) userVariables.getLoggedInUser()).setCompanyInfo(info);
+    }
+
     public void register(){
-        User.addNewUser(userVariables.getLoggedInUser());
+        User user = userVariables.getLoggedInUser();
+        if(user instanceof Seller){
+            new Request((Seller) user);
+            return;
+        }
+        User.addNewUser(user);
+        if(user instanceof Manager)
+            Manager.addNewManager((Manager) user);
+        else if(user instanceof Customer)
+            Customer.addNewCustomer((Customer)user);
+    }
+
+    public void logout(){
+        this.userVariables.setLoggedInUser(null);
     }
 
     private void createNewAccount(String username, String type) throws ManagerExistsException {
         User newUser;
         if (type.matches("customer")) {
             newUser = new Customer(username);
-            userVariables.setLoggedInUser(newUser);
         } else if (type.matches("seller")) {
             newUser = new Seller(username);
         } else {
@@ -58,12 +71,11 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
-                Manager.setMainManager((Manager) newUser);
-                Manager.addNewManager((Manager) newUser);
             }
-            userVariables.setLoggedInUser(newUser);
         }
+        userVariables.setLoggedInUser(newUser);
     }
+
     public static class InvalidUsernameException extends Exception {
         public InvalidUsernameException(String message) {
             super(message);

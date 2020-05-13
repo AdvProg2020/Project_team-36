@@ -7,10 +7,10 @@ public class UserAreaMenu extends Menu{
     }
 
     public void newUserMenu(String type){
-       if(type.matches("manager"))
+        if(type.matches("manager"))
             this.subMenus.put("UserMenu",new ManagerMenu(this));
-        //else if(type.matches("customer"))
-           // this.subMenus.put("UserMenu", new CustomerMenu(this));
+        else if(type.matches("customer"))
+            this.subMenus.put("UserMenu", new CustomerMenu("CustomerMenu",this));
         //else if(type.matches("seller"))
         //    this.subMenus.put("UserMenu", new SellerMenu(this));
         //this.subMenus.remove("EntryMenu");
@@ -22,7 +22,9 @@ public class UserAreaMenu extends Menu{
     }
 
     @Override
-    public void help() {}
+    public void help() {
+        System.out.println("User Area Menu!");
+    }
 
     @Override
     public void execute() {

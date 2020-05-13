@@ -2,15 +2,18 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Customer extends User implements Packable{
+public class Customer extends User implements Packable {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
-    private ArrayList<Log> allLogs;
-    private ArrayList<Item> cart;
-    private HashMap<Discount,Integer> allDiscountsForCustomer;
+    private ArrayList<CustomerLog> allLogs;
+    private WaitingLog waitingLog;
+    private ArrayList<SelectedItem> cart;
+    private HashMap<Discount, Integer> allDiscountsForCustomer;
 
-    public Customer(String username){
+    public Customer(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
         this.cart = new ArrayList<>();
@@ -22,31 +25,47 @@ public class Customer extends User implements Packable{
         return "customer";
     }
 
-    public long getCredit() {
-        return credit;
+
+    public static void addNewCustomer(Customer customer) {
+        allCustomers.add(customer);
     }
 
-    public ArrayList<Log> getAllLogs() {
+    public long getCredit() {
+        return this.credit;
+    }
+
+    public void addNewLog(CustomerLog customerLog){
+        this.allLogs.add(customerLog);
+    }
+
+    public ArrayList<CustomerLog> getAllLogs() {
         return allLogs;
     }
 
-    public ArrayList<Item> getCart() {
-        return cart;
+    public ArrayList<SelectedItem> getCart() {
+        for (SelectedItem selectedItem : this.cart) {
+            selectedItem.checkTag();
+        }
+        return this.cart;
     }
 
-    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
-        return allDiscountsForCustomer;
+    public WaitingLog getWaitingLog(){
+        return this.waitingLog;
     }
 
-    public static ArrayList<Customer> getAllCustomers() {
-        return allCustomers;
+    public void setWaitingLog(WaitingLog waitingLog) {
+        this.waitingLog = waitingLog;
     }
 
-    public void setDiscountForCustomer(Discount discount) {
-        this.allDiscountsForCustomer.put(discount,discount.getRepetitionForEachUser());
+    public boolean isThereLog(int logId) {
+        for (CustomerLog log : allLogs) {
+            if (log.getId() == logId)
+                return true;
+        }
+        return false;
     }
 
-    public void removeDiscount(Discount discount){
+    public void removeDiscount(Discount discount) {
         allDiscountsForCustomer.remove(discount);
     }
 
@@ -58,16 +77,82 @@ public class Customer extends User implements Packable{
         return false;
     }
 
-    public void decreaseDiscountCode(Discount discount, int count){
+    public void decreaseDiscountCode(Discount discount, int count) {
         Integer oldValue = allDiscountsForCustomer.get(discount);
-        allDiscountsForCustomer.replace(discount,oldValue-count);
-        if(allDiscountsForCustomer.get(discount)<0)
-            allDiscountsForCustomer.replace(discount,0);
+        allDiscountsForCustomer.replace(discount, oldValue - count);
+        if (allDiscountsForCustomer.get(discount) < 0)
+            allDiscountsForCustomer.replace(discount, 0);
     }
 
-    public void increaseDiscountCode(Discount discount,int count){
+    public static ArrayList<Customer> getAllCustomers() {
+        return allCustomers;
+    }
+
+    public void increaseDiscountCode(Discount discount, int count) {
         Integer oldValue = allDiscountsForCustomer.get(discount);
-        allDiscountsForCustomer.replace(discount,oldValue+count);
+        allDiscountsForCustomer.replace(discount, oldValue + count);
+    }
+
+    public CustomerLog getLog(int logId) {
+        for (CustomerLog log : allLogs) {
+            if (log.getId() == logId) {
+                return log;
+            }
+        }
+        return null;
+    }
+
+    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
+        this.updateDiscounts();
+        return allDiscountsForCustomer;
+    }
+
+    private void updateDiscounts() {
+        Set<Discount> temp = new HashSet<>();
+        for (Discount discount : this.allDiscountsForCustomer.keySet()) {
+            if (!discount.isDiscountAvailable()) {
+                temp.add(discount);
+            }
+        }
+        this.allDiscountsForCustomer.keySet().removeAll(temp);
+
+    }
+
+    public void decreaseCredit(long totalDecrease){
+        this.credit -= totalDecrease;
+    }
+
+    public boolean isThereProductInCart(int productId) {
+        for (SelectedItem item : cart) {
+            if (item.getProduct().getProductId() == productId)
+                return true;
+        }
+        return false;
+    }
+
+    public SelectedItem getProductInCart(int productId) {
+        for (SelectedItem item : cart) {
+            if (item.getProduct().getProductId() == productId)
+                return item;
+        }
+        return null;
+    }
+
+    public void removeItemFromCart(SelectedItem item) {
+        this.cart.remove(item);
+    }
+
+    public void setDiscountForCustomer(Discount discount) {
+        this.allDiscountsForCustomer.put(discount, discount.getRepetitionForEachUser());
+    }
+
+
+    public long getCartPrice() {
+        long sum = 0;
+        for (SelectedItem item : cart) {
+            sum += item.getItemTotalPrice();
+        }
+        return sum;
     }
 
     public static boolean isThereCustomerWithUsername(String username){
@@ -75,6 +160,14 @@ public class Customer extends User implements Packable{
             if (customer.getUsername().equals(username)){
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean isThereDiscountCode(int discountCode) {
+        for (Discount discount : allDiscountsForCustomer.keySet()) {
+            if (discount.getId() == discountCode && allDiscountsForCustomer.get(discount) > 0)
+                return true;
         }
         return false;
     }
@@ -87,5 +180,5 @@ public class Customer extends User implements Packable{
         return null;
     }
 
-    //-..-
+
 }

@@ -12,7 +12,7 @@ public class Discount implements Packable {
     private double discountPercent;//bar hasbe darsad nist
     private long discountLimit;
     private int repetitionForEachUser;
-    private static int totalCodesMade = 0;
+    private int totalCodesMade = 0;
     private ArrayList<Customer> customersIncluded;
 
     public Discount(Date startTime, Date endTime, double discountPercent, long discountLimit, int repetitionForEachUser, ArrayList<Customer> customersIncluded) {
@@ -50,8 +50,24 @@ public class Discount implements Packable {
         return repetitionForEachUser;
     }
 
+    public long getPayableAfterDiscount(long totalPrice){
+        if(totalPrice*this.discountPercent>this.discountLimit){
+            return totalPrice-this.discountLimit;
+        }else{
+            return totalPrice - (long)(totalPrice*this.discountPercent);
+        }
+    }
+
     public ArrayList<Customer> getCustomersIncluded() {
         return customersIncluded;
+    }
+
+    public static Discount getDiscount(int id){
+        for (Discount discount : allDiscounts) {
+            if(discount.getId()== id)
+                return discount;
+        }
+        return null;
     }
 
     public static Discount getDiscountWithId(int id){
@@ -73,7 +89,7 @@ public class Discount implements Packable {
         return  "  id=" + id +
                 "\n  start time=" + formatter.format(startTime) +
                 "\n  end time=" + formatter.format(endTime) +
-                "\n  discount percent=" + (discountPercent*100) +
+                "\n  discount percent=" + discountPercent +
                 "\n  discount limit=" + discountLimit +
                 "\n  repetition for each user=" + repetitionForEachUser +
                 "\n  customers included=" + customersUsername
@@ -99,38 +115,6 @@ public class Discount implements Packable {
             }
         }
         return false;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setDiscountPercent(double discountPercent) {
-        this.discountPercent = discountPercent;
-    }
-
-    public void setDiscountLimit(long discountLimit) {
-        this.discountLimit = discountLimit;
-    }
-
-    public void setRepetitionForEachUser(int repetitionForEachUser) {
-        this.repetitionForEachUser = repetitionForEachUser;
-    }
-
-    public void setTotalCodesMade(int totalCodesMade) {
-        Discount.totalCodesMade = totalCodesMade;
-    }
-
-    public void setCustomersIncluded(ArrayList<Customer> customersIncluded) {
-        this.customersIncluded.addAll(customersIncluded);
-    }
-
-    public void removeCustomersIncluded(ArrayList<Customer> customersIncluded){
-        this.customersIncluded.removeAll(customersIncluded);
     }
 
     private int makeNewId(){

@@ -2,9 +2,9 @@ package Models;
 
 public class Score {
     private Customer customer;
-    private double score;
+    private int score;
 
-    public Score(Customer customer, double score) {
+    public Score(Customer customer, int score) {
         this.customer = customer;
         this.score = score;
     }
@@ -13,7 +13,7 @@ public class Score {
         return customer;
     }
 
-    public double getScore() {
+    public int getScore() {
         return score;
     }
 

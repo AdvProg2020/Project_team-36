@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DiscountController {
-
+    private Discount discount;
     private ArrayList<Customer> customersForDiscountCode;
     private Date startTime;
     private Date endTime;
@@ -53,7 +53,7 @@ public class DiscountController {
 
     public void setCustomersForDiscountCode(String username) throws InvalidUsernameException{
         if(!Customer.isThereCustomerWithUsername(username)){
-            throw new InvalidUsernameException("There is no customer with this username");
+            throw new DiscountController.InvalidUsernameException("There is no customer with this username");
         }
         else {
             customersForDiscountCode.add((Customer)Customer.getUserByUsername(username));
@@ -61,7 +61,7 @@ public class DiscountController {
     }
 
     public void finalizeTheNewDiscountCode(){
-        Discount discount = new Discount(startTime,endTime,discountPercent,discountLimit,repetitionForEachUser,customersForDiscountCode);
+        discount = new Discount(startTime,endTime,discountPercent,discountLimit,repetitionForEachUser,customersForDiscountCode);
         giveDiscountCodeToCustomers(discount);
     }
 
@@ -69,6 +69,10 @@ public class DiscountController {
         for (Customer customer : customersForDiscountCode) {
             customer.setDiscountForCustomer(discount);
         }
+    }
+
+    public Discount getDiscount(){
+        return discount;
     }
 
     public static class InvalidUsernameException extends Exception {

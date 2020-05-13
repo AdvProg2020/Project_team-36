@@ -3,8 +3,8 @@ package View;
 public class MainMenu extends Menu {
 
     public MainMenu() {
-        super("MainMenu",null);
-        this.subMenus.put("user\\s+area",new UserAreaMenu(this));
+        super("MainMenu", null);
+        this.subMenus.put("user\\s+area", new UserAreaMenu(this));
     }
 
 

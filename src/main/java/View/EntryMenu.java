@@ -24,19 +24,16 @@ public class EntryMenu extends Menu {
         Matcher matcher;
         if (input.matches("back")) {
             parentMenu.getParentMenu().execute();
-            return;
         }
         else if ((matcher = getMatcher(input, "create\\s+account\\s+(\\w+)\\s+(\\S+)")).matches()) {
             try {
                 entryController.setUsernameRegister(matcher.group(1), matcher.group(2));
-                registerProcess();
+                registerProcess(matcher.group(1));
                 System.out.println("register successful");
                 execute();
-                return;
             } catch (EntryController.InvalidUsernameException | EntryController.ManagerExistsException | EntryController.InvalidTypeException e) {
                 System.err.println(e.getMessage());
                 execute();
-                return;
             }
         } else if ((matcher = getMatcher(input, "login\\s+(\\S+)")).matches()) {
             try {
@@ -46,7 +43,6 @@ public class EntryMenu extends Menu {
             } catch (EntryController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
                 execute();
-                return;
             }
         } else if (input.equals("help")) {
             help();
@@ -57,14 +53,20 @@ public class EntryMenu extends Menu {
         }
     }
 
-    private void registerProcess() {
+    private void registerProcess(String type) {
         String input;
         System.out.print("password: ");
-        entryController.setPassword(scanner.nextLine());
+        entryController.setPassword(scanner.nextLine().trim());
         System.out.print("firstname: ");
-        entryController.setFirstname(scanner.nextLine());
+        entryController.setFirstname(scanner.nextLine().trim());
         System.out.print("lastname: ");
-        entryController.setLastname(scanner.nextLine());
+        entryController.setLastname(scanner.nextLine().trim());
+        if(type.equalsIgnoreCase("seller")){
+            System.out.println("company: ");
+            entryController.setCompany(scanner.nextLine().trim());
+            System.out.println("company information: ");
+            entryController.setCompanyInfo(scanner.nextLine().trim());
+        }
         System.out.println("email");
         while (true) {
             input = scanner.nextLine().trim();
@@ -77,7 +79,7 @@ public class EntryMenu extends Menu {
         }
         System.out.print("phoneNumber: ");
         while (true) {
-            input = scanner.nextLine();
+            input = scanner.nextLine().trim();
             if (input.matches("\\d+")) {
                 entryController.setPhoneNumber(input);
                 break;
@@ -97,14 +99,9 @@ public class EntryMenu extends Menu {
                 System.out.println("login successful");
                 break;
             } catch (EntryController.WrongPasswordException e) {
-                System.err.println(e.getMessage());
+                System.err.println("Wrong password!");
             }
         }
     }
 
-    public void execute(String username) {
-
-    }
-
-    //-..-
 }

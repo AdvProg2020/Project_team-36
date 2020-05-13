@@ -2,21 +2,38 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 public class ProductField {
     private ProductionStatus status;
-    private Long price;
+    private long price;
+    private Sale sale;
     private Seller seller;
     private int supply;
     private Date productionDate;
-    private ArrayList<Comment> allComments;
-    private ArrayList<Score> allScore;
+    private HashSet<Customer> allBuyers;
 
     public ProductionStatus getStatus() {
         return status;
     }
 
-    public Long getPrice() {
+    public long getCurrentPrice() {
+        if(this.sale == null||!sale.isSaleAvailable()){
+            return price;
+        }else{
+            return price - (long) (price*sale.getSalePercent());
+        }
+    }
+
+    public long getOfficialPrice(){
+        return this.price;
+    }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public long getPrice() {
         return price;
     }
 
@@ -28,16 +45,24 @@ public class ProductField {
         return supply;
     }
 
+    public HashSet<Customer> getAllBuyers() {
+        return allBuyers;
+    }
+
+    public void addBuyer(Customer buyer){
+        this.allBuyers.add(buyer);
+    }
+
     public Date getProductionDate() {
         return productionDate;
     }
 
-    public ArrayList<Comment> getAllComments() {
-        return allComments;
+    public void buyFromSeller(int count){
+        this.supply -= count;
     }
 
-    public ArrayList<Score> getAllScore() {
-        return allScore;
+    public void increaseSupply(int amount){
+        this.supply +=amount;
     }
 
     //-..-

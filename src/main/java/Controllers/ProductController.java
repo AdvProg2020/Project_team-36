@@ -6,5 +6,5 @@ public class ProductController {
         this.userVariables = userVariables;
     }
 
-    //-..-
+
 }
