@@ -19,4 +19,6 @@ public class GlobalVariables {
     public User getLoggedInUser() {
         return loggedInUser;
     }
+
+    //-..-
 }

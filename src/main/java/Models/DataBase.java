@@ -16,4 +16,6 @@ public class DataBase {
 
     public void writeJson(List<Object> objects){
     }
+
+    //-..-
 }

@@ -16,4 +16,6 @@ public class Score {
     public double getScore() {
         return score;
     }
+
+    //-..-
 }

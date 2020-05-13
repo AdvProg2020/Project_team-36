@@ -44,4 +44,6 @@ public class Manager extends User implements Packable {
     public Object unpack(Data data) {
         return null;
     }
+
+    //-..-
 }

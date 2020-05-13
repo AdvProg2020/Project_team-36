@@ -19,4 +19,6 @@ public class OptionalField implements Field {
     public String getOption() {
         return option;
     }
+
+    //-..-
 }

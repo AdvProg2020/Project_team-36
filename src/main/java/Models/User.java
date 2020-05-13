@@ -114,4 +114,6 @@ public abstract class User implements Packable{
     public Object unpack(Data data) {
         return null;
     }
+
+    //-..-
 }

@@ -86,4 +86,6 @@ public class Customer extends User implements Packable{
     public Object unpack(Data data) {
         return null;
     }
+
+    //-..-
 }

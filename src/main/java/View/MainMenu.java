@@ -39,4 +39,6 @@ public class MainMenu extends Menu {
             this.execute();
         }
     }
+
+    //-..-
 }

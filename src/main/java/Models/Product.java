@@ -105,4 +105,6 @@ public class Product implements Pendable,Packable {
     public String getPendingRequestType() {
         return "product";
     }
+
+    //-..-
 }

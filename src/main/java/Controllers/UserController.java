@@ -25,4 +25,6 @@ public abstract class UserController {
     public void setPhoneNumber(String phoneNumber){
         this.userVariables.getLoggedInUser().setPhoneNumber(phoneNumber);
     }
+
+    //-..-
 }

@@ -22,4 +22,6 @@ public class RangeFilter implements Filter{
     public ArrayList<Product> filter(ArrayList<Product> products) {
         return null;
     }
+
+    //-..-
 }

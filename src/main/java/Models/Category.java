@@ -216,4 +216,6 @@ public class Category implements Packable {
     public Object unpack(Data data) {
         return null;
     }
+
+    //-..-
 }

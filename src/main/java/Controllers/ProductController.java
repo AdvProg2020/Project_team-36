@@ -5,4 +5,6 @@ public class ProductController {
     public ProductController(GlobalVariables userVariables) {
         this.userVariables = userVariables;
     }
+
+    //-..-
 }

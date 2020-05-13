@@ -82,4 +82,6 @@ public class DiscountController {
             super(message);
         }
     }
+
+    //-..-
 }

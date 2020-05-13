@@ -7,4 +7,6 @@ public class Sort {
     public static void sort(ArrayList<Object> toBeSorted, Method sortingMethod ){
 
     }
+
+    //-..-
 }

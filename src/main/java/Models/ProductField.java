@@ -39,4 +39,6 @@ public class ProductField {
     public ArrayList<Score> getAllScore() {
         return allScore;
     }
+
+    //-..-
 }

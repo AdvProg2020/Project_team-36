@@ -20,4 +20,6 @@ public class IntegerField implements Field{
     public int getQuantity() {
         return quantity;
     }
+
+    //-..-
 }

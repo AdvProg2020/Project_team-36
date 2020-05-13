@@ -55,4 +55,6 @@ public class Seller extends User implements Pendable,Packable {
                 "    company: " + companyName + '\n'
                 ;
     }
+
+    //-..-
 }

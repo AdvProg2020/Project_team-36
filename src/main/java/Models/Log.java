@@ -54,4 +54,6 @@ public class Log implements Packable {
     public Object unpack(Data data) {
         return null;
     }
+
+    //-..-
 }

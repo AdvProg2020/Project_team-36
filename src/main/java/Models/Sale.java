@@ -48,4 +48,6 @@ public class Sale implements Pendable {
     public String getPendingRequestType() {
         return "sale";
     }
+
+    //-..-
 }

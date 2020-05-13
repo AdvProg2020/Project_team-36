@@ -26,4 +26,6 @@ public class Comment {
     public boolean isHasBought() {
         return hasBought;
     }
+
+    //-..-
 }

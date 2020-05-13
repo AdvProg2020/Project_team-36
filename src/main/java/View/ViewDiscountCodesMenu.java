@@ -206,4 +206,6 @@ public class ViewDiscountCodesMenu extends Menu {
             }
         };
     }
+
+    //-..-
 }

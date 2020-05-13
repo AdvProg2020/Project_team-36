@@ -17,4 +17,6 @@ public class OptionalFilter implements Filter {
     public int getFilterType() {
         return filterType;
     }
+
+    //-..-
 }
