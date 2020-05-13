@@ -95,6 +95,22 @@ public class CategoryController {
         category.removeField(name);
     }
 
+    public void addField(String name,String type) throws ThereIsFieldWithNameException, ThereIsFieldWithNameInSubCategory {
+        if(type.equals("IntegerField"))
+           field = new IntegerField(name);
+        else
+            field = new OptionalField(name);
+       if( category.isThereField(name))
+           throw new ThereIsFieldWithNameException();
+       else if(category.isThereFieldInSubCategoryDifferentType(field,name)!= null)
+           throw new ThereIsFieldWithNameInSubCategory(category.isThereFieldInSubCategoryDifferentType(field,name));
+       else{
+           category.addField(field);
+       }
+
+
+    }
+
 
     public static class InvalidCategoryName extends Exception {
 

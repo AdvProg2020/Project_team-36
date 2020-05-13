@@ -137,8 +137,6 @@ public class ManageCategoriesMenu extends Menu {
                         help();
                     else if (input.equalsIgnoreCase("name"))
                         editName();
-                    else if (input.matches("parent category"))
-                        editParentCategory();
                     else if (input.equalsIgnoreCase("fields"))
                         editField();
                     else
@@ -159,26 +157,20 @@ public class ManageCategoriesMenu extends Menu {
         System.out.println("Edit completed");
     }
 
-    //TODO edit parent!
-    private void editParentCategory() {
-        System.out.println("NOTE: If you change parent category,all the subcategories and subproducts are going to be moved!" +
-                "Also the fields of products and categories are going to change\nAll categories:");
-        printCategoryTree(Category.getMainCategory());
-        System.out.println("Enter name of the category you want to put this category into or type \"global\" if it is not in a category ");
-    }
 
     private void editField() {
         System.out.println("Current fields:");
         for (Field field : categoryController.getPendableCategory().getAllFields()) {
             System.out.println(field.getName() + "  type:" + field.getClass().getSimpleName());
         }
-        System.out.println("enter one of these commands:\nrename [field]\nadd [field]\nremove [field]\nchange type of [field]");
+        System.out.println("enter one of these commands:\nrename [field]\nadd [field]\nremove [field]");
         String input = scanner.nextLine().trim();
         if (input.matches("rename (\\D+)"))
             renameField(input.split(" ")[1]);
-        else if(input.matches("remove (\\D+)"))
+        else if (input.matches("remove (\\D+)"))
             removeField(input.split(" ")[1]);
-        //TODO write add and change type of field
+        else if (input.matches("add (\\D+)"))
+            addField(input.split(" ")[1]);
 
     }
 
@@ -193,21 +185,52 @@ public class ManageCategoriesMenu extends Menu {
         try {
             categoryController.renameField(scanner.nextLine().trim());
             System.out.println("Field renamed successfully!");
-        } catch(CategoryController.ThereIsFieldWithNameException e){
+        } catch (CategoryController.ThereIsFieldWithNameException e) {
             System.out.println("There is field with this name in your category!");
-        }catch(CategoryController.ThereIsFieldWithNameInSubCategory e){
-            System.out.println("There is field with this name in "+e.getCategory().getName()+" category. you have to remove it first");
+        } catch (CategoryController.ThereIsFieldWithNameInSubCategory e) {
+            System.out.println("There is field with this name in " + e.getCategory().getName() + " category. you have to remove it first");
         }
 
     }
 
-    private void removeField(String name){
+    private void removeField(String name) {
         try {
             categoryController.editField(name);
             categoryController.removeField(name);
         } catch (CategoryController.NoFieldWithNameException e) {
             System.out.println("there is no field with this name!");
             return;
+        }
+    }
+
+    private void addField(String name) {
+        String input;
+        System.out.println("What type is this field?Enter the number:\n1.Integer field\n2.Optional field");
+        System.out.println("Hint:Numerical fields can only get numbers but optional fields can have any type of data");
+
+        while ((input = scanner.nextLine().trim()).matches("back|logout")) {
+            if (input.matches("\\d+")) {
+                int number = Integer.parseInt(input);
+                try {
+                    if (number == 1)
+                        categoryController.addField(name, "IntegerField");
+                    else if (number == 2)
+                        categoryController.addField(name, "OptionalField");
+                    else
+                        System.err.println("invalid number!");
+                } catch (CategoryController.ThereIsFieldWithNameException e) {
+                    System.err.println("There is a field with this name in category!");
+                } catch (CategoryController.ThereIsFieldWithNameInSubCategory e) {
+                    System.err.println("There is a field with another type in the subCategory" + e.getCategory().getName());
+                }
+            } else {
+                System.err.println("invalid command!");
+            }
+        }
+        if (input.matches("back")) {
+            this.parentMenu.execute();
+        } else if (input.matches("logout")) {
+            logoutChangeMenu();
         }
     }
 

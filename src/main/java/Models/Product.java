@@ -71,6 +71,18 @@ public class Product implements Pendable,Packable {
         }
     }
 
+    public void addField(Field field){
+        fieldsOfCategory.add(field);
+    }
+
+    public boolean isThereField(String name){
+        for (Field field : fieldsOfCategory) {
+            if(field.getName().equalsIgnoreCase(name))
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return  "    productId: " + productId + '\n' +

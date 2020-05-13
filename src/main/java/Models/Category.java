@@ -194,6 +194,19 @@ public class Category implements Packable {
         }
     }
 
+    public void addField(Field field){
+        this.setField(field);
+        for (Category subCategory : this.getAllSubCategories()) {
+            if(!subCategory.isThereField(field.getName()))
+           subCategory.setField(field);
+        }
+        for (Product product : this.getAllSubProducts()) {
+            if(!product.isThereField(field.getName()))
+            product.addField(field);
+        }
+    }
+
+
     public Data pack(Object object) {
         return null;
     }
