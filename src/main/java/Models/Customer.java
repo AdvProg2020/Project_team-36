@@ -34,7 +34,7 @@ public class Customer extends User implements Packable {
         return this.credit;
     }
 
-    public void addNewLog(CustomerLog customerLog){
+    public void addNewLog(CustomerLog customerLog) {
         this.allLogs.add(customerLog);
     }
 
@@ -49,7 +49,7 @@ public class Customer extends User implements Packable {
         return this.cart;
     }
 
-    public WaitingLog getWaitingLog(){
+    public WaitingLog getWaitingLog() {
         return this.waitingLog;
     }
 
@@ -75,6 +75,28 @@ public class Customer extends User implements Packable {
                 return true;
         }
         return false;
+    }
+
+    public void decreaseDiscountCode(Discount discount, int count) {
+        Integer oldValue = allDiscountsForCustomer.get(discount);
+        allDiscountsForCustomer.replace(discount, oldValue - count);
+        if (allDiscountsForCustomer.get(discount) < 0)
+            allDiscountsForCustomer.replace(discount, 0);
+    }
+
+    public void increaseDiscountCode(Discount discount, int count) {
+        Integer oldValue = allDiscountsForCustomer.get(discount);
+        allDiscountsForCustomer.replace(discount, oldValue + count);
+    }
+
+    public static boolean isThereCustomerWithUsername(String username) {
+        public boolean isThereDiscountCode ( int discountCode){
+            for (Discount discount : allDiscountsForCustomer.keySet()) {
+                if (discount.getId() == discountCode && allDiscountsForCustomer.get(discount) > 0)
+                    return true;
+            }
+            return false;
+        }
     }
 
     public void decreaseDiscountCode(Discount discount, int count) {
@@ -118,7 +140,7 @@ public class Customer extends User implements Packable {
 
     }
 
-    public void decreaseCredit(long totalDecrease){
+    public void decreaseCredit(long totalDecrease) {
         this.credit -= totalDecrease;
     }
 
@@ -171,6 +193,4 @@ public class Customer extends User implements Packable {
     public Object unpack(Data data) {
         return null;
     }
-
-
 }

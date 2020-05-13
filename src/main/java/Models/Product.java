@@ -63,6 +63,14 @@ public class Product implements Pendable,Packable {
         return fieldsOfCategory;
     }
 
+    public Field getField(String name){
+        for (Field field : fieldsOfCategory) {
+            if(field.getName().equalsIgnoreCase(name))
+                return field;
+        }
+        return null;
+    }
+
     public String getInformation() {
         return information;
     }
@@ -79,6 +87,47 @@ public class Product implements Pendable,Packable {
 
     public ArrayList<ProductField> getProductFields() {
         return productFields;
+    }
+
+    public void renameField(String oldName,String newName){
+        for (Field field : fieldsOfCategory) {
+            if(field.getName().equalsIgnoreCase(newName)){
+                this.fieldsOfCategory.remove(this.getField(oldName));
+                return;
+            }
+        }
+        this.getField(oldName).setName(newName);
+    }
+
+    public void removeField(String name){
+        for (Field field : fieldsOfCategory) {
+            if(field.getName().equalsIgnoreCase(name)) {
+                fieldsOfCategory.remove(field);
+                return;
+            }
+        }
+    }
+
+    public void addField(Field field){
+        fieldsOfCategory.add(field);
+    }
+
+    public boolean isThereField(String name){
+        for (Field field : fieldsOfCategory) {
+            if(field.getName().equalsIgnoreCase(name))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return  "    productId: " + productId + '\n' +
+                "    name: " + name + '\n' +
+                "    company: " + company + '\n' +
+                "    category: " + category + '\n' +
+                "    information: " + information + '\n'
+                ;
     }
 
     public void addScore(Score score){
@@ -99,6 +148,11 @@ public class Product implements Pendable,Packable {
 
     public Object unpack(Data data) {
         return null;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "product";
     }
 
     public ProductField getProductFieldBySeller(Seller seller){

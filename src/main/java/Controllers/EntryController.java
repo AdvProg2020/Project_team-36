@@ -16,6 +16,10 @@ public class EntryController extends UserController  {
         }
     }
 
+    public void logout(){
+        this.userVariables.setLoggedInUser(null);
+    }
+
     public void setUserNameLogin(String username) throws InvalidUsernameException{
         if(!User.isThereUsername(username)){
             throw new InvalidUsernameException("There is no user with this username");
@@ -64,6 +68,7 @@ public class EntryController extends UserController  {
         User newUser;
         if (type.matches("customer")) {
             newUser = new Customer(username);
+            userVariables.setLoggedInUser(newUser);
         } else if (type.matches("seller")) {
             newUser = new Seller(username);
         } else {
@@ -71,6 +76,8 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
+                Manager.setMainManager((Manager) newUser);
+                Manager.addNewManager((Manager) newUser);
             }
         }
         userVariables.setLoggedInUser(newUser);
