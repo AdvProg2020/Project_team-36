@@ -32,11 +32,6 @@ public class Seller extends User implements Pendable,Packable {
         this.companyInfo = companyInfo;
     }
 
-    @Override
-    public String getPendingRequestType() {
-        return "seller account";
-    }
-
     public static ArrayList<Seller> getAllSellers() {
         return allSellers;
     }
@@ -51,17 +46,6 @@ public class Seller extends User implements Pendable,Packable {
 
     public ArrayList<Sale> getAllSales() {
         return allSales;
-    }
-
-    @Override
-    public String toString() {
-        return  "    username: " + username + '\n' +
-                "    firstname: " + firstname + '\n' +
-                "    lastname: " + lastname + '\n' +
-                "    email: " + email + '\n' +
-                "    phoneNumber: " + phoneNumber + '\n' +
-                "    company: " + companyName + '\n'
-                ;
     }
 
     public void addNewLog(SellerLog sellerLog){

@@ -15,7 +15,8 @@ public abstract class User implements Packable{
 
     public User(String username){
         this.username = username;
-        this.userId = makeNewId();
+        this.userId = totalUsersMade+1;
+        totalUsersMade +=1;
     }
     public String getUsername() {
         return username;
@@ -74,10 +75,6 @@ public abstract class User implements Packable{
         this.phoneNumber = phoneNumber;
     }
 
-    private int makeNewId(){
-        return totalUsersMade+=1;
-    }
-
     public static ArrayList<User> getAllUsers() {
         return allUsers;
     }
@@ -88,17 +85,6 @@ public abstract class User implements Packable{
                 return true;
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "  userId : " + userId +
-                "\n  role : " + getType() +
-                "\n  username : " + username +
-                "\n  firstname : " + firstname +
-                "\n  lastname : " + lastname +
-                "\n  email : " + email +
-                "\n  phoneNumber : " + phoneNumber;
     }
 
     public static void addNewUser(User user){

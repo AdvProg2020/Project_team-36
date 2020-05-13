@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public abstract class Menu {
     private String name;
-    protected HashMap<String,Menu> subMenus;//regex
+    protected HashMap<String, Menu> subMenus;//regex
     public Menu parentMenu;
     protected static EntryMenu entryMenu;
     protected static ManagerController managerController;
@@ -24,6 +24,27 @@ public abstract class Menu {
         this.name = name;
         this.parentMenu = parentMenu;
         this.subMenus = new HashMap<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Menu getParentMenu() {
+        return parentMenu;
+    }
+
+    public static void setScanner(Scanner scanner) {
+        Menu.scanner = scanner;
+    }
+
+    public static void setControllers() {
+        GlobalVariables user = new GlobalVariables();
+        Menu.customerController = new CustomerController(user);
+        Menu.entryController = new EntryController(user);
+        Menu.managerController = new ManagerController(user);
+        Menu.offController = new OffController(user);
+        Menu.sellerController = new SellerController(user);
     }
 
     public void logoutChangeMenu() {
@@ -41,62 +62,39 @@ public abstract class Menu {
         return subMenus;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Menu getParentMenu() {
-        return parentMenu;
-    }
-
-    public static void setScanner(Scanner scanner){
-        Menu.scanner = scanner;
-    }
-
-    public static void setControllers(){
-        GlobalVariables user = new GlobalVariables();
-        Menu.customerController = new CustomerController(user);
-        Menu.entryController = new EntryController(user);
-        Menu.managerController = new ManagerController(user);
-        Menu.offController = new OffController(user);
-        Menu.sellerController = new SellerController(user);
-    }
-
-    public void execute(){
+    public void execute() {
         String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
-        if(input.matches("back")) {
+        if (input.matches("back")) {
             parentMenu.execute();
-        }else if(input.matches("help")){
+
+        } else if (input.matches("help")) {
             help();
-            execute();
-        }else {
+            this.execute();
+        } else if (input.matches("logout")) {
+            logoutChangeMenu();
+        }else{
             for (String regex : subMenus.keySet()) {
-                if(input.matches(regex)){
+                if (input.matches(regex)) {
                     chosenMenu = subMenus.get(regex);
                     break;
                 }
             }
         }
-        if(chosenMenu != null)
+        if (chosenMenu != null)
             chosenMenu.execute();
         else {
             System.err.println("Invalid command! Try again please!");
             this.execute();
         }
+
     }
 
     public abstract void help();
 
-    public Matcher getMatcher(String input, String regex){
+    public Matcher getMatcher(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(input);
     }
-
-    public static class BackIsPressed extends Exception{
-
-    }
-
-    public static class LogoutIsPressesException extends Exception{}
 
 }

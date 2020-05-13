@@ -53,7 +53,7 @@ public class DiscountController {
 
     public void setCustomersForDiscountCode(String username) throws InvalidUsernameException{
         if(!Customer.isThereCustomerWithUsername(username)){
-            throw new InvalidUsernameException("There is no customer with this username");
+            throw new DiscountController.InvalidUsernameException("There is no customer with this username");
         }
         else {
             customersForDiscountCode.add((Customer)Customer.getUserByUsername(username));
