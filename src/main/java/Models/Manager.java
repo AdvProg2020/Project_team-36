@@ -35,4 +35,16 @@ public class Manager extends User implements Packable {
     public Object unpack(Data data) {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

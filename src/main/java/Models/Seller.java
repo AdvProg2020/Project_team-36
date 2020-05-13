@@ -63,4 +63,19 @@ public class Seller extends User implements Pendable,Packable {
     public ArrayList<Sale> getAllSales() {
         return allSales;
     }
+
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "credit=" + credit +
+                ", companyName='" + companyName + '\'' +
+                ", companyInfo='" + companyInfo + '\'' +
+                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

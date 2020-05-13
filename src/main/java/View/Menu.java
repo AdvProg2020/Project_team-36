@@ -20,6 +20,7 @@ public abstract class Menu {
     protected static EntryController entryController;
     protected static Scanner scanner;
     protected static ProductController productController;
+    protected static UserController userController;
 
     public Menu(String name, Menu parentMenu) {
         this.name = name;

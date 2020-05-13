@@ -46,4 +46,21 @@ public class Customer extends User implements Packable{
     public Object unpack(Data data) {
         return null;
     }
+
+    public void setCredit(long credit) {
+        this.credit = credit;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "credit=" + credit +
+                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

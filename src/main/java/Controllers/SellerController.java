@@ -2,6 +2,7 @@ package Controllers;
 
 import Exceptions.NoLoggedInSellerException;
 import Exceptions.NoLoggedInUserException;
+import Exceptions.NoProductForThisSellerException;
 import Exceptions.NoProductWithThisIdException;
 import Models.Product;
 import Models.Seller;
@@ -34,12 +35,11 @@ public class SellerController extends UserController {
         return output;
     }
 
-    public void removeSellerProduct(Product product) throws NoLoggedInUserException,NoLoggedInSellerException {
-        User loggedInUser = userVariables.getLoggedInUser();
-        if (!(loggedInUser instanceof Seller)) {
-            throw new NoLoggedInSellerException("The logged in user is not seller");
+    public void removeSellerProduct(Product product) throws NoLoggedInUserException,NoLoggedInSellerException,NoProductForThisSellerException {
+        Seller loggedInSeller = getLoggedInSeller();
+        if(!loggedInSeller.getAllProducts().contains(product)){
+            throw new NoProductForThisSellerException("This seller does not sell this product!");
         }
-        Seller loggedInSeller = (Seller) loggedInUser;
         loggedInSeller.getAllProducts().remove(product);
     }
 
@@ -48,6 +48,18 @@ public class SellerController extends UserController {
             return (Seller) userVariables.getLoggedInUser();
         }
         throw new NoLoggedInSellerException("The logged in user is not seller");
+    }
+
+    public void setCredit(long credit) throws NoLoggedInUserException{
+        ((Seller)userVariables.getLoggedInUser()).setCredit(credit);
+    }
+
+    public void setCompanyName(String companyName)throws NoLoggedInUserException{
+        ((Seller)userVariables.getLoggedInUser()).setCompanyName(companyName);
+    }
+
+    public void setCompanyInfo(String companyInfo)throws NoLoggedInUserException{
+        ((Seller)userVariables.getLoggedInUser()).setCompanyInfo(companyInfo);
     }
 }
 

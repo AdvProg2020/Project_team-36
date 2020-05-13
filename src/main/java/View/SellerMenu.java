@@ -19,6 +19,7 @@ public class SellerMenu extends Menu{
         subMenus.put("view\\s+balance",getViewBalanceMenu());
         subMenus.put("view\\s+company\\s+information",getViewCompanyInformationMenu());
         subMenus.put("remove\\s+product\\s+(\\d+)",getRemoveProductMenu());
+        subMenus.put("view\\s+personal\\s+info",new PersonalInfoMenu(this));
     }
 
     public Menu getViewBalanceMenu(){
