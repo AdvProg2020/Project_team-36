@@ -1,14 +1,10 @@
 package View;
 
 import Controllers.DiscountController;
-import Controllers.ManagerController;
 import Models.Customer;
-
-import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 public class ManagerMenu extends Menu {
 

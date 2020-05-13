@@ -3,7 +3,6 @@ package View;
 import Controllers.ManagerController;
 import Models.Customer;
 import Models.Discount;
-
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 

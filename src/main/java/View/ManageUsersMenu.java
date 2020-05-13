@@ -3,7 +3,6 @@ package View;
 import Controllers.ManagerController;
 import Controllers.NewManagerController;
 import Models.User;
-
 import java.util.regex.Matcher;
 
 public class ManageUsersMenu extends Menu {
