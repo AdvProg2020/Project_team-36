@@ -24,6 +24,13 @@ public class Seller extends User implements Pendable,Packable {
         return "seller";
     }
 
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setCompanyInfo(String companyInfo) {
+        this.companyInfo = companyInfo;
+    }
 
     public static ArrayList<Seller> getAllSellers() {
         return allSellers;

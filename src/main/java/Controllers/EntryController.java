@@ -1,9 +1,6 @@
 package Controllers;
 
-import Models.Customer;
-import Models.Manager;
-import Models.Seller;
-import Models.User;
+import Models.*;
 import View.*;
 
 public class EntryController extends UserController  {
@@ -38,8 +35,20 @@ public class EntryController extends UserController  {
         }
     }
 
+    public void setCompany(String name){
+        ((Seller)userVariables.getLoggedInUser()).setCompanyName(name);
+    }
+
+    public void setCompanyInfo(String info){
+        ((Seller) userVariables.getLoggedInUser()).setCompanyInfo(info);
+    }
+
     public void register(){
         User user = userVariables.getLoggedInUser();
+        if(user instanceof Seller){
+            new Request((Seller) user);
+            return;
+        }
         User.addNewUser(user);
         if(user instanceof Manager)
             Manager.addNewManager((Manager) user);
