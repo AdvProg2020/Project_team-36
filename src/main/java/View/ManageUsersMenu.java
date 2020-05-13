@@ -121,6 +121,10 @@ public class ManageUsersMenu extends Menu {
 
             @Override
             public void execute() {
+                if(managerController.loggedInUserIsNotMainManager()){
+                    System.err.println("only the main manager can create new manager profiles");
+                    return;
+                }
                 NewManagerController newManagerController = new NewManagerController();
                 System.out.println("please fill each field wanted :");
                 System.out.println("username: ");

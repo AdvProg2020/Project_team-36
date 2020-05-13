@@ -20,6 +20,10 @@ public class ManagerController extends UserController {
         writeDiscountFieldsSetters();
     }
 
+    public boolean loggedInUserIsNotMainManager(){
+        return !Manager.isMainManager(userVariables.getLoggedInUser().getUsername());
+    }
+
     public ArrayList<User> getAllUsers() {
         return User.getAllUsers();
     }
