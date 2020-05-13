@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Sale implements Pendable {
+    private static ArrayList<Sale> allSales = new ArrayList<>();
     private int offId;
     private ArrayList<Product> productsInSale;
     private ProductionStatus status;
