@@ -88,6 +88,14 @@ public class ManageRequestsMenu extends Menu {
             public void help() {
             }
 
+            @Override
+            public void execute() {
+                try {
+                    managerController.declineRequest(id);
+                } catch (ManagerController.InvalidRequestIdException e){
+                    System.err.println(e.getMessage());
+                }
+            }
         };
     }
 

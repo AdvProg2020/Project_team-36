@@ -197,6 +197,14 @@ public class ManagerController extends UserController {
         }
     }
 
+    public void declineRequest(int id) throws InvalidRequestIdException{
+        if(Request.isThereRequestWithId(id)){
+            Request.denyRequest(id);
+        } else {
+            throw new InvalidRequestIdException("there's no request with this id");
+        }
+    }
+
     private void writeDiscountFieldsSetters() {
         discountFieldsSetters.put("start\\s+time", "editDiscountStartTime");
         discountFieldsSetters.put("termination\\s+time", "editDiscountEndTime");

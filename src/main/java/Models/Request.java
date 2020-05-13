@@ -49,8 +49,12 @@ public class Request implements Packable {
                 '\n' + pendableRequest;
     }
 
-    public void denyRequest(){
-
+    public static void denyRequest(int id){
+        Request toBeDeclined = getRequestWithId(id);
+        allRequests.remove(toBeDeclined);
+        Pendable pendable = toBeDeclined.getPendableRequest();
+        pendable = null;
+        toBeDeclined = null;
     }
 
     public void acceptRequest() {
