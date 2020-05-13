@@ -34,4 +34,18 @@ public class Sale implements Pendable {
     public Double getSalePercent() {
         return salePercent;
     }
+
+    @Override
+    public String toString() {
+        return  "    offId: " + offId + '\n' +
+                "    startTime: " + startTime + '\n' +
+                "    endTime: " + endTime + '\n' +
+                "    salePercent: " + (salePercent*100) + '\n'
+                ;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "sale";
+    }
 }

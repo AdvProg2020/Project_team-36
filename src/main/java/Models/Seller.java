@@ -7,6 +7,9 @@ public class Seller extends User implements Pendable,Packable {
     private ArrayList<Log> allLogs;
     private ArrayList<Product> allProducts;
     private ArrayList<Sale> allSales;
+    private long credit;
+    private String companyName;
+    private String companyInfo;
 
     public Seller(String username){
         super(username);
@@ -19,6 +22,11 @@ public class Seller extends User implements Pendable,Packable {
     @Override
     public String getType() {
         return "seller";
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "seller account";
     }
 
     public static ArrayList<Seller> getAllSellers() {
@@ -35,5 +43,16 @@ public class Seller extends User implements Pendable,Packable {
 
     public ArrayList<Sale> getAllSales() {
         return allSales;
+    }
+
+    @Override
+    public String toString() {
+        return  "    username: " + username + '\n' +
+                "    firstname: " + firstname + '\n' +
+                "    lastname: " + lastname + '\n' +
+                "    email: " + email + '\n' +
+                "    phoneNumber: " + phoneNumber + '\n' +
+                "    company: " + companyName + '\n'
+                ;
     }
 }

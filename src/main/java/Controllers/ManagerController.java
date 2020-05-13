@@ -1,9 +1,6 @@
 package Controllers;
 
-import Models.Customer;
-import Models.Discount;
-import Models.Manager;
-import Models.User;
+import Models.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -188,6 +185,17 @@ public class ManagerController extends UserController {
         }
     }
 
+    public ArrayList<Request> getAllRequests(){
+        return Request.getAllRequests();
+    }
+
+    public Request getRequestWithId(int id) throws InvalidRequestIdException{
+        if (Request.isThereRequestWithId(id)) {
+            return Request.getRequestWithId(id);
+        } else {
+            throw new InvalidRequestIdException("there's no request with this id");
+        }
+    }
 
     private void writeDiscountFieldsSetters() {
         discountFieldsSetters.put("start\\s+time", "editDiscountStartTime");
@@ -219,6 +227,12 @@ public class ManagerController extends UserController {
 
     public static class InvalidRangeException extends Exception {
         public InvalidRangeException(String message) {
+            super(message);
+        }
+    }
+
+    public static class InvalidRequestIdException extends Exception {
+        public InvalidRequestIdException(String message) {
             super(message);
         }
     }

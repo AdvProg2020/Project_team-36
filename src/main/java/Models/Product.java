@@ -71,11 +71,26 @@ public class Product implements Pendable,Packable {
         }
     }
 
+    @Override
+    public String toString() {
+        return  "    productId: " + productId + '\n' +
+                "    name: " + name + '\n' +
+                "    company: " + company + '\n' +
+                "    category: " + category + '\n' +
+                "    information: " + information + '\n'
+                ;
+    }
+
     public Data pack(Object object) {
         return null;
     }
 
     public Object unpack(Data data) {
         return null;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "product";
     }
 }
