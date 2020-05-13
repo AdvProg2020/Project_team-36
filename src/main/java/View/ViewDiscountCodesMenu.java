@@ -56,6 +56,7 @@ public class ViewDiscountCodesMenu extends Menu {
             } else {
                 chosenMenu.execute();
             }
+            chosenMenu=null;
             input = scanner.nextLine().trim();
         }
         if (input.matches("back")) {

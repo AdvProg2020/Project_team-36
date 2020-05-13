@@ -73,7 +73,7 @@ public class Discount implements Packable {
         return  "  id=" + id +
                 "\n  start time=" + formatter.format(startTime) +
                 "\n  end time=" + formatter.format(endTime) +
-                "\n  discount percent=" + discountPercent +
+                "\n  discount percent=" + (discountPercent*100) +
                 "\n  discount limit=" + discountLimit +
                 "\n  repetition for each user=" + repetitionForEachUser +
                 "\n  customers included=" + customersUsername
