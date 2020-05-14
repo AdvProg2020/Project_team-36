@@ -170,10 +170,11 @@ public class Product implements Pendable, Packable {
     @Override
     public String toString() {
         return "    productId: " + productId + '\n' +
-                "    name: " + name + '\n' +
+                "    name: " + this.name + '\n' +
                 "    company: " + company + '\n' +
-                "    category: " + category + '\n' +
-                "    information: " + information + '\n'
+                "    category: " + category.getName() + '\n' +
+                "    information: " + information + '\n'+
+                "    lowest price: " + this.getLowestCurrentPrice() + '\n'
                 ;
     }
 

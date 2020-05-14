@@ -1,11 +1,14 @@
 package View.Products;
 
 import Controllers.EntryController;
+import Controllers.ProductsController;
+import Models.Product;
 import View.EntryMenu;
 import View.Menu;
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
 
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -41,9 +44,9 @@ public class SortingMenu extends Menu {
             public void execute() {
                 System.out.println("Available sorts:");
                 Set<String> names = productsController.getAvailableSorts();
-                int i=1;
+                int i = 1;
                 for (String name : names) {
-                    System.out.println(i+"."+name);
+                    System.out.println(i + "." + name);
                     i++;
                 }
                 System.out.println("You can sort by either ascending order or descending order");
@@ -54,12 +57,13 @@ public class SortingMenu extends Menu {
     private Menu getCurrentSortMenu() {
         return new Menu("Current sort menu", this) {
             @Override
-            public void help() { }
+            public void help() {
+            }
 
             @Override
             public void execute() {
-                System.out.println("Sorted by: "+productsController.getProductCurrentSortName());
-                System.out.println("type of sorting: "+productsController.getSortProductType()+" order");
+                System.out.println("Sorted by: " + productsController.getProductCurrentSortName());
+                System.out.println("type of sorting: " + productsController.getSortProductType() + " order");
             }
         };
     }
@@ -67,7 +71,8 @@ public class SortingMenu extends Menu {
     private Menu getDisableSortMenu() {
         return new Menu("DisableSort", this) {
             @Override
-            public void help() {}
+            public void help() {
+            }
 
             @Override
             public void execute() {
@@ -81,9 +86,44 @@ public class SortingMenu extends Menu {
         return new Menu("Sort menu", this) {
             @Override
             public void help() {
+            }
 
+            @Override
+            public void execute() {
+                System.out.println("Which type do you want to sort with? Enter ascending/descending");
+                for (Product product : getType()) {
+                    System.out.println(product);
+                    System.out.println();
+                }
             }
         };
+    }
+
+    private ArrayList<Product> getType() {
+        String input;
+        while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
+            if (input.matches("(?i)ascending|descending")) {
+                try {
+                    return productsController.sortAllProducts(sort, input);
+                } catch (ProductsController.NoSortException e) {
+                    System.err.println("There is no field with this name! try again!");
+                }
+            } else if (input.matches("logout")) {
+                try {
+                    entryController.logout();
+                } catch (EntryController.NotLoggedInException e) {
+                    System.err.println("You are not logged in!");
+                }
+            } else if (input.matches("login|register")) {
+                if (entryController.isUserLoggedIn())
+                    System.err.println("You are loggedIn!");
+                else
+                    new EntryMenu(this).execute();
+
+            } else System.err.println("invalid command!");
+        }
+        this.parentMenu.execute();
+        return null;
     }
 
     @Override
@@ -108,11 +148,11 @@ public class SortingMenu extends Menu {
             } else {
                 Menu menu = null;
                 for (String regex : this.subMenus.keySet()) {
-                    if ((matcher = getMatcher(input,regex)).matches()) {
+                    if ((matcher = getMatcher(input, regex)).matches()) {
                         menu = subMenus.get(regex);
-                        try{
+                        try {
                             this.sort = matcher.group(1);
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             //do nothing
                         }
                         break;
