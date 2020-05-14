@@ -19,6 +19,22 @@ public class Seller extends User implements Pendable,Packable {
         this.allProducts = new ArrayList<>();
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public long getCredit() {
+        return credit;
+    }
+
+    public void setCredit(long credit) {
+        this.credit = credit;
+    }
+
     @Override
     public String getType() {
         return "seller";
@@ -53,6 +69,7 @@ public class Seller extends User implements Pendable,Packable {
         return allSales;
     }
 
+
     public void addNewLog(SellerLog sellerLog){
         this.allLogs.add(sellerLog);
     }
@@ -73,4 +90,19 @@ public class Seller extends User implements Pendable,Packable {
     }
 
     //-..-
+
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "credit=" + credit +
+                ", companyName='" + companyName + '\'' +
+                ", companyInfo='" + companyInfo + '\'' +
+                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

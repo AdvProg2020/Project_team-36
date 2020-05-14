@@ -1,5 +1,6 @@
 package Controllers;
 
+import Exceptions.NoLoggedInUserException;
 import Models.*;
 import View.*;
 
@@ -8,7 +9,7 @@ public class EntryController extends UserController  {
         super(userVariables);
     }
 
-    public void setPasswordLogin(String password, UserAreaMenu userAreaMenu) throws WrongPasswordException{
+    public void setPasswordLogin(String password, UserAreaMenu userAreaMenu) throws WrongPasswordException , NoLoggedInUserException {
         if(!password.equals(userVariables.getLoggedInUser().getPassword())){
             throw new WrongPasswordException("Wrong password!");
         }else{
@@ -57,8 +58,11 @@ public class EntryController extends UserController  {
             Customer.addNewCustomer((Customer)user);
     }
 
-    public void logout(){
+    public void logout() {
         this.userVariables.setLoggedInUser(null);
+    }
+    public void register() throws NoLoggedInUserException{
+        User.addNewUser(userVariables.getLoggedInUser());
     }
 
     private void createNewAccount(String username, String type) throws ManagerExistsException {
@@ -72,7 +76,6 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
-                Manager.setMainManager((Manager) newUser);
             }
         }
         userVariables.setLoggedInUser(newUser);

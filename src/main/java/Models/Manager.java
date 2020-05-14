@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Manager extends User implements Packable {
 
-    private static Manager mainManager;
     private static ArrayList<Manager> allManagers = new ArrayList<>();
 
 
@@ -15,10 +14,6 @@ public class Manager extends User implements Packable {
     @Override
     public String getType() {
         return "manager";
-    }
-
-    public static void setMainManager(Manager mainManager) {
-        Manager.mainManager = mainManager;
     }
 
     public static ArrayList<Manager> getAllManagers() {
@@ -33,15 +28,23 @@ public class Manager extends User implements Packable {
         allManagers.add(manager);
     }
 
-//    public static boolean isMainManager(String username){
-//        return mainManager.getUsername().equals(username);
-//    }
-
     public Data pack(Object object) {
         return null;
     }
 
     public Object unpack(Data data) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
