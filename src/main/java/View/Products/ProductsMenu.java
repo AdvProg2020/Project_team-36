@@ -1,6 +1,5 @@
 package View.Products;
 
-import Controllers.CategoryController;
 import Controllers.EntryController;
 import Controllers.ProductsController;
 import Models.Product;
@@ -17,7 +16,7 @@ public class ProductsMenu extends Menu {
         super(name, parentMenu);
         subMenus.put("view\\s+categories", getViewCategoryMenu());
        // subMenus.put("filtering", new FilteringMenu("filter", this));
-        //subMenus.put("sorting", new SortingMenu("SortingMenu", this));
+        subMenus.put("sorting", new SortingMenu("SortingMenu", this,productsController));
       //  subMenus.put("show\\s+products", getShowProductsMenu());
 
     }

@@ -40,12 +40,18 @@ public class GlobalVariables {
         this.sortProductType = "ascending";
     }
 
+    public void removeSortOff(){
+        this.sortOff ="seen count";
+        this.sortOffType = "ascending";
+    }
+
     public String getSortProduct(){
         return this.sortProduct;
     }
 
-    public void setSortOff(String sortOff) {
-        this.sortOff = sortOff;
+    public void setSortOff(String name,String type) {
+        this.sortOffType = type;
+        this.sortOff = name;
     }
 
     public String getSortOff() {

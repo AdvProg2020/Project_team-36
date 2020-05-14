@@ -2,25 +2,24 @@ package View.Products;
 
 import Controllers.EntryController;
 import Controllers.ProductsController;
-import Models.Product;
 import View.EntryMenu;
 import View.Menu;
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
 
 
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.regex.Matcher;
 
 public class SortingMenu extends Menu {
     private String sort;
+    private ProductsController productsController;
 
-    public SortingMenu(String name, Menu parentMenu) {
+    public SortingMenu(String name, Menu parentMenu,ProductsController productsController) {
         super(name, parentMenu);
         subMenus.put("show\\s+available\\s+sorts", getAvailableSortsMenu());
         subMenus.put("current\\s+sort", getCurrentSortMenu());
         subMenus.put("disable\\s+sort", getDisableSortMenu());
         subMenus.put("sort\\s+(\\.+)", getSortMenu());
+        this.productsController = productsController;
     }
 
     @Override
@@ -91,22 +90,21 @@ public class SortingMenu extends Menu {
             @Override
             public void execute() {
                 System.out.println("Which type do you want to sort with? Enter ascending/descending");
-                for (Product product : getType()) {
-                    System.out.println(product);
-                    System.out.println();
-                }
+                getType();
             }
         };
     }
 
-    private ArrayList<Product> getType() {
+
+    private void getType() {
         String input;
         while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             if (input.matches("(?i)ascending|descending")) {
                 try {
-                    return productsController.sortAllProducts(sort, input);
+                    productsController.setSort(sort, input);
+                    return;
                 } catch (ProductsController.NoSortException e) {
-                    System.err.println("There is no field with this name! try again!");
+                    System.err.println("There is no type with this name! try again!");
                 }
             } else if (input.matches("logout")) {
                 try {
@@ -123,7 +121,6 @@ public class SortingMenu extends Menu {
             } else System.err.println("invalid command!");
         }
         this.parentMenu.execute();
-        return null;
     }
 
     @Override

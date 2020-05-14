@@ -16,9 +16,9 @@ public abstract class Menu {
     protected static ManagerController managerController;
     protected static CustomerController customerController;
     protected static SellerController sellerController;
-    protected static OffController offController;
     protected static EntryController entryController;
     protected static ProductsController productsController;
+    protected static OffController offController;
     protected static Scanner scanner;
 
     public Menu(String name, Menu parentMenu) {
@@ -47,7 +47,6 @@ public abstract class Menu {
         Menu.offController = new OffController(user);
         Menu.sellerController = new SellerController(user);
         Menu.productsController = new ProductsController(user);
-
     }
 
     public void logoutChangeMenu() {
