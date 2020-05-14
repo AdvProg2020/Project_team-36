@@ -25,7 +25,7 @@ public class Product implements Pendable,Packable {
 
     public static Product getProduct(int id){
         for (Product product : allProducts) {
-            if(product.getProductId() == id)
+            if(product.getProductId() ==(id))
                 return product;
         }
         return null;
@@ -140,6 +140,16 @@ public class Product implements Pendable,Packable {
                 field.buyFromSeller(count);
             }
         }
+    }
+
+    public boolean isProductDeleted(){
+        if(productFields.isEmpty())
+            return true;
+        for (ProductField productField : productFields) {
+            if(!productField.getSeller().getStatus().equals(Status.DELETED))
+                return false;
+        }
+        return true;
     }
 
     public Data pack(Object object) {

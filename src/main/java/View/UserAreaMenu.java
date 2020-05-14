@@ -18,7 +18,7 @@ public class UserAreaMenu extends Menu{
 
     public void logout(){
         this.subMenus.remove("UserMenu");
-        subMenus.put("EntryMenu",new EntryMenu(this));
+        subMenus.put("EntryMenu",new EntryMenu(this.getParentMenu()));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package View;
 
 import Controllers.CustomerController;
+import Controllers.ProductsController;
 import Models.*;
 
 import java.util.ArrayList;
@@ -62,8 +63,14 @@ public class CartMenu extends Menu {
                     System.err.println("There is no product with this id in your cart!");
                     return;
                 }
-                ProductMenu productMenu = new ProductMenu(((CartMenu)this.parentMenu).getProductId());
-                productMenu.execute();
+                ProductMenu productMenu = null;
+                try {
+                    productMenu = new ProductMenu(productsController.getProduct(productId));
+                    productMenu.execute();
+                } catch (ProductsController.NoProductWithId noProductWithId) {
+                    noProductWithId.printStackTrace();
+                }
+
             }
         };
     }
@@ -211,8 +218,8 @@ public class CartMenu extends Menu {
                     chosenMenu = subMenus.get(regex);
                     try {
                         this.productId = Integer.parseInt(matcher.group(1));
-                    } catch (Exception e) {
-                        //there is no group
+                    } catch (NumberFormatException e) {
+                        System.err.println("There is no product with this id!");
                     }
                     break;
                 }

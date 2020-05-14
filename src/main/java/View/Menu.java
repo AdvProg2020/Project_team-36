@@ -18,6 +18,7 @@ public abstract class Menu {
     protected static SellerController sellerController;
     protected static OffController offController;
     protected static EntryController entryController;
+    protected static ProductsController productsController;
     protected static Scanner scanner;
 
     public Menu(String name, Menu parentMenu) {
@@ -45,6 +46,8 @@ public abstract class Menu {
         Menu.managerController = new ManagerController(user);
         Menu.offController = new OffController(user);
         Menu.sellerController = new SellerController(user);
+        Menu.productsController = new ProductsController(user);
+
     }
 
     public void logoutChangeMenu() {
@@ -53,7 +56,11 @@ public abstract class Menu {
             parent = parent.getParentMenu();
         }
         ((UserAreaMenu)parent).logout();
-        entryController.logout();
+        try {
+            entryController.logout();
+        } catch (EntryController.NotLoggedInException e) {
+            e.printStackTrace();
+        }
         parent.getParentMenu().help();
         parent.getParentMenu().execute();
     }

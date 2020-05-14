@@ -27,7 +27,7 @@ public class SellerLog {
         this.customerPhoneNumber = customerPhoneNumber;
         this.logStatus = LogStatus.WAITING_TO_BE_SENT;
         this.allItems = new ArrayList<>();
-        allItems.addAll(allItems);
+        this.allItems.addAll(allItems);
         allLogs.add(this);
         this.setPrices();
     }

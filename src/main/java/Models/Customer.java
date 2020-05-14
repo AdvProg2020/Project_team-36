@@ -124,7 +124,7 @@ public class Customer extends User implements Packable {
 
     public boolean isThereProductInCart(int productId) {
         for (SelectedItem item : cart) {
-            if (item.getProduct().getProductId() == productId)
+            if (item.getProduct().getProductId()==(productId))
                 return true;
         }
         return false;
@@ -132,7 +132,7 @@ public class Customer extends User implements Packable {
 
     public SelectedItem getProductInCart(int productId) {
         for (SelectedItem item : cart) {
-            if (item.getProduct().getProductId() == productId)
+            if (item.getProduct().getProductId()==(productId))
                 return item;
         }
         return null;

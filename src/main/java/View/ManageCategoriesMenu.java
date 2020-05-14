@@ -276,13 +276,13 @@ public class ManageCategoriesMenu extends Menu {
         }
     }
 
-    private void printCategoryTree(Category category) {
+    public static void printCategoryTree(Category category) {
         for (Category subCategory : category.getSubCategories()) {
             printEachCategory(subCategory, 0);
         }
     }
 
-    private void printEachCategory(Category category, int indent) {
+    private static void printEachCategory(Category category, int indent) {
 
         ArrayList<Category> temp = category.getSubCategories();
         for (int i = 0; i < 3 * indent; i++)

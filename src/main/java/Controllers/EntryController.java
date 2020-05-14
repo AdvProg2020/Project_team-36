@@ -57,8 +57,12 @@ public class EntryController extends UserController  {
             Customer.addNewCustomer((Customer)user);
     }
 
-    public void logout(){
+    public void logout() throws NotLoggedInException {
+        if(this.userVariables.getLoggedInUser()!= null)
         this.userVariables.setLoggedInUser(null);
+        else
+            throw new  NotLoggedInException();
+
     }
 
     private void createNewAccount(String username, String type) throws ManagerExistsException {
@@ -76,6 +80,12 @@ public class EntryController extends UserController  {
             }
         }
         userVariables.setLoggedInUser(newUser);
+    }
+
+    public boolean isUserLoggedIn(){
+        if(userVariables.getLoggedInUser()!= null)
+            return true;
+        return false;
     }
 
     public static class InvalidUsernameException extends Exception {
@@ -101,6 +111,8 @@ public class EntryController extends UserController  {
             super(message);
         }
     }
+
+    public static class NotLoggedInException extends Exception{}
 
     //-..-
 }

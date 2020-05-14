@@ -100,6 +100,10 @@ public abstract class User implements Packable{
 
     public abstract String getType();
 
+    public Status getStatus() {
+        return status;
+    }
+
     public Data pack(Object object) {
         return null;
     }
