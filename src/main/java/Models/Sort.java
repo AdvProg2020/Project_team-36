@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 public class Sort {
 
@@ -26,6 +27,8 @@ public class Sort {
             sortString(object, method, isAscending);
         else if (type.equalsIgnoreCase("Double"))
             sortDouble(object, method, isAscending);
+        else if(type.equalsIgnoreCase("Date"))
+            sortDate(object, method, isAscending);
     }
 
     private void sortInteger(ArrayList<Object> toBeSorted, Method method, boolean isAscending) {
@@ -105,6 +108,25 @@ public class Sort {
             }
         });
 
+    }
+
+    private void sortDate(ArrayList<Object> toBeSorted, Method method, boolean isAscending){
+        Collections.sort(toBeSorted, new Comparator<Object>() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                try {
+                     if (isAscending)
+                        return ((Date) method.invoke(o1)).compareTo((Date) method.invoke(o2));
+                    else
+                        return ((Date) method.invoke(o2)).compareTo((Date) method.invoke(o1));
+
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+                return 0;
+            }
+        });
     }
 
 

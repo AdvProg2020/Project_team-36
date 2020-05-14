@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class GlobalVariables {
     private ArrayList<Field> allFiltersOffs;
-    private ArrayList<String> allSortsOffs;
+    private String SortOff;
     private ArrayList<Field> allFiltersProducts;
-    private ArrayList<String> allSortsProducts;
+    private String sortProduct;
     private Product product;
     private User loggedInUser;
 
@@ -20,5 +20,19 @@ public class GlobalVariables {
         return loggedInUser;
     }
 
-    //-..-
+    public void setSortProduct(String name){
+        this.sortProduct = name;
+    }
+
+    public String getSortProduct(){
+        return this.sortProduct;
+    }
+
+    public void setSortOff(String sortOff) {
+        SortOff = sortOff;
+    }
+
+    public String getSortOff() {
+        return SortOff;
+    }
 }

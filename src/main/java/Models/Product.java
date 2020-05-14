@@ -1,6 +1,9 @@
 package Models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
 public class Product implements Pendable,Packable {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -12,8 +15,9 @@ public class Product implements Pendable,Packable {
     private String information;
     private ArrayList<ProductField> productFields;
     private ArrayList<Score> allScore;
+    private Date productionDate;
     private ArrayList<Comment> allComments;
-
+    private int seenNumber;
 
     public int getProductId() {
         return productId;
@@ -23,12 +27,52 @@ public class Product implements Pendable,Packable {
         return name;
     }
 
+    public Date getProductionDate() {
+        return productionDate;
+    }
+
     public static Product getProduct(int id){
         for (Product product : allProducts) {
             if(product.getProductId() ==(id))
                 return product;
         }
         return null;
+    }
+
+    public long getHighestCurrentPrice(){
+        long price = 0;
+        for (ProductField productField : this.productFields) {
+            if(productField.getCurrentPrice()>price&& !productField.getSeller().getStatus().equals(Status.DELETED))
+                price = productField.getCurrentPrice();
+        }
+        return price;
+    }
+
+    public long getLowestCurrentPrice(){
+        ArrayList<Long> temp = new ArrayList<>();
+
+        for (ProductField productField : this.productFields) {
+            if(!productField.getSeller().getStatus().equals(Status.DELETED))
+                temp.add(productField.getCurrentPrice());
+        }
+        return Collections.min(temp);
+    }
+
+    public void seen(){
+        this.seenNumber+=1;
+    }
+
+    public int getSeenNumber() {
+        return seenNumber;
+    }
+
+    public double getScore(){
+        int sum =0;
+        for (Score score : allScore) {
+            sum += score.getScore();
+        }
+        int size = allScore.size();
+        return (double)(sum/size);
     }
 
     public ArrayList<Comment> getAllComments() {
@@ -40,6 +84,19 @@ public class Product implements Pendable,Packable {
     }
 
     public static ArrayList<Product> getAllProducts() {
+        ArrayList<ProductField> tempProductField = new ArrayList<>();
+        ArrayList<Product> tempProduct = new ArrayList<>();
+        for (Product product : allProducts) {
+            for (ProductField field : product.getProductFields()) {
+                if(field.getSeller().getStatus().equals(Status.DELETED))
+                    tempProductField.add(field);
+            }
+            if(tempProductField.size()==product.getProductFields().size())
+                tempProduct.add(product);
+            product.getProductFields().removeAll(tempProductField);
+            tempProductField.clear();
+        }
+        allProducts.removeAll(tempProduct);
         return allProducts;
     }
 

@@ -89,6 +89,7 @@ public class ProductsMenu extends Menu {
                     menu.execute();
             }
         }
+        this.parentMenu.execute();
     }
 
     private void goToProductMenu(String id) {
