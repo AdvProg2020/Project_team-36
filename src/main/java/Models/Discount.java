@@ -12,7 +12,7 @@ public class Discount implements Packable {
     private double discountPercent;//bar hasbe darsad nist
     private long discountLimit;
     private int repetitionForEachUser;
-    private int totalCodesMade = 0;
+    private static int totalCodesMade = 0;
     private ArrayList<Customer> customersIncluded;
 
     public Discount(Date startTime, Date endTime, double discountPercent, long discountLimit, int repetitionForEachUser, ArrayList<Customer> customersIncluded) {
@@ -62,14 +62,6 @@ public class Discount implements Packable {
         return customersIncluded;
     }
 
-    public static Discount getDiscount(int id){
-        for (Discount discount : allDiscounts) {
-            if(discount.getId()== id)
-                return discount;
-        }
-        return null;
-    }
-
     public static Discount getDiscountWithId(int id){
         for (Discount discount : allDiscounts) {
             if(discount.getId() == id){
@@ -89,7 +81,7 @@ public class Discount implements Packable {
         return  "  id=" + id +
                 "\n  start time=" + formatter.format(startTime) +
                 "\n  end time=" + formatter.format(endTime) +
-                "\n  discount percent=" + discountPercent +
+                "\n  discount percent=" + (discountPercent*100) +
                 "\n  discount limit=" + discountLimit +
                 "\n  repetition for each user=" + repetitionForEachUser +
                 "\n  customers included=" + customersUsername
@@ -117,6 +109,38 @@ public class Discount implements Packable {
         return false;
     }
 
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setDiscountPercent(double discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public void setDiscountLimit(long discountLimit) {
+        this.discountLimit = discountLimit;
+    }
+
+    public void setRepetitionForEachUser(int repetitionForEachUser) {
+        this.repetitionForEachUser = repetitionForEachUser;
+    }
+
+    public void setTotalCodesMade(int totalCodesMade) {
+        Discount.totalCodesMade = totalCodesMade;
+    }
+
+    public void setCustomersIncluded(ArrayList<Customer> customersIncluded) {
+        this.customersIncluded.addAll(customersIncluded);
+    }
+
+    public void removeCustomersIncluded(ArrayList<Customer> customersIncluded){
+        this.customersIncluded.removeAll(customersIncluded);
+    }
+
     private int makeNewId(){
         return totalCodesMade+=1;
     }
@@ -132,6 +156,4 @@ public class Discount implements Packable {
     public Object unpack(Data data) {
         return null;
     }
-
-    //-..-
 }

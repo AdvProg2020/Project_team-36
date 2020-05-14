@@ -151,7 +151,7 @@ public class CustomerController extends UserController {
         Customer customer = (Customer) userVariables.getLoggedInUser();
         if (customer.isThereDiscountCode(discountCode))
             throw new NoDiscountAvailableWithId("No Discount with Id");
-        customer.getWaitingLog().setDiscount(Discount.getDiscount(discountCode));
+        customer.getWaitingLog().setDiscount(Discount.getDiscountWithId(discountCode));
     }
 
     public void cancelPurchase(){

@@ -12,17 +12,22 @@ import java.util.HashMap;
 
 public class ManagerController extends UserController {
     GlobalVariables userVariables;
+    private HashMap<Integer,String> giftEvents;
     private static HashMap<String, String> discountFieldsSetters = new HashMap<>();
     private static ArrayList<Customer> customersToBeEditedForDiscountCode = new ArrayList<>();
 
     public ManagerController(GlobalVariables userVariables) {
         super(userVariables);
         writeDiscountFieldsSetters();
+        giftEvents = new HashMap<>();
+        giftEvents.put(1,"first buy gift");
+        giftEvents.put(2,"high log price gift");
+        giftEvents.put(3,"periodic gift");
     }
 
-    public boolean loggedInUserIsNotMainManager(){
-        return !Manager.isMainManager(userVariables.getLoggedInUser().getUsername());
-    }
+//    public boolean loggedInUserIsNotMainManager(){    //azash null return mishe 
+//        return !Manager.isMainManager(userVariables.getLoggedInUser().getUsername());
+//    }
 
     public boolean usersTypeIsTheSame(String newType,User user){
         return user.getType().equals(newType);
@@ -231,6 +236,10 @@ public class ManagerController extends UserController {
         discountFieldsSetters.put("discount\\s+limit", "editDiscountLimit");
         discountFieldsSetters.put("usage\\s+frequency", "editDiscountRepetitionForEachUser");
         discountFieldsSetters.put("customers\\s+included", "editDiscountCustomersIncluded");
+    }
+
+    public HashMap<Integer,String> getGiftEventsName(){
+        return this.giftEvents;
     }
 
     public static class InvalidDiscountIdException extends Exception {

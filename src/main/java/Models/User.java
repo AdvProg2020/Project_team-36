@@ -18,6 +18,7 @@ public abstract class User implements Packable{
         this.userId = totalUsersMade+1;
         totalUsersMade +=1;
     }
+
     public String getUsername() {
         return username;
     }

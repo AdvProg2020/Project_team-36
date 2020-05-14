@@ -164,14 +164,6 @@ public class Customer extends User implements Packable {
         return false;
     }
 
-    public boolean isThereDiscountCode(int discountCode) {
-        for (Discount discount : allDiscountsForCustomer.keySet()) {
-            if (discount.getId() == discountCode && allDiscountsForCustomer.get(discount) > 0)
-                return true;
-        }
-        return false;
-    }
-
     public Data pack(Object object) {
         return null;
     }

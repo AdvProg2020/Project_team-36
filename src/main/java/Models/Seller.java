@@ -24,6 +24,11 @@ public class Seller extends User implements Pendable,Packable {
         return "seller";
     }
 
+    @Override
+    public String getPendingRequestType() {
+        return "seller account";
+    }
+
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
@@ -54,6 +59,17 @@ public class Seller extends User implements Pendable,Packable {
 
     public void increaseCredit(long amount){
         this.credit += amount;
+    }
+
+    @Override
+    public String toString() {
+        return  "    username: " + username + '\n' +
+                "    firstname: " + firstname + '\n' +
+                "    lastname: " + lastname + '\n' +
+                "    email: " + email + '\n' +
+                "    phoneNumber: " + phoneNumber + '\n' +
+                "    company: " + companyName + '\n'
+                ;
     }
 
     //-..-

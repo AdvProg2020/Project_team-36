@@ -16,6 +16,7 @@ public class EntryController extends UserController  {
         }
     }
 
+
     public void setUserNameLogin(String username) throws InvalidUsernameException{
         if(!User.isThereUsername(username)){
             throw new InvalidUsernameException("There is no user with this username");
@@ -71,6 +72,7 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
+                Manager.setMainManager((Manager) newUser);
             }
         }
         userVariables.setLoggedInUser(newUser);
