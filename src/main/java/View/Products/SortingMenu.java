@@ -3,8 +3,10 @@ package View.Products;
 import Controllers.EntryController;
 import View.EntryMenu;
 import View.Menu;
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
 
 
+import java.util.Set;
 import java.util.regex.Matcher;
 
 public class SortingMenu extends Menu {
@@ -37,7 +39,14 @@ public class SortingMenu extends Menu {
 
             @Override
             public void execute() {
-                super.execute();
+                System.out.println("Available sorts:");
+                Set<String> names = productsController.getAvailableSorts();
+                int i=1;
+                for (String name : names) {
+                    System.out.println(i+"."+name);
+                    i++;
+                }
+                System.out.println("You can sort by either ascending order or descending order");
             }
         };
     }
@@ -45,8 +54,12 @@ public class SortingMenu extends Menu {
     private Menu getCurrentSortMenu() {
         return new Menu("Current sort menu", this) {
             @Override
-            public void help() {
+            public void help() { }
 
+            @Override
+            public void execute() {
+                System.out.println("Sorted by: "+productsController.getProductCurrentSortName());
+                System.out.println("type of sorting: "+productsController.getSortProductType()+" order");
             }
         };
     }
@@ -54,8 +67,12 @@ public class SortingMenu extends Menu {
     private Menu getDisableSortMenu() {
         return new Menu("DisableSort", this) {
             @Override
-            public void help() {
+            public void help() {}
 
+            @Override
+            public void execute() {
+                productsController.removeSortProduct();
+                System.out.println("Sorting is now based on seen count and in ascending order!");
             }
         };
     }

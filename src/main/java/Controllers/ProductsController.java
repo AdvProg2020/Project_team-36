@@ -7,6 +7,7 @@ import Models.Sort;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class ProductsController {
     private GlobalVariables userVariables;
@@ -59,7 +60,7 @@ public class ProductsController {
         }
         if(!isNameValid)
             throw new NoSortException();
-        userVariables.setSortProduct(name);
+        userVariables.setSortProduct(name,type);
         ArrayList<Product> products = Product.getAllProducts();
         sort(products,type,method);
         return products;
@@ -70,6 +71,22 @@ public class ProductsController {
             new Sort().sort(toBeSorted,method,true);
         else
             new Sort().sort(toBeSorted,method,false);
+    }
+
+    public Set<String> getAvailableSorts(){
+        return productSortMethod.keySet();
+    }
+
+    public String getProductCurrentSortName(){
+        return userVariables.getSortProduct();
+    }
+
+    public String getSortProductType(){
+        return userVariables.getSortProductType();
+    }
+
+    public void removeSortProduct(){
+        userVariables.removeSortProduct();
     }
 
 public static class NoProductWithId extends Exception{}

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 public class GlobalVariables {
     private ArrayList<Field> allFiltersOffs;
-    private String SortOff;
+    private String sortOff;
+    private String sortOffType;
     private ArrayList<Field> allFiltersProducts;
     private String sortProduct;
+    private String sortProductType;
     private Product product;
     private User loggedInUser;
 
@@ -20,8 +22,22 @@ public class GlobalVariables {
         return loggedInUser;
     }
 
-    public void setSortProduct(String name){
+    public void setSortProduct(String name,String type){
         this.sortProduct = name;
+        this.sortProductType = type;
+    }
+
+    public String getSortProductType() {
+        return sortProductType;
+    }
+
+    public String getSortOffType() {
+        return sortOffType;
+    }
+
+    public void removeSortProduct(){
+        this.sortProduct = "seen count";
+        this.sortProductType = "ascending";
     }
 
     public String getSortProduct(){
@@ -29,10 +45,10 @@ public class GlobalVariables {
     }
 
     public void setSortOff(String sortOff) {
-        SortOff = sortOff;
+        this.sortOff = sortOff;
     }
 
     public String getSortOff() {
-        return SortOff;
+        return sortOff;
     }
 }
