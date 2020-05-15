@@ -3,9 +3,13 @@ package View;
 import Controllers.DiscountController;
 import Models.Customer;
 import Models.Discount;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 public class CreateDiscountCodeMenu extends Menu{
@@ -64,6 +68,8 @@ public class CreateDiscountCodeMenu extends Menu{
             }
         }
     }
+
+
 
     private void setEndDateForDiscount(DiscountController discountController){
         String input;

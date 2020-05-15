@@ -1,13 +1,12 @@
 package View.Products;
 
-import Controllers.EntryController;
 import Controllers.ProductsController;
 import Models.Product;
-import View.EntryMenu;
 import View.ManageCategoriesMenu;
 import View.Menu;
 import View.ProductMenu;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class ProductsMenu extends Menu {
@@ -15,9 +14,9 @@ public class ProductsMenu extends Menu {
     public ProductsMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
         subMenus.put("view\\s+categories", getViewCategoryMenu());
-       // subMenus.put("filtering", new FilteringMenu("filter", this));
-        subMenus.put("sorting", new SortingMenu("SortingMenu", this,productsController));
-      //  subMenus.put("show\\s+products", getShowProductsMenu());
+        subMenus.put("filtering", new FilteringMenu("filter", this,productsController));
+        subMenus.put("sorting", new SortingMenu("SortingMenu", this, productsController));
+        subMenus.put("show\\s+products", getShowProductsMenu());
 
     }
 
@@ -36,7 +35,8 @@ public class ProductsMenu extends Menu {
     private Menu getViewCategoryMenu() {
         return new Menu("ViewCategory", this) {
             @Override
-            public void help() {}
+            public void help() {
+            }
 
             @Override
             public void execute() {
@@ -48,8 +48,19 @@ public class ProductsMenu extends Menu {
     private Menu getShowProductsMenu() {
         return new Menu("show products menu", this) {
             @Override
-            public void help() {
+            public void help() {}
 
+            @Override
+            public void execute() {
+                int i =1;
+                ArrayList<Product> allProducts = productsController.geFinalProductsList();
+                if(allProducts.isEmpty())
+                    System.out.println("There is nothing to show!");
+                else
+                    for (Product product : allProducts) {
+                        System.out.println(i+"."+product.toString());
+                        i++;
+                    }
             }
         };
     }
@@ -59,30 +70,19 @@ public class ProductsMenu extends Menu {
         Matcher matcher;
         String input;
         while (!(input = scanner.nextLine().trim()).matches("back")) {
-            if (input.equalsIgnoreCase("help"))
-                help();
-            else if ((matcher = getMatcher(input, "show\\s+product\\s+(\\S+)")).matches())
+            if(input.matches("help|login|register|logout"))
+                sideCommands(input);
+             else if ((matcher = getMatcher(input, "show\\s+product\\s+(\\S+)")).matches())
                 goToProductMenu(matcher.group(1));
-            else if (input.matches("logout")) {
-                try {
-                    entryController.logout();
-                } catch (EntryController.NotLoggedInException e) {
-                    System.err.println("You are not logged in!");
-                }
-            }else if(input.matches("login|register")){
-                if(entryController.isUserLoggedIn())
-                    System.err.println("You are loggedIn!");
-                else
-                    new EntryMenu(this).execute();
-            }else{
+            else {
                 Menu menu = null;
                 for (String regex : this.subMenus.keySet()) {
-                    if(input.matches(regex)) {
+                    if (input.matches(regex)) {
                         menu = subMenus.get(regex);
                         break;
                     }
                 }
-                if(menu==null)
+                if (menu == null)
                     System.err.println("Invalid command!");
                 else
                     menu.execute();

@@ -1,6 +1,8 @@
 package View;
 
 import Models.Discount;
+import View.Products.OffsMenu;
+import View.Products.ProductsMenu;
 
 import java.util.HashMap;
 
@@ -12,7 +14,8 @@ public class CustomerMenu extends Menu{
         subMenus.put("view\\s+discount\\s+codes",getDiscountCodesMenu());
         subMenus.put("view\\s+balance",getBalanceMenu());
         subMenus.put("view\\s+orders",new OrderMenu("orderMenu",this));
-
+        subMenus.put("offs",new OffsMenu("Off menu",this));
+        subMenus.put("products",new ProductsMenu("ProductsMenu",this));
     }
 
     @Override

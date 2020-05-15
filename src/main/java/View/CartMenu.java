@@ -68,7 +68,7 @@ public class CartMenu extends Menu {
                     productMenu = new ProductMenu(productsController.getProduct(productId));
                     productMenu.execute();
                 } catch (ProductsController.NoProductWithId noProductWithId) {
-                    noProductWithId.printStackTrace();
+                    System.err.println("there is no product with id!");;
                 }
 
             }

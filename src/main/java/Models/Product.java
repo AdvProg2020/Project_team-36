@@ -32,6 +32,7 @@ public class Product implements Pendable, Packable {
     }
 
     public static Product getProduct(int id) {
+        updateAllProducts();
         for (Product product : allProducts) {
             if (product.getProductId() == (id))
                 return product;
@@ -88,6 +89,37 @@ public class Product implements Pendable, Packable {
         return allProducts;
     }
 
+    public static ArrayList<Product> getAllInSaleProducts() {
+        updateAllProducts();
+        ArrayList<Product> result = new ArrayList<>();
+        for (Product product : allProducts) {
+            if (product.isProductInSale())
+                result.add(product);
+        }
+        return result;
+    }
+
+    public ProductField getBestSale() {
+        ArrayList<ProductField> temp = new ArrayList<>();
+        for (ProductField field : productFields) {
+            if (field.getSale() != null)
+                temp.add(field);
+        }
+        try {
+            new Sort().sort(temp, ProductField.class.getDeclaredMethod("getCurrentPrice"), false);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return temp.get(0);
+    }
+
+    public boolean isProductInSale() {
+        for (ProductField field : productFields) {
+            if (field.getSale() != null)
+                return true;
+        }
+        return false;
+    }
 
     public String getCompany() {
         return company;
@@ -173,7 +205,7 @@ public class Product implements Pendable, Packable {
                 "    name: " + this.name + '\n' +
                 "    company: " + company + '\n' +
                 "    category: " + category.getName() + '\n' +
-                "    information: " + information + '\n'+
+                "    information: " + information + '\n' +
                 "    lowest price: " + this.getLowestCurrentPrice() + '\n'
                 ;
     }
@@ -200,7 +232,7 @@ public class Product implements Pendable, Packable {
         return true;
     }
 
-    public static void updateAllProducts(){
+    public static void updateAllProducts() {
         ArrayList<ProductField> tempProductField = new ArrayList<>();
         ArrayList<Product> tempProduct = new ArrayList<>();
         for (Product product : allProducts) {

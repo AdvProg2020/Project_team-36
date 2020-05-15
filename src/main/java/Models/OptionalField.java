@@ -2,7 +2,7 @@ package Models;
 
 public class OptionalField implements Field {
     private String name;
-    private String option;
+    private String quality;
 
     public OptionalField(String name){
         this.name = name;
@@ -16,7 +16,7 @@ public class OptionalField implements Field {
         this.name = name;
     }
 
-    public String getOption() {
-        return option;
+    public String getQuality() {
+        return quality;
     }
 }

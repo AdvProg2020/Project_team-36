@@ -64,6 +64,23 @@ public abstract class Menu {
         parent.getParentMenu().execute();
     }
 
+    public void sideCommands(String input){
+        if (input.equalsIgnoreCase("help"))
+            help();
+        else if (input.matches("logout")) {
+            try {
+                entryController.logout();
+            } catch (EntryController.NotLoggedInException e) {
+                System.err.println("You are not logged in!");
+            }
+        } else if (input.matches("login|register")) {
+            if (entryController.isUserLoggedIn())
+                System.err.println("You are loggedIn!");
+            else
+                new EntryMenu(this).execute();
+        }
+    }
+
     public HashMap<String, Menu> getSubMenus() {
         return subMenus;
     }

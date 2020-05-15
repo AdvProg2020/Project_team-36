@@ -145,6 +145,7 @@ public class Category implements Packable {
 
     public ArrayList<Product> getAllSubProducts() {
         ArrayList<Product> allProducts = new ArrayList<>();
+        Product.updateAllProducts();
         this.getAllSubProducts(this, allProducts);
         return allProducts;
     }
@@ -209,9 +210,6 @@ public class Category implements Packable {
         }
     }
 
-
-    //ArshiA
-
     public Data pack(Object object) {
         return null;
     }
@@ -220,5 +218,4 @@ public class Category implements Packable {
         return null;
     }
 
-    //-..-
 }

@@ -1,5 +1,8 @@
 package View;
 
+import View.Products.OffsMenu;
+import View.Products.ProductsMenu;
+
 public class ManagerMenu extends Menu {
 
 
@@ -13,6 +16,8 @@ public class ManagerMenu extends Menu {
         subMenus.put("manage\\s+all\\s+products", new ManageAllProductsMenu(this));
         subMenus.put("create\\s+discount\\s+code",new CreateDiscountCodeMenu(this));
         subMenus.put("create\\s+new\\s+gift",new GiftMenu("GiftMenu",this));
+        subMenus.put("offs",new OffsMenu("Off menu",this));
+        subMenus.put("products",new ProductsMenu("ProductsMenu",this));
 
     }
 

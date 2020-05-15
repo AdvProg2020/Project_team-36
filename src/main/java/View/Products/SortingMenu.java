@@ -2,7 +2,6 @@ package View.Products;
 
 import Controllers.EntryController;
 import Controllers.ProductsController;
-import View.EntryMenu;
 import View.Menu;
 
 
@@ -11,15 +10,15 @@ import java.util.regex.Matcher;
 
 public class SortingMenu extends Menu {
     private String sort;
-    private ProductsController productsController;
+    private ProductsController controller;
 
-    public SortingMenu(String name, Menu parentMenu,ProductsController productsController) {
+    public SortingMenu(String name, Menu parentMenu, ProductsController productsController) {
         super(name, parentMenu);
         subMenus.put("show\\s+available\\s+sorts", getAvailableSortsMenu());
         subMenus.put("current\\s+sort", getCurrentSortMenu());
         subMenus.put("disable\\s+sort", getDisableSortMenu());
-        subMenus.put("sort\\s+(\\.+)", getSortMenu());
-        this.productsController = productsController;
+        subMenus.put("sort\\s+(.+)", getSortMenu());
+        this.controller = productsController;
     }
 
     @Override
@@ -37,12 +36,13 @@ public class SortingMenu extends Menu {
         return new Menu("Available sort menu", this) {
             @Override
             public void help() {
+
             }
 
             @Override
             public void execute() {
                 System.out.println("Available sorts:");
-                Set<String> names = productsController.getAvailableSorts();
+                Set<String> names = controller.getAvailableSorts();
                 int i = 1;
                 for (String name : names) {
                     System.out.println(i + "." + name);
@@ -61,8 +61,8 @@ public class SortingMenu extends Menu {
 
             @Override
             public void execute() {
-                System.out.println("Sorted by: " + productsController.getProductCurrentSortName());
-                System.out.println("type of sorting: " + productsController.getSortProductType() + " order");
+                System.out.println("Sorted by: " + controller.getProductCurrentSortName());
+                System.out.println("type of sorting: " + controller.getSortProductType() + " order");
             }
         };
     }
@@ -75,7 +75,7 @@ public class SortingMenu extends Menu {
 
             @Override
             public void execute() {
-                productsController.removeSortProduct();
+                controller.removeSortProduct();
                 System.out.println("Sorting is now based on seen count and in ascending order!");
             }
         };
@@ -101,24 +101,16 @@ public class SortingMenu extends Menu {
         while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             if (input.matches("(?i)ascending|descending")) {
                 try {
-                    productsController.setSort(sort, input);
+                    controller.setSort(sort, input);
                     return;
                 } catch (ProductsController.NoSortException e) {
                     System.err.println("There is no type with this name! try again!");
                 }
-            } else if (input.matches("logout")) {
-                try {
-                    entryController.logout();
-                } catch (EntryController.NotLoggedInException e) {
-                    System.err.println("You are not logged in!");
-                }
-            } else if (input.matches("login|register")) {
-                if (entryController.isUserLoggedIn())
-                    System.err.println("You are loggedIn!");
-                else
-                    new EntryMenu(this).execute();
-
-            } else System.err.println("invalid command!");
+            } else if (input.matches("logout|login|register"))
+                sideCommands(input);
+            else if (input.matches("help"))
+                System.out.println("now you have to choose the type of sorting,or press back!");
+            else System.err.println("invalid command!");
         }
         this.parentMenu.execute();
     }
@@ -127,22 +119,10 @@ public class SortingMenu extends Menu {
     public void execute() {
         String input;
         Matcher matcher;
-        Menu chosenMenu = null;
         while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("back")) {
-            if (input.matches("help"))
-                help();
-            else if (input.matches("logout")) {
-                try {
-                    entryController.logout();
-                } catch (EntryController.NotLoggedInException e) {
-                    System.err.println("You are not logged in!");
-                }
-            } else if (input.matches("login|register")) {
-                if (entryController.isUserLoggedIn())
-                    System.err.println("You are loggedIn!");
-                else
-                    new EntryMenu(this).execute();
-            } else {
+            if (input.matches("help|login|logout|register"))
+                sideCommands(input);
+            else {
                 Menu menu = null;
                 for (String regex : this.subMenus.keySet()) {
                     if ((matcher = getMatcher(input, regex)).matches()) {
@@ -155,9 +135,9 @@ public class SortingMenu extends Menu {
                         break;
                     }
                 }
-                if (menu == null)
+                if (menu == null) {
                     System.err.println("Invalid command!");
-                else
+                } else
                     menu.execute();
             }
         }

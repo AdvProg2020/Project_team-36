@@ -12,6 +12,8 @@ public class Sort {
     public void sort(Object toBeSorted, Method method, boolean isAscending) {
         ArrayList<Object> object = new ArrayList<>();
         object = ((ArrayList<Object>) toBeSorted);
+        if(object.isEmpty())
+            return;
         String type;
         try {
             type = method.invoke(object.get(0)).getClass().getSimpleName();
