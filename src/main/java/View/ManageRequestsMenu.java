@@ -35,7 +35,8 @@ public class ManageRequestsMenu extends Menu {
         }
         System.out.println("choose the request and what you want to do with it :");
         String input = scanner.nextLine().trim();
-        while (!((input.matches("back")) || (input.matches("help")))) {
+        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help"))||
+                (input.equalsIgnoreCase("logout")))) {
             for (String regex : subMenus.keySet()) {
                 matcher = getMatcher(input, regex);
                 if (matcher.matches()) {
@@ -61,6 +62,8 @@ public class ManageRequestsMenu extends Menu {
         } else if (input.matches("help")) {
             this.help();
             this.execute();
+        } else if((input.equalsIgnoreCase("logout"))){
+            logoutChangeMenu();
         }
     }
 

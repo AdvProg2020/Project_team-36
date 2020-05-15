@@ -37,7 +37,8 @@ public class ViewDiscountCodesMenu extends Menu {
         }
         System.out.println("choose the discount and what you want to do with it :");
         String input = scanner.nextLine().trim();
-        while (!(input.matches("back|logout|help"))) {
+        while (!((input.equalsIgnoreCase("back"))||(input.equalsIgnoreCase("help"))||
+                (input.equalsIgnoreCase("logout")))) {
             for (String regex : subMenus.keySet()) {
                 matcher = getMatcher(input, regex);
                 if (matcher.matches()) {
@@ -63,7 +64,7 @@ public class ViewDiscountCodesMenu extends Menu {
         } else if (input.equalsIgnoreCase("help")) {
             this.help();
             this.execute();
-        } else if(input.matches("logout")){
+        } else if(input.equalsIgnoreCase("logout")){
             logoutChangeMenu();
         }
     }

@@ -30,7 +30,8 @@ public class ManageAllProductsMenu extends Menu{
         }
         System.out.println("choose the product you want to remove :");
         String input = scanner.nextLine().trim();
-        while (!((input.matches("back")) || (input.matches("help")))) {
+        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help"))||
+                (input.equalsIgnoreCase("logout")))) {
             for (String regex : subMenus.keySet()) {
                 matcher = getMatcher(input, regex);
                 if (matcher.matches()) {
@@ -56,6 +57,8 @@ public class ManageAllProductsMenu extends Menu{
         } else if (input.matches("help")) {
             this.help();
             this.execute();
+        } else if ((input.equalsIgnoreCase("logout"))){
+            logoutChangeMenu();
         }
     }
 
