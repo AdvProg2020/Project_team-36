@@ -189,7 +189,11 @@ public class ManagerController extends UserController {
             return User.getUserByUsername(username);
         }
     }
-    
+
+    public void deleteUser(User user){
+        user.setUserDeleted();
+    }
+
     public ArrayList<Request> getAllRequests(){
         return Request.getAllRequests();
     }

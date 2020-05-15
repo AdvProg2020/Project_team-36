@@ -96,7 +96,7 @@ public class ManageUsersMenu extends Menu {
             public void execute() {
                 try {
                     User user = managerController.getUserWithUsername(username);
-
+                    managerController.deleteUser(user);
                 } catch (ManagerController.InvalidUsernameException e){
                     System.err.println(e.getMessage());
                 }
