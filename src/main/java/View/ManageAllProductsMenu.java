@@ -1,5 +1,6 @@
 package View;
 
+import Controllers.ManagerController;
 import Models.Product;
 
 import java.util.regex.Matcher;
@@ -66,7 +67,12 @@ public class ManageAllProductsMenu extends Menu{
 
             @Override
             public void execute() {
-                
+                try {
+                    Product product = managerController.getProductWithId(id);
+                    managerController.removeProduct(product);
+                } catch (ManagerController.InvalidProductIdException e){
+                    System.err.println(e.getMessage());
+                }
             }
         };
     }

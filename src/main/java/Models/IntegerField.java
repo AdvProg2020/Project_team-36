@@ -1,11 +1,18 @@
 package Models;
 
+import java.math.BigDecimal;
+
+
 public class IntegerField implements Field{
     private String name;
-    private int quantity;
+    private BigDecimal quantity;
 
     public IntegerField(String name){
         this.name = name;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = new BigDecimal(quantity);
     }
 
     public String getName() {
@@ -17,7 +24,7 @@ public class IntegerField implements Field{
         this.name = name;
     }
 
-    public int getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 }

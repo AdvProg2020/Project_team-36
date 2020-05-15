@@ -8,12 +8,10 @@ import java.util.regex.Matcher;
 public class ManageUsersMenu extends Menu {
 
     private String username;
-    private String role;
 
     public ManageUsersMenu(Menu parentMenu) {
         super("ManageUsersMenu", parentMenu);
         subMenus.put("view\\s+(\\S+)",viewUser());
-        subMenus.put("change\\s+type\\s+(\\S+)\\s+(\\w+)",changeUserType());
         subMenus.put("delete\\s+user\\s+(\\S+)",deleteUser());
         subMenus.put("create\\s+manager\\s+profile",createManagerProfile());
     }
@@ -22,7 +20,6 @@ public class ManageUsersMenu extends Menu {
     @Override
     public void help() {
         System.out.println("view [username]\n" +
-                "change type [username] [role]\n" +
                 "delete user [username]\n" +
                 "create manager profile\n");
     }
@@ -66,9 +63,6 @@ public class ManageUsersMenu extends Menu {
     private void getInput(String input,Matcher matcher){
         if(input.startsWith("view") || input.startsWith("delete")){
             username = matcher.group(1);
-        }else if(input.startsWith("change")){
-            username = matcher.group(1);
-            role = matcher.group(2);
         }
     }
 
@@ -98,46 +92,16 @@ public class ManageUsersMenu extends Menu {
                 System.out.println("delete user");
             }
 
-        };
-    }
-
-    private Menu changeUserType() {
-        return new Menu("changeUserType", this) {
-            @Override
-            public void help() {
-                System.out.println("change the type of the user");
-            }
-
             @Override
             public void execute() {
                 try {
                     User user = managerController.getUserWithUsername(username);
-                    if(!role.matches("manager|seller|customer")){
-                        System.err.println("the desired type isn't valid");
-                        return;
-                    }else if(managerController.usersTypeIsTheSame(role,user)){
-                        System.err.println("users type is already what you want");
-                        return;
-                    } else {
-                        callChangeTypeMethod(user);
-                    }
+
                 } catch (ManagerController.InvalidUsernameException e){
                     System.err.println(e.getMessage());
                 }
             }
         };
-    }
-
-    private void callChangeTypeMethod(User user){
-        switch (role){
-            case "manager":
-
-                break;
-            case "seller":
-                //
-                break;
-            case "customer":
-        }
     }
 
     private Menu createManagerProfile() {
@@ -149,10 +113,6 @@ public class ManageUsersMenu extends Menu {
 
             @Override
             public void execute() {
-//                if(managerController.loggedInUserIsNotMainManager()){
-//                    System.err.println("only the main manager can create new manager profiles");
-//                    return;
-//                }
                 NewManagerController newManagerController = new NewManagerController();
                 System.out.println("please fill each field wanted :");
                 System.out.println("username: ");

@@ -61,6 +61,10 @@ public class Seller extends User implements Pendable,Packable {
         this.credit += amount;
     }
 
+    public void removeProduct(Product product){
+        allProducts.remove(product);
+    }
+
     @Override
     public String toString() {
         return  "    username: " + username + '\n' +
