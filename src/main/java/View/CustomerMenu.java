@@ -1,5 +1,6 @@
 package View;
 
+import Exceptions.NoLoggedInUserException;
 import Models.Discount;
 
 import java.util.HashMap;
@@ -33,17 +34,21 @@ public class CustomerMenu extends Menu{
 
             @Override
             public void execute() {
-                HashMap<Discount, Integer> discounts = customerController.getDiscountCodes();
-                if(discounts.isEmpty()){
-                    System.out.println("You have no available discount!");
-                    this.getParentMenu().execute();
-                }
-                System.out.println("Discount code    Repetition    EndTime");
-                for (Discount discount : discounts.keySet()) {
-                    System.out.printf("%10s%10d%20s",discount.getId(),discounts.get(discount),discount.getEndTime());
-                    System.out.println();
-                }
-                this.getParentMenu().execute();
+               try {
+                   HashMap<Discount, Integer> discounts = customerController.getDiscountCodes();
+                   if(discounts.isEmpty()){
+                       System.out.println("You have no available discount!");
+                       this.getParentMenu().execute();
+                   }
+                   System.out.println("Discount code    Repetition    EndTime");
+                   for (Discount discount : discounts.keySet()) {
+                       System.out.printf("%10s%10d%20s",discount.getId(),discounts.get(discount),discount.getEndTime());
+                       System.out.println();
+                   }
+                   this.getParentMenu().execute();
+               }catch (NoLoggedInUserException e){
+                   System.err.println(e.getMessage());
+               }
             }
         };
     }
@@ -56,8 +61,12 @@ public class CustomerMenu extends Menu{
 
             @Override
             public void execute() {
-                System.out.println("your total balance is: "+customerController.getBalance());
-                this.getParentMenu().execute();
+                try {
+                    System.out.println("your total balance is: "+customerController.getBalance());
+                    this.getParentMenu().execute();
+                }catch (NoLoggedInUserException e){
+                    System.err.println(e.getMessage());
+                }
             }
         };
     }

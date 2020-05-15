@@ -37,11 +37,11 @@ public class EntryController extends UserController  {
         }
     }
 
-    public void setCompany(String name){
+    public void setCompany(String name) throws NoLoggedInUserException {
         ((Seller)userVariables.getLoggedInUser()).setCompanyName(name);
     }
 
-    public void setCompanyInfo(String info){
+    public void setCompanyInfo(String info) throws NoLoggedInUserException {
         ((Seller) userVariables.getLoggedInUser()).setCompanyInfo(info);
     }
 

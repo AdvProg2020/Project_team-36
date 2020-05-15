@@ -20,20 +20,20 @@ public class CustomerController extends UserController {
         ((Customer)userVariables.getLoggedInUser()).setCredit(credit);
     }
 
-    public boolean isThereProductInCart(int productId) {
+    public boolean isThereProductInCart(int productId) throws NoLoggedInUserException {
         return ((Customer) userVariables.getLoggedInUser()).isThereProductInCart(productId);
     }
 
-    public ArrayList<SelectedItem> getCart() {
+    public ArrayList<SelectedItem> getCart() throws NoLoggedInUserException {
         return ((Customer) userVariables.getLoggedInUser()).getCart();
     }
 
-    public boolean isThereMultipleSellers(int productId) {
+    public boolean isThereMultipleSellers(int productId) throws NoLoggedInUserException {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
         return item.getSellers().size() > 1;
     }
 
-    public boolean isThereAvailableItemInCart(){
+    public boolean isThereAvailableItemInCart() throws NoLoggedInUserException {
         ArrayList<SelectedItem> cart = ((Customer)userVariables.getLoggedInUser()).getCart();
         if(cart.isEmpty())
             return false;
@@ -50,7 +50,7 @@ public class CustomerController extends UserController {
         return false;
     }
 
-    public ArrayList<SelectedItem> getWaitingLogItems(){
+    public ArrayList<SelectedItem> getWaitingLogItems() throws NoLoggedInUserException {
         ArrayList<SelectedItem> temp = new ArrayList<>();
         for (SelectedItem item : ((Customer) userVariables.getLoggedInUser()).getWaitingLog().getAllItems()) {
             if(item.editForAvailability()==null)
@@ -60,7 +60,7 @@ public class CustomerController extends UserController {
         return((Customer) userVariables.getLoggedInUser()).getWaitingLog().getAllItems();
     }
 
-    public void increaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem, NotEnoughSupply {
+    public void increaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem, NotEnoughSupply, NoLoggedInUserException {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
         if (!((Customer) userVariables.getLoggedInUser()).isThereProductInCart(productId))
             throw new NoProductWithIdInCart("There is no product with this id in your cart!");
@@ -76,7 +76,7 @@ public class CustomerController extends UserController {
 
     }
 
-    public void increaseProductInCart(int sellerNumber, int productId) throws NotEnoughSupply {
+    public void increaseProductInCart(int sellerNumber, int productId) throws NotEnoughSupply, NoLoggedInUserException {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
         Seller seller = item.getSellers().get(sellerNumber - 1);
         if (item.getProduct().enoughSupplyOfSeller(seller, 1)) {
@@ -87,7 +87,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void decreaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem {
+    public void decreaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem, NoLoggedInUserException {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
         if (!((Customer) userVariables.getLoggedInUser()).isThereProductInCart(productId))
             throw new NoProductWithIdInCart("There is no product with this id in your cart!");
@@ -103,7 +103,7 @@ public class CustomerController extends UserController {
 
     }
 
-    public void decreaseProductInCart(Seller seller, int productId) {
+    public void decreaseProductInCart(Seller seller, int productId) throws NoLoggedInUserException {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
         try {
             item.decreaseAmountFromSeller(seller, 1);
@@ -112,28 +112,28 @@ public class CustomerController extends UserController {
         }
     }
 
-    public long getTotalCartPrice() {
+    public long getTotalCartPrice() throws NoLoggedInUserException {
         return ((Customer) userVariables.getLoggedInUser()).getCartPrice();
     }
 
 
-    public HashMap<Discount, Integer> getDiscountCodes() {
+    public HashMap<Discount, Integer> getDiscountCodes() throws NoLoggedInUserException {
 
         return ((Customer) userVariables.getLoggedInUser()).getAllDiscountsForCustomer();
     }
 
-    public long getBalance() {
+    public long getBalance() throws NoLoggedInUserException {
         return ((Customer) userVariables.getLoggedInUser()).getCredit();
     }
 
-    public CustomerLog getOrder(int orderId) throws NoLogWithId {
+    public CustomerLog getOrder(int orderId) throws NoLogWithId, NoLoggedInUserException {
         if (!((Customer) userVariables.getLoggedInUser()).isThereLog(orderId))
             throw new NoLogWithId("There is no log with this id!");
         return ((Customer) userVariables.getLoggedInUser()).getLog(orderId);
 
     }
 
-    public void rateProduct(int productId, int rate) throws NoProductWithIdInLog {
+    public void rateProduct(int productId, int rate) throws NoProductWithIdInLog, NoLoggedInUserException {
         if (Product.getProduct(productId) == null)
             throw new NoProductWithIdInLog("No product with this id in your log!");
         else {
@@ -142,25 +142,25 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void setAddressForPurchase(String address)  {
+    public void setAddressForPurchase(String address) throws NoLoggedInUserException {
 
         Customer customer = ((Customer) userVariables.getLoggedInUser());
         customer.setWaitingLog(new WaitingLog(customer, address));
         customer.getWaitingLog().setAllItems(customer.getCart());
     }
 
-    public void setPhoneNumberForPurchase(String phoneNumber) {
+    public void setPhoneNumberForPurchase(String phoneNumber) throws NoLoggedInUserException {
         ((Customer) userVariables.getLoggedInUser()).getWaitingLog().setCustomerPhoneNumber(phoneNumber);
     }
 
-    public void setDiscountCodeForPurchase(int discountCode) throws NoDiscountAvailableWithId {
+    public void setDiscountCodeForPurchase(int discountCode) throws NoDiscountAvailableWithId, NoLoggedInUserException {
         Customer customer = (Customer) userVariables.getLoggedInUser();
         if (customer.isThereDiscountCode(discountCode))
             throw new NoDiscountAvailableWithId("No Discount with Id");
         customer.getWaitingLog().setDiscount(Discount.getDiscountWithId(discountCode));
     }
 
-    public void cancelPurchase(){
+    public void cancelPurchase() throws NoLoggedInUserException {
         WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
         if(waitingLog.getDiscount()!= null){
             waitingLog.getCustomer().increaseDiscountCode(waitingLog.getDiscount(),1);
@@ -168,13 +168,13 @@ public class CustomerController extends UserController {
         }
     }
 
-    public ArrayList<Gift> getGifts() {
+    public ArrayList<Gift> getGifts() throws NoLoggedInUserException {
         WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
         Gift.giveGift(waitingLog);
         return waitingLog.getGifts();
     }
 
-    public CustomerLog purchase() throws NotEnoughMoney {
+    public CustomerLog purchase() throws NotEnoughMoney, NoLoggedInUserException {
         WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
         Customer customer = (Customer) userVariables.getLoggedInUser();
         if (waitingLog.getPayablePrice() > customer.getCredit()) {
@@ -188,7 +188,7 @@ public class CustomerController extends UserController {
         return log;
     }
 
-    public ArrayList<CustomerLog> getAllLogs() {
+    public ArrayList<CustomerLog> getAllLogs() throws NoLoggedInUserException {
         return ((Customer) userVariables.getLoggedInUser()).getAllLogs();
     }
 

@@ -1,6 +1,7 @@
 package View;
 
 import Controllers.CustomerController;
+import Exceptions.NoLoggedInUserException;
 import Models.*;
 
 import java.util.ArrayList;
@@ -33,19 +34,23 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
-                ArrayList<SelectedItem> cart = customerController.getCart();
-                if (cart.isEmpty()) {
-                    System.out.println("There is nothing to show!");
-                    return;
+                try {
+                    ArrayList<SelectedItem> cart = customerController.getCart();
+                    if (cart.isEmpty()) {
+                        System.out.println("There is nothing to show!");
+                        return;
+                    }
+                    System.out.format("%20s%9s%s%s", "Product name", " ProductId  ", "  count in cart  ","Availability");
+                    for (SelectedItem item : cart) {
+                        Product product = item.getProduct();
+                        System.out.format("%20s%9d%10d%s", product.getName(), product.getProductId(), item.getCount(),item.getTag());
+                    }
+                    System.err.println("NOTE:");
+                    System.out.println("If one or more items in your cart are not available, you can edit them of if you want to purchase," +
+                            " we automatically edit your cart!");
+                }catch (NoLoggedInUserException e){
+                    System.err.println(e.getMessage());
                 }
-                System.out.format("%20s%9s%s%s", "Product name", " ProductId  ", "  count in cart  ","Availability");
-                for (SelectedItem item : cart) {
-                    Product product = item.getProduct();
-                    System.out.format("%20s%9d%10d%s", product.getName(), product.getProductId(), item.getCount(),item.getTag());
-                }
-                System.err.println("NOTE:");
-                System.out.println("If one or more items in your cart are not available, you can edit them of if you want to purchase," +
-                        " we automatically edit your cart!");
             }
         };
     }
@@ -58,12 +63,16 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
-                if (customerController.isThereProductInCart(((CartMenu)this.parentMenu).getProductId())) {
-                    System.err.println("There is no product with this id in your cart!");
-                    return;
+                try {
+                    if (customerController.isThereProductInCart(((CartMenu)this.parentMenu).getProductId())) {
+                        System.err.println("There is no product with this id in your cart!");
+                        return;
+                    }
+                    ProductMenu productMenu = new ProductMenu(((CartMenu)this.parentMenu).getProductId());
+                    productMenu.execute();
+                }catch (NoLoggedInUserException e){
+                    System.err.println(e.getMessage());
                 }
-                ProductMenu productMenu = new ProductMenu(((CartMenu)this.parentMenu).getProductId());
-                productMenu.execute();
             }
         };
     }
@@ -88,9 +97,9 @@ public class CartMenu extends Menu {
                 } catch (CustomerController.NotEnoughSupply e) {
                     System.err.println("There is not enough supply for this product! ");
                     return;
+                }catch (NoLoggedInUserException e){
+                    System.err.println(e.getMessage());
                 }
-
-
             }
 
             private void moreThanOneSeller(ArrayList<Seller> sellers) {
@@ -116,6 +125,8 @@ public class CartMenu extends Menu {
                             return;
                         } catch (CustomerController.NotEnoughSupply e) {
                             System.err.println("There is not enough supply for product!Try again ");
+                        }catch (NoLoggedInUserException e){
+                            System.err.println(e.getMessage());
                         }
 
                     }
@@ -139,6 +150,8 @@ public class CartMenu extends Menu {
                     System.out.println(e.getMessage());
                 } catch (CustomerController.MoreThanOneSellerForItem e) {
                     moreThanOneSeller(e.getSellers());
+                }catch (NoLoggedInUserException e){
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -159,8 +172,12 @@ public class CartMenu extends Menu {
                     else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
                         System.out.println("invalid command! Try again please");
                     } else {
-                        customerController.decreaseProductInCart(sellers.get(Integer.parseInt(input)-1), ((CartMenu)this.parentMenu).getProductId());
-                        System.out.println("Decreased successfully");
+                        try {
+                            customerController.decreaseProductInCart(sellers.get(Integer.parseInt(input)-1), ((CartMenu)this.parentMenu).getProductId());
+                            System.out.println("Decreased successfully");
+                        }catch (NoLoggedInUserException e){
+                            System.err.println(e.getMessage());
+                        }
                         return;
                     }
                 }
@@ -176,8 +193,12 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
-                System.out.print("Total price: ");
-                System.out.println(customerController.getTotalCartPrice());
+               try {
+                   System.out.print("Total price: ");
+                   System.out.println(customerController.getTotalCartPrice());
+               }catch (NoLoggedInUserException e){
+                   System.err.println(e.getMessage());
+               }
             }
         };
     }
