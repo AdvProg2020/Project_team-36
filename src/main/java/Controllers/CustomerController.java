@@ -179,6 +179,7 @@ public class CustomerController extends UserController {
         Customer customer = (Customer) userVariables.getLoggedInUser();
         if (waitingLog.getPayablePrice() > customer.getCredit()) {
             waitingLog.removeDiscount();
+            cancelPurchase();
             throw new NotEnoughMoney(waitingLog.getPayablePrice() - customer.getCredit());
         }
         waitingLog.applyPurchaseChanges();
