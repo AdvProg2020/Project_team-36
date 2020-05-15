@@ -45,7 +45,7 @@ public class EntryController extends UserController  {
         ((Seller) userVariables.getLoggedInUser()).setCompanyInfo(info);
     }
 
-    public void register(){
+    public void register() throws NoLoggedInUserException {
         User user = userVariables.getLoggedInUser();
         if(user instanceof Seller){
             new Request((Seller) user);
@@ -60,9 +60,6 @@ public class EntryController extends UserController  {
 
     public void logout() {
         this.userVariables.setLoggedInUser(null);
-    }
-    public void register() throws NoLoggedInUserException{
-        User.addNewUser(userVariables.getLoggedInUser());
     }
 
     private void createNewAccount(String username, String type) throws ManagerExistsException {

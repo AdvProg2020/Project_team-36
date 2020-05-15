@@ -78,16 +78,16 @@ public class Seller extends User implements Pendable,Packable {
         this.credit += amount;
     }
 
-    @Override
-    public String toString() {
-        return  "    username: " + username + '\n' +
-                "    firstname: " + firstname + '\n' +
-                "    lastname: " + lastname + '\n' +
-                "    email: " + email + '\n' +
-                "    phoneNumber: " + phoneNumber + '\n' +
-                "    company: " + companyName + '\n'
-                ;
-    }
+//    @Override
+//    public String toString() {
+//        return  "    username: " + username + '\n' +
+//                "    firstname: " + firstname + '\n' +
+//                "    lastname: " + lastname + '\n' +
+//                "    email: " + email + '\n' +
+//                "    phoneNumber: " + phoneNumber + '\n' +
+//                "    company: " + companyName + '\n'
+//                ;
+//    }
 
     //-..-
 
