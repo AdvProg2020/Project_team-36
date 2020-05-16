@@ -269,6 +269,17 @@ public class Product implements Pendable, Packable {
         allProducts.remove(product);
     }
 
+    public void removeSeller(Seller seller){
+        for (ProductField field : productFields) {
+            if(field.getSeller().equals(seller)){
+                productFields.remove(field);
+                break;
+            }
+        }
+        if(productFields.size()==0)
+            removeProduct(this);
+    }
+
     public Data pack(Object object) {
         return null;
     }

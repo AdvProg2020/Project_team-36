@@ -40,6 +40,23 @@ public class Seller extends User implements Pendable,Packable {
         return "seller";
     }
 
+    public long getCredit() {
+        return credit;
+    }
+
+    public void setCredit(long credit) {
+        this.credit = credit;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getCompanyInfo() {
+        return companyInfo;
+    }
+
+
     @Override
     public String getPendingRequestType() {
         return "seller account";
@@ -80,6 +97,14 @@ public class Seller extends User implements Pendable,Packable {
 
     public void removeProduct(Product product){
         allProducts.remove(product);
+    }
+
+    public boolean isThereProduct(int productId){
+        for (Product product : allProducts) {
+            if(product.getProductId()==productId)
+                return true;
+        }
+        return false;
     }
 
     @Override

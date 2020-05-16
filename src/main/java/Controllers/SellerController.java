@@ -14,52 +14,32 @@ public class SellerController extends UserController {
         super(userVariables);
     }
 
-    public long getLoggedInSellerBalance() throws NoLoggedInSellerException, NoLoggedInUserException {
-        User loggedInUser = userVariables.getLoggedInUser();
-        if (!(loggedInUser instanceof Seller)) {
-            throw new NoLoggedInSellerException("The logged in user is not seller");
-        }
-        return ((Seller) loggedInUser).getCredit();
+    public long getLoggedInSellerBalance() {
+        return ((Seller)userVariables.getLoggedInUser()).getCredit();
     }
 
-    public String getLoggedInSellerCompanyInformation() throws NoLoggedInSellerException, NoLoggedInUserException{
-        User loggedInUser = userVariables.getLoggedInUser();
+    public String getLoggedInSellerCompanyInformation(){
         String output = "";
-        if (!(loggedInUser instanceof Seller)) {
-            throw new NoLoggedInSellerException("The logged in user is not seller");
-        }
-        output += "company Name:" + ((Seller) loggedInUser).getCompanyName();
-        if (!((Seller) loggedInUser).getCompanyInfo().equals("")){
-            output += "\n" + "Info:" + ((Seller) loggedInUser).getCompanyInfo();
+        output += "company Name:" + ((Seller) userVariables.getLoggedInUser()).getCompanyName();
+        if (!((Seller)userVariables.getLoggedInUser()).getCompanyInfo().equals("")){
+            output += "\n" + "Info:" + ((Seller) userVariables.getLoggedInUser()).getCompanyInfo();
         }
         return output;
     }
 
-    public void removeSellerProduct(Product product) throws NoLoggedInUserException,NoLoggedInSellerException,NoProductForThisSellerException {
-        Seller loggedInSeller = getLoggedInSeller();
-        if(!loggedInSeller.getAllProducts().contains(product)){
-            throw new NoProductForThisSellerException("This seller does not sell this product!");
-        }
-        loggedInSeller.getAllProducts().remove(product);
-    }
-
-    public Seller getLoggedInSeller()throws NoLoggedInSellerException,NoLoggedInUserException{
-        if (userVariables.getLoggedInUser() instanceof Seller){
-            return (Seller) userVariables.getLoggedInUser();
-        }
-        throw new NoLoggedInSellerException("The logged in user is not seller");
-    }
-
-    public void setCredit(long credit) throws NoLoggedInUserException{
-        ((Seller)userVariables.getLoggedInUser()).setCredit(credit);
-    }
-
-    public void setCompanyName(String companyName)throws NoLoggedInUserException{
-        ((Seller)userVariables.getLoggedInUser()).setCompanyName(companyName);
+    public void removeSellerProduct(int productId) throws NoProductForSeller {
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        if(!seller.isThereProduct(productId))
+            throw new NoProductForSeller();
+        Product.getProduct(productId).removeSeller(seller);
     }
 
     public void setCompanyInfo(String companyInfo)throws NoLoggedInUserException{
         ((Seller)userVariables.getLoggedInUser()).setCompanyInfo(companyInfo);
     }
-}
 
+
+    public static class NoProductForSeller extends Exception{
+
+    }
+}
