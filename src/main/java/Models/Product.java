@@ -232,7 +232,17 @@ public class Product implements Pendable, Packable {
         return true;
     }
 
-    public static void updateAllProducts() {
+    public static boolean isThereProductWithId(int id){
+        updateAllProducts();
+        for (Product product : allProducts) {
+            if(product.getProductId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void updateAllProducts(){
         ArrayList<ProductField> tempProductField = new ArrayList<>();
         ArrayList<Product> tempProduct = new ArrayList<>();
         for (Product product : allProducts) {
@@ -249,6 +259,14 @@ public class Product implements Pendable, Packable {
             product.getCategory().removeProduct(product);
         }
         allProducts.removeAll(tempProduct);
+    }
+
+    public static void removeProduct(Product product){
+        for (ProductField productField : product.getProductFields()) {
+            productField.getSeller().removeProduct(product);
+        }
+        product.getCategory().removeProduct(product);
+        allProducts.remove(product);
     }
 
     public Data pack(Object object) {

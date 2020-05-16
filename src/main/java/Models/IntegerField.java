@@ -10,12 +10,12 @@ public class IntegerField implements Field{
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setQuantity(String quantity) {
         this.quantity = new BigDecimal(quantity);
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

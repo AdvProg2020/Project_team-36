@@ -62,6 +62,7 @@ public class Category implements Packable {
     public void removeProduct(Product product){
         this.products.remove(product);
     }
+
     public boolean isThereIntegerField(String name) {
         for (Field field : allFields) {
             if (field.getName().equalsIgnoreCase(name) && field instanceof IntegerField)
