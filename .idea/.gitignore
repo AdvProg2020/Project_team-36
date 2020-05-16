@@ -9,6 +9,7 @@
 .idea/**/shelf
 *.iml
 *.xml
+**/*.class
 
 # Generated files
 .idea/**/contentModel.xml
@@ -75,4 +76,4 @@ fabric.properties
 # Default ignored files
 /workspace.xml
 
-*.xml
+
