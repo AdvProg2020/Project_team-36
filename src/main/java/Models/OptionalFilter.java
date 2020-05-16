@@ -1,7 +1,5 @@
 package Models;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,36 +33,34 @@ public class OptionalFilter implements Filter {
     }
 
     private ArrayList<Product> generalFilter(ArrayList<Product> toBeFiltered){
-        CollectionUtils.filter(toBeFiltered, new Predicate() {
-            @Override
-            public boolean evaluate(Object object) {
-                for (String option : options) {
-                    try {
-                        if(option.equalsIgnoreCase((String)method.invoke(object)))
-                            return true;
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        System.exit(1);
-                    }
+        ArrayList<Product> toBeReturned = new ArrayList<>();
+        toBeFiltered.stream().filter(product -> {
+            for (String option : options) {
+                try {
+                    if(option.equalsIgnoreCase((String)method.invoke(product)))
+                        return true;
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    System.exit(1);
                 }
-                return false;
             }
-        });
-        return toBeFiltered;
+            return false;
+        }).forEach(toBeReturned::add);
+
+        return toBeReturned;
+
     }
 
     private ArrayList<Product> proprietaryFilter(ArrayList<Product> toBeFiltered){
-        CollectionUtils.filter(toBeFiltered, new Predicate() {
-            @Override
-            public boolean evaluate(Object object) {
-                for (String option : options) {
-                    OptionalField optionalField = (OptionalField) ((Product)object).getField(name);
-                    if(option.equalsIgnoreCase(optionalField.getQuality()))
-                        return true;
-                }
-                return false;
+        ArrayList<Product> toBeReturned = new ArrayList<>();
+        toBeFiltered.stream().filter(product -> {
+            for (String option : options) {
+                OptionalField optionalField = (OptionalField) product.getField(name);
+                if(option.equalsIgnoreCase(optionalField.getQuality()))
+                    return true;
             }
-        });
-        return toBeFiltered;
+            return false;
+        }).forEach(toBeReturned::add);
+        return toBeReturned;
     }
 
     public ArrayList<String> getOptions() {
