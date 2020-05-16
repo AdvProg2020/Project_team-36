@@ -1,16 +1,23 @@
 package View;
 
+import View.Products.OffsMenu;
+import View.Products.ProductsMenu;
+
 public class MainMenu extends Menu {
 
     public MainMenu() {
         super("MainMenu", null);
         this.subMenus.put("user\\s+area", new UserAreaMenu(this));
+        subMenus.put("offs",new OffsMenu("Off menu",this));
+        subMenus.put("products",new ProductsMenu("ProductsMenu",this));
     }
 
 
     @Override
     public void help() {
-        System.out.println("user area");
+        System.out.println("user area\n" +
+                "offs\n" +
+                "products");
     }
 
     @Override

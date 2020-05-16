@@ -4,7 +4,7 @@ public class Comment {
     private User user;
     private Product product;
     private String comment;
-    private Enum<ConfirmationStatus> ConfirmationStatus;
+    private Enum<Status> ConfirmationStatus;
     private boolean hasBought;
 
     public User getUser() {
@@ -19,7 +19,7 @@ public class Comment {
         return comment;
     }
 
-    public Enum<Models.ConfirmationStatus> getConfirmationStatus() {
+    public Enum<Status> getConfirmationStatus() {
         return ConfirmationStatus;
     }
 

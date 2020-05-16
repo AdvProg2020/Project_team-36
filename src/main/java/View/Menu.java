@@ -16,8 +16,9 @@ public abstract class Menu {
     protected static ManagerController managerController;
     protected static CustomerController customerController;
     protected static SellerController sellerController;
-    protected static OffController offController;
     protected static EntryController entryController;
+    protected static ProductsController productsController;
+    protected static OffController offController;
     protected static Scanner scanner;
     protected static ProductController productController;
     protected static UserController userController;
@@ -47,6 +48,7 @@ public abstract class Menu {
         Menu.managerController = new ManagerController(user);
         Menu.offController = new OffController(user);
         Menu.sellerController = new SellerController(user);
+        Menu.productsController = new ProductsController(user);
     }
 
     public void logoutChangeMenu() {
@@ -55,9 +57,30 @@ public abstract class Menu {
             parent = parent.getParentMenu();
         }
         ((UserAreaMenu)parent).logout();
-        entryController.logout();
+        try {
+            entryController.logout();
+        } catch (EntryController.NotLoggedInException e) {
+            e.printStackTrace();
+        }
         parent.getParentMenu().help();
         parent.getParentMenu().execute();
+    }
+
+    public void sideCommands(String input){
+        if (input.equalsIgnoreCase("help"))
+            help();
+        else if (input.matches("logout")) {
+            try {
+                entryController.logout();
+            } catch (EntryController.NotLoggedInException e) {
+                System.err.println("You are not logged in!");
+            }
+        } else if (input.matches("login|register")) {
+            if (entryController.isUserLoggedIn())
+                System.err.println("You are loggedIn!");
+            else
+                new EntryMenu(this).execute();
+        }
     }
 
     public HashMap<String, Menu> getSubMenus() {

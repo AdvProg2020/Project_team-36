@@ -1,12 +1,14 @@
 package View;
 
+import Models.Product;
+
 public class ProductMenu extends Menu {//parentesh null e tuye har menu E ke budim ino  ke call knim badesh execute esh eturn mikne mire jaye habli
+//TODO seen ro bayad ziad konim !
+    private Product product;
 
-    private int productId;
-
-    public ProductMenu( int productId) {
+    public ProductMenu(Product product) {
         super("ProductMenu", null);
-        this.productId = productId;
+        this.product = product;
     }
 
     @Override

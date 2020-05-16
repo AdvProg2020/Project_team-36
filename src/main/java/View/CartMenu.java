@@ -1,6 +1,7 @@
 package View;
 
 import Controllers.CustomerController;
+import Controllers.ProductsController;
 import Exceptions.NoLoggedInUserException;
 import Models.*;
 
@@ -100,6 +101,8 @@ public class CartMenu extends Menu {
                 }catch (NoLoggedInUserException e){
                     System.err.println(e.getMessage());
                 }
+
+
             }
 
             private void moreThanOneSeller(ArrayList<Seller> sellers) {
@@ -232,8 +235,8 @@ public class CartMenu extends Menu {
                     chosenMenu = subMenus.get(regex);
                     try {
                         this.productId = Integer.parseInt(matcher.group(1));
-                    } catch (Exception e) {
-                        //there is no group
+                    } catch (NumberFormatException e) {
+                        System.err.println("There is no product with this id!");
                     }
                     break;
                 }

@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.ArrayList;
+import static Models.Status.*;
 
 public abstract class User implements Packable{
     private static ArrayList<User> allUsers = new ArrayList<>();
@@ -12,11 +13,12 @@ public abstract class User implements Packable{
     protected String phoneNumber;
     protected String password;
     private static int totalUsersMade;
+    private Status status;
 
     public User(String username){
         this.username = username;
         this.userId = totalUsersMade+1;
-        totalUsersMade +=1;
+        this.status = AVAILABLE;
     }
 
     public String getUsername() {
@@ -88,11 +90,19 @@ public abstract class User implements Packable{
         return false;
     }
 
+    public void setUserDeleted(){
+        status = DELETED;
+    }
+
     public static void addNewUser(User user){
         allUsers.add(user);
     }
 
     public abstract String getType();
+
+    public Status getStatus() {
+        return status;
+    }
 
     public Data pack(Object object) {
         return null;

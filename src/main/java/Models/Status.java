@@ -1,7 +1,8 @@
 package Models;
 
-public enum ConfirmationStatus {
+public enum Status {
     TO_BE_CONFIRMED,
     CONFIRMED,
+    AVAILABLE,
     DELETED
 }

@@ -24,7 +24,7 @@ public class EntryMenu extends Menu {
         String input = scanner.nextLine().trim();
         Matcher matcher;
         if (input.matches("back")) {
-            parentMenu.getParentMenu().execute();
+            parentMenu.execute();
         }
         else if ((matcher = getMatcher(input, "create\\s+account\\s+(\\w+)\\s+(\\S+)")).matches()) {
             try {
@@ -99,7 +99,7 @@ public class EntryMenu extends Menu {
         System.out.print("password: ");
         while (true) {
             try {
-                entryController.setPasswordLogin(scanner.nextLine(), (UserAreaMenu) parentMenu);
+                entryController.setPasswordLogin(scanner.nextLine().trim(), (UserAreaMenu) parentMenu);
                 System.out.println("login successful");
                 break;
             } catch (EntryController.WrongPasswordException|NoLoggedInUserException e) {  //todo: exceptionaro gharar bud tu kelasaye joda tu un package tarif knim:)

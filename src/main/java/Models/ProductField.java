@@ -10,7 +10,6 @@ public class ProductField {
     private Sale sale;
     private Seller seller;
     private int supply;
-    private Date productionDate;
     private HashSet<Customer> allBuyers;
 
     public ProductionStatus getStatus() {
@@ -51,10 +50,6 @@ public class ProductField {
 
     public void addBuyer(Customer buyer){
         this.allBuyers.add(buyer);
-    }
-
-    public Date getProductionDate() {
-        return productionDate;
     }
 
     public void buyFromSeller(int count){

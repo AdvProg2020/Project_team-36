@@ -19,9 +19,10 @@ public class EnterDiscountCodeMenu extends Menu {
 
     @Override
     public void execute() {
-        String input;
         System.out.println("enter a discount code then/or type next!");
-        while (!(input = scanner.nextLine().trim()).matches("back|next|logout")) {
+        String input = scanner.nextLine().trim();
+        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help"))||
+                (input.equalsIgnoreCase("logout")))) {
             if (input.matches("\\d+")) {
                 try {
                     customerController.setDiscountCodeForPurchase(Integer.parseInt(input));
@@ -36,6 +37,7 @@ public class EnterDiscountCodeMenu extends Menu {
             } else {
                 System.err.println("Invalid type of discount code! Try again or press next");
             }
+            input = scanner.nextLine().trim();
         }
         try {
             if (input.matches("back")){

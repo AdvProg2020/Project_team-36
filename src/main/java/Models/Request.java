@@ -2,13 +2,13 @@ package Models;
 
 import java.util.ArrayList;
 
-import static Models.ConfirmationStatus.*;
+import static Models.Status.*;
 
 public class Request implements Packable {
     private Pendable pendableRequest;
     private int requestId;
     private static int totalRequestsMade;
-    private ConfirmationStatus status;
+    private Status status;
     private static ArrayList<Request> allRequests = new ArrayList<>();
 
     public Request(Pendable pendable){
@@ -30,7 +30,7 @@ public class Request implements Packable {
         return requestId;
     }
 
-    public ConfirmationStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 

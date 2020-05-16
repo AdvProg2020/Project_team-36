@@ -1,5 +1,6 @@
 package View;
 
+import Controllers.ManagerController;
 import Models.Product;
 
 import java.util.regex.Matcher;
@@ -29,7 +30,8 @@ public class ManageAllProductsMenu extends Menu{
         }
         System.out.println("choose the product you want to remove :");
         String input = scanner.nextLine().trim();
-        while (!((input.matches("back")) || (input.matches("help")))) {
+        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help"))||
+                (input.equalsIgnoreCase("logout")))) {
             for (String regex : subMenus.keySet()) {
                 matcher = getMatcher(input, regex);
                 if (matcher.matches()) {
@@ -55,6 +57,8 @@ public class ManageAllProductsMenu extends Menu{
         } else if (input.matches("help")) {
             this.help();
             this.execute();
+        } else if ((input.equalsIgnoreCase("logout"))){
+            logoutChangeMenu();
         }
     }
 
@@ -66,7 +70,12 @@ public class ManageAllProductsMenu extends Menu{
 
             @Override
             public void execute() {
-                
+                try {
+                    Product product = managerController.getProductWithId(id);
+                    managerController.removeProduct(product);
+                } catch (ManagerController.InvalidProductIdException e){
+                    System.err.println(e.getMessage());
+                }
             }
         };
     }

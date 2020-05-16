@@ -37,7 +37,8 @@ public class ViewDiscountCodesMenu extends Menu {
         }
         System.out.println("choose the discount and what you want to do with it :");
         String input = scanner.nextLine().trim();
-        while (!((input.matches("back")) || (input.matches("help")))) {
+        while (!((input.equalsIgnoreCase("back"))||(input.equalsIgnoreCase("help"))||
+                (input.equalsIgnoreCase("logout")))) {
             for (String regex : subMenus.keySet()) {
                 matcher = getMatcher(input, regex);
                 if (matcher.matches()) {
@@ -58,11 +59,13 @@ public class ViewDiscountCodesMenu extends Menu {
             chosenMenu=null;
             input = scanner.nextLine().trim();
         }
-        if (input.matches("back")) {
+        if (input.equalsIgnoreCase("back")) {
             this.parentMenu.execute();
-        } else if (input.matches("help")) {
+        } else if (input.equalsIgnoreCase("help")) {
             this.help();
             this.execute();
+        } else if(input.equalsIgnoreCase("logout")){
+            logoutChangeMenu();
         }
     }
 
@@ -104,8 +107,10 @@ public class ViewDiscountCodesMenu extends Menu {
                             "customers included"
                     );
                     String chosenField = scanner.nextLine().trim();
-                    if (chosenField.matches("back")) {
+                    if (chosenField.equalsIgnoreCase("back")) {
                         this.parentMenu.execute();
+                    } else if (chosenField.equalsIgnoreCase("logout")){
+                        logoutChangeMenu();
                     }
                     if (chosenField.matches("customers\\s+included")) {
                         editCustomersIncluded(discount);
@@ -117,6 +122,11 @@ public class ViewDiscountCodesMenu extends Menu {
                     while (true) {
                         try {
                             String newValue = scanner.nextLine().trim();
+                            if (newValue.equalsIgnoreCase("back")) {
+                                this.parentMenu.execute();
+                            } else if (newValue.equalsIgnoreCase("logout")){
+                                logoutChangeMenu();
+                            }
                             managerController.invokeEditor(newValue, discount, editor);
                             System.out.println("edit was done successfully");
                             return;
@@ -141,10 +151,15 @@ public class ViewDiscountCodesMenu extends Menu {
         System.out.println("do you want to add customers or remove them?[add\\remove]");
         while (true) {
             String choice = scanner.nextLine().trim();
-            if (choice.matches("add")) {
+            if (choice.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (choice.equalsIgnoreCase("logout")){
+                logoutChangeMenu();
+            }
+            if (choice.equalsIgnoreCase("add")) {
                 addDiscountToCustomers(discount);
                 return;
-            } else if (choice.matches("remove")) {
+            } else if (choice.equalsIgnoreCase("remove")) {
                 removeDiscountFromCustomers(discount);
                 return;
             } else {
@@ -154,7 +169,7 @@ public class ViewDiscountCodesMenu extends Menu {
     }
 
     private void addDiscountToCustomers(Discount discount) {
-        System.out.println("choose the customers you want to give this discount code to and when you're done enter end :");
+        System.out.println("choose the customers you want to give this discount code to with (add [username]) and when you're done enter end :");
         String input;
         int number = 1;
         for (Customer customer : managerController.getCustomersWithoutThisCode(id)) {
@@ -162,8 +177,18 @@ public class ViewDiscountCodesMenu extends Menu {
             number++;
         }
         while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
+            if (input.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (input.equalsIgnoreCase("logout")){
+                logoutChangeMenu();
+            }
             try {
-                managerController.setCustomersForEditingDiscountCode(input);
+                if(input.matches("remove\\s+(\\S+)")){
+                    Matcher matcher = getMatcher(input,"remove\\s+(\\S+)");
+                    managerController.setCustomersForEditingDiscountCode(matcher.group(1));
+                } else {
+                    System.err.println("wrong command. please try again.");
+                }
             } catch (ManagerController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
             }
@@ -172,7 +197,7 @@ public class ViewDiscountCodesMenu extends Menu {
     }
 
     private void removeDiscountFromCustomers(Discount discount) {
-        System.out.println("choose the customers you want to remove this discount code from and when you're done enter end :");
+        System.out.println("choose the customers you want to remove this discount code from with (remove [username]) and when you're done enter end :");
         String input;
         int number = 1;
         for (Customer customer : managerController.getCustomersWithThisCode(id)) {
@@ -180,8 +205,18 @@ public class ViewDiscountCodesMenu extends Menu {
             number++;
         }
         while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
+            if (input.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (input.equalsIgnoreCase("logout")){
+                logoutChangeMenu();
+            }
             try {
-                managerController.setCustomersForEditingDiscountCode(input);
+                if(input.matches("remove\\s+(\\S+)")){
+                    Matcher matcher = getMatcher(input,"remove\\s+(\\S+)");
+                    managerController.setCustomersForEditingDiscountCode(matcher.group(1));
+                } else {
+                    System.err.println("wrong command. please try again.");
+                }
             } catch (ManagerController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
             }

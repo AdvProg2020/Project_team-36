@@ -25,14 +25,6 @@ public class ManagerController extends UserController {
         giftEvents.put(3,"periodic gift");
     }
 
-//    public boolean loggedInUserIsNotMainManager(){    //azash null return mishe 
-//        return !Manager.isMainManager(userVariables.getLoggedInUser().getUsername());
-//    }
-
-    public boolean usersTypeIsTheSame(String newType,User user){
-        return user.getType().equals(newType);
-    }
-
     public ArrayList<User> getAllUsers() {
         return User.getAllUsers();
     }
@@ -198,12 +190,9 @@ public class ManagerController extends UserController {
         }
     }
 
-//    public void changeTypeToManager(User user){
-//        if(Manager.isMainManager(userVariables.getLoggedInUser().getUsername())){
-//           // User.getAllUsers().remove(user);
-//            NewManagerController newManager
-//        }
-//    }
+    public void deleteUser(User user){
+        user.setUserDeleted();
+    }
 
     public ArrayList<Request> getAllRequests(){
         return Request.getAllRequests();
@@ -227,6 +216,18 @@ public class ManagerController extends UserController {
 
     public ArrayList<Product> getAllProducts(){
         return Product.getAllProducts();
+    }
+
+    public Product getProductWithId(int id) throws InvalidProductIdException {
+        if(Product.isThereProductWithId(id)){
+            return Product.getProduct(id);
+        } else {
+            throw new InvalidProductIdException("there's no product with these id");
+        }
+    }
+
+    public void removeProduct(Product product){
+        Product.removeProduct(product);
     }
 
     private void writeDiscountFieldsSetters() {
@@ -272,8 +273,8 @@ public class ManagerController extends UserController {
         }
     }
 
-    public static class NotTheMainManagerException extends Exception {
-        public NotTheMainManagerException(String message) {
+    public static class InvalidProductIdException extends Exception {
+        public InvalidProductIdException(String message) {
             super(message);
         }
     }

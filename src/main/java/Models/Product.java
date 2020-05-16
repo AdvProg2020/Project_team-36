@@ -1,8 +1,11 @@
 package Models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
-public class Product implements Pendable,Packable {
+public class Product implements Pendable, Packable {
     private static ArrayList<Product> allProducts = new ArrayList<>();
     private int productId;
     private String name;
@@ -12,8 +15,9 @@ public class Product implements Pendable,Packable {
     private String information;
     private ArrayList<ProductField> productFields;
     private ArrayList<Score> allScore;
+    private Date productionDate;
     private ArrayList<Comment> allComments;
-
+    private int seenNumber;
 
     public int getProductId() {
         return productId;
@@ -23,12 +27,53 @@ public class Product implements Pendable,Packable {
         return name;
     }
 
-    public static Product getProduct(int id){
+    public Date getProductionDate() {
+        return productionDate;
+    }
+
+    public static Product getProduct(int id) {
+        updateAllProducts();
         for (Product product : allProducts) {
-            if(product.getProductId() == id)
+            if (product.getProductId() == (id))
                 return product;
         }
         return null;
+    }
+
+    public long getHighestCurrentPrice() {
+        long price = 0;
+        for (ProductField productField : this.productFields) {
+            if (productField.getCurrentPrice() > price && !productField.getSeller().getStatus().equals(Status.DELETED))
+                price = productField.getCurrentPrice();
+        }
+        return price;
+    }
+
+    public long getLowestCurrentPrice() {
+        ArrayList<Long> temp = new ArrayList<>();
+
+        for (ProductField productField : this.productFields) {
+            if (!productField.getSeller().getStatus().equals(Status.DELETED))
+                temp.add(productField.getCurrentPrice());
+        }
+        return Collections.min(temp);
+    }
+
+    public void seen() {
+        this.seenNumber += 1;
+    }
+
+    public int getSeenNumber() {
+        return seenNumber;
+    }
+
+    public double getScore() {
+        int sum = 0;
+        for (Score score : allScore) {
+            sum += score.getScore();
+        }
+        int size = allScore.size();
+        return (double) (sum / size);
     }
 
     public ArrayList<Comment> getAllComments() {
@@ -40,7 +85,40 @@ public class Product implements Pendable,Packable {
     }
 
     public static ArrayList<Product> getAllProducts() {
+        updateAllProducts();
         return allProducts;
+    }
+
+    public static ArrayList<Product> getAllInSaleProducts() {
+        updateAllProducts();
+        ArrayList<Product> result = new ArrayList<>();
+        for (Product product : allProducts) {
+            if (product.isProductInSale())
+                result.add(product);
+        }
+        return result;
+    }
+
+    public ProductField getBestSale() {
+        ArrayList<ProductField> temp = new ArrayList<>();
+        for (ProductField field : productFields) {
+            if (field.getSale() != null)
+                temp.add(field);
+        }
+        try {
+            new Sort().sort(temp, ProductField.class.getDeclaredMethod("getCurrentPrice"), false);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return temp.get(0);
+    }
+
+    public boolean isProductInSale() {
+        for (ProductField field : productFields) {
+            if (field.getSale() != null)
+                return true;
+        }
+        return false;
     }
 
     public String getCompany() {
@@ -51,10 +129,11 @@ public class Product implements Pendable,Packable {
         return category;
     }
 
-    public ArrayList<Seller> getAllSellers(){
+    public ArrayList<Seller> getAllSellers() {
         ArrayList<Seller> result = new ArrayList<>();
         for (ProductField productField : productFields) {
-            result.add(productField.getSeller());
+            if (productField.getSeller().getStatus().equals(Status.DELETED))
+                result.add(productField.getSeller());
         }
         return result;
     }
@@ -63,9 +142,9 @@ public class Product implements Pendable,Packable {
         return fieldsOfCategory;
     }
 
-    public Field getField(String name){
+    public Field getField(String name) {
         for (Field field : fieldsOfCategory) {
-            if(field.getName().equalsIgnoreCase(name))
+            if (field.getName().equalsIgnoreCase(name))
                 return field;
         }
         return null;
@@ -75,10 +154,10 @@ public class Product implements Pendable,Packable {
         return information;
     }
 
-    public boolean enoughSupplyOfSeller(Seller seller, int count){
+    public boolean enoughSupplyOfSeller(Seller seller, int count) {
         for (ProductField field : productFields) {
-            if(field.getSeller().equals(seller)){
-                if(field.getSupply()>=count)
+            if (field.getSeller().equals(seller)) {
+                if (field.getSupply() >= count)
                     return true;
             }
         }
@@ -89,9 +168,9 @@ public class Product implements Pendable,Packable {
         return productFields;
     }
 
-    public void renameField(String oldName,String newName){
+    public void renameField(String oldName, String newName) {
         for (Field field : fieldsOfCategory) {
-            if(field.getName().equalsIgnoreCase(newName)){
+            if (field.getName().equalsIgnoreCase(newName)) {
                 this.fieldsOfCategory.remove(this.getField(oldName));
                 return;
             }
@@ -99,22 +178,22 @@ public class Product implements Pendable,Packable {
         this.getField(oldName).setName(newName);
     }
 
-    public void removeField(String name){
+    public void removeField(String name) {
         for (Field field : fieldsOfCategory) {
-            if(field.getName().equalsIgnoreCase(name)) {
+            if (field.getName().equalsIgnoreCase(name)) {
                 fieldsOfCategory.remove(field);
                 return;
             }
         }
     }
 
-    public void addField(Field field){
+    public void addField(Field field) {
         fieldsOfCategory.add(field);
     }
 
-    public boolean isThereField(String name){
+    public boolean isThereField(String name) {
         for (Field field : fieldsOfCategory) {
-            if(field.getName().equalsIgnoreCase(name))
+            if (field.getName().equalsIgnoreCase(name))
                 return true;
         }
         return false;
@@ -122,24 +201,72 @@ public class Product implements Pendable,Packable {
 
     @Override
     public String toString() {
-        return  "    productId: " + productId + '\n' +
-                "    name: " + name + '\n' +
+        return "    productId: " + productId + '\n' +
+                "    name: " + this.name + '\n' +
                 "    company: " + company + '\n' +
-                "    category: " + category + '\n' +
-                "    information: " + information + '\n'
+                "    category: " + category.getName() + '\n' +
+                "    information: " + information + '\n' +
+                "    lowest price: " + this.getLowestCurrentPrice() + '\n'
                 ;
     }
 
-    public void addScore(Score score){
+    public void addScore(Score score) {
         this.allScore.add(score);
     }
 
-    public void buyProductFromSeller(Seller seller, int count){
+    public void buyProductFromSeller(Seller seller, int count) {
         for (ProductField field : productFields) {
-            if(field.getSeller().equals(seller)){
+            if (field.getSeller().equals(seller)) {
                 field.buyFromSeller(count);
             }
         }
+    }
+
+    public boolean isProductDeleted() {
+        if (productFields.isEmpty())
+            return true;
+        for (ProductField productField : productFields) {
+            if (!productField.getSeller().getStatus().equals(Status.DELETED))
+                return false;
+        }
+        return true;
+    }
+
+    public static boolean isThereProductWithId(int id){
+        updateAllProducts();
+        for (Product product : allProducts) {
+            if(product.getProductId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void updateAllProducts(){
+        ArrayList<ProductField> tempProductField = new ArrayList<>();
+        ArrayList<Product> tempProduct = new ArrayList<>();
+        for (Product product : allProducts) {
+            for (ProductField field : product.getProductFields()) {
+                if (field.getSeller().getStatus().equals(Status.DELETED))
+                    tempProductField.add(field);
+            }
+            if (tempProductField.size() == product.getProductFields().size())
+                tempProduct.add(product);
+            product.getProductFields().removeAll(tempProductField);
+            tempProductField.clear();
+        }
+        for (Product product : tempProduct) {
+            product.getCategory().removeProduct(product);
+        }
+        allProducts.removeAll(tempProduct);
+    }
+
+    public static void removeProduct(Product product){
+        for (ProductField productField : product.getProductFields()) {
+            productField.getSeller().removeProduct(product);
+        }
+        product.getCategory().removeProduct(product);
+        allProducts.remove(product);
     }
 
     public Data pack(Object object) {
@@ -150,18 +277,18 @@ public class Product implements Pendable,Packable {
         return null;
     }
 
-    public ProductField getProductFieldBySeller(Seller seller){
+    public ProductField getProductFieldBySeller(Seller seller) {
         for (ProductField productField : productFields) {
-            if(productField.getSeller().equals(seller))
+            if (productField.getSeller().equals(seller))
                 return productField;
         }
         return null;
     }
 
-    public boolean isThereBuyer(Customer customer){
+    public boolean isThereBuyer(Customer customer) {
         for (ProductField productField : this.productFields) {
             for (Customer buyer : productField.getAllBuyers()) {
-                if(buyer.equals(customer))
+                if (buyer.equals(customer))
                     return true;
             }
         }
