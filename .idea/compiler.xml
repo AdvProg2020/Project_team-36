@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="AP_Project" target="8" />
+      <module name="AP_Project" target="1.5" />
       <module name="prj" target="8" />
     </bytecodeTargetLevel>
   </component>
