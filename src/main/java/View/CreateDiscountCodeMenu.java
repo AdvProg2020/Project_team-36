@@ -3,8 +3,8 @@ package View;
 import Controllers.DiscountController;
 import Models.Customer;
 import Models.Discount;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
+//import org.apache.commons.collections.CollectionUtils;
+//import org.apache.commons.collections.Predicate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-public class CreateDiscountCodeMenu extends Menu{
+public class CreateDiscountCodeMenu extends Menu {
 
     public CreateDiscountCodeMenu(Menu parentMenu) {
         super("create discount code", parentMenu);
@@ -36,7 +36,7 @@ public class CreateDiscountCodeMenu extends Menu{
         this.execute();
     }
 
-    public Discount newCodeForGift(){
+    public Discount newCodeForGift() {
         DiscountController discountController = new DiscountController();
         System.out.println("please enter the required information:");
         setStartDateForDiscount(discountController);
@@ -48,17 +48,17 @@ public class CreateDiscountCodeMenu extends Menu{
         return discountController.getDiscount();
     }
 
-    private void setStartDateForDiscount(DiscountController discountController){
+    private void setStartDateForDiscount(DiscountController discountController) {
         String input;
-        while(true) {
+        while (true) {
             System.out.println("start date in yyyy/MM/dd format :");
             input = scanner.nextLine();
             if (input.equalsIgnoreCase("back")) {
                 this.parentMenu.execute();
-            } else if (input.equalsIgnoreCase("logout")){
+            } else if (input.equalsIgnoreCase("logout")) {
                 logoutChangeMenu();
             }
-            SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy/MM/dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             dateFormat.setLenient(false);
             Date startDate;
             try {
@@ -72,18 +72,17 @@ public class CreateDiscountCodeMenu extends Menu{
     }
 
 
-
-    private void setEndDateForDiscount(DiscountController discountController){
+    private void setEndDateForDiscount(DiscountController discountController) {
         String input;
-        while(true) {
+        while (true) {
             System.out.println("end date in yyyy/MM/dd format:");
             input = scanner.nextLine();
             if (input.equalsIgnoreCase("back")) {
                 this.parentMenu.execute();
-            } else if (input.equalsIgnoreCase("logout")){
+            } else if (input.equalsIgnoreCase("logout")) {
                 logoutChangeMenu();
             }
-            SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy/MM/dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             dateFormat.setLenient(false);
             Date endDate;
             try {
@@ -91,7 +90,7 @@ public class CreateDiscountCodeMenu extends Menu{
                 try {
                     discountController.setEndTime(endDate);
                     return;
-                }catch (DiscountController.InvalidDateException dateError){
+                } catch (DiscountController.InvalidDateException dateError) {
                     System.err.println(dateError.getMessage());
                 }
             } catch (ParseException formatError) {
@@ -100,16 +99,16 @@ public class CreateDiscountCodeMenu extends Menu{
         }
     }
 
-    private void  setDiscountPercentage(DiscountController discountController){
+    private void setDiscountPercentage(DiscountController discountController) {
         int percentage;
         String input;
-        while (true){
+        while (true) {
             System.out.println("discount percentage between 0-100 :");
             try {
-                input=scanner.nextLine();
+                input = scanner.nextLine();
                 if (input.equalsIgnoreCase("back")) {
                     this.parentMenu.execute();
-                } else if (input.equalsIgnoreCase("logout")){
+                } else if (input.equalsIgnoreCase("logout")) {
                     logoutChangeMenu();
                 }
                 percentage = Integer.parseInt(input);
@@ -119,71 +118,71 @@ public class CreateDiscountCodeMenu extends Menu{
                 } else {
                     System.err.println("number not in the desired range");
                 }
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.err.println("you can't enter anything but number");
             }
         }
     }
 
-    private void  setDiscountLimit(DiscountController discountController){
+    private void setDiscountLimit(DiscountController discountController) {
         long limit;
         String input;
-        while (true){
+        while (true) {
             System.out.println("discount limit :");
             try {
-                input=scanner.nextLine();
+                input = scanner.nextLine();
                 if (input.equalsIgnoreCase("back")) {
                     this.parentMenu.execute();
-                } else if (input.equalsIgnoreCase("logout")){
+                } else if (input.equalsIgnoreCase("logout")) {
                     logoutChangeMenu();
                 }
                 limit = Long.parseLong(input);
                 discountController.setDiscountLimit(limit);
                 return;
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.err.println("you can't enter anything but number");
             }
         }
     }
 
-    private void  setUsageFrequency(DiscountController discountController){
+    private void setUsageFrequency(DiscountController discountController) {
         int frequency;
         String input;
-        while (true){
+        while (true) {
             System.out.println("number of times a customer can use this code :");
             try {
                 input = scanner.nextLine();
                 if (input.equalsIgnoreCase("back")) {
                     this.parentMenu.execute();
-                } else if (input.equalsIgnoreCase("logout")){
+                } else if (input.equalsIgnoreCase("logout")) {
                     logoutChangeMenu();
                 }
                 frequency = Integer.parseInt(input);
                 discountController.setRepetitionForEachUser(frequency);
                 return;
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.err.println("you can't enter anything but number");
             }
         }
     }
 
-    private void  setUsersIncludedForCode(DiscountController discountController){
+    private void setUsersIncludedForCode(DiscountController discountController) {
         System.out.println("choose the customers who can use this code and when you are done enter end :");
         String input;
-        int number=1;
+        int number = 1;
         for (Customer customer : discountController.getAllCustomers()) {
-            System.out.println(number+") "+customer.getUsername());
+            System.out.println(number + ") " + customer.getUsername());
             number++;
         }
-        while (!(input=scanner.nextLine()).equalsIgnoreCase("end")){
+        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
             if (input.equalsIgnoreCase("back")) {
                 this.parentMenu.execute();
-            } else if (input.equalsIgnoreCase("logout")){
+            } else if (input.equalsIgnoreCase("logout")) {
                 logoutChangeMenu();
             }
             try {
                 discountController.setCustomersForDiscountCode(input);
-            } catch (DiscountController.InvalidUsernameException e){
+            } catch (DiscountController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
             }
         }

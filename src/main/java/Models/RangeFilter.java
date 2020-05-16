@@ -1,12 +1,10 @@
 package Models;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class RangeFilter implements Filter {
     private BigDecimal min;
@@ -42,31 +40,29 @@ public class RangeFilter implements Filter {
     }
 
     private ArrayList<Product> generalFilter(ArrayList<Product> toBeFiltered) {
-        CollectionUtils.filter(toBeFiltered, new Predicate() {
-            @Override
-            public boolean evaluate(Object object) {
-                try {
-                    return (double)method.invoke(object)>=min.doubleValue()&&((double)method.invoke(object)<=max.doubleValue());
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    System.exit(1);
-                }
-                return false;
+        ArrayList<Product> toBeReturned = new ArrayList<>();
+        toBeFiltered.stream().filter(product -> {
+            try {
+                return (double)method.invoke(product)>=min.doubleValue()&&((double)method.invoke(product)<=max.doubleValue());
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                System.exit(1);
             }
-        });
-        return toBeFiltered;
+            return false;
+        }).forEach(toBeReturned::add);
+
+        return toBeReturned;
     }
 
     private ArrayList<Product> proprietaryFilter(ArrayList<Product> toBeFiltered) {
-        CollectionUtils.filter(toBeFiltered, new Predicate() {
-            @Override
-            public boolean evaluate(Object object) {
-                IntegerField integerField = (IntegerField) ((Product)object).getField(name);
-                if(min.compareTo(integerField.getQuantity())!=1&&max.compareTo(integerField.getQuantity())!=-1)
-                    return true;
-                return false;
-            }
-        });
-        return toBeFiltered;
+        ArrayList<Product> toBeReturned = new ArrayList<>();
+        toBeFiltered.stream().filter(product -> {
+            IntegerField integerField = (IntegerField) product.getField(name);
+            if(min.compareTo(integerField.getQuantity())!=1&&max.compareTo(integerField.getQuantity())!=-1)
+                return true;
+            return false;
+        }).forEach(toBeReturned::add);
+
+        return toBeReturned;
     }
 
     @Override
