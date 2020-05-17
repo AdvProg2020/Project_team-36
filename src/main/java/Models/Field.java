@@ -2,9 +2,10 @@ package Models;
 
 public interface Field {
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 
+    String getFieldInfo();
     //-..-
 }

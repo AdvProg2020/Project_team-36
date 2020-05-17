@@ -1,8 +1,10 @@
 package Controllers;
 
+import Models.Category;
 import Models.Product;
 import Models.Seller;
-import Models.User;
+
+import java.util.ArrayList;
 
 public class SellerController extends UserController{
 
@@ -30,6 +32,29 @@ public class SellerController extends UserController{
         Product.getProduct(productId).removeSeller(seller);
     }
 
+    public Category getMainCategory(){
+        return Category.getMainCategory();
+    }
+
+    public ArrayList<Product> getSellerProducts(){
+        return ((Seller)userVariables.getLoggedInUser()).getAllProducts();
+    }
+
+    public Product getProductWithId(int id) throws InvalidProductIdException {
+        if(Product.isThereProductWithId(id)){
+            return Product.getProduct(id);
+        } else {
+            throw new InvalidProductIdException();
+        }
+    }
+
+    public StringBuilder getSellerProductDetail(Product product){
+        return product.printSellerProductDetails((Seller)userVariables.getLoggedInUser());
+    }
+
+    public static class InvalidProductIdException extends Exception {
+
+    }
 
     public static class NoProductForSeller extends Exception{
 

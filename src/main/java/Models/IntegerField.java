@@ -23,6 +23,11 @@ public class IntegerField implements Field{
         this.name = name;
     }
 
+    @Override
+    public String getFieldInfo() {
+        return "field: " + this.name + "  ->  quantity: " + this.quantity;
+    }
+
     public BigDecimal getQuantity() {
         return quantity;
     }

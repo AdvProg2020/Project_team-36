@@ -1,6 +1,5 @@
 package Models;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -278,6 +277,21 @@ public class Product implements Pendable, Packable {
         }
         if(productFields.size()==0)
             removeProduct(this);
+    }
+
+    public StringBuilder printSellerProductDetails(Seller seller){
+        ProductField productField = getProductFieldBySeller(seller);
+        StringBuilder toBePrinted = new StringBuilder();
+        toBePrinted.append("    product id: ").append(productId).append("\n    name: ").append(name).
+                    append("\n    company: ").append(company).append("\n    price: ").
+                    append(productField.getPrice()).append("\n    supply: ").append(productField.getSupply()).
+                    append("    category: ").append(category.getName()).append('\n');
+        for (Field field : fieldsOfCategory) {
+            toBePrinted.append("       ").append(field.getFieldInfo()).append('\n');
+        }
+        toBePrinted.append("    information: ").append(information).append("\n    production date: ").
+                append(productionDate).append("\n    seen number: ").append(company).append('\n');
+        return toBePrinted;
     }
 
     public Data pack(Object object) {
