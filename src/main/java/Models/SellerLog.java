@@ -1,6 +1,7 @@
 package Models;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -76,5 +77,19 @@ public class SellerLog {
             }
         }
         return allItemsForSellers;
+    }
+
+    public StringBuilder getSellerLogInfo() {
+        StringBuilder toBePrinted = new StringBuilder();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        toBePrinted.append("    log id: ").append(id).append("\n    date: ").append(formatter.format(date)).
+                    append("\n    customer: ").append(customer.getUsername()).append("\n    customer address: ").
+                    append(customerAddress).append("\n    customer phone number: ").append(customerPhoneNumber).
+                    append("\n    sale: ").append(sale).append("\n    all items bought: ");
+        for (ItemInLog item : allItems) {
+            toBePrinted.append("\n        ").append(item.getProductId()).append("  ").append(item.getProductName());
+        }
+        toBePrinted.append("\n    total price: ").append(totalPrice);
+        return toBePrinted;
     }
 }
