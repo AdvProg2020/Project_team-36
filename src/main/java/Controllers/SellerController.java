@@ -81,6 +81,11 @@ public class SellerController extends UserController {
         return Category.getAllCategories();
     }
 
+    public ArrayList<SellerLog> getAllSellerLogs(){
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        return seller.getAllLogs();
+    }
+
     public static class InvalidProductIdException extends Exception{
 
     }
