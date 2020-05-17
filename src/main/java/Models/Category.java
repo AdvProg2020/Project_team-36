@@ -132,6 +132,22 @@ public class Category implements Packable {
         return false;
     }
 
+    public static boolean isThereCategory(String name){
+        for (Category category : allCategories) {
+            if(category.getName().equalsIgnoreCase(name))
+                return true;
+        }
+        return false;
+    }
+
+    public static Category getCategory(String name){
+        for (Category category : allCategories) {
+            if(category.getName().equalsIgnoreCase(name))
+                return category;
+        }
+        return null;
+    }
+
     private void getAllSubCategories(Category category, ArrayList<Category> allSubCategories) {
         if (category.getSubCategories().isEmpty())
             allSubCategories.addAll(category.subCategories);
@@ -209,6 +225,17 @@ public class Category implements Packable {
             if(!product.isThereField(field.getName()))
             product.addField(field);
         }
+    }
+
+    public void removeCategory(){
+        int size = this.getAllSubProducts().size();
+        for(int i=0;i<size;i++){
+            Product.removeProduct(this.getAllSubProducts().get(i));
+            size--;
+            i--;
+        }
+        allCategories.removeAll(this.getAllSubCategories());
+        allCategories.remove(this);
     }
 
     public Data pack(Object object) {

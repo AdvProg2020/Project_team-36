@@ -1,0 +1,65 @@
+package Repository;
+
+import Models.Category;
+import Models.Field;
+import Models.Product;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class SaveCategory {
+    private String name;
+    private int categoryId;
+    private Set<Field> allFields;
+    private int parentCategoryId;
+    private List<Integer> subCategoriesIds;
+    private List<Integer> productsIds;
+
+    private SaveCategory() {
+        subCategoriesIds = new ArrayList<>();
+        productsIds = new ArrayList<>();
+    }
+
+    private void addSubCategory(Category subCategory) {
+        int subCategoryId = subCategory.getCategoryId();
+        subCategoriesIds.add(subCategoryId);
+    }
+
+    private void addProduct(Product product) {
+        int productId = product.getProductId();
+        productsIds.add(productId);
+    }
+
+    public static void save(Category category) {
+        SaveCategory saveCategory = new SaveCategory();
+        saveCategory.name = category.getName();
+        saveCategory.categoryId = category.getCategoryId();
+        saveCategory.parentCategoryId = category.getParentCategory().getCategoryId();
+        saveCategory.allFields = category.getAllFields();
+        category.getAllSubCategories().forEach(subCategory -> saveCategory.addSubCategory(subCategory));
+        category.getProducts().forEach(product -> saveCategory.addProduct(product));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String saveCategoryGson = gson.toJson(saveCategory);
+        FileUtil.write(FileUtil.generateAddress(Category.class.getName(), saveCategory.categoryId), saveCategoryGson);
+    }
+
+    public static Category load(int id) {
+        if (Category.getCategoryById(id) != null) {
+            return Category.getCategoryById(id);
+        }
+        String loadCategoryGson = FileUtil.read(FileUtil.generateAddress(Category.class.getName(), id));
+        Gson gson = new Gson();
+        SaveCategory saveCategory = gson.fromJson(loadCategoryGson, SaveCategory.class);
+        Category parentCategory = load(saveCategory.parentCategoryId);
+        Category category = new Category(saveCategory.name, saveCategory.categoryId, saveCategory.allFields, parentCategory);
+        Category.addCategory(category);
+        saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.loadProduct(productId)));
+        saveCategory.subCategoriesIds.forEach(subCategoryId -> category.getAllSubCategories().add(load(subCategoryId)));
+        return category;
+    }
+
+}

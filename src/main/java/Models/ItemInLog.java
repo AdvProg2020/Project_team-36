@@ -7,7 +7,7 @@ public class ItemInLog implements Packable {
     private String productName;
     private int productId;
     private int count;
-    private Seller seller;
+    private String sellerUsername;
     private double salePercent;
     private long initialPrice;//per product
     private long currentPrice;
@@ -15,7 +15,7 @@ public class ItemInLog implements Packable {
 
     public ItemInLog(Product product, int count, Seller seller) {
         this.count = count;
-        this.seller = seller;
+        this.sellerUsername = seller.getUsername();
         this.productId = product.getProductId();
         this.productName = product.getName();
         if (product.getProductFieldBySeller(seller).getSale().isSaleAvailable())
@@ -40,18 +40,14 @@ public class ItemInLog implements Packable {
         return currentPrice;
     }
 
-    public Seller getSeller() {
-        return seller;
+    public String getSeller() {
+        return sellerUsername;
     }
 
 
 
     public int getCount() {
         return count;
-    }
-
-    public Seller getUser() {
-        return seller;
     }
 
     public long getInitialPrice() {
