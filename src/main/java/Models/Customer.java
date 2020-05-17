@@ -25,6 +25,9 @@ public class Customer extends User{
         return "customer";
     }
 
+    public void setCredit(long credit) {
+        this.credit = credit;
+    }
 
     public static void addNewCustomer(Customer customer) {
         allCustomers.add(customer);
@@ -200,9 +203,10 @@ public class Customer extends User{
 
     public static void addToAllCustomers(Customer customer){
         allCustomers.add(customer);
-    public void setCredit(long credit) {
-        this.credit = credit;
-    }
+        public void setCredit(long credit) {
+            this.credit = credit;
+        }
+
 
     @Override
     public String toString() {

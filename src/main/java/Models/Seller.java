@@ -85,7 +85,7 @@ public class Seller extends User implements Pendable {
         return allSales;
     }
 
-    public void addNewLog(SellerLog sellerLog){
+    public void addNewLog(SellerLog sellerLog) {
         this.allLogs.add(sellerLog);
     }
 
@@ -107,12 +107,14 @@ public class Seller extends User implements Pendable {
 
     @Override
     public String toString() {
-        return  "    username: " + username + '\n' +
+        return "    username: " + username + '\n' +
                 "    firstname: " + firstname + '\n' +
                 "    lastname: " + lastname + '\n' +
                 "    email: " + email + '\n' +
                 "    phoneNumber: " + phoneNumber + '\n' +
-                "    company: " + companyName + '\n'
+                "    password: " + password + '\n' +
+                "    company: " + companyName + '\n' +
+                "    company info: : " + companyInfo + '\n'
                 ;
     }
 

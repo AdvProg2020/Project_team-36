@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Manager extends User {
 
+    private static Manager mainManager;
     private static ArrayList<Manager> allManagers = new ArrayList<>();
 
 
@@ -14,6 +15,10 @@ public class Manager extends User {
     @Override
     public String getType() {
         return "manager";
+    }
+
+    public static void setMainManager(Manager mainManager) {
+        Manager.mainManager = mainManager;
     }
 
     public static ArrayList<Manager> getAllManagers() {
@@ -31,15 +36,14 @@ public class Manager extends User {
 //    public static boolean isMainManager(String username){
 //        return mainManager.getUsername().equals(username);
 //    }
-
-    public static Manager getManagerById(int id){
-        for (Manager manager : allManagers) {
-            if(manager.userId == id){
-                return manager;
-            }
+public static Manager getManagerById(int id){
+    for (Manager manager : allManagers) {
+        if(manager.userId == id){
+            return manager;
         }
-        return null;
     }
+    return null;
+}
 
     public Manager(int userId, String username, String firstname, String lastname, String email,
                    String phoneNumber, String password, Status status) {
