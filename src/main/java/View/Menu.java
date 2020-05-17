@@ -19,6 +19,7 @@ public abstract class Menu {
     protected static EntryController entryController;
     protected static ProductsController productsController;
     protected static OffController offController;
+    protected static UserController userController;
     protected static Scanner scanner;
 
     public Menu(String name, Menu parentMenu) {
@@ -46,6 +47,7 @@ public abstract class Menu {
         Menu.managerController = new ManagerController(user);
         Menu.offController = new OffController(user);
         Menu.sellerController = new SellerController(user);
+        Menu.userController = new UserController(user);
         Menu.productsController = new ProductsController(user);
     }
 

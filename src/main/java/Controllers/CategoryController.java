@@ -41,24 +41,24 @@ public class CategoryController {
     }
 
     public void setIntegerField(String name) throws ThereIsFieldWithNameException {
-        if(this.category.getField(name)!= null)
+        if (this.category.getField(name) != null)
             throw new ThereIsFieldWithNameException();
         category.setField(new IntegerField(name));
     }
 
     public void setOptionalField(String name) throws ThereIsFieldWithNameException {
-        if(this.category.getField(name)!= null)
+        if (this.category.getField(name) != null)
             throw new ThereIsFieldWithNameException();
         category.setField(new OptionalField(name));
     }
 
-    public void acceptCategory(){
+    public void acceptCategory() {
         category.addCategory();
     }
 
-    public void editCategory(String name) throws InvalidCategoryName{
+    public void editCategory(String name) throws InvalidCategoryName {
         for (Category category : Category.getAllCategories()) {
-            if(category.getName().equalsIgnoreCase(name)){
+            if (category.getName().equalsIgnoreCase(name)) {
                 this.category = category;
                 return;
             }
@@ -66,49 +66,54 @@ public class CategoryController {
         throw new InvalidCategoryName();
     }
 
-    public void editName(String name){
+    public void editName(String name) {
         this.category.setName(name);
     }
 
-    public Category getPendableCategory(){
+    public Category getPendableCategory() {
         return this.category;
     }
 
-    public void editField(String name)throws NoFieldWithNameException{
+    public void editField(String name) throws NoFieldWithNameException {
         for (Field field : this.category.getAllFields()) {
-            if(field.getName().equalsIgnoreCase(name)){
+            if (field.getName().equalsIgnoreCase(name)) {
                 this.field = field;
-            return;}
+                return;
+            }
         }
         throw new NoFieldWithNameException();
     }
 
-    public void renameField(String newName) throws ThereIsFieldWithNameException,ThereIsFieldWithNameInSubCategory{
-        if(category.isThereField(newName))
+    public void renameField(String newName) throws ThereIsFieldWithNameException, ThereIsFieldWithNameInSubCategory {
+        if (category.isThereField(newName))
             throw new ThereIsFieldWithNameException();
-        if(category.isThereFieldInSubCategoryDifferentType(this.field,newName)!=null)
-            throw new ThereIsFieldWithNameInSubCategory(category.isThereFieldInSubCategoryDifferentType(this.field,newName));
-        this.category.renameField(this.field,newName);
+        if (category.isThereFieldInSubCategoryDifferentType(this.field, newName) != null)
+            throw new ThereIsFieldWithNameInSubCategory(category.isThereFieldInSubCategoryDifferentType(this.field, newName));
+        this.category.renameField(this.field, newName);
     }
 
-    public void removeField(String name){
+    public void removeField(String name) {
         category.removeField(name);
     }
 
-    public void addField(String name,String type) throws ThereIsFieldWithNameException, ThereIsFieldWithNameInSubCategory {
-        if(type.equals("IntegerField"))
-           field = new IntegerField(name);
+    public void addField(String name, String type) throws ThereIsFieldWithNameException, ThereIsFieldWithNameInSubCategory {
+        if (type.equals("IntegerField"))
+            field = new IntegerField(name);
         else
             field = new OptionalField(name);
-       if( category.isThereField(name))
-           throw new ThereIsFieldWithNameException();
-       else if(category.isThereFieldInSubCategoryDifferentType(field,name)!= null)
-           throw new ThereIsFieldWithNameInSubCategory(category.isThereFieldInSubCategoryDifferentType(field,name));
-       else{
-           category.addField(field);
-       }
+        if (category.isThereField(name))
+            throw new ThereIsFieldWithNameException();
+        else if (category.isThereFieldInSubCategoryDifferentType(field, name) != null)
+            throw new ThereIsFieldWithNameInSubCategory(category.isThereFieldInSubCategoryDifferentType(field, name));
+        else {
+            category.addField(field);
+        }
+    }
 
-
+    public void removeCategory(String name) throws ProductsController.NoCategoryWithName {
+        if (!Category.isThereCategory(name))
+            throw new ProductsController.NoCategoryWithName();
+        Category.getCategory(name).removeCategory();
     }
 
 
@@ -120,11 +125,11 @@ public class CategoryController {
 
     }
 
-    public static class NoFieldWithNameException extends Exception{
+    public static class NoFieldWithNameException extends Exception {
 
     }
 
-    public static class ThereIsFieldWithNameInSubCategory extends Exception{
+    public static class ThereIsFieldWithNameInSubCategory extends Exception {
         Category category;
 
         public ThereIsFieldWithNameInSubCategory(Category category) {

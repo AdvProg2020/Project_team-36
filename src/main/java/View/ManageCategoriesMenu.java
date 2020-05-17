@@ -1,6 +1,7 @@
 package View;
 
 import Controllers.CategoryController;
+import Controllers.ProductsController;
 import Models.Category;
 import Models.Field;
 import Models.IntegerField;
@@ -16,9 +17,9 @@ public class ManageCategoriesMenu extends Menu {
 
     public ManageCategoriesMenu(Menu parentMenu) {
         super("ManageCategories", parentMenu);
-        subMenus.put("edit\\s+(\\D+)", getEditCategoryMenu());
-        subMenus.put("add\\s+(\\D+)", getAddCategoryMenu());
-        //subMenus.put("remove\\s+(\\D+)", getRemoveCategoryMenu());
+        subMenus.put("edit\\s+(.+)", getEditCategoryMenu());
+        subMenus.put("add\\s+(.+)", getAddCategoryMenu());
+        subMenus.put("remove\\s+(.+)", getRemoveCategoryMenu());
     }
 
     @Override
@@ -237,7 +238,15 @@ public class ManageCategoriesMenu extends Menu {
     private Menu getRemoveCategoryMenu() {
         return new Menu("removeCategoryMenu", this) {
             @Override
-            public void help() {
+            public void help() {}
+
+            @Override
+            public void execute() {
+                try {
+                    categoryController.removeCategory(category);
+                } catch (ProductsController.NoCategoryWithName noCategoryWithName) {
+                    System.out.println("There is no category with this name!");
+                }
             }
         };
     }
@@ -300,5 +309,5 @@ public class ManageCategoriesMenu extends Menu {
     }
 
 
-    //-..-
+
 }

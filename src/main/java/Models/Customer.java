@@ -25,6 +25,9 @@ public class Customer extends User implements Packable {
         return "customer";
     }
 
+    public void setCredit(long credit) {
+        this.credit = credit;
+    }
 
     public static void addNewCustomer(Customer customer) {
         allCustomers.add(customer);
@@ -189,5 +192,11 @@ public class Customer extends User implements Packable {
         return null;
     }
 
-
+    @Override
+    public String toString() {
+        return "username: "+username+"\nfirstname: "+firstname+
+                "\nlastname: "+lastname+"\nphone: "+phoneNumber+
+                "\nemail: "+email+"\ncredit: "+credit+
+                "\npassword: "+password;
+    }
 }

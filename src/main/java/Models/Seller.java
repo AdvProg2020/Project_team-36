@@ -2,7 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 
-public class Seller extends User implements Pendable,Packable {
+public class Seller extends User implements Pendable, Packable {
     private static ArrayList<Seller> allSellers = new ArrayList<>();
     private ArrayList<SellerLog> allLogs;
     private ArrayList<Product> allProducts;
@@ -11,7 +11,7 @@ public class Seller extends User implements Pendable,Packable {
     private String companyName;
     private String companyInfo;
 
-    public Seller(String username){
+    public Seller(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
         this.allSales = new ArrayList<>();
@@ -70,21 +70,21 @@ public class Seller extends User implements Pendable,Packable {
         return allSales;
     }
 
-    public void addNewLog(SellerLog sellerLog){
+    public void addNewLog(SellerLog sellerLog) {
         this.allLogs.add(sellerLog);
     }
 
-    public void increaseCredit(long amount){
+    public void increaseCredit(long amount) {
         this.credit += amount;
     }
 
-    public void removeProduct(Product product){
+    public void removeProduct(Product product) {
         allProducts.remove(product);
     }
 
-    public boolean isThereProduct(int productId){
+    public boolean isThereProduct(int productId) {
         for (Product product : allProducts) {
-            if(product.getProductId()==productId)
+            if (product.getProductId() == productId)
                 return true;
         }
         return false;
@@ -92,12 +92,14 @@ public class Seller extends User implements Pendable,Packable {
 
     @Override
     public String toString() {
-        return  "    username: " + username + '\n' +
+        return "    username: " + username + '\n' +
                 "    firstname: " + firstname + '\n' +
                 "    lastname: " + lastname + '\n' +
                 "    email: " + email + '\n' +
                 "    phoneNumber: " + phoneNumber + '\n' +
-                "    company: " + companyName + '\n'
+                "    password: " + password + '\n' +
+                "    company: " + companyName + '\n' +
+                "    company info: : " + companyInfo + '\n'
                 ;
     }
 

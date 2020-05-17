@@ -8,7 +8,7 @@ public class Manager extends User implements Packable {
     private static ArrayList<Manager> allManagers = new ArrayList<>();
 
 
-    public Manager(String username){
+    public Manager(String username) {
         super(username);
     }
 
@@ -25,11 +25,11 @@ public class Manager extends User implements Packable {
         return allManagers;
     }
 
-    public static boolean canManagerRegister(){
+    public static boolean canManagerRegister() {
         return allManagers.isEmpty();
     }
 
-    public static void addNewManager(Manager manager){
+    public static void addNewManager(Manager manager) {
         allManagers.add(manager);
     }
 
@@ -43,5 +43,13 @@ public class Manager extends User implements Packable {
 
     public Object unpack(Data data) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "username: " + username + "\nfirstname: " + firstname +
+                "\nlastname: " + lastname + "\nphone: " + phoneNumber +
+                "\nemail: " + email +
+                "\npassword: " + password;
     }
 }

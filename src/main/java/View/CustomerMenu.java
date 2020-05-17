@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class CustomerMenu extends Menu{
     public CustomerMenu(String name, Menu parentMenu) {
         super("customerMenu", parentMenu);
-        subMenus.put("view\\s+personal\\s+info",null);
+        subMenus.put("view\\s+personal\\s+info",new PersonalInfoMenu("personal information",this));
         subMenus.put("view\\s+cart",new CartMenu("cartMenu",this));
         subMenus.put("view\\s+discount\\s+codes",getDiscountCodesMenu());
         subMenus.put("view\\s+balance",getBalanceMenu());
