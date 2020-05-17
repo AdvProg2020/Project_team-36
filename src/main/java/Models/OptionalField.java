@@ -7,6 +7,7 @@ public class OptionalField implements Field {
     public OptionalField(String name){
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
@@ -23,6 +24,11 @@ public class OptionalField implements Field {
 
     public String getQuality() {
         return quality;
+    }
+
+    @Override
+    public void setValue(String quality) {
+        this.quality = quality;
     }
 
     @Override

@@ -21,26 +21,26 @@ public class Manager extends User {
         return allManagers;
     }
 
-    public static boolean canManagerRegister() {
+    public static boolean canManagerRegister(){
         return allManagers.isEmpty();
     }
 
-    public static void addNewManager(Manager manager) {
+    public static void addNewManager(Manager manager){
         allManagers.add(manager);
     }
 
 //    public static boolean isMainManager(String username){
 //        return mainManager.getUsername().equals(username);
 //    }
-public static Manager getManagerById(int id){
-    for (Manager manager : allManagers) {
-        if(manager.userId == id){
-            return manager;
-        }
-    }
-    return null;
-}
 
+    public static Manager getManagerById(int id){
+        for (Manager manager : allManagers) {
+            if(manager.userId == id){
+                return manager;
+            }
+        }
+        return null;
+    }
     public Manager(int userId, String username, String firstname, String lastname, String email,
                    String phoneNumber, String password, Status status) {
         super(userId, username, firstname, lastname, email, phoneNumber, password, status);
@@ -68,5 +68,4 @@ public static Manager getManagerById(int id){
                 toBeRemoved.add(manager);
         }
         allManagers.removeAll(toBeRemoved);
-    }
 }

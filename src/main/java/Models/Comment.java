@@ -10,7 +10,7 @@ public class Comment implements Pendable {
     private Enum<Status> ConfirmationStatus;
     private boolean hasBought;
 
-    public Comment(User user, Product product,String title, String comment,boolean hasBought) {
+    public Comment(User user, Product product, String title, String comment, Enum<Status> confirmationStatus, boolean hasBought) {
         this.user = user;
         this.product = product;
         this.title = title;

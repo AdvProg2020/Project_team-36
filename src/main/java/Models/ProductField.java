@@ -5,12 +5,30 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class ProductField implements Pendable {
+    private Product mainProduct;
     private ProductionStatus status;
     private long price;
     private Sale sale;
     private Seller seller;
     private int supply;
     private HashSet<Customer> allBuyers;
+
+    public ProductField(long price, Seller seller, int supply, Product mainProduct) {
+        this.price = price;
+        this.seller = seller;
+        this.supply = supply;
+        this.mainProduct = mainProduct;
+        status = Status.TO_BE_CONFIRMED;
+    }
+
+    public ProductField(ProductionStatus status, long price, Sale sale, Seller seller, int supply) {
+        this.status = status;
+        this.price = price;
+        this.sale = sale;
+        this.seller = seller;
+        this.supply = supply;
+        this.allBuyers = new HashSet<>();
+    }
 
     public ProductionStatus getStatus() {
         return status;
@@ -71,21 +89,10 @@ public class ProductField implements Pendable {
         this.supply +=amount;
     }
 
-    public ProductField(ProductionStatus status, long price, Sale sale, Seller seller, int supply) {
-        this.status = status;
-        this.price = price;
-        this.sale = sale;
-        this.seller = seller;
-        this.supply = supply;
-        this.allBuyers = new HashSet<>();
-    }
-
     @Override
     public String getPendingRequestType() {
-        return null;
+        return "seller for a product";
     }
-
-    //-..-
     @Override
     public String toString() {
         String result = "Seller: "+seller.getUsername();

@@ -19,6 +19,7 @@ public class Product implements Pendable {
     private Date productionDate;
     private ArrayList<Comment> allComments;
     private HashSet<Customer> allBuyers;
+    private static int allProductsMade=0;
     private int seenNumber;
 
     public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory, String information, Date productionDate, int seenNumber) {

@@ -59,6 +59,11 @@ public class SellerController extends UserController {
         }
     }
 
+    public ArrayList<Product> getAllProducts(){
+        return Product.getAllProducts();
+    }
+
+
     public StringBuilder getSellerProductDetail(Product product){
         return product.printSellerProductDetails((Seller)userVariables.getLoggedInUser());
     }
@@ -67,7 +72,16 @@ public class SellerController extends UserController {
         return product.getProductFieldBySeller((Seller)userVariables.getLoggedInUser()).getAllBuyers();
     }
 
-    public static class InvalidProductIdException extends Exception {
+    public void sendAddSellerToProductRequest(long price, int supply, Product product){
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        new Request(new ProductField(price,seller,supply,product));
+    }
+
+    public ArrayList<Category> getAllCategories(){
+        return Category.getAllCategories();
+    }
+
+    public static class InvalidProductIdException extends Exception{
 
     }
 

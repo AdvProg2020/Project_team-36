@@ -44,8 +44,6 @@ public class ItemInLog {
         return sellerUsername;
     }
 
-
-
     public int getCount() {
         return count;
     }

@@ -15,32 +15,13 @@ public class SellerMenu extends Menu {
     public SellerMenu(Menu parentMenu) {
         super("SellerMenu", parentMenu);
         subMenus = new HashMap<>();
+        subMenus.put("add\\s+product",new AddProductMenu(this));
         subMenus.put("view\\s+balance",getViewBalanceMenu());
         subMenus.put("view\\s+company\\s+information",getViewCompanyInformationMenu());
-        subMenus.put("remove\\s+product\\s+(\\d+)",getRemoveProductMenu());
         subMenus.put("offs", new OffsMenu("off menu",this));
         subMenus.put("products",new ProductsMenu("ProductsMenu",this));
         subMenus.put("show\\s+categories",getShowCategories());
     }
-
-    public Menu getRemoveProductMenu(){
-        return new Menu("remove\\s+product\\s+(\\d+)",this) {
-            @Override
-            public void execute() {
-                try {
-                    sellerController.removeSellerProduct(productId);
-                    System.out.println("Product removed!");
-                } catch (SellerController.NoProductForSeller noProductForSeller) {
-                    System.err.println("There is no product with this id in your products!");
-                }
-            }
-
-            @Override
-            public void help() {
-            }
-        };
-    }
-
 
     private Menu getViewBalanceMenu(){
         return new Menu("viewBalanceMenu",this) {
