@@ -18,6 +18,7 @@ public class SaveCategory {
     private int parentCategoryId;
     private List<Integer> subCategoriesIds;
     private List<Integer> productsIds;
+    private static int lastId = 0;
 
     private SaveCategory() {
         subCategoriesIds = new ArrayList<>();
@@ -48,6 +49,7 @@ public class SaveCategory {
     }
 
     public static Category load(int id) {
+        lastId = Math.max(lastId,id);
         if (Category.getCategoryById(id) != null) {
             return Category.getCategoryById(id);
         }
@@ -55,8 +57,10 @@ public class SaveCategory {
         Gson gson = new Gson();
         SaveCategory saveCategory = gson.fromJson(loadCategoryGson, SaveCategory.class);
         Category parentCategory = load(saveCategory.parentCategoryId);
-        Category category = new Category(saveCategory.name, saveCategory.categoryId, saveCategory.allFields, parentCategory);
-        Category.addCategory(category);
+        HashSet<Field> allFields = new HashSet<>();
+        saveCategory.allFields.forEach(field -> allFields.add(field));
+        Category category = new Category(saveCategory.name, saveCategory.categoryId, allFields, parentCategory);
+        Category.addToAllCategories(category);
         saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.loadProduct(productId)));
         saveCategory.subCategoriesIds.forEach(subCategoryId -> category.getAllSubCategories().add(load(subCategoryId)));
         return category;

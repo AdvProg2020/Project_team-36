@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Category implements Packable {
+public class Category{
     private String name;
     private int categoryId;
     private static int totalCategoriesMade;
@@ -22,6 +22,32 @@ public class Category implements Packable {
         this.products = new ArrayList<>();
         this.subCategories = new ArrayList<>();
         this.allFields = new HashSet<>();
+    }
+
+    public Category(String name, int categoryId, HashSet<Field> allFields, Category parentCategory) {
+        this.name = name;
+        this.categoryId = categoryId;
+        this.allFields = allFields;
+        this.parentCategory = parentCategory;
+        this.subCategories = new ArrayList<>();
+        this.products = new ArrayList<>();
+    }
+
+    public static void addToAllCategories(Category category){
+        allCategories.add(category);
+    }
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+
+    public static Category getCategoryById(int id){
+        for (Category category : allCategories) {
+            if (category.categoryId == id){
+                return category;
+            }
+        }
+        return null;
     }
 
     private int randomId() {
@@ -69,6 +95,10 @@ public class Category implements Packable {
                 return true;
         }
         return false;
+    }
+
+    public static void setTotalCategoriesMade(int totalCategoriesMade) {
+        Category.totalCategoriesMade = totalCategoriesMade;
     }
 
     public boolean isThereOptionalField(String name) {
@@ -236,14 +266,6 @@ public class Category implements Packable {
         }
         allCategories.removeAll(this.getAllSubCategories());
         allCategories.remove(this);
-    }
-
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
     }
 
 }
