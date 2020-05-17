@@ -3,7 +3,7 @@ package Models;
 import java.util.ArrayList;
 import static Models.Status.*;
 
-public abstract class User implements Packable{
+public abstract class User{
     private static ArrayList<User> allUsers = new ArrayList<>();
     protected int userId;
     protected String username;
@@ -102,14 +102,6 @@ public abstract class User implements Packable{
 
     public Status getStatus() {
         return status;
-    }
-
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
     }
 
     //-..-
