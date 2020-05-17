@@ -6,7 +6,6 @@ import java.util.Date;
 import static Models.LogStatus.WAITING_TO_BE_SENT;
 
 public class CustomerLog {
-    private static ArrayList<CustomerLog> allLogs = new ArrayList<>();
     private static int totalLogsMade;
     private Date date;
     private int id;
@@ -36,9 +35,6 @@ public class CustomerLog {
 
     }
 
-    public static ArrayList<CustomerLog> getAllLogs() {
-        return allLogs;
-    }
 
     public int getId() {
         return id;
@@ -95,7 +91,6 @@ public class CustomerLog {
         Discount discount = waitingLog.getDiscount();
         CustomerLog customerLog = new CustomerLog(discount.getDiscountPercent(),waitingLog.getDiscountAmount(),
                 waitingLog.getGiftDiscount(),waitingLog.getCustomerAddress(),waitingLog.getCustomerPhoneNumber(),itemsInLog,payable,totalPrice);
-        allLogs.add(customerLog);
         waitingLog.getCustomer().addNewLog(customerLog);
         return customerLog;
     }
