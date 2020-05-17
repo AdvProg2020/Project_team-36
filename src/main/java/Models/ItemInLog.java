@@ -3,7 +3,7 @@ package Models;
 
 import java.util.ArrayList;
 
-public class ItemInLog implements Packable {
+public class ItemInLog {
     private String productName;
     private int productId;
     private int count;
@@ -72,12 +72,4 @@ public class ItemInLog implements Packable {
         return new ItemInLog(selectedItem.getProduct(),count,seller);
     }
 
-
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
-    }
 }

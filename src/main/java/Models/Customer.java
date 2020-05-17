@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Customer extends User implements Packable {
+public class Customer extends User{
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<CustomerLog> allLogs;
@@ -162,14 +162,6 @@ public class Customer extends User implements Packable {
             }
         }
         return false;
-    }
-
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
     }
 
     public void setCredit(long credit) {

@@ -2,8 +2,9 @@ package Models;
 
 import java.util.ArrayList;
 
-public class Manager extends User implements Packable {
+public class Manager extends User {
 
+    private static Manager mainManager;
     private static ArrayList<Manager> allManagers = new ArrayList<>();
 
 
@@ -14,6 +15,10 @@ public class Manager extends User implements Packable {
     @Override
     public String getType() {
         return "manager";
+    }
+
+    public static void setMainManager(Manager mainManager) {
+        Manager.mainManager = mainManager;
     }
 
     public static ArrayList<Manager> getAllManagers() {
@@ -28,13 +33,9 @@ public class Manager extends User implements Packable {
         allManagers.add(manager);
     }
 
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
-    }
+//    public static boolean isMainManager(String username){
+//        return mainManager.getUsername().equals(username);
+//    }
 
     @Override
     public String toString() {
@@ -47,4 +48,5 @@ public class Manager extends User implements Packable {
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }
