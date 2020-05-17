@@ -61,7 +61,7 @@ public class SaveCategory {
         saveCategory.allFields.forEach(field -> allFields.add(field));
         Category category = new Category(saveCategory.name, saveCategory.categoryId, allFields, parentCategory);
         Category.addToAllCategories(category);
-        saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.loadProduct(productId)));
+        saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.load(productId)));
         saveCategory.subCategoriesIds.forEach(subCategoryId -> category.getAllSubCategories().add(load(subCategoryId)));
         return category;
     }

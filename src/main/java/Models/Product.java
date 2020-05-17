@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class Product implements Pendable, Packable {
+public class Product implements Pendable{
     private static ArrayList<Product> allProducts = new ArrayList<>();
     private int productId;
     private String name;
@@ -280,13 +280,6 @@ public class Product implements Pendable, Packable {
             removeProduct(this);
     }
 
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
-    }
 
     public ProductField getProductFieldBySeller(Seller seller) {
         for (ProductField productField : productFields) {
