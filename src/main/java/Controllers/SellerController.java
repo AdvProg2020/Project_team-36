@@ -38,6 +38,29 @@ public class SellerController extends UserController {
         ((Seller)userVariables.getLoggedInUser()).setCompanyInfo(companyInfo);
     }
 
+    public Category getMainCategory(){
+        return Category.getMainCategory();
+    }
+
+    public ArrayList<Product> getSellerProducts(){
+        return ((Seller)userVariables.getLoggedInUser()).getAllProducts();
+    }
+
+    public Product getProductWithId(int id) throws InvalidProductIdException {
+        if(Product.isThereProductWithId(id)){
+            return Product.getProduct(id);
+        } else {
+            throw new InvalidProductIdException();
+        }
+    }
+
+    public StringBuilder getSellerProductDetail(Product product){
+        return product.printSellerProductDetails((Seller)userVariables.getLoggedInUser());
+    }
+
+    public static class InvalidProductIdException extends Exception {
+
+    }
 
     public static class NoProductForSeller extends Exception{
 

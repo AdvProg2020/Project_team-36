@@ -26,6 +26,11 @@ public class OptionalField implements Field {
     }
 
     @Override
+    public String getFieldInfo() {
+        return "field: " + this.name + "  ->  quality: " + this.quality;
+    }
+
+    @Override
     public String toString() {
         return name+": "+quality;
     }

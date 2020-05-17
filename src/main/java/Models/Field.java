@@ -9,4 +9,6 @@ public interface Field {
     public String getQuantityString();
 
     public String toString();
+
+    String getFieldInfo();
 }

@@ -1,6 +1,7 @@
 package View.AllSellers;
 
 import Controllers.SellerController;
+import View.ManageCategoriesMenu;
 import View.Menu;
 import View.Products.OffsMenu;
 import View.Products.ProductsMenu;
@@ -19,6 +20,7 @@ public class SellerMenu extends Menu {
         subMenus.put("remove\\s+product\\s+(\\d+)",getRemoveProductMenu());
         subMenus.put("offs", new OffsMenu("off menu",this));
         subMenus.put("products",new ProductsMenu("ProductsMenu",this));
+        subMenus.put("show\\s+categories",getShowCategories());
     }
 
     public Menu getRemoveProductMenu(){
@@ -40,7 +42,7 @@ public class SellerMenu extends Menu {
     }
 
 
-    public Menu getViewBalanceMenu(){
+    private Menu getViewBalanceMenu(){
         return new Menu("viewBalanceMenu",this) {
             @Override
             public void execute() {
@@ -53,7 +55,7 @@ public class SellerMenu extends Menu {
         };
     }
 
-    public Menu getViewCompanyInformationMenu(){
+    private Menu getViewCompanyInformationMenu(){
         return new Menu("view\\s+company\\s+information",this) {
             @Override
             public void execute() {
@@ -61,6 +63,18 @@ public class SellerMenu extends Menu {
             }
             @Override
             public void help() {}
+        };
+    }
+
+    private Menu getShowCategories(){
+        return new Menu("getShowCategories",this) {
+            @Override
+            public void help() { }
+
+            @Override
+            public void execute() {
+                ManageCategoriesMenu.printCategoryTree(sellerController.getMainCategory());
+            }
         };
     }
 

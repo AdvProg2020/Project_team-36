@@ -1,5 +1,6 @@
 package Models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -123,6 +124,10 @@ public class Product implements Pendable {
     public ArrayList<Comment> getAllComments() {
         this.updateComments();
         return allComments;
+    }
+
+    public ArrayList<Score> getAllScore() {
+        return allScore;
     }
 
     public static ArrayList<Product> getAllProducts() {
@@ -329,6 +334,20 @@ public class Product implements Pendable {
             removeProduct(this);
     }
 
+    public StringBuilder printSellerProductDetails(Seller seller){
+        ProductField productField = getProductFieldBySeller(seller);
+        StringBuilder toBePrinted = new StringBuilder();
+        toBePrinted.append("    product id: ").append(productId).append("\n    name: ").append(name).
+                append("\n    company: ").append(company).append("\n    price: ").
+                append(productField.getPrice()).append("\n    supply: ").append(productField.getSupply()).
+                append("    category: ").append(category.getName()).append('\n');
+        for (Field field : fieldsOfCategory) {
+            toBePrinted.append("       ").append(field.getFieldInfo()).append('\n');
+        }
+        toBePrinted.append("    information: ").append(information).append("\n    production date: ").
+                append(productionDate).append("\n    seen number: ").append(company).append('\n');
+        return toBePrinted;
+    }
 
     public ProductField getProductFieldBySeller(Seller seller) {
         for (ProductField productField : productFields) {
