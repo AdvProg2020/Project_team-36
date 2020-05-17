@@ -25,7 +25,7 @@ public class OffsMenu extends Menu {
                 "login\n" +
                 "register\n" +
                 "logout\n" +
-                "help" +
+                "help\n" +
                 "show all offs");
     }
 
@@ -59,13 +59,13 @@ public class OffsMenu extends Menu {
             if(input.matches("help|login|logout|register"))
                 sideCommands(input);
             else if((matcher = getMatcher(input,"show\\s+product\\s+(\\.+)")).matches()){
-               goProductMenu(matcher);
+                goProductMenu(matcher);
             }else{
                 Menu chosenMenu = null;
                 for (String regex : subMenus.keySet()) {
                     if(input.matches(regex)){
-                       chosenMenu = subMenus.get(regex);
-                       break;
+                        chosenMenu = subMenus.get(regex);
+                        break;
                     }
                 }
                 if(chosenMenu!=null)
@@ -83,7 +83,8 @@ public class OffsMenu extends Menu {
         else{
             int productId = Integer.parseInt(matcher.group(1));
             try{
-                new ProductMenu(productsController.getProduct(productId)).execute();
+                productsController.setChosenProduct(productId);
+                new ProductMenu(this).execute();
 
             } catch (ProductsController.NoProductWithId noProductWithId) {
                 System.out.println("there is no product with this id");
@@ -91,5 +92,4 @@ public class OffsMenu extends Menu {
         }
 
     }
-    //ArsiA
 }

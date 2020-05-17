@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
 public class Product implements Pendable, Packable {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -17,6 +18,7 @@ public class Product implements Pendable, Packable {
     private ArrayList<Score> allScore;
     private Date productionDate;
     private ArrayList<Comment> allComments;
+    private HashSet<Customer> allBuyers;
     private int seenNumber;
 
     public int getProductId() {
@@ -38,6 +40,10 @@ public class Product implements Pendable, Packable {
                 return product;
         }
         return null;
+    }
+
+    public void addBuyer(Customer customer){
+        this.allBuyers.add(customer);
     }
 
     public long getHighestCurrentPrice() {
@@ -77,11 +83,8 @@ public class Product implements Pendable, Packable {
     }
 
     public ArrayList<Comment> getAllComments() {
+        this.updateComments();
         return allComments;
-    }
-
-    public ArrayList<Score> getAllScore() {
-        return allScore;
     }
 
     public static ArrayList<Product> getAllProducts() {
@@ -297,11 +300,9 @@ public class Product implements Pendable, Packable {
     }
 
     public boolean isThereBuyer(Customer customer) {
-        for (ProductField productField : this.productFields) {
-            for (Customer buyer : productField.getAllBuyers()) {
-                if (buyer.equals(customer))
-                    return true;
-            }
+        for (Customer buyer : allBuyers) {
+            if(buyer.equals(customer))
+                return true;
         }
         return false;
     }
@@ -311,5 +312,14 @@ public class Product implements Pendable, Packable {
         return "product";
     }
 
-    //-..-
+    public void updateComments(){
+        ArrayList<Comment> temp = new ArrayList<>();
+        for (Comment comment : this.allComments) {
+            if(comment.getUser().getStatus().equals(Status.DELETED))
+                temp.add(comment);
+        }
+        this.allComments.removeAll(temp);
+    }
+
+
 }

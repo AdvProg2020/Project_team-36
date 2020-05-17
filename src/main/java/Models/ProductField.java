@@ -60,5 +60,16 @@ public class ProductField {
         this.supply +=amount;
     }
 
-    //-..-
+    @Override
+    public String toString() {
+        String result = "Seller: "+seller.getUsername();
+        result+="\nOfficial price: "+price;
+        if(sale!= null&& sale.isSaleAvailable())
+            result+="\n**This is on SALE**\nCurrent price: "+getCurrentPrice();
+        if(supply==0)
+            result+="\n not enough supply!";
+        else
+            result+="\nSupply: "+supply;
+        return result;
+    }
 }

@@ -164,6 +164,23 @@ public class Customer extends User implements Packable {
         return false;
     }
 
+    public void addToCart(SelectedItem selectedItem){
+        for (SelectedItem item : cart) {
+            if(item.getProduct().equals(selectedItem.getProduct())){
+                for (Seller seller : item.getSellers()) {
+                    if(seller.equals(selectedItem.getSellers())){
+                        item.increaseAmountFromSeller(seller,1);
+                        return;
+                    }
+                }
+                item.getSellers().addAll(selectedItem.getSellers());
+                item.getCountFromEachSeller().add(1);
+                return;
+            }
+        }
+        cart.add(selectedItem);
+    }
+
     public Data pack(Object object) {
         return null;
     }

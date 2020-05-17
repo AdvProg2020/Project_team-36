@@ -59,16 +59,15 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
-                if (customerController.isThereProductInCart(((CartMenu)this.parentMenu).getProductId())) {
+                if (!customerController.isThereProductInCart(((CartMenu)this.parentMenu).getProductId())) {
                     System.err.println("There is no product with this id in your cart!");
                     return;
                 }
-                ProductMenu productMenu = null;
                 try {
-                    productMenu = new ProductMenu(productsController.getProduct(productId));
-                    productMenu.execute();
+                    productsController.setChosenProduct(productId);
+                    new ProductMenu(this).execute();
                 } catch (ProductsController.NoProductWithId noProductWithId) {
-                    System.err.println("there is no product with id!");;
+                    System.err.println("there is no product with id!");
                 }
 
             }

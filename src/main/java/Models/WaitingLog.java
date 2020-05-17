@@ -126,6 +126,7 @@ public class WaitingLog {
             for (Seller seller : item.getSellers()) {
                 product.getProductFieldBySeller(seller).addBuyer(this.customer);
             }
+            product.addBuyer(this.customer);
         }
     }
 

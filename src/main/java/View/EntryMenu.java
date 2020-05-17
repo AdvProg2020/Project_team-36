@@ -88,20 +88,21 @@ public class EntryMenu extends Menu {
             }
         }
         entryController.register();
-
     }
 
     private void loginProcess() {
+        String input;
         System.out.print("password: ");
-        while (true) {
+        while (!(input= scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             try {
-                entryController.setPasswordLogin(scanner.nextLine().trim(), (UserAreaMenu) parentMenu);
+                entryController.setPasswordLogin(input, (UserAreaMenu) parentMenu);
                 System.out.println("login successful");
                 break;
             } catch (EntryController.WrongPasswordException e) {
                 System.err.println("Wrong password!");
             }
         }
+        return;
     }
 
 }

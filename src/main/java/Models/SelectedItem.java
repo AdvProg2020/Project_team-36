@@ -11,8 +11,12 @@ public class SelectedItem {
     private CartTag tag ;
 
 
-    public SelectedItem(Product product) {
+    public SelectedItem(Product product,Seller seller) {
         this.product = product;
+        this.sellers = new ArrayList<>();
+        this.countFromEachSeller = new ArrayList<>();
+        this.sellers.add(seller);
+        this.countFromEachSeller.add(1);
         this.tag = CartTag.ENOUGH_SUPPLY;
     }
 
@@ -120,6 +124,8 @@ public class SelectedItem {
         return (this.product.getProductFieldBySeller(seller).getCurrentPrice()) * count;
 
     }
+
+
 
 
 

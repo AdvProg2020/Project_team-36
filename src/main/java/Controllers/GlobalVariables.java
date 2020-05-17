@@ -15,6 +15,7 @@ public class GlobalVariables {
     private String sortProduct;
     private String sortProductType;
     private Product product;
+    private Seller pendingSellerOfProduct;
     private User loggedInUser;
     private Filter pendingFilter;
 
@@ -29,6 +30,22 @@ public class GlobalVariables {
         this.sortOff = "seen count";
         this.sortOffType = "ascending";
         this.sortProductType = "ascending";
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setPendingSellerOfProduct(Seller pendingSellerOfProduct) {
+        this.pendingSellerOfProduct = pendingSellerOfProduct;
+    }
+
+    public Seller getPendingSellerOfProduct() {
+        return pendingSellerOfProduct;
     }
 
     public void setPendingFilter(Filter pendingFilter) {
