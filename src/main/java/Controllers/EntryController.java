@@ -4,11 +4,17 @@ import Models.*;
 import View.*;
 
 public class EntryController extends UserController  {
+    UserAreaMenu userAreaMenu;
     public EntryController(GlobalVariables userVariables) {
         super(userVariables);
+
     }
 
-    public void setPasswordLogin(String password, UserAreaMenu userAreaMenu) throws WrongPasswordException{
+    public void setUserAreaMenu(UserAreaMenu userAreaMenu) {
+        this.userAreaMenu = userAreaMenu;
+    }
+
+    public void setPasswordLogin(String password) throws WrongPasswordException{
         if(!password.equals(userVariables.getLoggedInUser().getPassword())){
             throw new WrongPasswordException("Wrong password!");
         }else{
@@ -76,7 +82,6 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
-                Manager.setMainManager((Manager) newUser);
             }
         }
         userVariables.setLoggedInUser(newUser);

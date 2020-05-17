@@ -1,5 +1,7 @@
 package Models;
 
+import View.ManageCategoriesMenu;
+
 import java.util.ArrayList;
 import static Models.Status.*;
 
@@ -19,6 +21,22 @@ public abstract class User implements Packable{
         this.username = username;
         this.userId = totalUsersMade+1;
         this.status = AVAILABLE;
+    }
+
+    public static void addTest(){
+        Customer customer = new Customer("sahar");
+        Manager customer1 = new Manager("sayeh");
+        customer.setEmail("dsbh@c.co");
+        customer.setPassword("sahar");
+        customer.setFirstname("jk");
+        customer.setLastname("hidf");
+        customer1.setEmail("dsbh@c.co");
+        customer1.setPassword("sahar");
+        customer1.setFirstname("jk");
+        customer1.setLastname("hidf");
+        allUsers.add(customer);
+        allUsers.add(customer1);
+        Customer.getAllCustomers().add(customer);
     }
 
     public String getUsername() {

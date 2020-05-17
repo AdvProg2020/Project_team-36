@@ -13,29 +13,29 @@ public class PersonalInfoMenu extends Menu {
 
     @Override
     public void help() {
-        System.out.println("edit [field]\n" +
-                "register\n" +
-                "login\n" +
-                "logout");
+        System.out.println("edit [field]\nlogout");
     }
 
     @Override
     public void execute() {
         String input;
-        while (!(input = scanner.nextLine().trim()).matches("back")){
-            User user = userController.getLoggedInUser();
-            System.out.println(user);
-            if(input.matches("help|login|logout|register"))
-                sideCommands(input);
-            else if(input.matches("edit\\s+(.+)")){
-                Matcher matcher = getMatcher(input,"edit\\s+(.*)");
-                System.out.println("new quality:");
+        User user = userController.getLoggedInUser();
+        System.out.println(user);
+        while (!(input = scanner.nextLine().trim()).matches("back")) {
+            if (input.matches("help"))
+                help();
+            else if (input.matches("logout"))
+                logoutChangeMenu();
+            else if (input.matches("edit\\s+(.+)")) {
+                Matcher matcher = getMatcher(input, "edit\\s+(.+)");
+                System.out.println(matcher.matches());
+                matcher.matches();
                 try {
                     getNewQuality(matcher.group(1));
                 } catch (UserController.NoFieldWithThisType noFieldWithThisType) {
                     System.err.println("There is no field with this name!");
                 }
-            }else{
+            } else {
                 System.out.println("invalid command");
             }
 
@@ -45,18 +45,16 @@ public class PersonalInfoMenu extends Menu {
 
     private void getNewQuality(String type) throws UserController.NoFieldWithThisType {
         String result;
-        if(type.equalsIgnoreCase("email")){
-            while(!(result=scanner.nextLine().trim()).matches(".+@.+\\.com|back")){
+        if (type.equalsIgnoreCase("email")) {
+            while (!(result = scanner.nextLine().trim()).matches(".+@.+\\..*|back")) {
                 System.out.println("wrong format!");
             }
-        }
-        else if(type.equalsIgnoreCase("phone number")){
-            while(!(result=scanner.nextLine().trim()).matches("\\d+|back")){
+        } else if (type.equalsIgnoreCase("phone number")) {
+            while (!(result = scanner.nextLine().trim()).matches("\\d+|back")) {
                 System.out.println("wrong format!");
             }
-        }
-        else
+        } else
             result = scanner.nextLine().trim();
-        userController.editInfo(type,result);
+        userController.editInfo(type, result);
     }
 }

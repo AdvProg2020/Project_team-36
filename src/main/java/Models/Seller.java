@@ -103,5 +103,4 @@ public class Seller extends User implements Pendable, Packable {
                 ;
     }
 
-    //-..-
 }

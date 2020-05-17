@@ -5,6 +5,7 @@ import View.AllSellers.SellerMenu;
 public class UserAreaMenu extends Menu {
     public UserAreaMenu(Menu parentMenu) {
         super("UserAreaMenu", parentMenu);
+        entryController.setUserAreaMenu(this);
         subMenus.put("EntryMenu", new EntryMenu(this));
     }
 
@@ -20,7 +21,7 @@ public class UserAreaMenu extends Menu {
 
     public void logout() {
         this.subMenus.remove("UserMenu");
-        subMenus.put("EntryMenu", new EntryMenu(this.getParentMenu()));
+        subMenus.put("EntryMenu", new EntryMenu(this));
     }
 
     @Override
