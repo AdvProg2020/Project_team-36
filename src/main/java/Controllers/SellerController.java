@@ -1,11 +1,16 @@
 package Controllers;
 
+import Models.Category;
+import Models.Customer;
 import Exceptions.NoLoggedInSellerException;
 import Exceptions.NoLoggedInUserException;
 import Exceptions.NoProductForThisSellerException;
 import Exceptions.NoProductWithThisIdException;
 import Models.Product;
 import Models.Seller;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 import Models.User;
 
 public class SellerController extends UserController {
@@ -56,6 +61,10 @@ public class SellerController extends UserController {
 
     public StringBuilder getSellerProductDetail(Product product){
         return product.printSellerProductDetails((Seller)userVariables.getLoggedInUser());
+    }
+
+    public HashSet<Customer> getAllBuyers(Product product){
+        return product.getProductFieldBySeller((Seller)userVariables.getLoggedInUser()).getAllBuyers();
     }
 
     public static class InvalidProductIdException extends Exception {
