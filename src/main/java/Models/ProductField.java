@@ -4,15 +4,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
-public class ProductField {
-    private ProductionStatus status;
+public class ProductField implements Pendable {
+    private Product mainProduct;
+    private Status status;
     private long price;
     private Sale sale;
     private Seller seller;
     private int supply;
     private HashSet<Customer> allBuyers;
 
-    public ProductionStatus getStatus() {
+    public ProductField(long price, Seller seller, int supply, Product mainProduct) {
+        this.price = price;
+        this.seller = seller;
+        this.supply = supply;
+        this.mainProduct = mainProduct;
+        status = Status.TO_BE_CONFIRMED;
+    }
+
+    public Status getStatus() {
         return status;
     }
 
@@ -69,6 +78,11 @@ public class ProductField {
 
     public void increaseSupply(int amount){
         this.supply +=amount;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "seller for a product";
     }
 
     //-..-

@@ -211,6 +211,16 @@ public class Category implements Packable {
         }
     }
 
+    public static Category getCategoryWithName(String name){
+        for (Category category : allCategories) {
+            if(category.getName().equalsIgnoreCase(name)){
+                return category;
+            }
+        }
+        return null;
+    }
+
+
     public Data pack(Object object) {
         return null;
     }

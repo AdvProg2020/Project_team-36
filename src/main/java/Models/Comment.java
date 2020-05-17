@@ -1,11 +1,23 @@
 package Models;
 
-public class Comment {
+import static Models.Status.TO_BE_CONFIRMED;
+
+public class Comment implements Pendable {
     private User user;
     private Product product;
+    private String title;
     private String comment;
     private Enum<Status> ConfirmationStatus;
     private boolean hasBought;
+
+    public Comment(User user, Product product, String title, String comment, Enum<Status> confirmationStatus, boolean hasBought) {
+        this.user = user;
+        this.product = product;
+        this.title = title;
+        this.comment = comment;
+        ConfirmationStatus = TO_BE_CONFIRMED;
+        this.hasBought = hasBought;
+    }
 
     public User getUser() {
         return user;
@@ -25,6 +37,11 @@ public class Comment {
 
     public boolean isHasBought() {
         return hasBought;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "comment";
     }
 
     //-..-

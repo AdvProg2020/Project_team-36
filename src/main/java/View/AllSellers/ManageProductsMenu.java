@@ -79,10 +79,10 @@ public class ManageProductsMenu extends Menu {
             @Override
             public void execute() {
                 try {
-                    Product product = sellerController.getProductWithId(id);
+                    Product product = sellerController.getSellerProductWithId(id);
                     System.out.println(sellerController.getSellerProductDetail(product));
-                } catch (SellerController.InvalidProductIdException e){
-                    System.err.println("there's no product with these id");
+                } catch (SellerController.NoProductForSeller e){
+                    System.err.println("There is no product with this id in your products!");
                 }
             }
         };
@@ -96,14 +96,14 @@ public class ManageProductsMenu extends Menu {
             @Override
             public void execute() {
                 try {
-                    Product product = sellerController.getProductWithId(id);
+                    Product product = sellerController.getSellerProductWithId(id);
                     int number = 1;
                     for (Customer buyer : sellerController.getAllBuyers(product)) {
                         System.out.println(number + ") " + buyer.getUsername());
                         number +=1;
                     }
-                } catch (SellerController.InvalidProductIdException e){
-                    System.err.println("there's no product with these id");
+                } catch (SellerController.NoProductForSeller e){
+                    System.err.println("There is no product with this id in your products!");
                 }
             }
         };
@@ -116,20 +116,32 @@ public class ManageProductsMenu extends Menu {
 
             @Override
             public void execute() {
+                try {
+                    sellerController.removeSellerProduct(id);
 
+                } catch (SellerController.NoProductForSeller noProductForSeller) {
+                    System.err.println("There is no product with this id in your products!");
+                }
             }
         };
     }
 
-    private Menu getRemoveProduct(){
+    public Menu getRemoveProduct(){
         return new Menu("getRemoveProduct",this) {
             @Override
-            public void help() { }
+            public void execute() {
+                try {
+                    sellerController.removeSellerProduct(id);
+                    System.out.println("Product removed!");
+                } catch (SellerController.NoProductForSeller noProductForSeller) {
+                    System.err.println("There is no product with this id in your products!");
+                }
+            }
 
             @Override
-            public void execute() {
-
+            public void help() {
             }
         };
     }
+
 }

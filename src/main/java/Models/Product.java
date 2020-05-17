@@ -3,6 +3,7 @@ package Models;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
 public class Product implements Pendable, Packable {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -16,7 +17,26 @@ public class Product implements Pendable, Packable {
     private ArrayList<Score> allScore;
     private Date productionDate;
     private ArrayList<Comment> allComments;
+    private HashSet<Customer> allBuyers;
+    private static int allProductsMade=0;
     private int seenNumber;
+
+    public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
+                   String information, ProductField productField, Date productionDate) {
+        this.productFields = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>();
+        this.allBuyers = new HashSet<>();
+        this.allComments = new ArrayList<>();
+        this.allScore = new ArrayList<>();
+        this.productId = (allProductsMade+=1);
+        this.name = name;
+        this.company = company;
+        this.category = category;
+        this.fieldsOfCategory = fieldsOfCategory;
+        this.information = information;
+        this.productFields.add(productField);
+        this.productionDate = productionDate;
+    }
 
     public int getProductId() {
         return productId;

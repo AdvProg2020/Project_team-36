@@ -1,9 +1,6 @@
 package Controllers;
 
-import Models.Category;
-import Models.Customer;
-import Models.Product;
-import Models.Seller;
+import Models.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +10,7 @@ public class SellerController extends UserController{
     public SellerController(GlobalVariables userVariables) {
         super(userVariables);
     }
+
 
     public long getLoggedInSellerBalance() {
         return ((Seller)userVariables.getLoggedInUser()).getCredit();
@@ -39,7 +37,21 @@ public class SellerController extends UserController{
     }
 
     public ArrayList<Product> getSellerProducts(){
-        return ((Seller)userVariables.getLoggedInUser()).getAllProducts();
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        return seller.getAllProducts();
+    }
+
+    public Product getSellerProductWithId(int id) throws NoProductForSeller {
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        if(seller.isThereProduct(id)){
+            return Product.getProduct(id);
+        } else {
+            throw new NoProductForSeller();
+        }
+    }
+
+    public ArrayList<Product> getAllProducts(){
+        return Product.getAllProducts();
     }
 
     public Product getProductWithId(int id) throws InvalidProductIdException {
@@ -55,10 +67,20 @@ public class SellerController extends UserController{
     }
 
     public HashSet<Customer> getAllBuyers(Product product){
-        return product.getProductFieldBySeller((Seller)userVariables.getLoggedInUser()).getAllBuyers();
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        return product.getProductFieldBySeller(seller).getAllBuyers();
     }
 
-    public static class InvalidProductIdException extends Exception {
+    public void sendAddSellerToProductRequest(long price, int supply, Product product){
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        new Request(new ProductField(price,seller,supply,product));
+    }
+
+    public ArrayList<Category> getAllCategories(){
+        return Category.getAllCategories();
+    }
+
+    public static class InvalidProductIdException extends Exception{
 
     }
 

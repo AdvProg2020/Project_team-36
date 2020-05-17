@@ -10,7 +10,8 @@ public class IntegerField implements Field{
         this.name = name;
     }
 
-    public void setQuantity(String quantity) {
+    @Override
+    public void setValue(String quantity) {
         this.quantity = new BigDecimal(quantity);
     }
 
