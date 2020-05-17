@@ -179,8 +179,9 @@ public class ProductsController {
     public void setCategoryFilter(String name) throws NoCategoryWithName {
 
         for (Category category : Category.getAllCategories()) {
-            if(category.getName().equalsIgnoreCase(name)){
-                userVariables.setFilterProductsCategory(category);}
+            if (category.getName().equalsIgnoreCase(name)) {
+                userVariables.setFilterProductsCategory(category);
+            }
         }
         throw new NoCategoryWithName();
     }
@@ -200,35 +201,109 @@ public class ProductsController {
         throw new NoFilterWithNameException();
     }
 
-    public void setFilterOptions(ArrayList<String> options){
+    public void setFilterOptions(ArrayList<String> options) {
         userVariables.setProductFilterOptions(options);
     }
 
-    public void setFilterRange(String min,String max){
-        userVariables.setProductFilterRange(min,max);
+    public void setFilterRange(String min, String max) {
+        userVariables.setProductFilterRange(min, max);
     }
 
-    public ArrayList<Product> geFinalProductsList(){
+    public ArrayList<Product> geFinalProductsList() {
         ArrayList<Product> result = new ArrayList<>();
-        if(userVariables.getFilterProductsCategory()!=null){
+        if (userVariables.getFilterProductsCategory() != null) {
             result.addAll(userVariables.getFilterProductsCategory().getAllSubProducts());
-        }else{
+        } else {
             result.addAll(Product.getAllProducts());
         }
         for (Filter filter : userVariables.getAllFiltersProducts()) {
             result = filter.filter(result);
         }
         boolean isAscending = false;
-        if(userVariables.getSortProductType().equalsIgnoreCase("ascending"))
+        if (userVariables.getSortProductType().equalsIgnoreCase("ascending"))
             isAscending = true;
         for (String type : sortMethods.keySet()) {
-            if(type.equalsIgnoreCase(userVariables.getSortProduct()))
-                new Sort().sort(result,sortMethods.get(type),isAscending);
+            if (type.equalsIgnoreCase(userVariables.getSortProduct()))
+                new Sort().sort(result, sortMethods.get(type), isAscending);
         }
         return result;
     }
 
-    public static class NoProductWithId extends Exception {}
+    public void setChosenProduct(int productId) throws NoProductWithId {
+        if (!Product.isThereProductWithId(productId))
+            throw new NoProductWithId();
+        userVariables.setProduct(Product.getProduct(productId));
+        Product.getProduct(productId).seen();
+    }
+
+    public Product getChosenProduct() {
+        return userVariables.getProduct();
+    }
+
+    public void resetDigest() {
+        userVariables.setProduct(null);
+        userVariables.setPendingSellerOfProduct(null);
+    }
+
+    public void addSellerForBuy(String username) throws NotEnoughSupply, NoSellerWithUsername {
+        for (ProductField field : userVariables.getProduct().getProductFields()) {
+            if (field.getSeller().getUsername().equalsIgnoreCase(username) && !field.getSeller().getStatus().equals(Status.DELETED)) {
+                if (field.getSupply() > 0)
+                    userVariables.setPendingSellerOfProduct(field.getSeller());
+                else {
+                    userVariables.setPendingSellerOfProduct(null);
+                    throw new NotEnoughSupply();
+                }
+            } else {
+                userVariables.setPendingSellerOfProduct(null);
+                throw new NoSellerWithUsername();
+            }
+
+        }
+    }
+
+    public void addToCart() throws NoSellerIsChosen, EntryController.NotLoggedInException, UserCantBuy {
+        if (userVariables.getPendingSellerOfProduct() == null) {
+            throw new NoSellerIsChosen();
+        } else if (userVariables.getLoggedInUser() == null)
+            throw new EntryController.NotLoggedInException();
+        else if (!(userVariables.getLoggedInUser() instanceof Customer))
+            throw new UserCantBuy();
+        else
+            ((Customer) userVariables.getLoggedInUser()).addToCart(new SelectedItem(userVariables.getProduct(), userVariables.getPendingSellerOfProduct()));
+    }
+
+    public Product compare(int productId) throws NoProductWithId, NotInTheSameCategory {
+        if (Product.getProduct(productId) == null)
+            throw new NoProductWithId();
+        else if (!Product.getProduct(productId).getCategory().equals(userVariables.getProduct().getCategory()))
+            throw new NotInTheSameCategory();
+        else
+            return Product.getProduct(productId);
+    }
+
+    public ArrayList<Comment> getProductComments() {
+        return userVariables.getProduct().getAllComments();
+    }
+
+    public void addComment(String title, String content) throws EntryController.NotLoggedInException {
+        if (userVariables.getLoggedInUser() == null) {
+            throw new EntryController.NotLoggedInException();
+        }
+        if(!(userVariables.getLoggedInUser() instanceof Customer)){
+            new Request(new Comment(userVariables.getLoggedInUser(),userVariables.getProduct(),title,content,false));}
+        else{
+            Boolean hasBought = userVariables.getProduct().isThereBuyer((Customer)userVariables.getLoggedInUser());
+            new Request(new Comment(userVariables.getLoggedInUser(),userVariables.getProduct(),title,content,hasBought));
+
+        }
+    }
+
+    public static class NoProductWithId extends Exception {
+    }
+
+    public static class NotInTheSameCategory extends Exception {
+    }
 
     public static class NoSortException extends Exception {
     }
@@ -242,7 +317,21 @@ public class ProductsController {
     public static class OptionalFieldException extends Exception {
     }
 
-    public static class NoCategoryWithName extends Exception{}
+    public static class NoCategoryWithName extends Exception {
+    }
+
+    public static class NotEnoughSupply extends Exception {
+    }
+
+    public static class NoSellerWithUsername extends Exception {
+    }
+
+    public static class NoSellerIsChosen extends Exception {
+    }
+
+    public static class UserCantBuy extends Exception {
+
+    }
 
 
 }

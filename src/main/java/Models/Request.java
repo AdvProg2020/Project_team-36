@@ -15,6 +15,7 @@ public class Request {
         this.requestId = getRandomId();
         this.pendableRequest = pendable;
         this.status = TO_BE_CONFIRMED;
+        allRequests.add(this);
     }
 
     private int getRandomId(){

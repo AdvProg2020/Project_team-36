@@ -72,7 +72,7 @@ public class ProductsMenu extends Menu {
         while (!(input = scanner.nextLine().trim()).matches("back")) {
             if(input.matches("help|login|register|logout"))
                 sideCommands(input);
-             else if ((matcher = getMatcher(input, "show\\s+product\\s+(\\S+)")).matches())
+            else if ((matcher = getMatcher(input, "show\\s+product\\s+(\\S+)")).matches())
                 goToProductMenu(matcher.group(1));
             else {
                 Menu menu = null;
@@ -100,8 +100,8 @@ public class ProductsMenu extends Menu {
             return;
         }
         try {
-            Product product = productsController.getProduct(productId);
-            new ProductMenu(product).execute();
+            productsController.setChosenProduct(productId);
+            new ProductMenu(this).execute();
 
         } catch (ProductsController.NoProductWithId noProductWithId) {
             System.err.println("There is no product with this id!");

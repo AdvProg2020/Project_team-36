@@ -173,6 +173,22 @@ public class Customer extends User{
         return null;
     }
 
+    public void addToCart(SelectedItem selectedItem){
+        for (SelectedItem item : cart) {
+            if(item.getProduct().equals(selectedItem.getProduct())){
+                for (Seller seller : item.getSellers()) {
+                    if(seller.equals(selectedItem.getSellers())){
+                        item.increaseAmountFromSeller(seller,1);
+                        return;
+                    }
+                }
+                item.getSellers().addAll(selectedItem.getSellers());
+                item.getCountFromEachSeller().add(1);
+                return;
+            }
+        }
+        cart.add(selectedItem);
+    }
     public Customer(int userId, String username, String firstname, String lastname,
                     String email, String phoneNumber, String password, Status status,long credit) {
         super(userId, username, firstname, lastname, email, phoneNumber, password, status);
@@ -184,8 +200,6 @@ public class Customer extends User{
 
     public static void addToAllCustomers(Customer customer){
         allCustomers.add(customer);
-    }
-
     public void setCredit(long credit) {
         this.credit = credit;
     }

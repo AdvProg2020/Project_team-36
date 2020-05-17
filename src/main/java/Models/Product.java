@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
 public class Product implements Pendable{
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -17,6 +18,7 @@ public class Product implements Pendable{
     private ArrayList<Score> allScore;
     private Date productionDate;
     private ArrayList<Comment> allComments;
+    private HashSet<Customer> allBuyers;
     private int seenNumber;
 
     public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory, String information, Date productionDate, int seenNumber) {
@@ -64,6 +66,10 @@ public class Product implements Pendable{
         return null;
     }
 
+    public void addBuyer(Customer customer){
+        this.allBuyers.add(customer);
+    }
+
     public long getHighestCurrentPrice() {
         long price = 0;
         for (ProductField productField : this.productFields) {
@@ -101,11 +107,8 @@ public class Product implements Pendable{
     }
 
     public ArrayList<Comment> getAllComments() {
+        this.updateComments();
         return allComments;
-    }
-
-    public ArrayList<Score> getAllScore() {
-        return allScore;
     }
 
     public static ArrayList<Product> getAllProducts() {
@@ -314,11 +317,9 @@ public class Product implements Pendable{
     }
 
     public boolean isThereBuyer(Customer customer) {
-        for (ProductField productField : this.productFields) {
-            for (Customer buyer : productField.getAllBuyers()) {
-                if (buyer.equals(customer))
-                    return true;
-            }
+        for (Customer buyer : allBuyers) {
+            if(buyer.equals(customer))
+                return true;
         }
         return false;
     }
@@ -328,9 +329,18 @@ public class Product implements Pendable{
         return "product";
     }
 
+    public void updateComments(){
+        ArrayList<Comment> temp = new ArrayList<>();
+        for (Comment comment : this.allComments) {
+            if(comment.getUser().getStatus().equals(Status.DELETED))
+                temp.add(comment);
+        }
+        this.allComments.removeAll(temp);
+    }
+
     public static void addToAllProducts(Product product){
         allProducts.add(product);
     }
 
-    //-..-
+
 }

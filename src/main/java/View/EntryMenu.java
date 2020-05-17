@@ -1,7 +1,6 @@
 package View;
 
 import Controllers.EntryController;
-import Exceptions.NoLoggedInUserException;
 
 
 import java.util.regex.Matcher;
@@ -55,57 +54,55 @@ public class EntryMenu extends Menu {
     }
 
     private void registerProcess(String type) {
-        try{
-            String input;
-            System.out.print("password: ");
-            entryController.setPassword(scanner.nextLine().trim());
-            System.out.print("firstname: ");
-            entryController.setFirstname(scanner.nextLine().trim());
-            System.out.print("lastname: ");
-            entryController.setLastname(scanner.nextLine().trim());
-            if(type.equalsIgnoreCase("seller")){
-                System.out.println("company: ");
-                entryController.setCompany(scanner.nextLine().trim());
-                System.out.println("company information: ");
-                entryController.setCompanyInfo(scanner.nextLine().trim());
-            }
-            System.out.println("email");
-            while (true) {
-                input = scanner.nextLine().trim();
-                if (input.matches("\\S+@\\S+\\.\\S+")) {
-                    entryController.setEmail(input);
-                    break;
-                } else {
-                    System.err.println("invalid form of email!\n Correct format: abcd@abc.abc");
-                }
-            }
-            System.out.print("phoneNumber: ");
-            while (true) {
-                input = scanner.nextLine().trim();
-                if (input.matches("\\d+")) {
-                    entryController.setPhoneNumber(input);
-                    break;
-                } else {
-                    System.err.println("invalid phone number! Try again");
-                }
-            }
-            entryController.register();
-        }catch (NoLoggedInUserException e){
-            System.err.println(e.getMessage());
+        String input;
+        System.out.print("password: ");
+        entryController.setPassword(scanner.nextLine().trim());
+        System.out.print("firstname: ");
+        entryController.setFirstname(scanner.nextLine().trim());
+        System.out.print("lastname: ");
+        entryController.setLastname(scanner.nextLine().trim());
+        if(type.equalsIgnoreCase("seller")){
+            System.out.println("company: ");
+            entryController.setCompany(scanner.nextLine().trim());
+            System.out.println("company information: ");
+            entryController.setCompanyInfo(scanner.nextLine().trim());
         }
+        System.out.println("email");
+        while (true) {
+            input = scanner.nextLine().trim();
+            if (input.matches("\\S+@\\S+\\.\\S+")) {
+                entryController.setEmail(input);
+                break;
+            } else {
+                System.err.println("invalid form of email!\n Correct format: abcd@abc.abc");
+            }
+        }
+        System.out.print("phoneNumber: ");
+        while (true) {
+            input = scanner.nextLine().trim();
+            if (input.matches("\\d+")) {
+                entryController.setPhoneNumber(input);
+                break;
+            } else {
+                System.err.println("invalid phone number! Try again");
+            }
+        }
+        entryController.register();
     }
 
     private void loginProcess() {
+        String input;
         System.out.print("password: ");
-        while (true) {
+        while (!(input= scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             try {
-                entryController.setPasswordLogin(scanner.nextLine().trim(), (UserAreaMenu) parentMenu);
+                entryController.setPasswordLogin(input, (UserAreaMenu) parentMenu);
                 System.out.println("login successful");
                 break;
-            } catch (EntryController.WrongPasswordException|NoLoggedInUserException e) {  //todo: exceptionaro gharar bud tu kelasaye joda tu un package tarif knim:)
+            } catch (EntryController.WrongPasswordException e) {
                 System.err.println("Wrong password!");
             }
         }
+        return;
     }
 
 }

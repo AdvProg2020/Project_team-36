@@ -16,7 +16,17 @@ public class OptionalField implements Field {
         this.name = name;
     }
 
+    @Override
+    public String getQuantityString() {
+        return this.quality;
+    }
+
     public String getQuality() {
         return quality;
+    }
+
+    @Override
+    public String toString() {
+        return name+": "+quality;
     }
 }

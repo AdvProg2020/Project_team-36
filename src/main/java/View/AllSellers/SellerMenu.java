@@ -101,5 +101,4 @@ public class SellerMenu extends Menu {
         }
     }
 
-    //TODO hate git!
 }
