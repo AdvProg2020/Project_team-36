@@ -99,6 +99,7 @@ public class SellerMenu extends Menu {
                     chosenMenu.execute();
             }
         }
+        this.parentMenu.getParentMenu().execute();
     }
 
 }

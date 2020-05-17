@@ -12,7 +12,6 @@ public class Customer extends User{
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
-
     public Customer(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
@@ -105,21 +104,15 @@ public class Customer extends User{
         return null;
     }
 
-    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
-        this.updateDiscounts();
-        return allDiscountsForCustomer;
-    }
-
-    private void updateDiscounts() {
-        Set<Discount> temp = new HashSet<>();
+    public HashMap<Discount, Integer> getAllActiveDiscountsForCustomer() {
+        HashMap<Discount,Integer> toBeReturned = new HashMap<>();
         for (Discount discount : this.allDiscountsForCustomer.keySet()) {
-            if (!discount.isDiscountAvailable()) {
-                temp.add(discount);
-            }
+            if(discount.isDiscountAvailable())
+                toBeReturned.put(discount,allDiscountsForCustomer.get(discount));
         }
-        this.allDiscountsForCustomer.keySet().removeAll(temp);
-
+        return toBeReturned;
     }
+
 
     public void decreaseCredit(long totalDecrease){
         this.credit -= totalDecrease;

@@ -1,6 +1,5 @@
 package View;
 
-import Exceptions.NoLoggedInUserException;
 import Models.Discount;
 import View.Products.OffsMenu;
 import View.Products.ProductsMenu;
@@ -37,21 +36,17 @@ public class CustomerMenu extends Menu{
 
             @Override
             public void execute() {
-               try {
-                   HashMap<Discount, Integer> discounts = customerController.getDiscountCodes();
-                   if(discounts.isEmpty()){
-                       System.out.println("You have no available discount!");
-                       this.getParentMenu().execute();
-                   }
-                   System.out.println("Discount code    Repetition    EndTime");
-                   for (Discount discount : discounts.keySet()) {
-                       System.out.printf("%10s%10d%20s",discount.getId(),discounts.get(discount),discount.getEndTime());
-                       System.out.println();
-                   }
-                   this.getParentMenu().execute();
-               }catch (NoLoggedInUserException e){
-                   System.err.println(e.getMessage());
-               }
+                HashMap<Discount, Integer> discounts = customerController.getDiscountCodes();
+                if(discounts.isEmpty()){
+                    System.out.println("You have no available discount!");
+                    this.getParentMenu().execute();
+                }
+                System.out.println("Discount code    Remaining use    EndTime");
+                for (Discount discount : discounts.keySet()) {
+                    System.out.printf("%5s%18d%35s",discount.getId(),discounts.get(discount),discount.getEndTime());
+                    System.out.println();
+                }
+                this.getParentMenu().execute();
             }
         };
     }
@@ -64,14 +59,38 @@ public class CustomerMenu extends Menu{
 
             @Override
             public void execute() {
-                try {
-                    System.out.println("your total balance is: "+customerController.getBalance());
-                    this.getParentMenu().execute();
-                }catch (NoLoggedInUserException e){
-                    System.err.println(e.getMessage());
-                }
+                System.out.println("your total balance is: "+customerController.getBalance());
+                this.getParentMenu().execute();
             }
         };
+    }
+
+    public void execute() {
+        String input = scanner.nextLine().trim();
+        Menu chosenMenu = null;
+        if (input.matches("back")) {
+            parentMenu.getParentMenu().execute();
+
+        } else if (input.matches("help")) {
+            help();
+            this.execute();
+        } else if (input.matches("logout")) {
+            logoutChangeMenu();
+        }else{
+            for (String regex : subMenus.keySet()) {
+                if (input.matches(regex)) {
+                    chosenMenu = subMenus.get(regex);
+                    break;
+                }
+            }
+        }
+        if (chosenMenu != null)
+            chosenMenu.execute();
+        else {
+            System.err.println("Invalid command! Try again please!");
+            this.execute();
+        }
+
     }
 
 

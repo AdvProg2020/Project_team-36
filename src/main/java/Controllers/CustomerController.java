@@ -119,7 +119,7 @@ public class CustomerController extends UserController {
 
     public HashMap<Discount, Integer> getDiscountCodes() throws NoLoggedInUserException {
 
-        return ((Customer) userVariables.getLoggedInUser()).getAllDiscountsForCustomer();
+        return ((Customer) userVariables.getLoggedInUser()).getAllActiveDiscountsForCustomer();
     }
 
     public long getBalance() throws NoLoggedInUserException {

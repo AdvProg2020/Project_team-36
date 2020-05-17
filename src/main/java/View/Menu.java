@@ -64,8 +64,10 @@ public abstract class Menu {
         } catch (EntryController.NotLoggedInException e) {
             e.printStackTrace();
         }
-        parent.getParentMenu().help();
-        parent.getParentMenu().execute();
+        while(!(parent.getParentMenu() instanceof MainMenu)){
+            parent = parent.getParentMenu();
+        }
+        parent.execute();
     }
 
     public void sideCommands(String input){

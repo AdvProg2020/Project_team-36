@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Manager extends User {
 
-    private static Manager mainManager;
     private static ArrayList<Manager> allManagers = new ArrayList<>();
 
 
@@ -17,9 +16,6 @@ public class Manager extends User {
         return "manager";
     }
 
-    public static void setMainManager(Manager mainManager) {
-        Manager.mainManager = mainManager;
-    }
 
     public static ArrayList<Manager> getAllManagers() {
         return allManagers;

@@ -11,7 +11,7 @@ public class Seller extends User implements Pendable {
     private String companyName;
     private String companyInfo;
 
-    public Seller(String username){
+    public Seller(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
         this.allSales = new ArrayList<>();
@@ -89,17 +89,17 @@ public class Seller extends User implements Pendable {
         this.allLogs.add(sellerLog);
     }
 
-    public void increaseCredit(long amount){
+    public void increaseCredit(long amount) {
         this.credit += amount;
     }
 
-    public void removeProduct(Product product){
+    public void removeProduct(Product product) {
         allProducts.remove(product);
     }
 
-    public boolean isThereProduct(int productId){
+    public boolean isThereProduct(int productId) {
         for (Product product : allProducts) {
-            if(product.getProductId()==productId)
+            if (product.getProductId() == productId)
                 return true;
         }
         return false;

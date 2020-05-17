@@ -31,7 +31,7 @@ public abstract class UserController {
             method = User.class.getDeclaredMethod("setPassword", String.class);
             this.generalInfoMethods.put("password", method);
             method = User.class.getDeclaredMethod("setPhoneNumber", String.class);
-            this.generalInfoMethods.put("phone number", method);
+            this.generalInfoMethods.put("phone", method);
             method = Seller.class.getDeclaredMethod("setCompanyName", String.class);
             this.sellerInfoMethods.put("company name", method);
             method = Seller.class.getDeclaredMethod("setCompanyInfo", String.class);
@@ -62,8 +62,10 @@ public abstract class UserController {
             if(name.equalsIgnoreCase(type)){
                 try {
                     generalInfoMethods.get(name).invoke(userVariables.getLoggedInUser(),newQuality);
+                    return;
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     throw new NoFieldWithThisType();
+
                 }
             }
 

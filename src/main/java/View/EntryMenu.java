@@ -23,7 +23,7 @@ public class EntryMenu extends Menu {
         String input = scanner.nextLine().trim();
         Matcher matcher;
         if (input.matches("back")) {
-            parentMenu.execute();
+            parentMenu.getParentMenu().execute();
         }
         else if ((matcher = getMatcher(input, "create\\s+account\\s+(\\w+)\\s+(\\S+)")).matches()) {
             try {
@@ -95,7 +95,7 @@ public class EntryMenu extends Menu {
         System.out.print("password: ");
         while (!(input= scanner.nextLine().trim()).equalsIgnoreCase("back")) {
             try {
-                entryController.setPasswordLogin(input, (UserAreaMenu) parentMenu);
+                entryController.setPasswordLogin(input);
                 System.out.println("login successful");
                 break;
             } catch (EntryController.WrongPasswordException e) {
