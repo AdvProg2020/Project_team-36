@@ -1,6 +1,7 @@
 package View.AllSellers;
 
 import Controllers.SellerController;
+import Models.Customer;
 import Models.Discount;
 import Models.Product;
 import View.Menu;
@@ -94,7 +95,16 @@ public class ManageProductsMenu extends Menu {
 
             @Override
             public void execute() {
-                super.execute();
+                try {
+                    Product product = sellerController.getProductWithId(id);
+                    int number = 1;
+                    for (Customer buyer : sellerController.getAllBuyers(product)) {
+                        System.out.println(number + ") " + buyer.getUsername());
+                        number +=1;
+                    }
+                } catch (SellerController.InvalidProductIdException e){
+                    System.err.println("there's no product with these id");
+                }
             }
         };
     }
