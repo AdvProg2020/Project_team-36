@@ -36,7 +36,23 @@ public class SaveDiscount {
         String saveDiscountGson = gson.toJson(saveDiscount);
         FileUtil.write(FileUtil.generateAddress(Discount.class.getName(),saveDiscount.id),saveDiscountGson);
     }
+
+
     public static Discount load(int id){
-        return null;
+        lastId = Math.max(lastId,id);
+        if(Discount.getDiscountById(id) != null){
+            return Discount.getDiscountById(id);
+        }
+        Gson gson = new Gson();
+        String data = FileUtil.read(FileUtil.generateAddress(Discount.class.getName(),id));
+        if (data == null){
+            return null;
+        }
+        SaveDiscount saveDiscount = gson.fromJson(data,SaveDiscount.class);
+        Discount discount = new Discount(saveDiscount.id,saveDiscount.startTime,saveDiscount.endTime,
+                saveDiscount.discountPercent,saveDiscount.discountLimit,saveDiscount.repetitionForEachUser);
+        Discount.addToAllDiscounts(discount);
+        saveDiscount.customersIncludedIds.forEach(customerIncludedId -> discount.getCustomersIncluded().add(SaveCustomer.load(customerIncludedId)));
+        return discount;
     }
 }
