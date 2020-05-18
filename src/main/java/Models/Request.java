@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static Models.Status.*;
 
-public class Request implements Packable {
+public class Request  {
     private Pendable pendableRequest;
     private int requestId;
     private static int totalRequestsMade;
@@ -74,14 +74,6 @@ public class Request implements Packable {
 
     public void acceptRequest() {
 
-    }
-
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
     }
 
     //-..-

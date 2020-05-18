@@ -1,6 +1,7 @@
 package View;
 
 import Controllers.CustomerController;
+import Models.SelectedItem;
 
 public class ReceiveInformationMenu extends Menu {
 
@@ -16,8 +17,17 @@ public class ReceiveInformationMenu extends Menu {
 
     @Override
     public void execute() {
-        if (customerController.isThereAvailableItemInCart()) {
-            System.err.println("There is nothing available in your cart! Returning to cart menu...");
+        try {
+            customerController.startPurchase();
+        } catch (CustomerController.EmptyCart emptyCart) {
+            System.err.println("Empty cart!");
+            return;
+        } catch (CustomerController.NotEnoughSupplyInCart notEnoughSupplyInCart) {
+            System.out.println("There is/are items in your cart that don't have enough supply");
+            System.out.println("items:");
+            for (SelectedItem item : notEnoughSupplyInCart.getItems()) {
+                System.out.println(item.getProduct().getName());
+            }
             return;
         }
         String input;

@@ -45,50 +45,15 @@ public class SelectedItem {
     }
 
     public void checkTag(){
-        if(!Product.getAllProducts().contains(this.getProduct()))
-            this.tag = PRODUCT_DOESNOT_EXIST;
         int i = 0;
         for (Seller seller : this.sellers) {
-            if(!product.getAllSellers().contains(seller)||!Seller.getAllSellers().contains(seller)){
-                this.tag = CartTag.SELLER_DOESNOT_EXIST;
-                return;
-            }else if(product.getProductFieldBySeller(seller).getSupply()<countFromEachSeller.get(i)){
+             if(product.getProductFieldBySeller(seller).getSupply()<countFromEachSeller.get(i)){
                 this.tag = CartTag.NOT_ENOUGH_SUPPLY;
                 return;
             }
             i++;
         }
         this.tag = CartTag.ENOUGH_SUPPLY;
-    }
-
-    public SelectedItem editForAvailability(){
-        if(this.tag.equals(PRODUCT_DOESNOT_EXIST))
-            return null;
-        else if(this.tag.equals(ENOUGH_SUPPLY))
-            return this;
-        else{
-            ArrayList<Seller> temp = new ArrayList<>();
-            for (Seller seller : this.sellers) {
-                if(!Seller.getAllSellers().contains(seller)||this.getProduct().getProductFieldBySeller(seller)==null){
-                    temp.add(seller);
-                }
-                else if(this.countFromEachSeller.get(sellers.indexOf(seller))>this.product.getProductFieldBySeller(seller).getSupply()){
-                    int supply = this.product.getProductFieldBySeller(seller).getSupply();
-                    if(supply==0)
-                        temp.add(seller);
-                    else{
-                        countFromEachSeller.set(sellers.indexOf(seller),supply);
-                    }
-                }
-            }
-            if(temp.size()==sellers.size())
-                return null;
-            for (Seller seller : temp) {
-                countFromEachSeller.remove(sellers.indexOf(seller));
-            }
-            sellers.removeAll(temp);
-            return this;
-        }
     }
 
     public void increaseAmountFromSeller(Seller seller, int count) {
@@ -123,6 +88,19 @@ public class SelectedItem {
         int count = countFromEachSeller.get(index);
         return (this.product.getProductFieldBySeller(seller).getCurrentPrice()) * count;
 
+    }
+
+    public void updateSelectedItem(){
+        ArrayList<Seller> temp = new ArrayList<>();
+        int i =0;
+        for (Seller seller : this.sellers) {
+            if(seller.getStatus().equals(Status.DELETED)||!User.isThereUsername(seller.getUsername())||!product.getAllSellers().contains(seller)){
+                temp.add(seller);
+                countFromEachSeller.remove(i);
+            }
+            i++;
+        }
+        this.sellers.removeAll(temp);
     }
 
 

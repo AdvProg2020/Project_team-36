@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Category implements Packable {
+public class Category {
     private String name;
     private int categoryId;
     private static int totalCategoriesMade;
@@ -238,12 +238,5 @@ public class Category implements Packable {
         allCategories.remove(this);
     }
 
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
-    }
 
 }

@@ -24,9 +24,9 @@ public class OrderMenu extends Menu {
     @Override
     public void execute() {
         ArrayList<CustomerLog> logs = customerController.getAllLogs();
-        System.out.printf("%5s%10s%10s", "logId", "Date", "Total price");
+        System.out.printf("%5s%20s%10s", "logId", "Date", "Total price");
         for (CustomerLog log : logs) {
-            System.out.printf("%5s%10s%10d", log.getId(), log.getDate(), log.getTotalPrice());
+            System.out.printf("%5s%20s%10d", log.getId(), log.getDate(), log.getTotalPayable());
         }
         String input;
         while (!(input = scanner.nextLine().trim()).matches("back|logout")) {
@@ -58,15 +58,17 @@ public class OrderMenu extends Menu {
         }
     }
 
+
+
     private void rateProductMenu(int productId, int rate) {
         if(rate>5||rate<1){
-            System.err.println("Unacceptable number! Try again");
+            System.err.println("Unacceptable rate number! Try again");
         }
         try{
             customerController.rateProduct(productId,rate);
             System.out.println("Thank you!");
         } catch (CustomerController.NoProductWithIdInLog e) {
-            System.err.println(e.getMessage());
+            System.err.println("you can only rate buying products!");
         }
     }
 }

@@ -27,38 +27,36 @@ public class CustomerController extends UserController {
         return item.getSellers().size() > 1;
     }
 
-    public boolean isThereAvailableItemInCart(){
+    public void startPurchase() throws EmptyCart, NotEnoughSupplyInCart {
         ArrayList<SelectedItem> cart = ((Customer)userVariables.getLoggedInUser()).getCart();
+        ((Customer)userVariables.getLoggedInUser()).updateCart();
         if(cart.isEmpty())
-            return false;
+            throw new EmptyCart();
+        ArrayList<SelectedItem> temp = new ArrayList<>();
         for (SelectedItem item : cart) {
-            if(item.getTag().equals(ENOUGH_SUPPLY))
-                return true;
-            if(item.getTag().equals(NOT_ENOUGH_SUPPLY)){
-                for (Seller seller : item.getSellers()) {
-                    if(item.getProduct().getProductFieldBySeller(seller).getSupply()>0)
-                        return true;
+            int index=0;
+            for (Seller seller : item.getSellers()) {
+                if(item.getProduct().getProductFieldBySeller(seller).getSupply()<item.getCountFromEachSeller().get(index))
+                {
+                    temp.add(item);
+                    break;
                 }
             }
         }
-        return false;
+        if(temp.size()>0)
+            throw new NotEnoughSupplyInCart(temp);
     }
 
     public ArrayList<SelectedItem> getWaitingLogItems(){
-        ArrayList<SelectedItem> temp = new ArrayList<>();
-        for (SelectedItem item : ((Customer) userVariables.getLoggedInUser()).getWaitingLog().getAllItems()) {
-            if(item.editForAvailability()==null)
-                temp.add(item);
-        }
-         ((Customer) userVariables.getLoggedInUser()).getWaitingLog().getAllItems().removeAll(temp);
         return((Customer) userVariables.getLoggedInUser()).getWaitingLog().getAllItems();
     }
 
     public void increaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem, NotEnoughSupply {
-        SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
+        ((Customer)userVariables.getLoggedInUser()).updateCart();
         if (!((Customer) userVariables.getLoggedInUser()).isThereProductInCart(productId))
-            throw new NoProductWithIdInCart("There is no product with this id in your cart!");
-        else if (item.getSellers().size() > 1) {
+            throw new NoProductWithIdInCart("");
+        SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
+        if (item.getSellers().size() > 1) {
             throw new MoreThanOneSellerForItem(item.getSellers());
         } else if (item.getProduct().enoughSupplyOfSeller(item.getSellers().get(0), 1)) {
             item.increaseAmountFromSeller(item.getSellers().get(0), 1);
@@ -82,10 +80,11 @@ public class CustomerController extends UserController {
     }
 
     public void decreaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem {
-        SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
+        ((Customer)userVariables.getLoggedInUser()).updateCart();
         if (!((Customer) userVariables.getLoggedInUser()).isThereProductInCart(productId))
-            throw new NoProductWithIdInCart("There is no product with this id in your cart!");
-        else if (item.getSellers().size() > 1) {
+            throw new NoProductWithIdInCart("NOPRODUCT");
+        SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
+         if (item.getSellers().size() > 1) {
             throw new MoreThanOneSellerForItem(item.getSellers());
         } else {
             try {
@@ -139,6 +138,7 @@ public class CustomerController extends UserController {
     public void setAddressForPurchase(String address)  {
 
         Customer customer = ((Customer) userVariables.getLoggedInUser());
+        customer.updateCart();
         customer.setWaitingLog(new WaitingLog(customer, address));
         customer.getWaitingLog().setAllItems(customer.getCart());
     }
@@ -149,7 +149,7 @@ public class CustomerController extends UserController {
 
     public void setDiscountCodeForPurchase(int discountCode) throws NoDiscountAvailableWithId {
         Customer customer = (Customer) userVariables.getLoggedInUser();
-        if (customer.isThereDiscountCode(discountCode))
+        if (!customer.isThereDiscountCode(discountCode))
             throw new NoDiscountAvailableWithId("No Discount with Id");
         customer.getWaitingLog().setDiscount(Discount.getDiscountWithId(discountCode));
     }
@@ -178,8 +178,7 @@ public class CustomerController extends UserController {
         waitingLog.applyPurchaseChanges();
         waitingLog.addCustomerToBuyers();
         SellerLog.createSellerLogs(waitingLog);
-        CustomerLog log = CustomerLog.createCustomerLog(waitingLog);
-        return log;
+        return CustomerLog.createCustomerLog(waitingLog);
     }
 
     public ArrayList<CustomerLog> getAllLogs() {
@@ -197,6 +196,19 @@ public class CustomerController extends UserController {
         }
     }
 
+    public static class NotEnoughSupplyInCart extends Exception{
+        private ArrayList<SelectedItem> items;
+        public NotEnoughSupplyInCart(ArrayList<SelectedItem> items) {
+            this.items = new ArrayList<>();
+            this.items = items;
+        }
+
+        public ArrayList<SelectedItem> getItems() {
+            return items;
+        }
+
+    }
+
     public static class MoreThanOneSellerForItem extends Exception {
         ArrayList<Seller> sellers = new ArrayList<>();
 
@@ -210,8 +222,7 @@ public class CustomerController extends UserController {
     }
 
     public static class NotEnoughSupply extends Exception {
-        public NotEnoughSupply() {
-        }
+
     }
 
     public static class NoLogWithId extends Exception {

@@ -20,7 +20,7 @@ public class EnterDiscountCodeMenu extends Menu {
     public void execute() {
         System.out.println("enter a discount code then/or type next!");
         String input = scanner.nextLine().trim();
-        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help"))||
+        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("next"))||
                 (input.equalsIgnoreCase("logout")))) {
             if (input.matches("\\d+")) {
                 try {

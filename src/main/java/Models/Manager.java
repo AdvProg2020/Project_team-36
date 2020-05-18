@@ -2,7 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 
-public class Manager extends User implements Packable {
+public class Manager extends User  {
 
     private static ArrayList<Manager> allManagers = new ArrayList<>();
 
@@ -33,13 +33,6 @@ public class Manager extends User implements Packable {
 //        return mainManager.getUsername().equals(username);
 //    }
 
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
-    }
 
     @Override
     public String toString() {

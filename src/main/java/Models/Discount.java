@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Discount implements Packable {
+public class Discount {
     private static ArrayList<Discount> allDiscounts = new ArrayList<>();
     private int id;
     private Date startTime;
@@ -149,11 +149,4 @@ public class Discount implements Packable {
         return allDiscounts;
     }
 
-    public Data pack(Object object) {
-        return null;
-    }
-
-    public Object unpack(Data data) {
-        return null;
-    }
 }

@@ -15,7 +15,7 @@ public class CustomerLog {
     private String address;
     private String phoneNumber;
     private LogStatus logStatus;
-    private long totalPrice;
+    private long totalPrice;//bedune haraj va discount
     private long totalPayable;
     private ArrayList<ItemInLog> allItems;
 
@@ -95,4 +95,16 @@ public class CustomerLog {
         return customerLog;
     }
 
+    @Override
+    public String toString() {
+        String result;
+        result = "id: "+id+"\ndate: "+date;
+        int i = 1;
+        result+="\nproduct name   count   sale percent   each price";
+        for (ItemInLog item : allItems) {
+            result+="\n"+i+". "+item.getProductName()+"   "+item.getCount()+"   "+"   "+item.getSalePercent()*100+"   "+item.getCurrentPrice();
+        }
+        result+="discount amount: "+getDiscountAmount()+"\ngift amount: "+giftDiscount;
+        return result;
+    }
 }
