@@ -52,7 +52,11 @@ public class SaveProduct {
             return Product.getProductById(id);
         }
         Gson gson = new Gson();
-        SaveProduct saveProduct = gson.fromJson(FileUtil.read(FileUtil.generateAddress(Product.class.getName(),id)),SaveProduct.class);
+        String data = FileUtil.read(FileUtil.generateAddress(Product.class.getName(),id));
+        if(data == null){
+            return null;
+        }
+        SaveProduct saveProduct = gson.fromJson(data,SaveProduct.class);
         Product product = new Product(saveProduct.productId,saveProduct.name,
                 saveProduct.company,SaveCategory.load(saveProduct.categoryId),
                 new ArrayList<>(saveProduct.fieldsOfCategory),saveProduct.information,

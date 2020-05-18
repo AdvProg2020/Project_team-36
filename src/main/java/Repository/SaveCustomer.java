@@ -56,7 +56,11 @@ public class SaveCustomer {
             return Customer.getCustomerById(id);
         }
         Gson gson = new Gson();
-        SaveCustomer saveCustomer = gson.fromJson(FileUtil.read(FileUtil.generateAddress(Customer.class.getName(),id)),SaveCustomer.class);
+        String data = FileUtil.read(FileUtil.generateAddress(Customer.class.getName(),id));
+        if(data == null){
+            return null;
+        }
+        SaveCustomer saveCustomer = gson.fromJson(data,SaveCustomer.class);
         Customer customer = new Customer(saveCustomer.userId,saveCustomer.username,saveCustomer.firstname,
                 saveCustomer.lastname,saveCustomer.email,saveCustomer.phoneNumber,saveCustomer.password,
                 saveCustomer.status,saveCustomer.credit);

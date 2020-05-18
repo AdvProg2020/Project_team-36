@@ -53,9 +53,12 @@ public class SaveCategory {
         if (Category.getCategoryById(id) != null) {
             return Category.getCategoryById(id);
         }
-        String loadCategoryGson = FileUtil.read(FileUtil.generateAddress(Category.class.getName(), id));
         Gson gson = new Gson();
-        SaveCategory saveCategory = gson.fromJson(loadCategoryGson, SaveCategory.class);
+        String data = FileUtil.read(FileUtil.generateAddress(Category.class.getName(), id));
+        if (data == null){
+            return null;
+        }
+        SaveCategory saveCategory = gson.fromJson(data, SaveCategory.class);
         Category parentCategory = load(saveCategory.parentCategoryId);
         HashSet<Field> allFields = new HashSet<>();
         saveCategory.allFields.forEach(field -> allFields.add(field));
