@@ -23,6 +23,6 @@ public class SaveComment {
     }
 
     public Comment generateComment(){
-        return null;
+        return new Comment(SaveUser.load(userId),SaveProduct.load(productId),title,comment,ConfirmationStatus,hasBought);
     }
 }
