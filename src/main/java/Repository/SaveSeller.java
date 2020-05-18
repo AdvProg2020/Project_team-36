@@ -52,7 +52,25 @@ public class SaveSeller {
         String saveSellerGson = gson.toJson(saveSeller);
         FileUtil.write(FileUtil.generateAddress(Seller.class.getName(),saveSeller.userId),saveSellerGson);
     }
+
     public static Seller load(int id){
-        return null;
+        lastId = Math.max(lastId,id);
+        if(Seller.getSellerById(id) != null){
+            return Seller.getSellerById(id);
+        }
+        Gson gson = new Gson();
+        String data = FileUtil.read(FileUtil.generateAddress(Seller.class.getName(),id));
+        if(data == null){
+            return  null;
+        }
+        SaveSeller saveSeller = gson.fromJson(data,SaveSeller.class);
+        Seller seller = new Seller(saveSeller.userId,saveSeller.username,saveSeller.firstname,
+                saveSeller.lastname,saveSeller.email,saveSeller.phoneNumber,saveSeller.password,
+                saveSeller.status,saveSeller.credit,saveSeller.companyName,saveSeller.companyInfo);
+        Seller.addToAllSellers(seller);
+        saveSeller.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
+        saveSeller.allProductIds.forEach(productId -> seller.getAllProducts().add(SaveProduct.load(productId)));
+        saveSeller.allSellerLogIds.forEach(sellerLogId -> seller.getAllLogs().add(SaveSellerLog.load(sellerLogId)));
+        return seller;
     }
 }

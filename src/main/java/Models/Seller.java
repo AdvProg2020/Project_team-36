@@ -15,7 +15,6 @@ public class Seller extends User implements Pendable {
         super(username);
         this.allLogs = new ArrayList<>();
         this.allSales = new ArrayList<>();
-        this.allSales = new ArrayList<>();
         this.allProducts = new ArrayList<>();
     }
 
@@ -99,6 +98,32 @@ public class Seller extends User implements Pendable {
                 "    phoneNumber: " + phoneNumber + '\n' +
                 "    company: " + companyName + '\n'
                 ;
+    }
+
+    public static Seller getSellerById(int id){
+        for (Seller seller : allSellers) {
+            if (seller.userId == id){
+                return seller;
+            }
+        }
+        return null;
+    }
+
+    public Seller(int userId, String username, String firstname, String lastname, String email, String phoneNumber,
+                  String password, Status status, long credit, String companyName, String companyInfo) {
+        super(userId, username, firstname, lastname, email, phoneNumber, password, status);
+        this.credit = credit;
+        this.companyName = companyName;
+        this.companyInfo = companyInfo;
+
+        this.allLogs = new ArrayList<>();
+        this.allSales = new ArrayList<>();
+        this.allProducts = new ArrayList<>();
+
+    }
+
+    public static void addToAllSellers(Seller seller){
+        allSellers.add(seller);
     }
 
     //-..-
