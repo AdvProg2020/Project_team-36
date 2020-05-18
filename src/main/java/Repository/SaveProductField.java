@@ -21,4 +21,5 @@ public class SaveProductField {
         this.supply = productField.getSupply();
         productField.getAllBuyers().forEach(buyer -> customerId.add(buyer.getUserId()));
     }
+
 }
