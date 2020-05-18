@@ -35,7 +35,22 @@ public class Product implements Pendable{
         this.allScore = new ArrayList<>();
     }
 
-    // TODO: 5/18/2020 product constructor nadare:))) va inke id hash ro chejuri generate krdin???!!!
+    public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
+                   String information, Date productionDate) {
+        this.productFields = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>();
+        this.allBuyers = new HashSet<>();
+        this.allComments = new ArrayList<>();
+        this.allScore = new ArrayList<>();
+        this.productId = productId;
+        this.name = name;
+        this.company = company;
+        this.category = category;
+        this.fieldsOfCategory = fieldsOfCategory;
+        this.information = information;
+        this.productionDate = productionDate;
+    }
+
     public int getProductId() {
         return productId;
     }

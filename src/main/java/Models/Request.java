@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static Models.Status.*;
 
-public class Request {
+public class Request  {
     private Pendable pendableRequest;
     private int requestId;
     private static int totalRequestsMade;

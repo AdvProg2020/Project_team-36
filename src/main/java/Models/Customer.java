@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Customer extends User{
+public class Customer extends User  {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<CustomerLog> allLogs;
@@ -45,6 +45,7 @@ public class Customer extends User{
     }
 
     public ArrayList<SelectedItem> getCart() {
+        updateCart();
         for (SelectedItem selectedItem : this.cart) {
             selectedItem.checkTag();
         }
@@ -144,6 +145,7 @@ public class Customer extends User{
 
 
     public long getCartPrice() {
+        updateCart();
         long sum = 0;
         for (SelectedItem item : cart) {
             sum += item.getItemTotalPrice();
@@ -185,6 +187,21 @@ public class Customer extends User{
         }
         cart.add(selectedItem);
     }
+
+    public void updateCart(){
+        ArrayList<SelectedItem> temp = new ArrayList<>();
+        for (SelectedItem item : cart) {
+            if(!Product.isThereProductWithId(item.getProduct().getProductId()))
+                temp.add(item);
+            else{
+                item.updateSelectedItem();
+                if(item.getSellers().size()==0)
+                    temp.add(item);
+            }
+        }
+        cart.removeAll(temp);
+    }
+
     public Customer(int userId, String username, String firstname, String lastname,
                     String email, String phoneNumber, String password, Status status,long credit) {
         super(userId, username, firstname, lastname, email, phoneNumber, password, status);
@@ -201,7 +218,7 @@ public class Customer extends User{
         }
 
 
-    @Override
+        @Override
     public String toString() {
         return "Customer{" +
                 "credit=" + credit +

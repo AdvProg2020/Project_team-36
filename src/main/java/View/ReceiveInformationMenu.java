@@ -1,7 +1,7 @@
 package View;
 
 import Controllers.CustomerController;
-import Exceptions.NoLoggedInUserException;
+import Models.SelectedItem;
 
 public class ReceiveInformationMenu extends Menu {
 
@@ -18,34 +18,39 @@ public class ReceiveInformationMenu extends Menu {
     @Override
     public void execute() {
         try {
-            if (customerController.isThereAvailableItemInCart()) {
-                System.err.println("There is nothing available in your cart! Returning to cart menu...");
-                return;
+            customerController.startPurchase();
+        } catch (CustomerController.EmptyCart emptyCart) {
+            System.err.println("Empty cart!");
+            return;
+        } catch (CustomerController.NotEnoughSupplyInCart notEnoughSupplyInCart) {
+            System.out.println("There is/are items in your cart that don't have enough supply");
+            System.out.println("items:");
+            for (SelectedItem item : notEnoughSupplyInCart.getItems()) {
+                System.out.println(item.getProduct().getName());
             }
-            String input;
-            System.out.println("Enter your complete address");
-            if ((input = scanner.nextLine().trim()).matches("back"))
-                return;
-            else if (input.matches("logout"))
-                logoutChangeMenu();
-
-            customerController.setAddressForPurchase(input);
-            System.out.println("Enter your phone number:");
-            while (!(input = scanner.nextLine().trim()).matches("back|logout")) {
-                if (input.matches("\\d+")) {
-                    customerController.setPhoneNumberForPurchase(input);
-                    break;
-                } else {
-                    System.err.println("Wrong format of phone number! Try again");
-                }
-            }
-            if (input.matches("back"))
-                return;
-            else if(input.matches("logout"))
-                logoutChangeMenu();
-            subMenus.get("Discount Code Menu").execute();
-        }catch (NoLoggedInUserException e){
-            System.err.println(e.getMessage());
+            return;
         }
+        String input;
+        System.out.println("Enter your complete address");
+        if ((input = scanner.nextLine().trim()).matches("back"))
+            return;
+        else if (input.matches("logout"))
+            logoutChangeMenu();
+
+        customerController.setAddressForPurchase(input);
+        System.out.println("Enter your phone number:");
+        while (!(input = scanner.nextLine().trim()).matches("back|logout")) {
+            if (input.matches("\\d+")) {
+                customerController.setPhoneNumberForPurchase(input);
+                break;
+            } else {
+                System.err.println("Wrong format of phone number! Try again");
+            }
+        }
+        if (input.matches("back"))
+            return;
+        else if(input.matches("logout"))
+            logoutChangeMenu();
+        subMenus.get("Discount Code Menu").execute();
     }
 }

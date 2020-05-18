@@ -7,7 +7,7 @@ public class Manager extends User {
     private static ArrayList<Manager> allManagers = new ArrayList<>();
 
 
-    public Manager(String username){
+    public Manager(String username) {
         super(username);
     }
 
@@ -21,11 +21,11 @@ public class Manager extends User {
         return allManagers;
     }
 
-    public static boolean canManagerRegister(){
+    public static boolean canManagerRegister() {
         return allManagers.isEmpty();
     }
 
-    public static void addNewManager(Manager manager){
+    public static void addNewManager(Manager manager) {
         allManagers.add(manager);
     }
 
@@ -60,5 +60,4 @@ public static Manager getManagerById(int id){
                 ", password='" + password + '\'' +
                 '}';
     }
-
 }

@@ -14,7 +14,7 @@ public abstract class User{
     protected String email;
     protected String phoneNumber;
     protected String password;
-    private static int totalUsersMade = 0;
+    private static int totalUsersMade;
     private Status status;
 
     public User(String username){
@@ -122,7 +122,6 @@ public abstract class User{
     public Status getStatus() {
         return status;
     }
-
     public User(int userId, String username, String firstname, String lastname,
                 String email, String phoneNumber, String password, Status status) {
         this.userId = userId;
@@ -147,6 +146,7 @@ public abstract class User{
         }
         return null;
     }
+
 
     //-..-
 }

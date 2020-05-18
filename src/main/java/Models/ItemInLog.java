@@ -72,4 +72,6 @@ public class ItemInLog {
         return new ItemInLog(selectedItem.getProduct(),count,seller);
     }
 
+
+
 }

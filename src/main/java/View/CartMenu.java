@@ -17,13 +17,9 @@ public class CartMenu extends Menu {
         subMenus.put("increase\\s+(\\d+)", getIncreaseAmountMenu());
         subMenus.put("decrease\\s+(\\d+)", getDecreaseAmountMenu());
         subMenus.put("show\\s+total\\s+price", getShowTotalPriceMenu());
-        subMenus.put("purchase",new ReceiveInformationMenu("receiveInformationMenu",this));
+        subMenus.put("purchase", new ReceiveInformationMenu("receiveInformationMenu", this));
 
 
-    }
-
-    public int getProductId() {
-        return productId;
     }
 
     private Menu getShowCartMenu() {
@@ -34,19 +30,23 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
+                System.out.println("NOTE: any product that is deleted by manager cannot be seen in your cart!");
                 ArrayList<SelectedItem> cart = customerController.getCart();
                 if (cart.isEmpty()) {
                     System.out.println("There is nothing to show!");
                     return;
                 }
-                System.out.format("%20s%9s%s%s", "Product name", " ProductId  ", "  count in cart  ","Availability");
+                System.out.format("%20s%9s%s%s", "Product name", " ProductId  ", "  count in cart  ", "Availability");
+                boolean typeNote = false;
                 for (SelectedItem item : cart) {
                     Product product = item.getProduct();
-                    System.out.format("%20s%9d%10d%s", product.getName(), product.getProductId(), item.getCount(),item.getTag());
+                    System.out.format("%20s%9d%10d%s", product.getName(), product.getProductId(), item.getCount(), item.getTag());
+                    if (item.getTag().equals(CartTag.NOT_ENOUGH_SUPPLY))
+                        typeNote = true;
                 }
-                System.err.println("NOTE:");
-                System.out.println("If one or more items in your cart are not available, you can edit them of if you want to purchase," +
-                        " we automatically edit your cart!");
+                if (typeNote)
+                    System.out.println("NOTE: you have to decrease the \"NOT_ENOUGH_SUPPLY\" objects before purchase!");
+
             }
         };
     }
@@ -59,7 +59,7 @@ public class CartMenu extends Menu {
 
             @Override
             public void execute() {
-                if (!customerController.isThereProductInCart(((CartMenu)this.parentMenu).getProductId())) {
+                if (!customerController.isThereProductInCart(productId)) {
                     System.err.println("There is no product with this id in your cart!");
                     return;
                 }
@@ -83,14 +83,14 @@ public class CartMenu extends Menu {
             @Override
             public void execute() {
                 try {
-                    customerController.increaseProductInCart(((CartMenu)this.parentMenu).getProductId());
+                    customerController.increaseProductInCart(productId);
                     System.out.println("Increased successfully!");
                     return;
                 } catch (CustomerController.NoProductWithIdInCart e) {
-                    System.err.println(e.getMessage());
+                    System.err.println("There is no product with id in your cart!");
                     return;
                 } catch (CustomerController.MoreThanOneSellerForItem e) {
-                    moreThanOneSeller(e.getSellers());
+                    multiSellerForIncrease(e.getSellers());
                 } catch (CustomerController.NotEnoughSupply e) {
                     System.err.println("There is not enough supply for this product! ");
                     return;
@@ -99,35 +99,36 @@ public class CartMenu extends Menu {
 
             }
 
-            private void moreThanOneSeller(ArrayList<Seller> sellers) {
-                String input;
-                System.out.println("You are buying from many sellers. Choose which seller you want to increase supply from by entering number");
-                int i = 1;
-                for (Seller seller : sellers) {
-                    System.out.println(i + ". " + seller.getFirstname() + " " + seller.getLastname());
-                    i++;
-                }
-                while (true) {
-                    input = scanner.nextLine().trim();
-                    if(input.matches("logout"))
-                        logoutChangeMenu();
-                    if (input.matches("back"))
-                        return;
-                    else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
-                        System.out.println("invalid command! Try again please");
-                    } else {
-                        try {
-                            customerController.increaseProductInCart(Integer.parseInt(input), ((CartMenu)this.parentMenu).getProductId());
-                            System.out.println("Increased successfully");
-                            return;
-                        } catch (CustomerController.NotEnoughSupply e) {
-                            System.err.println("There is not enough supply for product!Try again ");
-                        }
-
-                    }
-                }
-            }
         };
+    }
+
+    private void multiSellerForIncrease(ArrayList<Seller> sellers) {
+        String input;
+        System.out.println("You are buying from many sellers. Choose which seller you want to increase supply from by entering number");
+        int i = 1;
+        for (Seller seller : sellers) {
+            System.out.println(i + ". " + seller.getFirstname() + " " + seller.getLastname());
+            i++;
+        }
+        while (true) {
+            input = scanner.nextLine().trim();
+            if (input.matches("logout"))
+                logoutChangeMenu();
+            if (input.matches("back"))
+                return;
+            else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
+                System.out.println("invalid command! Try again please");
+            } else {
+                try {
+                    customerController.increaseProductInCart(Integer.parseInt(input), (productId));
+                    System.out.println("Increased successfully");
+                    return;
+                } catch (CustomerController.NotEnoughSupply e) {
+                    System.err.println("There is not enough supply for product!Try again ");
+                }
+
+            }
+        }
     }
 
     private Menu getDecreaseAmountMenu() {
@@ -139,39 +140,40 @@ public class CartMenu extends Menu {
             @Override
             public void execute() {
                 try {
-                    customerController.decreaseProductInCart(((CartMenu)this.parentMenu).getProductId());
+                    customerController.decreaseProductInCart(productId);
                     System.out.println("Decreased successfully");
                 } catch (CustomerController.NoProductWithIdInCart e) {
-                    System.out.println(e.getMessage());
+                    System.err.println("There is no product with id in your cart");
                 } catch (CustomerController.MoreThanOneSellerForItem e) {
-                    moreThanOneSeller(e.getSellers());
+                    multiSellerDecrease(e.getSellers());
                 }
             }
 
-            private void moreThanOneSeller(ArrayList<Seller> sellers) {
-                String input;
-                System.out.println("You are buying from many sellers. Choose which seller you want to decrease supply from by entering number");
-                int i = 1;
-                for (Seller seller : sellers) {
-                    System.out.println(i + ". " + seller.getFirstname() + " " + seller.getLastname());
-                    i++;
-                }
-                while (true) {
-                    input = scanner.nextLine().trim();
-                    if(input.matches("logout"))
-                        logoutChangeMenu();
-                    if (input.matches("back"))
-                        return;
-                    else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
-                        System.out.println("invalid command! Try again please");
-                    } else {
-                        customerController.decreaseProductInCart(sellers.get(Integer.parseInt(input)-1), ((CartMenu)this.parentMenu).getProductId());
-                        System.out.println("Decreased successfully");
-                        return;
-                    }
-                }
-            }
         };
+    }
+
+    private void multiSellerDecrease(ArrayList<Seller> sellers) {
+        String input;
+        System.out.println("You are buying from many sellers. Choose which seller you want to decrease supply from by entering number");
+        int i = 1;
+        for (Seller seller : sellers) {
+            System.out.println(i + ". " + seller.getFirstname() + " " + seller.getLastname());
+            i++;
+        }
+        while (true) {
+            input = scanner.nextLine().trim();
+            if (input.matches("logout"))
+                logoutChangeMenu();
+            if (input.matches("back"))
+                return;
+            else if (!input.matches("\\d+") || Integer.parseInt(input) >= i) {
+                System.out.println("invalid command! Try again please");
+            } else {
+                customerController.decreaseProductInCart(sellers.get(Integer.parseInt(input) - 1), (productId));
+                System.out.println("Decreased successfully");
+                return;
+            }
+        }
     }
 
     private Menu getShowTotalPriceMenu() {
@@ -195,7 +197,7 @@ public class CartMenu extends Menu {
                 "increase [productId]\n" +
                 "decrease [productId]\n" +
                 "show total price\n" +
-                "purchase\n"+
+                "purchase\n" +
                 "logout");
     }
 
@@ -203,7 +205,7 @@ public class CartMenu extends Menu {
     public void execute() {
         String input = scanner.nextLine().trim();
         Menu chosenMenu = null;
-        if(input.matches("logout"))
+        if (input.matches("logout"))
             logoutChangeMenu();
         if (input.matches("back")) {
             this.parentMenu.execute();
@@ -217,7 +219,9 @@ public class CartMenu extends Menu {
                     chosenMenu = subMenus.get(regex);
                     try {
                         this.productId = Integer.parseInt(matcher.group(1));
-                    } catch (NumberFormatException e) {
+                    } catch (IndexOutOfBoundsException e){
+
+                    }catch (NumberFormatException e) {
                         System.err.println("There is no product with this id!");
                     }
                     break;
