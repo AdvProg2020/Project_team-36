@@ -204,14 +204,16 @@ public class ViewDiscountCodesMenu extends Menu {
                 logoutChangeMenu();
             }
             try {
-                if (input.matches("remove\\s+(\\S+)")) {
-                    Matcher matcher = getMatcher(input, "remove\\s+(\\S+)");
-                    managerController.setCustomersForEditingDiscountCode(matcher.group(1));
+                if(input.matches("add\\s+(\\S+)")){
+                    Matcher matcher = getMatcher(input,"add\\s+(\\S+)");
+                    managerController.setCustomersForAddingDiscountCode(matcher.group(1),discount.getId());
                 } else {
                     System.err.println("wrong command. please try again.");
                 }
             } catch (ManagerController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
+            } catch (ManagerController.CustomerAlreadyAddedException e){
+                System.err.println("you have already selected this customer");
             }
         }
         managerController.giveCodeToSelectedCustomers(discount);
@@ -232,14 +234,16 @@ public class ViewDiscountCodesMenu extends Menu {
                 logoutChangeMenu();
             }
             try {
-                if (input.matches("remove\\s+(\\S+)")) {
-                    Matcher matcher = getMatcher(input, "remove\\s+(\\S+)");
-                    managerController.setCustomersForEditingDiscountCode(matcher.group(1));
+                if(input.matches("remove\\s+(\\S+)")){
+                    Matcher matcher = getMatcher(input,"remove\\s+(\\S+)");
+                    managerController.setCustomersForRemovingDiscountCode(matcher.group(1),discount.getId());
                 } else {
                     System.err.println("wrong command. please try again.");
                 }
             } catch (ManagerController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
+            } catch (ManagerController.CustomerAlreadyAddedException e){
+                System.err.println("you have already selected this customer");
             }
         }
         managerController.removeCodeFromSelectedCustomers(discount);

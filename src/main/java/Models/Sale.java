@@ -27,6 +27,19 @@ public class Sale implements Pendable {
         this.salePercent = salePercent;
     }
 
+
+    public Sale(Sale sale){
+        this.productsInSale = new ArrayList<>();
+        this.seller = sale.seller;
+        this.offId = sale.offId;
+        this.productsInSale = sale.productsInSale;
+        this.status = sale.status;
+        this.startTime = sale.startTime;
+        this.endTime = sale.endTime;
+        this.salePercent = sale.salePercent;
+    }
+
+
     private int getRandomId(){
         totalOffsMade+=1;
         return totalOffsMade;
@@ -128,6 +141,41 @@ public class Sale implements Pendable {
         }
         allSales.removeAll(toBeRemoved);
     }
+
+    public void setProductsInSale(ArrayList<Product> productsInSale) {
+        this.productsInSale = productsInSale;
+    }
+
+    public void removeProducts(ArrayList<Product> products){
+        productsInSale.removeAll(products);
+    }
+
+    public void addProducts(ArrayList<Product> products){
+        productsInSale.addAll(products);
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setSalePercent(Double salePercent) {
+        this.salePercent = salePercent;
+    }
+
+    public boolean isThereProduct(Product wantedProduct){
+        for (Product product : productsInSale) {
+            if(product.equals(wantedProduct)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     //-..-
 }
