@@ -163,4 +163,26 @@ public class Customer extends User{
         }
         return false;
     }
+
+    public static Customer getCustomerById(int id){
+        for (Customer customer : allCustomers) {
+            if (customer.userId == id){
+                return customer;
+            }
+        }
+        return null;
+    }
+
+    public Customer(int userId, String username, String firstname, String lastname,
+                    String email, String phoneNumber, String password, Status status,long credit) {
+        super(userId, username, firstname, lastname, email, phoneNumber, password, status);
+        this.credit = credit;
+        this.allLogs = new ArrayList<>();
+        this.allDiscountsForCustomer = new HashMap<>();
+        this.cart = new ArrayList<>();
+    }
+
+    public static void addToAllCustomers(Customer customer){
+        allCustomers.add(customer);
+    }
 }

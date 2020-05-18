@@ -104,5 +104,17 @@ public abstract class User{
         return status;
     }
 
+    public User(int userId, String username, String firstname, String lastname,
+                String email, String phoneNumber, String password, Status status) {
+        this.userId = userId;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.status = status;
+    }
+
     //-..-
 }

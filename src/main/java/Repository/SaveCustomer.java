@@ -51,6 +51,19 @@ public class SaveCustomer {
     }
 
     public static Customer load(int id){
-        return null;
+        lastId = Math.max(lastId,id);
+        if(Customer.getCustomerById(id) != null){
+            return Customer.getCustomerById(id);
+        }
+        Gson gson = new Gson();
+        SaveCustomer saveCustomer = gson.fromJson(FileUtil.read(FileUtil.generateAddress(Customer.class.getName(),id)),SaveCustomer.class);
+        Customer customer = new Customer(saveCustomer.userId,saveCustomer.username,saveCustomer.firstname,
+                saveCustomer.lastname,saveCustomer.email,saveCustomer.phoneNumber,saveCustomer.password,
+                saveCustomer.status,saveCustomer.credit);
+        Customer.addToAllCustomers(customer);
+        saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));
+        saveCustomer.allCustomerLogIds.forEach(logId -> customer.getAllLogs().add(SaveCustomerLog.load(logId)));
+        saveCustomer.allDiscountsForCustomer.forEach((key,value) -> customer.getAllDiscountsForCustomer().put(SaveDiscount.load(key),value));
+        return customer;
     }
 }
