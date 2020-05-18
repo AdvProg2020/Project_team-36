@@ -57,5 +57,9 @@ public class Sale implements Pendable {
         return "sale";
     }
 
+    public Seller getSeller() {
+        return seller;
+    }
+
     //-..-
 }
