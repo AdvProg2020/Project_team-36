@@ -77,4 +77,8 @@ public class SellerLog {
         }
         return allItemsForSellers;
     }
+
+    public int getId() {
+        return id;
+    }
 }
