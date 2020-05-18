@@ -39,6 +39,17 @@ public class SaveSale {
     }
 
     public static Sale load(int id){
-        return null;
+        if(Sale.getSaleById(id) != null){
+            return Sale.getSaleById(id);
+        }
+
+        Gson gson = new Gson();
+        SaveSale saveSale = gson.fromJson(FileUtil.read(FileUtil.generateAddress(Sale.class.getName(),id)),SaveSale.class);
+        Sale sale = new Sale(SaveSeller.load(saveSale.sellerId),saveSale.offId,
+                saveSale.status,saveSale.startTime,saveSale.endTime,saveSale.salePercent);
+        Sale.addToAllSales(sale);
+        saveSale.productsInSaleIds.forEach(productInSaleId -> sale.getProductsInSale().add(SaveProduct.load(productInSaleId)));
+        return sale;
     }
+
 }
