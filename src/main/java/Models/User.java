@@ -1,6 +1,5 @@
 package Models;
 
-import View.ManageCategoriesMenu;
 
 import java.util.ArrayList;
 import static Models.Status.*;
@@ -18,8 +17,9 @@ public abstract class User{
     private Status status;
 
     public User(String username){
+        totalUsersMade++;
         this.username = username;
-        this.userId = totalUsersMade+1;
+        this.userId = totalUsersMade;
         this.status = AVAILABLE;
     }
 
@@ -97,6 +97,7 @@ public abstract class User{
     }
 
     public static ArrayList<User> getAllUsers() {
+        updateAllUsers();
         return allUsers;
     }
 
@@ -122,6 +123,12 @@ public abstract class User{
         return status;
     }
 
-
-    //-..-
+    public static void updateAllUsers(){
+        ArrayList<User> temp = new ArrayList<>();
+        for (User user : allUsers) {
+            if(user.getStatus().equals(DELETED))
+                temp.add(user);
+        }
+        allUsers.removeAll(temp);
+    }
 }

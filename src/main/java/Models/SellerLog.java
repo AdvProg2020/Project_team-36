@@ -32,6 +32,18 @@ public class SellerLog {
         this.setPrices();
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public long getSale() {
+        return sale;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
     private int randomId() {
         totalLogsMade += 1;
         return totalLogsMade;

@@ -15,7 +15,8 @@ public class ManagerController extends UserController {
     private HashMap<Integer,String> giftEvents;
     private static HashMap<String, String> discountFieldsSetters = new HashMap<>();
     private static ArrayList<Customer> customersToBeEditedForDiscountCode = new ArrayList<>();
-
+    private HashMap<String,Method> sortUsersMethods;
+    private HashMap<String,Method> sortDiscountMethods;
     public ManagerController(GlobalVariables userVariables) {
         super(userVariables);
         writeDiscountFieldsSetters();
@@ -23,10 +24,41 @@ public class ManagerController extends UserController {
         giftEvents.put(1,"first buy gift");
         giftEvents.put(2,"high log price gift");
         giftEvents.put(3,"periodic gift");
+        setSortUsersMethods();
+        setSortDiscountMethods();
     }
 
     public ArrayList<User> getAllUsers() {
         return User.getAllUsers();
+    }
+
+    public void setSortDiscountMethods() {
+        this.sortDiscountMethods = new HashMap<>();
+        try {
+            Method method = Discount.class.getDeclaredMethod("getEndTime");
+            sortDiscountMethods.put("end time", method);
+            method = Discount.class.getDeclaredMethod("getStartTime");
+            sortDiscountMethods.put("start time", method);
+            method = Discount.class.getDeclaredMethod("getDiscountPercent");
+            sortDiscountMethods.put("percent", method);
+            method = Discount.class.getDeclaredMethod("getDiscountLimit");
+            sortDiscountMethods.put("limit", method);
+        } catch (NoSuchMethodException e) {
+
+        }
+    }
+
+    private void setSortUsersMethods(){
+        sortUsersMethods = new HashMap<>();
+        try {
+            Method method = User.class.getDeclaredMethod("getUserId");
+            sortUsersMethods.put("username", method);
+            method = User.class.getDeclaredMethod("getLastname");
+            sortUsersMethods.put("lastname", method);
+            method = User.class.getDeclaredMethod("getFirstname");
+            sortUsersMethods.put("firstname", method);
+        } catch (NoSuchMethodException e) {
+        }
     }
 
     public ArrayList<Discount> getAllDiscountCodes() {
@@ -237,6 +269,31 @@ public class ManagerController extends UserController {
         discountFieldsSetters.put("discount\\s+limit", "editDiscountLimit");
         discountFieldsSetters.put("usage\\s+frequency", "editDiscountRepetitionForEachUser");
         discountFieldsSetters.put("customers\\s+included", "editDiscountCustomersIncluded");
+    }
+
+    public ArrayList<User> sortUsers(String field,String type) throws ProductsController.NoSortException {
+        ArrayList<User> toBeReturned = new ArrayList<>();
+        toBeReturned.addAll(getAllUsers());
+        for (String regex : sortUsersMethods.keySet()) {
+            if(regex.equalsIgnoreCase(field)){
+                new Sort().sort(toBeReturned,sortUsersMethods.get(regex),type.equalsIgnoreCase("ascending"));
+                return toBeReturned;
+            }
+        }
+        throw new ProductsController.NoSortException();
+    }
+
+    public ArrayList<Discount> sortDiscountCodes(String field,String type) throws ProductsController.NoSortException {
+        ArrayList<Discount> toBeReturned = new ArrayList<>();
+        toBeReturned.addAll(getAllDiscountCodes());
+        for (String regex : sortDiscountMethods.keySet()) {
+            if(regex.equalsIgnoreCase(field)){
+                new Sort().sort(toBeReturned,sortDiscountMethods.get(regex),type.equalsIgnoreCase("ascending"));
+                return toBeReturned;
+            }
+        }
+        throw new ProductsController.NoSortException();
+
     }
 
     public HashMap<Integer,String> getGiftEventsName(){

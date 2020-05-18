@@ -34,100 +34,85 @@ public class Sort {
     }
 
     private void sortInteger(ArrayList<Object> toBeSorted, Method method, boolean isAscending) {
-        Collections.sort(toBeSorted, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                try {
-                    if (isAscending)
-                        return ((int) method.invoke(o1)) - ((int) method.invoke(o2));
-                    else
-                        return ((int) method.invoke(o2)) - ((int) method.invoke(o1));
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-                return 0;
+        toBeSorted.sort((o1, o2) -> {
+            try {
+                if (isAscending)
+                    return ((int) method.invoke(o1)) - ((int) method.invoke(o2));
+                else
+                    return ((int) method.invoke(o2)) - ((int) method.invoke(o1));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
+            return 0;
         });
     }
 
     private void sortString(ArrayList<Object> toBeSorted, Method method, boolean isAscending) {
-        Collections.sort(toBeSorted, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                try {
-                    if (isAscending)
-                        return ((String) method.invoke(o1)).compareTo((String) method.invoke(o2));
-                    else
-                        return ((String) method.invoke(o2)).compareTo((String) method.invoke(o1));
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-                return 0;
+        toBeSorted.sort((o1, o2) -> {
+            try {
+                if (isAscending)
+                    return ((String) method.invoke(o1)).compareTo((String) method.invoke(o2));
+                else
+                    return ((String) method.invoke(o2)).compareTo((String) method.invoke(o1));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
+            return 0;
         });
     }
 
     private void sortLong(ArrayList<Object> toBeSorted, Method method, boolean isAscending) {
-        Collections.sort(toBeSorted, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                try {
-                    if (((long) method.invoke(o1)) == ((long) method.invoke(o2)))
-                        return 0;
-                    else if (isAscending)
-                        return ((long) method.invoke(o1)) > ((long) method.invoke(o2)) ? 1 : -1;
-                    else
-                        return ((long) method.invoke(o2)) > ((long) method.invoke(o1)) ? 1 : -1;
+        toBeSorted.sort((o1, o2) -> {
+            try {
+                if (((long) method.invoke(o1)) == ((long) method.invoke(o2)))
+                    return 0;
+                else if (isAscending)
+                    return ((long) method.invoke(o1)) > ((long) method.invoke(o2)) ? 1 : -1;
+                else
+                    return ((long) method.invoke(o2)) > ((long) method.invoke(o1)) ? 1 : -1;
 
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-                return 0;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
+            return 0;
         });
     }
 
     private void sortDouble(ArrayList<Object> toBeSorted, Method method, boolean isAscending) {
-        Collections.sort(toBeSorted, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                try {
-                    if (((double) method.invoke(o1)) == ((double) method.invoke(o2)))
-                        return 0;
-                    else if (isAscending)
-                        return ((double) method.invoke(o1)) > ((double) method.invoke(o2)) ? 1 : -1;
-                    else
-                        return ((double) method.invoke(o2)) > ((double) method.invoke(o1)) ? 1 : -1;
+        toBeSorted.sort((o1, o2) -> {
+            try {
+                if (((double) method.invoke(o1)) == ((double) method.invoke(o2)))
+                    return 0;
+                else if (isAscending)
+                    return ((double) method.invoke(o1)) > ((double) method.invoke(o2)) ? 1 : -1;
+                else
+                    return ((double) method.invoke(o2)) > ((double) method.invoke(o1)) ? 1 : -1;
 
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-                return 0;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
+            return 0;
         });
 
     }
 
     private void sortDate(ArrayList<Object> toBeSorted, Method method, boolean isAscending){
-        Collections.sort(toBeSorted, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                try {
-                     if (isAscending)
-                        return ((Date) method.invoke(o1)).compareTo((Date) method.invoke(o2));
-                    else
-                        return ((Date) method.invoke(o2)).compareTo((Date) method.invoke(o1));
+        toBeSorted.sort((o1, o2) -> {
+            try {
+                if (isAscending)
+                    return ((Date) method.invoke(o1)).compareTo((Date) method.invoke(o2));
+                else
+                    return ((Date) method.invoke(o2)).compareTo((Date) method.invoke(o1));
 
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-                return 0;
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                System.exit(1);
             }
+            return 0;
         });
     }
 

@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static Models.Status.*;
 
@@ -9,6 +10,7 @@ public class Request  {
     private int requestId;
     private static int totalRequestsMade;
     private Status status;
+    private Date date;
     private static ArrayList<Request> allRequests = new ArrayList<>();
 
     public Request(Pendable pendable){

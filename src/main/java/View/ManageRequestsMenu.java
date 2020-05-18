@@ -4,6 +4,7 @@ import Controllers.ManagerController;
 import Models.Discount;
 import Models.Request;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class ManageRequestsMenu extends Menu {
@@ -21,22 +22,21 @@ public class ManageRequestsMenu extends Menu {
     public void help() {
         System.out.println("details [requestId]\n" +
                 "accept [requestId]\n" +
-                "decline [requestId\n");
+                "decline [requestId\n" +
+                "filter by [type]");
+        System.out.println("Type can be: comment\\seller\\product");
     }
 
     @Override
     public void execute() {
-        int number = 1;
-        Matcher matcher;
+        Matcher matcher;//TODO add a filter to request
         Menu chosenMenu = null;
-        for (Request request : managerController.getAllRequests()) {
-            System.out.println(number + ") " + request.getRequestId());
-            number += 1;
-        }
+        printRequest(managerController.getAllRequests());
         System.out.println("choose the request and what you want to do with it :");
         String input = scanner.nextLine().trim();
         while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help"))||
                 (input.equalsIgnoreCase("logout")))) {
+            if(input.matches("filter by comment|seller|product|seller for a product"))
             for (String regex : subMenus.keySet()) {
                 matcher = getMatcher(input, regex);
                 if (matcher.matches()) {
@@ -64,6 +64,14 @@ public class ManageRequestsMenu extends Menu {
             this.execute();
         } else if((input.equalsIgnoreCase("logout"))){
             logoutChangeMenu();
+        }
+    }
+
+    private void printRequest(ArrayList<Request> requests){
+        int number= 1;
+        for (Request request : requests) {
+            System.out.println(number + ") " + request.getRequestId()+"  "+request.getPendableRequest().getPendingRequestType());
+            number += 1;
         }
     }
 

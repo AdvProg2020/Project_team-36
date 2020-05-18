@@ -35,6 +35,9 @@ public class CustomerLog {
 
     }
 
+    public long getGiftDiscount() {
+        return giftDiscount;
+    }
 
     public int getId() {
         return id;
