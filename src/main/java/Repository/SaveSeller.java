@@ -21,14 +21,14 @@ public class SaveSeller {
     private long credit;
     private String companyName;
     private String companyInfo;
-    private List<Integer> allSellerLogIds;
+    private List<SaveSellerLog> allSellerLogs;
     private List<Integer> allProductIds;
     private List<Integer> allOffIds;
 
     private SaveSeller() {
         this.allOffIds = new ArrayList<>();
         this.allProductIds = new ArrayList<>();
-        this.allSellerLogIds = new ArrayList<>();
+        this.allSellerLogs = new ArrayList<>();
     }
 
     public static void save(Seller seller){
@@ -44,7 +44,7 @@ public class SaveSeller {
         saveSeller.credit = seller.getCredit();
         saveSeller.companyInfo = seller.getCompanyInfo();
         saveSeller.companyName = seller.getCompanyName();
-        seller.getAllLogs().forEach(sellerLog -> saveSeller.allSellerLogIds.add(sellerLog.getId()));
+        seller.getAllLogs().forEach(sellerLog -> saveSeller.allSellerLogs.add(new SaveSellerLog(sellerLog)));
         seller.getAllProducts().forEach(product -> saveSeller.allProductIds.add(product.getProductId()));
         seller.getAllSales().forEach(sale -> saveSeller.allOffIds.add(sale.getOffId()));
 
@@ -71,7 +71,7 @@ public class SaveSeller {
         User.addToAllUsers(seller);
         saveSeller.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
         saveSeller.allProductIds.forEach(productId -> seller.getAllProducts().add(SaveProduct.load(productId)));
-        saveSeller.allSellerLogIds.forEach(sellerLogId -> seller.getAllLogs().add(SaveSellerLog.load(sellerLogId)));
+        saveSeller.allSellerLogs.forEach(sellerLog -> seller.getAllLogs().add(sellerLog.generateSellerLog()));
         return seller;
     }
 }
