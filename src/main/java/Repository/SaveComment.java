@@ -21,4 +21,8 @@ public class SaveComment {
         this.ConfirmationStatus = comment.getConfirmationStatus();
         this.hasBought = comment.isHasBought();
     }
+
+    public Comment generateComment(){
+        return null;
+    }
 }

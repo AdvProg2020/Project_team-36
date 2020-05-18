@@ -4,6 +4,7 @@ import Models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class SaveProduct {
     private Date productionDate;
     private List<SaveComment> allComments;
     private int seenNumber;
+    private static int lastId = 0;
+
 
 
     private SaveProduct() {
@@ -43,6 +46,17 @@ public class SaveProduct {
     }
 
     public static Product load(int id){
-        return null;
+        if (Product.getProductById(id) != null){
+            return Product.getProductById(id);
+        }
+        lastId = Math.max(id,lastId);
+        Gson gson = new Gson();
+        SaveProduct saveProduct = gson.fromJson(FileUtil.read(FileUtil.generateAddress(Product.class.getName(),id)),SaveProduct.class);
+        Product product = new Product(saveProduct.productId,saveProduct.name,
+                saveProduct.company,SaveCategory.load(saveProduct.categoryId),
+                new ArrayList<>(saveProduct.fieldsOfCategory),saveProduct.information,
+                saveProduct.productionDate,saveProduct.seenNumber);
+        saveProduct.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
+        return product;
     }
 }
