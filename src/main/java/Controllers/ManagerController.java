@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class ManagerController extends UserController {
     GlobalVariables userVariables;
-    private HashMap<Integer,String> giftEvents;
+    private HashMap<Integer, String> giftEvents;
     private static HashMap<String, String> discountFieldsSetters = new HashMap<>();
     private static ArrayList<Customer> customersToBeEditedForDiscountCode = new ArrayList<>();
 
@@ -20,9 +20,9 @@ public class ManagerController extends UserController {
         super(userVariables);
         writeDiscountFieldsSetters();
         giftEvents = new HashMap<>();
-        giftEvents.put(1,"first buy gift");
-        giftEvents.put(2,"high log price gift");
-        giftEvents.put(3,"periodic gift");
+        giftEvents.put(1, "first buy gift");
+        giftEvents.put(2, "high log price gift");
+        giftEvents.put(3, "periodic gift");
     }
 
     public ArrayList<User> getAllUsers() {
@@ -49,17 +49,17 @@ public class ManagerController extends UserController {
         }
     }
 
-    public Method getFieldEditor(String chosenField, ManagerController managerController) throws NoSuchMethodException{
+    public Method getFieldEditor(String chosenField, ManagerController managerController) throws NoSuchMethodException {
         for (String regex : discountFieldsSetters.keySet()) {
             if (chosenField.matches(regex)) {
-                return managerController.getClass().getMethod(discountFieldsSetters.get(regex),String.class,Discount.class);
+                return managerController.getClass().getMethod(discountFieldsSetters.get(regex), String.class, Discount.class);
             }
         }
         throw new NoSuchMethodException("you can only edit the fields above, and also please enter the required command.");
     }
 
-    public void invokeEditor(String newValue,Discount discount, Method editor) throws IllegalAccessException, InvocationTargetException {
-        editor.invoke(this,newValue,discount);
+    public void invokeEditor(String newValue, Discount discount, Method editor) throws IllegalAccessException, InvocationTargetException {
+        editor.invoke(this, newValue, discount);
     }
 
     public void editDiscountStartTime(String newStartDate, Discount discount) throws InvalidDateException {
@@ -102,7 +102,7 @@ public class ManagerController extends UserController {
             } else {
                 throw new InvalidRangeException("number not in the desired range");
             }
-        } catch (InvalidRangeException e){
+        } catch (InvalidRangeException e) {
             throw new InvalidRangeException("number not in the desired range");
         } catch (NumberFormatException e) {
             throw new NumberFormatException("you can't enter anything but number");
@@ -118,17 +118,17 @@ public class ManagerController extends UserController {
         }
     }
 
-    public void editDiscountRepetitionForEachUser(String newRepetitionNumber,Discount discount) {
+    public void editDiscountRepetitionForEachUser(String newRepetitionNumber, Discount discount) {
         try {
             int repetitionNumber = Integer.parseInt(newRepetitionNumber);
-            int difference = Math.abs(repetitionNumber-discount.getRepetitionForEachUser());
-            if(repetitionNumber<discount.getRepetitionForEachUser()){
+            int difference = Math.abs(repetitionNumber - discount.getRepetitionForEachUser());
+            if (repetitionNumber < discount.getRepetitionForEachUser()) {
                 for (Customer customer : discount.getCustomersIncluded()) {
-                    customer.decreaseDiscountCode(discount,difference);
+                    customer.decreaseDiscountCode(discount, difference);
                 }
             } else {
                 for (Customer customer : discount.getCustomersIncluded()) {
-                    customer.increaseDiscountCode(discount,difference);
+                    customer.increaseDiscountCode(discount, difference);
                 }
             }
             discount.setRepetitionForEachUser(repetitionNumber);
@@ -137,68 +137,96 @@ public class ManagerController extends UserController {
         }
     }
 
-    public ArrayList<Customer> getCustomersWithoutThisCode(int id){
+    public ArrayList<Customer> getCustomersWithoutThisCode(int id) {
         customersToBeEditedForDiscountCode.clear();
         ArrayList<Customer> availableCustomers = new ArrayList<>();
         for (Customer customer : Customer.getAllCustomers()) {
-            if(!customer.isThereDiscountCode(id)){
+            if (!customer.isThereDiscountCode(id)) {
                 availableCustomers.add(customer);
             }
         }
         return availableCustomers;
     }
 
-    public void giveCodeToSelectedCustomers(Discount discount){
+    public void giveCodeToSelectedCustomers(Discount discount) {
         discount.setCustomersIncluded(customersToBeEditedForDiscountCode);
         for (Customer customer : customersToBeEditedForDiscountCode) {
             customer.setDiscountForCustomer(discount);
         }
     }
 
-    public void removeCodeFromSelectedCustomers(Discount discount){
+    public void removeCodeFromSelectedCustomers(Discount discount) {
         discount.removeCustomersIncluded(customersToBeEditedForDiscountCode);
         for (Customer customer : customersToBeEditedForDiscountCode) {
             customer.removeDiscount(discount);
         }
     }
 
-    public ArrayList<Customer> getCustomersWithThisCode(int id){
+    public ArrayList<Customer> getCustomersWithThisCode(int id) {
         customersToBeEditedForDiscountCode.clear();
         ArrayList<Customer> availableCustomers = new ArrayList<>();
         for (Customer customer : Customer.getAllCustomers()) {
-            if(customer.isThereDiscountCode(id)){
+            if (customer.isThereDiscountCode(id)) {
                 availableCustomers.add(customer);
             }
         }
         return availableCustomers;
     }
 
-    public void setCustomersForEditingDiscountCode(String username) throws InvalidUsernameException {
-        if(!Customer.isThereCustomerWithUsername(username)){
-            throw new InvalidUsernameException("There is no available customer with this username");
+    public void setCustomersForAddingDiscountCode(String username,int id) throws InvalidUsernameException, CustomerAlreadyAddedException {
+        for (Customer customer : getCustomersWithoutThisCode(id)) {
+            if (customer.getUsername().equals(username)) {
+                if (isThereCustomerWithUsername(username)) {
+                    throw new CustomerAlreadyAddedException();
+                } else {
+                    customersToBeEditedForDiscountCode.add((Customer) Customer.getUserByUsername(username));
+                    return;
+                }
+            }
         }
-        else {
-            customersToBeEditedForDiscountCode.add((Customer)Customer.getUserByUsername(username));
+        throw new InvalidUsernameException("There is no available customer with this username");
+    }
+
+    public void setCustomersForRemovingDiscountCode(String username,int id) throws InvalidUsernameException, CustomerAlreadyAddedException {
+        for (Customer customer : getCustomersWithThisCode(id)) {
+            if (customer.getUsername().equals(username)) {
+                if (isThereCustomerWithUsername(username)) {
+                    throw new CustomerAlreadyAddedException();
+                } else {
+                    customersToBeEditedForDiscountCode.add((Customer) Customer.getUserByUsername(username));
+                    return;
+                }
+            }
         }
+        throw new InvalidUsernameException("There is no available customer with this username");
+    }
+
+    public boolean isThereCustomerWithUsername(String username) {
+        for (Customer customer : customersToBeEditedForDiscountCode) {
+            if (customer.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public User getUserWithUsername(String username) throws InvalidUsernameException {
-        if(!User.isThereUsername(username)){
+        if (!User.isThereUsername(username)) {
             throw new InvalidUsernameException("there's no user with this username");
         } else {
             return User.getUserByUsername(username);
         }
     }
 
-    public void deleteUser(User user){
+    public void deleteUser(User user) {
         user.setUserDeleted();
     }
 
-    public ArrayList<Request> getAllRequests(){
+    public ArrayList<Request> getAllRequests() {
         return Request.getAllRequests();
     }
 
-    public Request getRequestWithId(int id) throws InvalidRequestIdException{
+    public Request getRequestWithId(int id) throws InvalidRequestIdException {
         if (Request.isThereRequestWithId(id)) {
             return Request.getRequestWithId(id);
         } else {
@@ -206,27 +234,27 @@ public class ManagerController extends UserController {
         }
     }
 
-    public void declineRequest(int id) throws InvalidRequestIdException{
-        if(Request.isThereRequestWithId(id)){
+    public void declineRequest(int id) throws InvalidRequestIdException {
+        if (Request.isThereRequestWithId(id)) {
             Request.denyRequest(id);
         } else {
             throw new InvalidRequestIdException("there's no request with this id");
         }
     }
 
-    public ArrayList<Product> getAllProducts(){
+    public ArrayList<Product> getAllProducts() {
         return Product.getAllProducts();
     }
 
     public Product getProductWithId(int id) throws InvalidProductIdException {
-        if(Product.isThereProductWithId(id)){
+        if (Product.isThereProductWithId(id)) {
             return Product.getProduct(id);
         } else {
             throw new InvalidProductIdException("there's no product with these id");
         }
     }
 
-    public void removeProduct(Product product){
+    public void removeProduct(Product product) {
         Product.removeProduct(product);
     }
 
@@ -239,7 +267,7 @@ public class ManagerController extends UserController {
         discountFieldsSetters.put("customers\\s+included", "editDiscountCustomersIncluded");
     }
 
-    public HashMap<Integer,String> getGiftEventsName(){
+    public HashMap<Integer, String> getGiftEventsName() {
         return this.giftEvents;
     }
 
@@ -277,6 +305,9 @@ public class ManagerController extends UserController {
         public InvalidProductIdException(String message) {
             super(message);
         }
+    }
+
+    public static class CustomerAlreadyAddedException extends Exception {
     }
 
     //-..-

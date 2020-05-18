@@ -5,6 +5,8 @@ import Controllers.SellerController;
 import Models.*;
 import View.Menu;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +20,7 @@ public class ViewOffsMenu extends Menu {
         super("ViewOffsMenu", parentMenu);
         subMenus.put("^view\\s+(\\d+)$",getViewOff());
         subMenus.put("^add\\s+off",getAddOff());
+        subMenus.put("^edit\\s+(\\d+)$",getEditOff());
     }
 
     @Override
@@ -105,6 +108,77 @@ public class ViewOffsMenu extends Menu {
             }
         };
     }
+
+    private Menu getEditOff(){
+        return new Menu("getEditOff",this) {
+            @Override
+            public void help() {
+            }
+
+            @Override
+            public void execute() {
+                try {
+                    Sale selectedOff = sellerController.getSaleWithId(id);
+                    Sale off = sellerController.getOffCopy(selectedOff);
+                    System.out.println(off);
+                    System.out.println("choose the field you want to edit using these commands :\n" +
+                            "start date\n" +
+                            "end date\n" +
+                            "off percent\n" +
+                            "products included"
+                    );
+                    String chosenField = scanner.nextLine().trim();
+                    if (chosenField.equalsIgnoreCase("back")) {
+                        this.parentMenu.execute();
+                    } else if (chosenField.equalsIgnoreCase("logout")){
+                        logoutChangeMenu();
+                    }
+                    if (chosenField.matches("products\\s+included")) {
+                        editProductsIncluded(off);
+                        System.out.println("edit was done successfully");
+                        return;
+                    }
+                    Method editor = sellerController.getFieldEditor(chosenField, sellerController);
+                    System.out.println("enter your desired new value :");
+                    while (true) {
+                        try {
+                            String newValue = scanner.nextLine().trim();
+                            if (newValue.equalsIgnoreCase("back")) {
+                                this.parentMenu.execute();
+                            } else if (newValue.equalsIgnoreCase("logout")){
+                                logoutChangeMenu();
+                            }
+                            sellerController.invokeEditor(newValue, off, editor);
+                            System.out.println("edit was done successfully");
+                            return;
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            if(e.getCause() instanceof SellerController.StartDateAfterEndDateException){
+                                System.err.println("start date must be before the end date");
+                            } else if (e.getCause() instanceof SellerController.EndDateBeforeStartDateException){
+                                System.err.println("end date must be after start date");
+                            } else if (e.getCause() instanceof SellerController.InvalidDateFormatException){
+                                System.err.println("date should be in the yyyy/MM/dd format");
+                            } else if(e.getCause() instanceof SellerController.InvalidRangeException){
+                                System.err.println("number not in the desired range");
+                            } else if (e.getCause() instanceof NumberFormatException){
+                                System.err.println("you can't enter anything but number");
+                            }
+                        }
+                    }
+                } catch (SellerController.InvalidOffIdException e){
+                    System.err.println("you don't have an off with these id");
+                } catch (NoSuchMethodException wrongCommand) {
+                    System.err.println("you can only edit the fields above, and also please enter the required command.");
+                    this.execute();
+                }
+            }
+
+        };
+    }
+
+
 
     private void setStartDateForOff(NewOffController newOff) {
         String input;
@@ -211,4 +285,84 @@ public class ViewOffsMenu extends Menu {
         }
     }
 
+    private void editProductsIncluded(Sale off) {
+        System.out.println("do you want to add products or remove them?[add\\remove]");
+        while (true) {
+            String choice = scanner.nextLine().trim();
+            if (choice.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (choice.equalsIgnoreCase("logout")){
+                logoutChangeMenu();
+            }
+            if (choice.equalsIgnoreCase("add")) {
+                addProductsToOff(off);
+                return;
+            } else if (choice.equalsIgnoreCase("remove")) {
+                removeProductsFromOff(off);
+                return;
+            } else {
+                System.out.println("please enter either remove or add");
+            }
+        }
+    }
+
+    private void addProductsToOff(Sale off) {
+        System.out.println("choose the products you want to add to this off with (add [productId]) and when you're done enter end :");
+        String input;
+        int number = 1;
+        for (Product product : sellerController.getProductsNotInOff(off)) {
+            System.out.println(number + ") " + product.getProductId()+"   "+product.getName());
+            number++;
+        }
+        while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
+            if (input.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (input.equalsIgnoreCase("logout")){
+                logoutChangeMenu();
+            }
+            try {
+                if(input.matches("^add\\s+(\\d+)$")){
+                    Matcher matcher = getMatcher(input,"^add\\s+(\\d+)$");
+                    sellerController.setProductsToBeAddedToOff(Integer.parseInt(matcher.group(1)),off);
+                } else {
+                    System.err.println("wrong command. please try again.");
+                }
+            } catch (SellerController.ProductAlreadyAddedException e) {
+                System.err.println("you've already selected this product");
+            } catch (SellerController.InvalidProductIdException e) {
+                System.err.println("you don't have any product with this id");
+            }
+        }
+        sellerController.addProductsToOff(off);
+    }
+
+    private void removeProductsFromOff(Sale off) {
+        System.out.println("choose the products you want to remove to this off with (remove [productId]) and when you're done enter end :");
+        String input;
+        int number = 1;
+        for (Product product : sellerController.getProductsInOff(off)) {
+            System.out.println(number + ") " + product.getProductId()+"   "+product.getName());
+            number++;
+        }
+        while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
+            if (input.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (input.equalsIgnoreCase("logout")){
+                logoutChangeMenu();
+            }
+            try {
+                if(input.matches("^remove\\s+(\\d+)$")){
+                    Matcher matcher = getMatcher(input,"^remove\\s+(\\d+)$");
+                    sellerController.setProductsToBeRemovedFromOff(Integer.parseInt(matcher.group(1)),off);
+                } else {
+                    System.err.println("wrong command. please try again.");
+                }
+            } catch (SellerController.ProductAlreadyAddedException e) {
+                System.err.println("you've already selected this product");
+            } catch (SellerController.InvalidProductIdException e) {
+                System.err.println("you don't have any product with this id");
+            }
+        }
+        sellerController.removeProductsFromOff(off);
+    }
 }
