@@ -59,6 +59,7 @@ public class SaveProduct {
         Product.addToAllProducts(product);
         saveProduct.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
         saveProduct.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
+        saveProduct.productFields.forEach(saveProductField -> product.getProductFields().add(saveProductField.generateProductField()));
         return product;
     }
 }
