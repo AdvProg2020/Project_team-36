@@ -20,8 +20,6 @@ public class SaveProduct {
     private Date productionDate;
     private List<SaveComment> allComments;
     private int seenNumber;
-    private static int lastId = 0;
-
 
 
     private SaveProduct() {
@@ -53,7 +51,6 @@ public class SaveProduct {
         if (Product.getProductById(id) != null){
             return Product.getProductById(id);
         }
-        lastId = Math.max(id,lastId);
         Gson gson = new Gson();
         SaveProduct saveProduct = gson.fromJson(FileUtil.read(FileUtil.generateAddress(Product.class.getName(),id)),SaveProduct.class);
         Product product = new Product(saveProduct.productId,saveProduct.name,
