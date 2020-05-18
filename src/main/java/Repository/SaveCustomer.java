@@ -21,12 +21,12 @@ public class SaveCustomer {
     private static int lastId = 0;
 
     private long credit;
-    private List<Integer> allCustomerLogIds;
+    private List<SaveCustomerLog> allCustomerLogs;
     private List<SaveSelectedItem> cart;
     private Map<Integer, Integer> allDiscountsForCustomer;
 
     private SaveCustomer() {
-        this.allCustomerLogIds = new ArrayList<>();
+        this.allCustomerLogs = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
         this.cart = new ArrayList<>();
     }
@@ -42,7 +42,7 @@ public class SaveCustomer {
         saveCustomer.password = customer.getPassword();
         saveCustomer.status = customer.getStatus();
         saveCustomer.credit = customer.getCredit();
-        customer.getAllLogs().forEach(customerLog -> saveCustomer.allCustomerLogIds.add(customerLog.getId()));
+        customer.getAllLogs().forEach(customerLog -> saveCustomer.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
         customer.getCart().forEach(selectedItem -> saveCustomer.cart.add(new SaveSelectedItem(selectedItem)));
         customer.getAllDiscountsForCustomer().forEach((key,value) -> saveCustomer.allDiscountsForCustomer.put(key.getId(),value));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -67,7 +67,7 @@ public class SaveCustomer {
         Customer.addToAllCustomers(customer);
         User.addToAllUsers(customer);
         saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));
-        saveCustomer.allCustomerLogIds.forEach(logId -> customer.getAllLogs().add(SaveCustomerLog.load(logId)));
+        saveCustomer.allCustomerLogs.forEach(customerlog -> customer.getAllLogs().add(customerlog.generateCustomerLog()));
         saveCustomer.allDiscountsForCustomer.forEach((key,value) -> customer.getAllDiscountsForCustomer().put(SaveDiscount.load(key),value));
         return customer;
     }
