@@ -15,13 +15,14 @@ public class SellerMenu extends Menu {
     public SellerMenu(Menu parentMenu) {
         super("SellerMenu", parentMenu);
         subMenus = new HashMap<>();
-        subMenus.put("add\\s+product",new AddProductMenu(this));
-        subMenus.put("view\\s+balance",getViewBalanceMenu());
-        subMenus.put("view\\s+company\\s+information",getViewCompanyInformationMenu());
-        subMenus.put("show\\s+categories",getShowCategories());
-        subMenus.put("view\\s+sales\\s+history",getViewSalesHistory());
-        subMenus.put("offs", new OffsMenu("off menu",this));
-        subMenus.put("products",new ProductsMenu("ProductsMenu",this));
+        subMenus.put("^add\\s+product$",new AddProductMenu(this));
+        subMenus.put("^view\\s+offs$",new ViewOffsMenu(this));
+        subMenus.put("^view\\s+balance$",getViewBalanceMenu());
+        subMenus.put("^view\\s+company\\s+information$",getViewCompanyInformationMenu());
+        subMenus.put("^show\\s+categories$",getShowCategories());
+        subMenus.put("^view\\s+sales\\s+history$",getViewSalesHistory());
+        subMenus.put("^offs", new OffsMenu("off menu",this));
+        subMenus.put("^products$",new ProductsMenu("ProductsMenu",this));
     }
 
     private Menu getViewBalanceMenu(){

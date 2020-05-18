@@ -40,6 +40,23 @@ public class Seller extends User implements Pendable,Packable {
         return companyInfo;
     }
 
+    public boolean sellerHasTheOff(int id){
+        for (Sale sale : allSales) {
+            if(sale.getOffId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Sale getSaleWithId(int id){
+        for (Sale sale : allSales) {
+            if(sale.getOffId()==id){
+                return sale;
+            }
+        }
+        return null;
+    }
 
     @Override
     public String getPendingRequestType() {

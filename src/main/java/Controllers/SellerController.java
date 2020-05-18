@@ -85,7 +85,26 @@ public class SellerController extends UserController{
         return seller.getAllLogs();
     }
 
+    public ArrayList<Sale> getAllSellerSales(){
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        return seller.getAllSales();
+    }
+
+    public Sale getSaleWithId(int id)throws InvalidOffIdException{
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        if(seller.sellerHasTheOff(id)){
+            seller.getSaleWithId(id);
+        }else{
+            throw new InvalidOffIdException();
+        }
+        return null;
+    }
+
     public static class InvalidProductIdException extends Exception{
+
+    }
+
+    public static class InvalidOffIdException extends Exception{
 
     }
 
