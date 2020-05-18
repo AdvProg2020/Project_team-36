@@ -23,12 +23,12 @@ public class DiscountController {
         this.startTime = startTime;
     }
 
-    public void setEndTime(Date endTime) throws InvalidDateException {
+    public void setEndTime(Date endTime) throws EndDateBeforeStartDateException,EndDatePassedException {
         Date now = new Date();
         if(endTime.before(now)){
-            throw new DiscountController.InvalidDateException("we are already past this date");
+            throw new EndDatePassedException();
         }else if(endTime.before(startTime)){
-            throw new DiscountController.InvalidDateException("termination time must be after start time");
+            throw new EndDateBeforeStartDateException();
         }
         else {
             this.endTime = endTime;
@@ -51,13 +51,23 @@ public class DiscountController {
         return Customer.getAllCustomers();
     }
 
-    public void setCustomersForDiscountCode(String username) throws InvalidUsernameException{
+    public void setCustomersForDiscountCode(String username) throws InvalidUsernameException,CustomerAlreadyAddedException{
         if(!Customer.isThereCustomerWithUsername(username)){
-            throw new DiscountController.InvalidUsernameException("There is no customer with this username");
-        }
-        else {
+            throw new InvalidUsernameException();
+        }else if(isThereCustomerWithUsername(username)){
+            throw new CustomerAlreadyAddedException();
+        } else {
             customersForDiscountCode.add((Customer)Customer.getUserByUsername(username));
         }
+    }
+
+    public boolean isThereCustomerWithUsername(String username){
+        for (Customer customer : customersForDiscountCode ) {
+            if (customer.getUsername().equals(username)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void finalizeTheNewDiscountCode(){
@@ -76,15 +86,17 @@ public class DiscountController {
     }
 
     public static class InvalidUsernameException extends Exception {
-        public InvalidUsernameException(String message) {
-            super(message);
-        }
     }
 
-    public static class InvalidDateException extends Exception {
-        public InvalidDateException(String message) {
-            super(message);
-        }
+    public static class CustomerAlreadyAddedException extends Exception {
+    }
+
+    public static class EndDateBeforeStartDateException extends Exception {
+
+    }
+
+    public static class EndDatePassedException extends Exception {
+
     }
 
     //-..-
