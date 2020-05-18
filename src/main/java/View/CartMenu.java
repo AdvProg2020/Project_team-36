@@ -26,6 +26,11 @@ public class CartMenu extends Menu {
         return new Menu("ShowCartMenu", this) {
             @Override
             public void help() {
+                System.out.println("logout\n" +
+                        "help\n" +
+                        "sort by [field] [ascending\\descending]\n" +
+                        "back");
+                System.out.println("Fields you can sort by:\nproduct name\ncount\ntotal price");
             }
 
             @Override
@@ -33,22 +38,51 @@ public class CartMenu extends Menu {
                 System.out.println("NOTE: any product that is deleted by manager cannot be seen in your cart!");
                 ArrayList<SelectedItem> cart = customerController.getCart();
                 if (cart.isEmpty()) {
-                    System.out.println("There is nothing to show!");
+                    System.err.println("Nothing in cart!");
                     return;
                 }
-                System.out.format("%20s%9s%s%s", "Product name", " ProductId  ", "  count in cart  ", "Availability");
-                boolean typeNote = false;
-                for (SelectedItem item : cart) {
-                    Product product = item.getProduct();
-                    System.out.format("%20s%9d%10d%s", product.getName(), product.getProductId(), item.getCount(), item.getTag());
-                    if (item.getTag().equals(CartTag.NOT_ENOUGH_SUPPLY))
-                        typeNote = true;
-                }
-                if (typeNote)
-                    System.out.println("NOTE: you have to decrease the \"NOT_ENOUGH_SUPPLY\" objects before purchase!");
-
+                printCart(cart);
+                getSortType();
             }
         };
+    }
+
+    private void getSortType(){
+        System.out.println("\nyou can sort your cart or type back or logout");
+        String input;
+        Matcher matcher;
+        while(!(input=scanner.nextLine().trim()).matches("back|logout")){
+            if(input.matches("help"))
+                help();
+            if((matcher = getMatcher(input,"sort\\s+by\\s+(.+)\\s+(.+)")).matches()){
+                if(!matcher.group(2).matches("asscending|descending"))
+                    System.err.println("Invalid type!");
+                else{
+                    try {
+                        printCart(customerController.sortCart(matcher.group(1),matcher.group(2)));
+                    } catch (ProductsController.NoSortException e) {
+                        System.err.println("there is no field with this name!");
+                    }
+                }
+            }
+        }
+        if(input.matches("back"))
+            return;
+        else if(input.matches("logout"))
+            logoutChangeMenu();
+    }
+
+    private void printCart(ArrayList<SelectedItem>cart){
+        System.out.format("%20s%9s%s%s", "Product name", " ProductId  ", "  count in cart  ", "Availability");
+        boolean typeNote = false;
+        for (SelectedItem item : cart) {
+            Product product = item.getProduct();
+            System.out.format("%20s%9d%10d%s", product.getName(), product.getProductId(), item.getCount(), item.getTag());
+            if (item.getTag().equals(CartTag.NOT_ENOUGH_SUPPLY))
+                typeNote = true;
+        }
+        if (typeNote)
+            System.out.println("NOTE: you have to decrease the \"NOT_ENOUGH_SUPPLY\" objects before purchase!");
     }
 
     private Menu getViewProductMenu() {

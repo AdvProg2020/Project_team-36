@@ -7,17 +7,17 @@ public class ManagerMenu extends Menu {
 
 
     public ManagerMenu(Menu parentMenu) {
-        super("ManagerMenu",parentMenu);
-        subMenus.put("view\\s+personal\\s+info", new PersonalInfoMenu("Personal information",this));
+        super("ManagerMenu", parentMenu);
+        subMenus.put("view\\s+personal\\s+info", new PersonalInfoMenu("Personal information", this));
         subMenus.put("manage\\s+categories", new ManageCategoriesMenu(this));
         subMenus.put("manage\\s+requests", new ManageRequestsMenu(this));
         subMenus.put("view\\s+discount\\s+codes", new ViewDiscountCodesMenu(this));
         subMenus.put("manage\\s+users", new ManageUsersMenu(this));
         subMenus.put("manage\\s+all\\s+products", new ManageAllProductsMenu(this));
-        subMenus.put("create\\s+discount\\s+code",new CreateDiscountCodeMenu(this));
-        subMenus.put("create\\s+new\\s+gift",new GiftMenu("GiftMenu",this));
-        subMenus.put("offs",new OffsMenu("Off menu",this));
-        subMenus.put("products",new ProductsMenu("ProductsMenu",this));
+        subMenus.put("create\\s+discount\\s+code", new CreateDiscountCodeMenu(this));
+        subMenus.put("create\\s+new\\s+gift", new GiftMenu("GiftMenu", this));
+        subMenus.put("offs", new OffsMenu("Off menu", this));
+        subMenus.put("products", new ProductsMenu("ProductsMenu", this));
 
     }
 
@@ -45,7 +45,7 @@ public class ManagerMenu extends Menu {
             this.execute();
         } else if (input.matches("logout")) {
             logoutChangeMenu();
-        }else{
+        } else {
             for (String regex : subMenus.keySet()) {
                 if (input.matches(regex)) {
                     chosenMenu = subMenus.get(regex);

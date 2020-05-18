@@ -32,6 +32,10 @@ public class SelectedItem {
         return product;
     }
 
+    public String getProductName(){
+        return this.product.getName();
+    }
+
     public CartTag getTag() {
         return tag;
     }

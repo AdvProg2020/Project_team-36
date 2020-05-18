@@ -146,7 +146,21 @@ public class Discount {
     }
 
     public static ArrayList<Discount> getAllDiscounts() {
+        updateDiscounts();
         return allDiscounts;
+    }
+
+    public static void updateDiscounts(){
+        ArrayList<Customer> temp = new ArrayList<>();
+        for (Discount discount : allDiscounts) {
+            for (Customer customer : discount.customersIncluded) {
+                if(customer.getStatus().equals(Status.DELETED)){
+                    temp.add(customer);
+                }
+            }
+            discount.customersIncluded.removeAll(temp);
+            temp.clear();
+        }
     }
 
     public static Discount getDiscountById(int id){

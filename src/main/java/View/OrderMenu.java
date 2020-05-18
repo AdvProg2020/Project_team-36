@@ -1,6 +1,8 @@
 package View;
 
 import Controllers.CustomerController;
+import Controllers.ProductsController;
+import Models.Customer;
 import Models.CustomerLog;
 
 import java.util.ArrayList;
@@ -18,16 +20,16 @@ public class OrderMenu extends Menu {
 
         System.out.println("show order [orderId]\n " +
                 "rate [productId] [1-5]\n" +
-                "logout");
+                "logout\n" +
+                "sort by [field] ascending\\descending");
+        System.out.println("Fields:");
+        System.out.println("date\\payable\\discount amount\\gift amount");
     }
 
     @Override
     public void execute() {
         ArrayList<CustomerLog> logs = customerController.getAllLogs();
-        System.out.printf("%5s%20s%10s", "logId", "Date", "Total price");
-        for (CustomerLog log : logs) {
-            System.out.printf("%5s%20s%10d", log.getId(), log.getDate(), log.getTotalPayable());
-        }
+        printLog(logs);
         String input;
         while (!(input = scanner.nextLine().trim()).matches("back|logout")) {
             Matcher matcher;
@@ -38,6 +40,16 @@ public class OrderMenu extends Menu {
 
             } else if ((matcher = getMatcher(input, "rate\\s+(\\d+)\\s+(\\d+)")).matches()) {
                 rateProductMenu(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
+            }else if((matcher=getMatcher(input,"sort\\s+by\\s+(.*)\\s+(.*)")).matches()){
+                if(!matcher.group(2).matches("ascending|descending"))
+                    System.out.println("invalid type!");
+                else{
+                    try {
+                        printLog(customerController.sortLogs(matcher.group(1),matcher.group(2)));
+                    } catch (ProductsController.NoSortException e) {
+                        System.out.println("hre is no field with this name!");
+                    }
+                }
             } else {
                 System.err.println("invalid command!");
             }
@@ -47,6 +59,13 @@ public class OrderMenu extends Menu {
         this.parentMenu.execute();
         else if(input.matches("logout"))
             logoutChangeMenu();
+    }
+
+    private void printLog(ArrayList<CustomerLog> logs){
+        System.out.printf("%5s%20s%10s", "logId", "Date", "Total price");
+        for (CustomerLog log : logs) {
+            System.out.printf("%5s%20s%10d", log.getId(), log.getDate(), log.getTotalPayable());
+        }
     }
 
     private void showOrderMenu(int orderId) {

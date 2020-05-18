@@ -108,7 +108,7 @@ public class Customer extends User  {
     public HashMap<Discount, Integer> getAllActiveDiscountsForCustomer() {
         HashMap<Discount,Integer> toBeReturned = new HashMap<>();
         for (Discount discount : this.allDiscountsForCustomer.keySet()) {
-            if(discount.isDiscountAvailable())
+            if(discount.isDiscountAvailable()&&allDiscountsForCustomer.get(discount)>0)
                 toBeReturned.put(discount,allDiscountsForCustomer.get(discount));
         }
         return toBeReturned;
@@ -120,6 +120,7 @@ public class Customer extends User  {
     }
 
     public boolean isThereProductInCart(int productId) {
+        updateCart();
         for (SelectedItem item : cart) {
             if (item.getProduct().getProductId()==(productId))
                 return true;
