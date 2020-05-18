@@ -34,4 +34,22 @@ public class SaveManager {
         String saveManagerGson = gson.toJson(saveManager);
         FileUtil.write(FileUtil.generateAddress(Manager.class.getName(),saveManager.userId),saveManagerGson);
     }
+
+    public static Manager load(int id){
+        lastId = Math.max(lastId,id);
+        if(Manager.getManagerById(id) != null){
+            return Manager.getManagerById(id);
+        }
+
+        Gson gson = new Gson();
+        String data = FileUtil.read(FileUtil.generateAddress(Manager.class.getName(),id));
+        if (data == null){
+            return null;
+        }
+        SaveManager saveManager = gson.fromJson(data,SaveManager.class);
+        Manager manager = new Manager(saveManager.userId,saveManager.username,saveManager.firstname,
+                saveManager.lastname,saveManager.email,saveManager.phoneNumber,saveManager.password,saveManager.status);
+        Manager.addToAllManager(manager);
+        return manager;
+    }
 }

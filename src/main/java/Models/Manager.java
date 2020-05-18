@@ -32,4 +32,21 @@ public class Manager extends User {
 //        return mainManager.getUsername().equals(username);
 //    }
 
+    public static Manager getManagerById(int id){
+        for (Manager manager : allManagers) {
+            if(manager.userId == id){
+                return manager;
+            }
+        }
+        return null;
+    }
+
+    public Manager(int userId, String username, String firstname, String lastname, String email,
+                   String phoneNumber, String password, Status status) {
+        super(userId, username, firstname, lastname, email, phoneNumber, password, status);
+    }
+
+    public static void addToAllManager(Manager manager){
+        allManagers.add(manager);
+    }
 }
