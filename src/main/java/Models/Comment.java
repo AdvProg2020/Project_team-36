@@ -48,4 +48,13 @@ public class Comment implements Pendable {
     public String getPendingRequestType() {
         return "comment";
     }
+
+    public Comment(User user, Product product, String title, String comment, Enum<Status> confirmationStatus, boolean hasBought) {
+        this.user = user;
+        this.product = product;
+        this.title = title;
+        this.comment = comment;
+        ConfirmationStatus = confirmationStatus;
+        this.hasBought = hasBought;
+    }
 }

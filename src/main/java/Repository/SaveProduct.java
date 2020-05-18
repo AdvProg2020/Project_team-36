@@ -56,7 +56,9 @@ public class SaveProduct {
                 saveProduct.company,SaveCategory.load(saveProduct.categoryId),
                 new ArrayList<>(saveProduct.fieldsOfCategory),saveProduct.information,
                 saveProduct.productionDate,saveProduct.seenNumber);
+        Product.addToAllProducts(product);
         saveProduct.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
+        saveProduct.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
         return product;
     }
 }

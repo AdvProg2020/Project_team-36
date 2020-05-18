@@ -60,5 +60,14 @@ public class ProductField {
         this.supply +=amount;
     }
 
+    public ProductField(ProductionStatus status, long price, Sale sale, Seller seller, int supply) {
+        this.status = status;
+        this.price = price;
+        this.sale = sale;
+        this.seller = seller;
+        this.supply = supply;
+        this.allBuyers = new HashSet<>();
+    }
+
     //-..-
 }

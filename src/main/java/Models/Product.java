@@ -328,5 +328,9 @@ public class Product implements Pendable{
         return "product";
     }
 
+    public static void addToAllProducts(Product product){
+        allProducts.add(product);
+    }
+
     //-..-
 }
