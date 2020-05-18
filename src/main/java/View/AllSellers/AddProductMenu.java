@@ -17,20 +17,32 @@ public class AddProductMenu extends Menu {
 
     @Override
     public void help() {
+        System.out.println("you can send a request to manager for selling a new product or an existing one here.");
     }
 
     @Override
     public void execute() {
-        System.out.println("do you want to sell a new product or a product which already exists? [new\\existing");
+        System.out.println("do you want to sell a new product or a product which already exists? [new\\existing]");
         String choice = scanner.nextLine();
-        if (choice.equalsIgnoreCase("new")) {
-            addNewProduct().execute();
-        } else if (choice.equalsIgnoreCase("existing")) {
-            addExistingProduct().execute();
-        } else if (choice.equalsIgnoreCase("back")) {
+        while (!((choice.equalsIgnoreCase("back"))||(choice.equalsIgnoreCase("help"))||
+                (choice.equalsIgnoreCase("logout")))) {
+            if (choice.equalsIgnoreCase("new")) {
+                addNewProduct().execute();
+            } else if (choice.equalsIgnoreCase("existing")) {
+                addExistingProduct().execute();
+            } else {
+                System.out.println("wrong command. try again.");
+            }
+            System.out.println("do you want to sell a new product or a product which already exists? [new\\existing]");
+            choice = scanner.nextLine();
+        }
+        if (choice.equalsIgnoreCase("back")) {
             this.parentMenu.execute();
         } else if (choice.equalsIgnoreCase("logout")) {
             logoutChangeMenu();
+        } else if(choice.equalsIgnoreCase("help")){
+            this.help();
+            this.execute();
         }
     }
 
@@ -42,22 +54,20 @@ public class AddProductMenu extends Menu {
 
             @Override
             public void execute() {
-                while (true) {
-                    NewProductController newProduct = new NewProductController(sellerController);
-                    System.out.println("please enter the required information:");
-                    System.out.println("name: ");
-                    newProduct.setName(getStringInput());
-                    System.out.println("company: ");
-                    newProduct.setCompany(getStringInput());
-                    System.out.println("information: ");
-                    newProduct.setInformation(getStringInput());
-                    System.out.println("choose the category this product is under: ");
-                    getCategory(newProduct);
-                    System.out.println("enter desired value for each field: ");
-                    getCategoryFields(newProduct);
-                    getProductFieldInfo(newProduct);
-                    newProduct.sendNewProductRequest();
-                }
+                NewProductController newProduct = new NewProductController(sellerController);
+                System.out.println("please enter the required information:");
+                System.out.println("name: ");
+                newProduct.setName(getStringInput());
+                System.out.println("company: ");
+                newProduct.setCompany(getStringInput());
+                System.out.println("information: ");
+                newProduct.setInformation(getStringInput());
+                System.out.println("choose the category this product is under: ");
+                getCategory(newProduct);
+                System.out.println("enter desired value for each field: ");
+                getCategoryFields(newProduct);
+                getProductFieldInfo(newProduct);
+                newProduct.sendNewProductRequest();
             }
         };
     }

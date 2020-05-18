@@ -14,10 +14,10 @@ public class ManageProductsMenu extends Menu {
 
     public ManageProductsMenu(Menu parentMenu) {
         super("ManageProductsMenu", parentMenu);
-        subMenus.put("view\\s+(\\d+)",getViewProduct());
-        subMenus.put("view\\s+buyers\\s+(\\d+)",getViewBuyers());
-        subMenus.put("edit\\s+(\\d+)",getEditProduct());
-        subMenus.put("remove\\s+product\\s+(\\d+)",getRemoveProduct());
+        subMenus.put("^view\\s+(\\d+)$",getViewProduct());
+        subMenus.put("^view\\s+buyers\\s+(\\d+)$",getViewBuyers());
+        subMenus.put("^edit\\s+(\\d+)$",getEditProduct());
+        subMenus.put("^remove\\s+product\\s+(\\d+)$",getRemoveProduct());
     }
 
     @Override
