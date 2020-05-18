@@ -25,6 +25,10 @@ public class SaveProduct {
 
 
     private SaveProduct() {
+        fieldsOfCategory = new ArrayList<>();
+        productFields = new ArrayList<>();
+        allScore = new ArrayList<>();
+        allComments = new ArrayList<>();
     }
 
     public static void save(Product product){
