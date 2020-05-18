@@ -1,5 +1,6 @@
 package View.Products;
 
+import Controllers.ObjectController;
 import Controllers.ProductsController;
 import Models.Filter;
 import View.Menu;
@@ -9,10 +10,10 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class FilteringMenu extends Menu {
-    private ProductsController controller;
+    private ObjectController controller;
     private String filter;
 
-    public FilteringMenu(String name, Menu parentMenu, ProductsController controller) {
+    public FilteringMenu(String name, Menu parentMenu, ObjectController controller) {
         super(name, parentMenu);
         this.controller = controller;
         subMenus.put("show\\s+available\\s+filters", getAvailableFiltersMenu());
