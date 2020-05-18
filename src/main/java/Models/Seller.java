@@ -2,7 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 
-public class Seller extends User implements Pendable,Packable {
+public class Seller extends User implements Pendable {
     private static ArrayList<Seller> allSellers = new ArrayList<>();
     private ArrayList<SellerLog> allLogs;
     private ArrayList<Product> allProducts;

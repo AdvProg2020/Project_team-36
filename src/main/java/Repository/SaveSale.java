@@ -44,7 +44,11 @@ public class SaveSale {
         }
 
         Gson gson = new Gson();
-        SaveSale saveSale = gson.fromJson(FileUtil.read(FileUtil.generateAddress(Sale.class.getName(),id)),SaveSale.class);
+        String data = FileUtil.read(FileUtil.generateAddress(Sale.class.getName(),id));
+        if(data == null){
+            return null;
+        }
+        SaveSale saveSale = gson.fromJson(data,SaveSale.class);
         Sale sale = new Sale(SaveSeller.load(saveSale.sellerId),saveSale.offId,
                 saveSale.status,saveSale.startTime,saveSale.endTime,saveSale.salePercent);
         Sale.addToAllSales(sale);
