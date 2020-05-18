@@ -12,12 +12,13 @@ public abstract class User{
     protected String email;
     protected String phoneNumber;
     protected String password;
-    private static int totalUsersMade;
+    private static int totalUsersMade = 0;
     private Status status;
 
     public User(String username){
+        totalUsersMade ++;
         this.username = username;
-        this.userId = totalUsersMade+1;
+        this.userId = totalUsersMade;
         this.status = AVAILABLE;
     }
 
@@ -114,6 +115,19 @@ public abstract class User{
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.status = status;
+    }
+
+    public static void addToAllUsers(User user){
+        allUsers.add(user);
+    }
+
+    public static User getUserById(int id){
+        for (User user : allUsers) {
+            if (user.userId == id){
+                return user;
+            }
+        }
+        return null;
     }
 
     //-..-

@@ -2,6 +2,7 @@ package Repository;
 
 import Models.Manager;
 import Models.Status;
+import Models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -50,6 +51,7 @@ public class SaveManager {
         Manager manager = new Manager(saveManager.userId,saveManager.username,saveManager.firstname,
                 saveManager.lastname,saveManager.email,saveManager.phoneNumber,saveManager.password,saveManager.status);
         Manager.addToAllManager(manager);
+        User.addToAllUsers(manager);
         return manager;
     }
 }

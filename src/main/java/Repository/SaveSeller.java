@@ -68,6 +68,7 @@ public class SaveSeller {
                 saveSeller.lastname,saveSeller.email,saveSeller.phoneNumber,saveSeller.password,
                 saveSeller.status,saveSeller.credit,saveSeller.companyName,saveSeller.companyInfo);
         Seller.addToAllSellers(seller);
+        User.addToAllUsers(seller);
         saveSeller.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
         saveSeller.allProductIds.forEach(productId -> seller.getAllProducts().add(SaveProduct.load(productId)));
         saveSeller.allSellerLogIds.forEach(sellerLogId -> seller.getAllLogs().add(SaveSellerLog.load(sellerLogId)));

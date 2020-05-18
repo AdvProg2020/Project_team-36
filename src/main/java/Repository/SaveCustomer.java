@@ -65,6 +65,7 @@ public class SaveCustomer {
                 saveCustomer.lastname,saveCustomer.email,saveCustomer.phoneNumber,saveCustomer.password,
                 saveCustomer.status,saveCustomer.credit);
         Customer.addToAllCustomers(customer);
+        User.addToAllUsers(customer);
         saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));
         saveCustomer.allCustomerLogIds.forEach(logId -> customer.getAllLogs().add(SaveCustomerLog.load(logId)));
         saveCustomer.allDiscountsForCustomer.forEach((key,value) -> customer.getAllDiscountsForCustomer().put(SaveDiscount.load(key),value));
