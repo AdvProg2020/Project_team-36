@@ -3,6 +3,8 @@ package Models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static Models.ProductionStatus.TO_BE;
+
 public class Sale implements Pendable {
     private Seller seller;
     private int offId;
@@ -11,6 +13,24 @@ public class Sale implements Pendable {
     private Date startTime;
     private Date endTime;
     private Double salePercent;//be darsad nist
+    private static int totalOffsMade = 0;
+
+
+    public Sale(Seller seller, ArrayList<Product> productsInSale, Date startTime, Date endTime, Double salePercent) {
+        this.productsInSale = new ArrayList<>();
+        this.seller = seller;
+        this.offId = getRandomId();
+        this.productsInSale = productsInSale;
+        this.status = TO_BE;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.salePercent = salePercent;
+    }
+
+    private int getRandomId(){
+        totalOffsMade+=1;
+        return totalOffsMade;
+    }
 
     public int getOffId() {
         return offId;

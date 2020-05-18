@@ -1,11 +1,13 @@
 package View.AllSellers;
 
+import Controllers.NewOffController;
 import Controllers.SellerController;
-import Models.Product;
-import Models.Sale;
-import Models.Seller;
+import Models.*;
 import View.Menu;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 
 public class ViewOffsMenu extends Menu {
@@ -15,6 +17,7 @@ public class ViewOffsMenu extends Menu {
     public ViewOffsMenu(Menu parentMenu) {
         super("ViewOffsMenu", parentMenu);
         subMenus.put("^view\\s+(\\d+)$",getViewOff());
+        subMenus.put("^add\\s+off",getAddOff());
     }
 
     @Override
@@ -83,6 +86,129 @@ public class ViewOffsMenu extends Menu {
                 }
             }
         };
+    }
+
+    private Menu getAddOff(){
+        return new Menu("getAddOff",this) {
+            @Override
+            public void help() {
+            }
+
+            @Override
+            public void execute() {
+                NewOffController newOff = new NewOffController(sellerController);
+                System.out.println("please enter the required information:");
+                setStartDateForOff(newOff);
+                setEndDateForOff(newOff);
+                setOffPercentage(newOff);
+                setProductsIncludedForOff(newOff);
+            }
+        };
+    }
+
+    private void setStartDateForOff(NewOffController newOff) {
+        String input;
+        while (true) {
+            System.out.println("start date in yyyy/MM/dd format :");
+            input = scanner.nextLine();
+            if (input.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (input.equalsIgnoreCase("logout")) {
+                logoutChangeMenu();
+            }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            dateFormat.setLenient(false);
+            Date startDate;
+            try {
+                startDate = dateFormat.parse(input);
+                newOff.setStartTime(startDate);
+                return;
+            } catch (ParseException e) {
+                System.err.println("input isn't in the yyyy/MM/dd format");
+            }
+        }
+    }
+
+
+    private void setEndDateForOff(NewOffController newOff) {
+        String input;
+        while (true) {
+            System.out.println("end date in yyyy/MM/dd format:");
+            input = scanner.nextLine();
+            if (input.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (input.equalsIgnoreCase("logout")) {
+                logoutChangeMenu();
+            }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            dateFormat.setLenient(false);
+            Date endDate;
+            try {
+                endDate = dateFormat.parse(input);
+                try {
+                    newOff.setEndTime(endDate);
+                    return;
+                } catch (NewOffController.EndDatePassedException dateError) {
+                    System.err.println("we already passed this date");
+                } catch (NewOffController.EndDateBeforeStartDateException dateError){
+                    System.err.println("end date must be after start date.");
+                }
+            } catch (ParseException formatError) {
+                System.err.println("input isn't in the yyyy/MM/dd format");
+            }
+        }
+    }
+
+    private void setOffPercentage(NewOffController newOff) {
+        int percentage;
+        String input;
+        while (true) {
+            System.out.println("off percentage between 0-100 :");
+            try {
+                input = scanner.nextLine();
+                if (input.equalsIgnoreCase("back")) {
+                    this.parentMenu.execute();
+                } else if (input.equalsIgnoreCase("logout")) {
+                    logoutChangeMenu();
+                }
+                percentage = Integer.parseInt(input);
+                if (percentage < 100 && percentage > 0) {
+                    newOff.setSalePercent(percentage * 0.01);
+                    return;
+                } else {
+                    System.err.println("number not in the desired range");
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("you can't enter anything but number");
+            }
+        }
+    }
+
+    private void setProductsIncludedForOff(NewOffController newOff) {
+        System.out.println("choose the products you want to put in this off and when you are done enter end :");
+        String input;
+        int number = 1;
+        for (Product product : sellerController.getSellerProducts()) {
+            System.out.println(number + ") " + product.getProductId() + "   " + product.getName());
+            number++;
+        }
+        while (!(input = scanner.nextLine()).equalsIgnoreCase("end")) {
+            if (input.equalsIgnoreCase("back")) {
+                this.parentMenu.execute();
+            } else if (input.equalsIgnoreCase("logout")) {
+                logoutChangeMenu();
+            }
+            try {
+                int productId = Integer.parseInt(input);
+                newOff.setProductsInSale(productId);
+            } catch (NumberFormatException e) {
+                System.err.println(e.getMessage());
+            } catch (NewOffController.InvalidProductIdException e){
+                System.err.println("you don'y have any product with this id");
+            }catch (NewOffController.ProductAlreadyAddedException e){
+                System.err.println("you have already selected this product");
+            }
+        }
     }
 
 }

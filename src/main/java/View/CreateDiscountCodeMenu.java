@@ -90,8 +90,10 @@ public class CreateDiscountCodeMenu extends Menu {
                 try {
                     discountController.setEndTime(endDate);
                     return;
-                } catch (DiscountController.InvalidDateException dateError) {
-                    System.err.println(dateError.getMessage());
+                } catch (DiscountController.EndDatePassedException dateError) {
+                    System.err.println("we already passed this date");
+                } catch (DiscountController.EndDateBeforeStartDateException e){
+                    System.err.println("termination date must be after start date");
                 }
             } catch (ParseException formatError) {
                 System.err.println("input isn't in the yyyy/MM/dd format");
@@ -184,6 +186,8 @@ public class CreateDiscountCodeMenu extends Menu {
                 discountController.setCustomersForDiscountCode(input);
             } catch (DiscountController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
+            } catch (DiscountController.CustomerAlreadyAddedException e){
+                System.err.println("you have already selected this customer");
             }
         }
     }
