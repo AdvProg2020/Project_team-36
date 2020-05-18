@@ -9,13 +9,55 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class OffController extends ProductsController {
+public class OffController implements ObjectController {
     GlobalVariables userVariables;
+    protected HashMap<String, Method> sortMethods;
+    protected HashMap<String, Method> optionalFilterMethods;
+    protected HashMap<String, Method> integerFilterMethods;
 
     public OffController(GlobalVariables userVariables) {
-        super(userVariables);
         this.userVariables = userVariables;
+        this.sortMethods = new HashMap<>();
+        this.integerFilterMethods = new HashMap<>();
+        this.optionalFilterMethods = new HashMap<>();
+        setSortMethodsProducts();
+        setFilterMethods();
     }
+
+    private void setSortMethodsProducts() {
+        try {
+            Method method = Product.class.getDeclaredMethod("getProductionDate");
+            this.sortMethods.put("production time", method);
+            method = Product.class.getDeclaredMethod("getSeenNumber");
+            this.sortMethods.put("seen count", method);
+            method = Product.class.getDeclaredMethod("getName");
+            this.sortMethods.put("name", method);
+            method = Product.class.getDeclaredMethod("getScore");
+            this.sortMethods.put("score", method);
+            method = Product.class.getDeclaredMethod("getHighestCurrentPrice");
+            this.sortMethods.put("Maximum current price", method);
+            method = Product.class.getDeclaredMethod("getLowestCurrentPrice");
+            this.sortMethods.put("Minimum current price", method);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setFilterMethods() {
+        try {
+            Method method = Product.class.getDeclaredMethod("getName");
+            this.optionalFilterMethods.put("name", method);
+            method = Product.class.getDeclaredMethod("getLowestCurrentPrice");
+            this.integerFilterMethods.put("lowest price", method);
+            method = Product.class.getDeclaredMethod("getHighestCurrentPrice");
+            this.integerFilterMethods.put("highest price", method);
+            method = Product.class.getDeclaredMethod("getCompany");
+            this.optionalFilterMethods.put("company", method);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public String getProductCurrentSortName() {
@@ -33,14 +75,14 @@ public class OffController extends ProductsController {
     }
 
     @Override
-    public void setSort(String name, String type) throws NoSortException {
+    public void setSort(String name, String type) throws ProductsController.NoSortException {
         for (String field : sortMethods.keySet()) {
             if (field.equalsIgnoreCase(name)) {
                 userVariables.setSortOff(name, type);
                 return;
             }
         }
-        throw new NoSortException();
+        throw new ProductsController.NoSortException();
 
     }
 
@@ -69,38 +111,38 @@ public class OffController extends ProductsController {
     }
 
     @Override
-    public void setNewFilter(String name) throws IntegerFieldException, OptionalFieldException, NoFilterWithNameException {
+    public void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException {
         for (String type : integerFilterMethods.keySet()) {
             if (type.equalsIgnoreCase(name)) {
                 userVariables.setPendingFilter(new RangeFilter(integerFilterMethods.get(type), type));
-                throw new IntegerFieldException();
+                throw new ProductsController.IntegerFieldException();
             }
         }
         for (String type : optionalFilterMethods.keySet()) {
             if (type.equalsIgnoreCase(name)) {
                 userVariables.setPendingFilter(new OptionalFilter(integerFilterMethods.get(type), type));
-                throw new OptionalFieldException();
+                throw new ProductsController.OptionalFieldException();
             }
         }
         if (userVariables.getFilterOffsCategory() != null)
             checkCategoryFieldsFilter(name);
         else
-            throw new NoFilterWithNameException();
+            throw new ProductsController.NoFilterWithNameException();
     }
 
-    private void checkCategoryFieldsFilter(String name) throws IntegerFieldException, OptionalFieldException, NoFilterWithNameException {
+    private void checkCategoryFieldsFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException {
         for (Field field : userVariables.getFilterOffsCategory().getAllFields()) {
             if (field.getName().equalsIgnoreCase(name)) {
                 if (field instanceof IntegerField) {
                     userVariables.setPendingFilter(new RangeFilter(field.getName()));
-                    throw new IntegerFieldException();
+                    throw new ProductsController.IntegerFieldException();
                 } else if (field instanceof OptionalField) {
                     userVariables.setPendingFilter(new OptionalFilter(field.getName()));
-                    throw new OptionalFieldException();
+                    throw new ProductsController.OptionalFieldException();
                 }
             }
         }
-        throw new NoFilterWithNameException();
+        throw new ProductsController.NoFilterWithNameException();
     }
 
     @Override
@@ -114,13 +156,13 @@ public class OffController extends ProductsController {
     }
 
     @Override
-    public void removeFilter(String name) throws NoFilterWithNameException {
+    public void removeFilter(String name) throws ProductsController.NoFilterWithNameException {
         if (name.equalsIgnoreCase("category")) {
             if (userVariables.getFilterOffsCategory() != null) {
                 removeCategoryRelatedFilters();
                 userVariables.setFilterOffsCategory(null);
             } else
-                throw new NoFilterWithNameException();
+                throw new ProductsController.NoFilterWithNameException();
         } else {
             for (Filter filter : userVariables.getAllFiltersOffs()) {
                 if (filter.getName().equalsIgnoreCase(name)) {
@@ -129,7 +171,7 @@ public class OffController extends ProductsController {
                 }
 
             }
-            throw new NoFilterWithNameException();
+            throw new ProductsController.NoFilterWithNameException();
         }
 
     }
@@ -166,13 +208,18 @@ public class OffController extends ProductsController {
         return result;
     }
 @Override
-    public void setCategoryFilter(String name) throws NoCategoryWithName {
+    public void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName {
 
         for (Category category : Category.getAllCategories()) {
             if(category.getName().equalsIgnoreCase(name)){
                 userVariables.setFilterOffsCategory(category);}
         }
-        throw new NoCategoryWithName();
+        throw new ProductsController.NoCategoryWithName();
+    }
+
+    @Override
+    public Set<String> getAvailableSorts() {
+        return sortMethods.keySet();
     }
 
     private void getInSaleCategories(ArrayList<Product> products,Category category){

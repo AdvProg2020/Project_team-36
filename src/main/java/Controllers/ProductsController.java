@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ProductsController {
+public class ProductsController implements ObjectController {
     private GlobalVariables userVariables;
     protected HashMap<String, Method> sortMethods;
     protected HashMap<String, Method> optionalFilterMethods;
@@ -290,11 +290,11 @@ public class ProductsController {
         if (userVariables.getLoggedInUser() == null) {
             throw new EntryController.NotLoggedInException();
         }
-        if(!(userVariables.getLoggedInUser() instanceof Customer)){
-            new Request(new Comment(userVariables.getLoggedInUser(),userVariables.getProduct(),title,content,false));}
-        else{
-            Boolean hasBought = userVariables.getProduct().isThereBuyer((Customer)userVariables.getLoggedInUser());
-            new Request(new Comment(userVariables.getLoggedInUser(),userVariables.getProduct(),title,content,hasBought));
+        if (!(userVariables.getLoggedInUser() instanceof Customer)) {
+            new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, false));
+        } else {
+            Boolean hasBought = userVariables.getProduct().isThereBuyer((Customer) userVariables.getLoggedInUser());
+            new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, hasBought));
 
         }
     }
