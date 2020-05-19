@@ -28,7 +28,6 @@ public class PersonalInfoMenu extends Menu {
                 logoutChangeMenu();
             else if (input.matches("edit\\s+(.+)")) {
                 Matcher matcher = getMatcher(input, "edit\\s+(.+)");
-                System.out.println(matcher.matches());
                 matcher.matches();
                 try {
                     getNewQuality(matcher.group(1));
@@ -45,6 +44,7 @@ public class PersonalInfoMenu extends Menu {
 
     private void getNewQuality(String type) throws UserController.NoFieldWithThisType {
         String result;
+        System.out.println("Enter edited format:");
         if (type.equalsIgnoreCase("email")) {
             while (!(result = scanner.nextLine().trim()).matches(".+@.+\\..*|back")) {
                 System.out.println("wrong format!");
