@@ -86,7 +86,7 @@ public class NewProductController {
         setProductionDate();
         Product product = new Product(name,company,category,fieldsOfCategory,information,productField,productionDate);
         productField.setMainProductId(product.getProductId());
-        new Request(product);
+        new Request(product,Status.TO_BE_ADDED);
     }
 
     public static class InvalidCategoryName extends Exception{

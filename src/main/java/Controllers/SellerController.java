@@ -84,7 +84,7 @@ public class SellerController extends UserController{
 
     public void sendAddSellerToProductRequest(long price, int supply, Product product){
         Seller seller = ((Seller)userVariables.getLoggedInUser());
-        new Request(new ProductField(price,seller,supply,product.getProductId()));
+        new Request(new ProductField(price,seller,supply,product.getProductId()),Status.TO_BE_ADDED);
     }
 
     public ArrayList<Category> getAllCategories(){
@@ -244,7 +244,7 @@ public class SellerController extends UserController{
     }
 
     public void sendEditOffRequest(Sale off){
-        new Request(off);
+        new Request(off,Status.TO_BE_EDITED);
     }
 
     private void writeOffFieldsSetters() {

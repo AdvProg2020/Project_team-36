@@ -11,10 +11,10 @@ public class Request implements Packable {
     private Status status;
     private static ArrayList<Request> allRequests = new ArrayList<>();
 
-    public Request(Pendable pendable){
+    public Request(Pendable pendable, Status status){
         this.requestId = getRandomId();
         this.pendableRequest = pendable;
-        this.status = TO_BE_CONFIRMED;
+        this.status = status;
         allRequests.add(this);
     }
 
@@ -59,15 +59,24 @@ public class Request implements Packable {
 
     @Override
     public String toString() {
-        return "  requestId: " + requestId +
-                "\n  this is a request for a new" + pendableRequest.getPendingRequestType() +
-                '\n' + pendableRequest;
+        if(status.equals(TO_BE_ADDED)||status.equals(TO_BE_CONFIRMED)){
+            return "  requestId: " + requestId +
+                    "\n  this is a request for a new " + pendableRequest.getPendingRequestType() + " to be added." +
+                    '\n' + pendableRequest;
+        }else{
+            return "  requestId: " + requestId +
+                    "\n  this is a request to edit a " + pendableRequest.getPendingRequestType() +
+                    '\n' + pendableRequest;
+        }
     }
 
     public static void denyRequest(int id){
         Request toBeDeclined = getRequestWithId(id);
         allRequests.remove(toBeDeclined);
         Pendable pendable = toBeDeclined.getPendableRequest();
+        if(pendable.getPendingRequestType().equals("seller account")){
+            User.removeUsername(((Seller)pendable).getUsername());
+        }
         pendable = null;
         toBeDeclined = null;
     }

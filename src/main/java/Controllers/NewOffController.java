@@ -57,7 +57,7 @@ public class NewOffController {
     }
 
     public void sendNewOffRequest(){
-        new Request(new Sale(seller,productsInSale,startTime,endTime,salePercent));
+        new Request(new Sale(seller,productsInSale,startTime,endTime,salePercent),Status.TO_BE_ADDED);
     }
 
     public static class InvalidProductIdException extends Exception {
