@@ -69,7 +69,7 @@ public class NewProductController {
     }
 
     public void setProductField(long price, int supply) {
-        this.productField = new ProductField(price,seller,supply,null);
+        this.productField = new ProductField(price,seller,supply,0);
     }
 
     public void setProductionDate() {
@@ -84,7 +84,9 @@ public class NewProductController {
 
     public void sendNewProductRequest(){
         setProductionDate();
-        new Request(new Product(name,company,category,fieldsOfCategory,information,productField,productionDate));
+        Product product = new Product(name,company,category,fieldsOfCategory,information,productField,productionDate);
+        productField.setMainProductId(product.getProductId());
+        new Request(product);
     }
 
     public static class InvalidCategoryName extends Exception{

@@ -1,6 +1,6 @@
 package Models;
 
-import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -21,6 +21,37 @@ public class Product implements Pendable {
     private HashSet<Customer> allBuyers;
     private static int allProductsMade=0;
     private int seenNumber;
+    private String editedField;
+
+    public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
+                   String information, ProductField productField, Date productionDate) {
+        this.productFields = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>();
+        this.allBuyers = new HashSet<>();
+        this.allComments = new ArrayList<>();
+        this.allScore = new ArrayList<>();
+        this.productId = (allProductsMade+=1);
+        this.name = name;
+        this.company = company;
+        this.category = category;
+        this.fieldsOfCategory = fieldsOfCategory;
+        this.information = information;
+        this.productFields.add(productField);
+        this.productionDate = productionDate;
+    }
+
+    public Product(Product product, ProductField productField) {
+        this.productFields = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>();
+        this.productId = product.getProductId();
+        this.name = product.getName();
+        this.company = product.getCompany();
+        this.category = product.getCategory();
+        this.productFields.add(productField);
+        this.fieldsOfCategory = product.getFieldsOfCategory();
+        this.information = product.getInformation();
+
+    }
 
     public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory, String information, Date productionDate, int seenNumber) {
         this.productId = productId;
@@ -36,22 +67,7 @@ public class Product implements Pendable {
         this.allScore = new ArrayList<>();
     }
 
-    public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
-                   String information, Date productionDate) {
-        this.productFields = new ArrayList<>();
-        this.fieldsOfCategory = new ArrayList<>();
-        this.allBuyers = new HashSet<>();
-        this.allComments = new ArrayList<>();
-        this.allScore = new ArrayList<>();
-        this.productId = productId;
-        this.name = name;
-        this.company = company;
-        this.category = category;
-        this.fieldsOfCategory = fieldsOfCategory;
-        this.information = information;
-        this.productionDate = productionDate;
-    }
-
+    // TODO: 5/18/2020 product constructor nadare:))) va inke id hash ro chejuri generate krdin???!!!
     public int getProductId() {
         return productId;
     }
@@ -80,6 +96,30 @@ public class Product implements Pendable {
                 return product;
         }
         return null;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setFieldsOfCategory(ArrayList<Field> fieldsOfCategory) {
+        this.fieldsOfCategory = fieldsOfCategory;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public void setProductFields(ArrayList<ProductField> productFields) {
+        this.productFields = productFields;
     }
 
     public void addBuyer(Customer customer){
@@ -134,6 +174,16 @@ public class Product implements Pendable {
     public static ArrayList<Product> getAllProducts() {
         updateAllProducts();
         return allProducts;
+    }
+
+    public static Product getProductWithId(int productId){
+        updateAllProducts();
+        for (Product product : allProducts) {
+            if(product.getProductId()==productId){
+                return product;
+            }
+        }
+        return null;
     }
 
     public static ArrayList<Product> getAllInSaleProducts() {
@@ -289,25 +339,6 @@ public class Product implements Pendable {
         return false;
     }
 
-    public static void updateAllProducts(){
-        ArrayList<ProductField> tempProductField = new ArrayList<>();
-        ArrayList<Product> tempProduct = new ArrayList<>();
-        for (Product product : allProducts) {
-            for (ProductField field : product.getProductFields()) {
-                if (field.getSeller().getStatus().equals(Status.DELETED))
-                    tempProductField.add(field);
-            }
-            if (tempProductField.size() == product.getProductFields().size())
-                tempProduct.add(product);
-            product.getProductFields().removeAll(tempProductField);
-            tempProductField.clear();
-        }
-        for (Product product : tempProduct) {
-            product.getCategory().removeProduct(product);
-        }
-        allProducts.removeAll(tempProduct);
-    }
-
     public boolean isThereSeller(Seller seller){
         for (ProductField field : productFields) {
             if(seller.equals(field.getSeller()))
@@ -315,6 +346,7 @@ public class Product implements Pendable {
         }
         return false;
     }
+
 
     public static void removeProduct(Product product){
         for (ProductField productField : product.getProductFields()) {
@@ -358,6 +390,10 @@ public class Product implements Pendable {
         return null;
     }
 
+    public void addProductField(ProductField productField){
+        productFields.add(productField);
+    }
+
     public boolean isThereBuyer(Customer customer) {
         this.updateBuyers();
         for (Customer buyer : allBuyers) {
@@ -367,9 +403,59 @@ public class Product implements Pendable {
         return false;
     }
 
+    public void addComment(Comment comment){
+        allComments.add(comment);
+    }
+
+    public String getEditedField() {
+        return editedField;
+    }
+
+    public void setEditedField(String editedField) {
+        this.editedField = editedField;
+    }
+
+    @Override
+    public void acceptAddRequest() {
+        category.addProduct(this);
+        productFields.get(0).getSeller().addProduct(this);
+        allProducts.add(this);
+    }
+
+    @Override
+    public void acceptEditRequest() {
+        updateAllProducts();
+        if(!Product.isThereProductWithId(this.getProductId())){
+            return;
+        }
+        Product mainProduct = Product.getProductWithId(this.getProductId());
+        switch (this.editedField) {
+            case "name":
+                mainProduct.setName(this.getName());
+                break;
+            case "company":
+                mainProduct.setCompany(this.getCompany());
+                break;
+            case "category":
+                mainProduct.setCategory(this.getCategory());
+                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
+                break;
+            case "fieldsOfCategory":
+                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
+                break;
+            case "information":
+                mainProduct.setInformation(this.getInformation());
+                break;
+        }
+    }
+
     @Override
     public String getPendingRequestType() {
         return "product";
+    }
+
+    public static void addToAllProducts(Product product){
+        allProducts.add(product);
     }
 
     public void updateComments(){
@@ -380,11 +466,6 @@ public class Product implements Pendable {
         }
         this.allComments.removeAll(temp);
     }
-
-    public static void addToAllProducts(Product product){
-        allProducts.add(product);
-    }
-
 
     public static void updateAllProducts(){
         ArrayList<ProductField> tempProductField = new ArrayList<>();
@@ -416,6 +497,4 @@ public class Product implements Pendable {
         }
         allBuyers.removeAll(toBeRemoved);
     }
-
-
 }

@@ -1,33 +1,26 @@
 package Controllers;
 
-import Models.Category;
-import Models.Customer;
-import Exceptions.NoLoggedInSellerException;
-import Exceptions.NoLoggedInUserException;
-import Exceptions.NoProductForThisSellerException;
-import Exceptions.NoProductWithThisIdException;
-import Models.Product;
-import Models.Seller;
+import Models.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import Models.User;
+import java.util.*;
 
-public class SellerController extends UserController {
+public class SellerController extends UserController{
 
     private static HashMap<String, String> OffFieldsSetters = new HashMap<>();
     private static ArrayList<Product> productsToBeEditedForOff = new ArrayList<>();
 
-
     public SellerController(GlobalVariables userVariables) {
         super(userVariables);
         writeOffFieldsSetters();
+
+    }
+
+    public Seller getLoggedInSeller(){
+        return (Seller)userVariables.getLoggedInUser();
     }
 
     public long getLoggedInSellerBalance() {
@@ -50,16 +43,26 @@ public class SellerController extends UserController {
         Product.getProduct(productId).removeSeller(seller);
     }
 
-    public void setCompanyInfo(String companyInfo)throws NoLoggedInUserException{
-        ((Seller)userVariables.getLoggedInUser()).setCompanyInfo(companyInfo);
-    }
-
     public Category getMainCategory(){
         return Category.getMainCategory();
     }
 
     public ArrayList<Product> getSellerProducts(){
-        return ((Seller)userVariables.getLoggedInUser()).getAllProducts();
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        return seller.getAllProducts();
+    }
+
+    public Product getSellerProductWithId(int id) throws NoProductForSeller {
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        if(seller.isThereProduct(id)){
+            return Product.getProduct(id);
+        } else {
+            throw new NoProductForSeller();
+        }
+    }
+
+    public ArrayList<Product> getAllProducts(){
+        return Product.getAllProducts();
     }
 
     public Product getProductWithId(int id) throws InvalidProductIdException {
@@ -70,22 +73,18 @@ public class SellerController extends UserController {
         }
     }
 
-    public ArrayList<Product> getAllProducts(){
-        return Product.getAllProducts();
-    }
-
-
     public StringBuilder getSellerProductDetail(Product product){
         return product.printSellerProductDetails((Seller)userVariables.getLoggedInUser());
     }
 
     public HashSet<Customer> getAllBuyers(Product product){
-        return product.getProductFieldBySeller((Seller)userVariables.getLoggedInUser()).getAllBuyers();
+        Seller seller = ((Seller)userVariables.getLoggedInUser());
+        return product.getProductFieldBySeller(seller).getAllBuyers();
     }
 
     public void sendAddSellerToProductRequest(long price, int supply, Product product){
         Seller seller = ((Seller)userVariables.getLoggedInUser());
-        new Request(new ProductField(price,seller,supply,product));
+        new Request(new ProductField(price,seller,supply,product.getProductId()),Status.TO_BE_ADDED);
     }
 
     public ArrayList<Category> getAllCategories(){
@@ -116,16 +115,16 @@ public class SellerController extends UserController {
         return new Sale(off);
     }
 
-    public Method getFieldEditor(String chosenField,SellerController sellerController) throws NoSuchMethodException{
+    public Method getOffFieldEditor(String chosenField,SellerController sellerController) throws NoSuchMethodException{
         for (String regex : OffFieldsSetters.keySet()) {
             if (chosenField.matches(regex)) {
-                return sellerController.getClass().getMethod(OffFieldsSetters.get(regex),String.class,Discount.class);
+                return sellerController.getClass().getMethod(OffFieldsSetters.get(regex),String.class,Sale.class);
             }
         }
         throw new NoSuchMethodException();
     }
 
-    public void invokeEditor(String newValue,Sale off, Method editor) throws IllegalAccessException, InvocationTargetException {
+    public void invokeOffEditor(String newValue,Sale off, Method editor) throws IllegalAccessException, InvocationTargetException {
         editor.invoke(this,newValue,off);
     }
 
@@ -142,6 +141,7 @@ public class SellerController extends UserController {
             throw new StartDateAfterEndDateException();
         } else {
             off.setStartTime(startDate);
+            off.setEditedField("startTime");
         }
     }
 
@@ -157,7 +157,8 @@ public class SellerController extends UserController {
         if (endDate.before(off.getStartTime())) {
             throw new EndDateBeforeStartDateException();
         } else {
-            off.setStartTime(endDate);
+            off.setEndTime(endDate);
+            off.setEditedField("endTime");
         }
     }
 
@@ -166,6 +167,7 @@ public class SellerController extends UserController {
             int percentage = Integer.parseInt(newPercentage);
             if (percentage < 100 && percentage > 0) {
                 off.setSalePercent(percentage * 0.01);
+                off.setEditedField("salePercent");
             } else {
                 throw new InvalidRangeException();
             }
@@ -238,10 +240,16 @@ public class SellerController extends UserController {
 
     public void addProductsToOff(Sale off){
         off.addProducts(productsToBeEditedForOff);
+        off.setEditedField("productsInSale");
     }
 
     public void removeProductsFromOff(Sale off){
         off.removeProducts(productsToBeEditedForOff);
+        off.setEditedField("productsInSale");
+    }
+
+    public void sendEditOffRequest(Sale off){
+        new Request(off,Status.TO_BE_EDITED);
     }
 
     private void writeOffFieldsSetters() {
@@ -250,6 +258,8 @@ public class SellerController extends UserController {
         OffFieldsSetters.put("off\\s+percent", "editOffPercent");
         OffFieldsSetters.put("products\\s+included", "editOffProductsIncluded");
     }
+
+
 
     public static class InvalidDateFormatException extends Exception{
     }

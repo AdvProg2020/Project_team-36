@@ -56,6 +56,7 @@ public class SellerMenu extends Menu {
 
             @Override
             public void execute() {
+                System.out.println("All Categories:");
                 ManageCategoriesMenu.printCategoryTree(sellerController.getMainCategory());
             }
         };
