@@ -101,7 +101,7 @@ public abstract class User{
         return allUsers;
     }
 
-    public static boolean isThereUsername(String username){
+    public static boolean  isThereUsername(String username){
         for (User user : allUsers) {
             if(user.getUsername().equals(username))
                 return true;

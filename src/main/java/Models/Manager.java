@@ -41,4 +41,13 @@ public class Manager extends User  {
                 "\nemail: " + email +
                 "\npassword: " + password;
     }
+
+    public static void updateManagers(){
+        ArrayList<Manager> toBeRemoved =new ArrayList<>();
+        for (Manager manager : allManagers) {
+            if(manager.getStatus().equals(Status.DELETED))
+                toBeRemoved.add(manager);
+        }
+        allManagers.removeAll(toBeRemoved);
+    }
 }

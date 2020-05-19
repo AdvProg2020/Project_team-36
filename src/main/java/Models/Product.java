@@ -1,6 +1,5 @@
 package Models;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -134,7 +133,7 @@ public class Product implements Pendable {
 
     public boolean isProductInSale() {
         for (ProductField field : productFields) {
-            if (field.getSale() != null)
+            if (field.getSale() != null&&field.getSale().isSaleAvailable())
                 return true;
         }
         return false;
@@ -261,24 +260,14 @@ public class Product implements Pendable {
         return false;
     }
 
-    public static void updateAllProducts(){
-        ArrayList<ProductField> tempProductField = new ArrayList<>();
-        ArrayList<Product> tempProduct = new ArrayList<>();
-        for (Product product : allProducts) {
-            for (ProductField field : product.getProductFields()) {
-                if (field.getSeller().getStatus().equals(Status.DELETED))
-                    tempProductField.add(field);
-            }
-            if (tempProductField.size() == product.getProductFields().size())
-                tempProduct.add(product);
-            product.getProductFields().removeAll(tempProductField);
-            tempProductField.clear();
+    public boolean isThereSeller(Seller seller){
+        for (ProductField field : productFields) {
+            if(seller.equals(field.getSeller()))
+                return true;
         }
-        for (Product product : tempProduct) {
-            product.getCategory().removeProduct(product);
-        }
-        allProducts.removeAll(tempProduct);
+        return false;
     }
+
 
     public static void removeProduct(Product product){
         for (ProductField productField : product.getProductFields()) {
@@ -309,6 +298,7 @@ public class Product implements Pendable {
     }
 
     public boolean isThereBuyer(Customer customer) {
+        this.updateBuyers();
         for (Customer buyer : allBuyers) {
             if(buyer.equals(customer))
                 return true;
@@ -328,6 +318,37 @@ public class Product implements Pendable {
                 temp.add(comment);
         }
         this.allComments.removeAll(temp);
+    }
+
+    public static void updateAllProducts(){
+        ArrayList<ProductField> tempProductField = new ArrayList<>();
+        ArrayList<Product> tempProduct = new ArrayList<>();
+        for (Product product : allProducts) {
+            for (ProductField field : product.getProductFields()) {
+                if (field.getSeller().getStatus().equals(Status.DELETED))
+                    tempProductField.add(field);
+                field.updateProductField();
+            }
+            if (tempProductField.size() == product.getProductFields().size())
+                tempProduct.add(product);
+            product.getProductFields().removeAll(tempProductField);
+            tempProductField.clear();
+            product.updateBuyers();
+            product.updateComments();
+        }
+        for (Product product : tempProduct) {
+            product.getCategory().removeProduct(product);
+        }
+        allProducts.removeAll(tempProduct);
+    }
+
+    public void updateBuyers(){
+        HashSet<Customer> toBeRemoved = new HashSet<>();
+        for (Customer buyer : allBuyers) {
+            if(buyer.getStatus().equals(Status.DELETED))
+                toBeRemoved.add(buyer);
+        }
+        allBuyers.removeAll(toBeRemoved);
     }
 
 

@@ -57,5 +57,29 @@ public class Sale implements Pendable {
         return "sale";
     }
 
-    //-..-
+    public static void updateSales(){
+        ArrayList<Sale> toBeRemoved = new ArrayList<>();
+        ArrayList<Product> removingProducts= new ArrayList<>();
+        for (Sale sale : allSales) {
+            if(sale.getEndTime().before(new Date()))
+                toBeRemoved.add(sale);
+            else if(sale.seller.getStatus().equals(Status.DELETED))
+                toBeRemoved.add(sale);
+            else{
+                for (Product product : sale.productsInSale) {
+                    if(!Product.isThereProductWithId(product.getProductId())){
+                        removingProducts.add(product);
+                    }
+                    else if(!product.isThereSeller(sale.seller)){
+                        removingProducts.add(product);
+                    }
+                }
+                if(removingProducts.size()==sale.productsInSale.size())
+                    toBeRemoved.add(sale);
+                sale.productsInSale.removeAll(removingProducts);
+                removingProducts.clear();
+            }
+        }
+        allSales.removeAll(toBeRemoved);
+    }
 }

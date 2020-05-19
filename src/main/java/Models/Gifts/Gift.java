@@ -58,6 +58,15 @@ public class Gift {
         action.action(waitingLog);
     }
 
+    public static void updateGifts(){
+        ArrayList<Gift> toBeRemoved = new ArrayList<>();
+        for (Gift gift : allGifts) {
+            if(!gift.getEvent().checkDate()){
+                toBeRemoved.add(gift);
+            }
+        }
+        allGifts.removeAll(toBeRemoved);
+    }
 
 
     @Override
