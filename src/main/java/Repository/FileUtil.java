@@ -3,6 +3,8 @@ package Repository;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileUtil {
     public static void write(String address, String data){
@@ -18,7 +20,14 @@ public class FileUtil {
 
     public static String read(String address){
         String output="";
-        return output;
+        try {
+            output = new String(Files.readAllBytes(Paths.get(address)));
+            return output;
+        }catch (IOException e){
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static String generateAddress(String className, int id){
