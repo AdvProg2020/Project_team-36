@@ -128,4 +128,10 @@ public class SelectedItem {
     }
 
 
+    public SelectedItem(Product product, CartTag tag) {
+        this.product = product;
+        this.tag = tag;
+        this.sellers = new ArrayList<>();
+        this.countFromEachSeller = new ArrayList<>();
+    }
 }
