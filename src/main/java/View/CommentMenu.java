@@ -28,6 +28,7 @@ public class CommentMenu extends Menu {
         else {
             for (Comment comment : allComments) {
                 System.out.println("User: " + comment.getUser().getUsername());
+                System.out.println("Title: "+comment.getTitle());
                 System.out.println(comment.getComment());
                 System.out.println("*************");
             }

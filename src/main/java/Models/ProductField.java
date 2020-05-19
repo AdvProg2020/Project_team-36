@@ -87,4 +87,15 @@ public class ProductField implements Pendable {
             result+="\nSupply: "+supply;
         return result;
     }
+
+    public void updateProductField(){
+        HashSet<Customer> toBeRemoved = new HashSet<>();
+        for (Customer buyer : allBuyers) {
+            if(buyer.getStatus().equals(Status.DELETED))
+                toBeRemoved.add(buyer);
+        }
+        allBuyers.removeAll(toBeRemoved);
+        if(sale.getEndTime().before(new Date()))
+            sale = null;
+    }
 }

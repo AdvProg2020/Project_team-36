@@ -144,5 +144,14 @@ public class Seller extends User implements Pendable {
         allSellers.add(seller);
     }
 
+    public static void updateSellers(){
+        ArrayList<Seller> toBeRemoved = new ArrayList<>();
+        for (Seller seller : allSellers) {
+            if(seller.getStatus().equals(Status.DELETED))
+                toBeRemoved.add(seller);
+        }
+        allSellers.removeAll(toBeRemoved);
+    }
+
     //-..-
 }

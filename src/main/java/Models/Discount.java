@@ -151,15 +151,15 @@ public class Discount {
     }
 
     public static void updateDiscounts(){
-        ArrayList<Customer> temp = new ArrayList<>();
+        ArrayList<Customer> toBeRemoved = new ArrayList<>();
         for (Discount discount : allDiscounts) {
             for (Customer customer : discount.customersIncluded) {
                 if(customer.getStatus().equals(Status.DELETED)){
-                    temp.add(customer);
+                    toBeRemoved.add(customer);
                 }
             }
-            discount.customersIncluded.removeAll(temp);
-            temp.clear();
+            discount.customersIncluded.removeAll(toBeRemoved);
+            toBeRemoved.clear();
         }
     }
 

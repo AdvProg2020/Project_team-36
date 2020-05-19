@@ -296,6 +296,38 @@ public class ManagerController extends UserController {
 
     }
 
+    public ArrayList<Request> filterRequests(String input){
+        ArrayList<Request> requests = new ArrayList<>();
+        requests.addAll(Request.getAllRequests());
+        ArrayList<Request> toBeReturned= new ArrayList<>();
+        if(input.matches("seller")){
+            for (Request request : requests) {
+                if(request.getPendableRequest() instanceof Seller)
+                    toBeReturned.add(request);
+            }
+        }
+        else if(input.matches("product")){
+            for (Request request : requests) {
+                if(request.getPendableRequest() instanceof Product)
+                    toBeReturned.add(request);
+            }
+        }
+        else if(input.matches("seller for product")){
+            for (Request request : requests) {
+                if(request.getPendableRequest() instanceof ProductField)
+                    toBeReturned.add(request);
+            }
+        }
+        else if(input.matches("comment")){
+            for (Request request : requests) {
+                if(request.getPendableRequest() instanceof Comment)
+                    toBeReturned.add(request);
+            }
+        }
+        return toBeReturned;
+
+    }
+
     public HashMap<Integer,String> getGiftEventsName(){
         return this.giftEvents;
     }
