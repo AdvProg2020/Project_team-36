@@ -18,22 +18,6 @@ public class Seller extends User implements Pendable {
         this.allProducts = new ArrayList<>();
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public String getCompanyInfo() {
-        return companyInfo;
-    }
-
-    public long getCredit() {
-        return credit;
-    }
-
-    public void setCredit(long credit) {
-        this.credit = credit;
-    }
-
     @Override
     public String getType() {
         return "seller";
@@ -114,12 +98,20 @@ public class Seller extends User implements Pendable {
         allProducts.remove(product);
     }
 
-    public boolean isThereProduct(int productId) {
+    public void addProduct(Product product){
+        allProducts.add(product);
+    }
+
+    public boolean isThereProduct(int productId){
         for (Product product : allProducts) {
             if (product.getProductId() == productId)
                 return true;
         }
         return false;
+    }
+
+    public void addSale(Sale sale){
+        allSales.add(sale);
     }
 
     @Override
@@ -161,6 +153,15 @@ public class Seller extends User implements Pendable {
         allSellers.add(seller);
     }
 
+    @Override
+    public void acceptAddRequest() {
+        User.addNewUser(this);
+        allSellers.add(this);
+    }
+
+    @Override
+    public void acceptEditRequest() { }
+
     public static void updateSellers(){
         ArrayList<Seller> toBeRemoved = new ArrayList<>();
         for (Seller seller : allSellers) {
@@ -169,6 +170,4 @@ public class Seller extends User implements Pendable {
         }
         allSellers.removeAll(toBeRemoved);
     }
-
-    //-..-
 }

@@ -10,7 +10,7 @@ public class Comment implements Pendable {
     private Enum<Status> ConfirmationStatus;
     private boolean hasBought;
 
-    public Comment(User user, Product product, String title, String comment, Enum<Status> confirmationStatus, boolean hasBought) {
+    public Comment(User user, Product product,String title, String comment,boolean hasBought) {
         this.user = user;
         this.product = product;
         this.title = title;
@@ -23,12 +23,12 @@ public class Comment implements Pendable {
         return user;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
     public String getTitle() {
         return title;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     public String getComment() {
@@ -56,5 +56,14 @@ public class Comment implements Pendable {
         this.comment = comment;
         ConfirmationStatus = confirmationStatus;
         this.hasBought = hasBought;
+    }
+
+    @Override
+    public void acceptAddRequest() {
+        product.addComment(this);
+    }
+
+    @Override
+    public void acceptEditRequest() {
     }
 }
