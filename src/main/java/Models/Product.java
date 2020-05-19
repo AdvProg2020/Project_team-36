@@ -145,6 +145,16 @@ public class Product implements Pendable, Packable {
         return allProducts;
     }
 
+    public static Product getProductWithId(int productId){
+        updateAllProducts();
+        for (Product product : allProducts) {
+            if(product.getProductId()==productId){
+                return product;
+            }
+        }
+        return null;
+    }
+
     public static ArrayList<Product> getAllInSaleProducts() {
         updateAllProducts();
         ArrayList<Product> result = new ArrayList<>();
@@ -367,6 +377,10 @@ public class Product implements Pendable, Packable {
         return null;
     }
 
+    public void addProductField(ProductField productField){
+        productFields.add(productField);
+    }
+
     public boolean isThereBuyer(Customer customer) {
         for (ProductField productField : this.productFields) {
             for (Customer buyer : productField.getAllBuyers()) {
@@ -375,6 +389,22 @@ public class Product implements Pendable, Packable {
             }
         }
         return false;
+    }
+
+    public void addComment(Comment comment){
+        allComments.add(comment);
+    }
+
+    @Override
+    public void acceptAddRequest() {
+        category.addProduct(this);
+        productFields.get(0).getSeller().addProduct(this);
+        allProducts.add(this);
+    }
+
+    @Override
+    public void acceptEditRequest() {
+
     }
 
     @Override

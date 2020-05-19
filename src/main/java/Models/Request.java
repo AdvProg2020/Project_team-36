@@ -82,7 +82,11 @@ public class Request implements Packable {
     }
 
     public void acceptRequest() {
-
+        if(status.equals(TO_BE_EDITED)){
+            pendableRequest.acceptEditRequest();
+        } else if (status.equals(TO_BE_ADDED)){
+            pendableRequest.acceptAddRequest();
+        }
     }
 
     public Data pack(Object object) {

@@ -101,9 +101,25 @@ public class ProductField implements Pendable {
         this.supply +=amount;
     }
 
+
+
     @Override
     public String getPendingRequestType() {
         return "seller for a product";
+    }
+
+    @Override
+    public void acceptAddRequest() {
+        Product.updateAllProducts();
+        if(Product.isThereProductWithId(mainProductId)){
+            Product.getProductWithId(mainProductId).addProductField(this);
+            seller.addProduct(Product.getProductWithId(mainProductId));
+        }
+    }
+
+    @Override
+    public void acceptEditRequest() {
+
     }
 
     //-..-

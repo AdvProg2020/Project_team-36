@@ -39,9 +39,20 @@ public class Comment implements Pendable {
         return hasBought;
     }
 
+
+
     @Override
     public String getPendingRequestType() {
         return "comment";
+    }
+
+    @Override
+    public void acceptAddRequest() {
+        product.addComment(this);
+    }
+
+    @Override
+    public void acceptEditRequest() {
     }
 
     //-..-

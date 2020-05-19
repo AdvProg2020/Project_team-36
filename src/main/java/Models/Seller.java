@@ -99,6 +99,10 @@ public class Seller extends User implements Pendable,Packable {
         allProducts.remove(product);
     }
 
+    public void addProduct(Product product){
+        allProducts.add(product);
+    }
+
     public boolean isThereProduct(int productId){
         for (Product product : allProducts) {
             if(product.getProductId()==productId)
@@ -116,6 +120,16 @@ public class Seller extends User implements Pendable,Packable {
                 "    phoneNumber: " + phoneNumber + '\n' +
                 "    company: " + companyName + '\n'
                 ;
+    }
+
+    @Override
+    public void acceptAddRequest() {
+
+    }
+
+    @Override
+    public void acceptEditRequest() {
+
     }
 
     //-..-
