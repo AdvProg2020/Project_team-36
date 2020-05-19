@@ -76,7 +76,6 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
-                Manager.setMainManager((Manager) newUser);
             }
         }
         userVariables.setLoggedInUser(newUser);
