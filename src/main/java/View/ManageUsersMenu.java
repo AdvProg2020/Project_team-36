@@ -28,7 +28,7 @@ public class ManageUsersMenu extends Menu {
     public void execute() {
         int number =1;
         for (User user : managerController.getAllUsers()) {
-            System.out.println(number+") "+user.getUsername());
+            System.out.println(number+") "+user.getUsername()+"   "+user.getType());
             number+=1;
         }
         Matcher matcher;

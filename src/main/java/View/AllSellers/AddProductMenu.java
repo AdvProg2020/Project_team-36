@@ -3,6 +3,7 @@ package View.AllSellers;
 import Controllers.NewProductController;
 import Controllers.SellerController;
 import Models.*;
+import View.ManageCategoriesMenu;
 import View.Menu;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class AddProductMenu extends Menu {
     public void execute() {
         System.out.println("do you want to sell a new product or a product which already exists? [new\\existing]");
         String choice = scanner.nextLine();
-        while (!((choice.equalsIgnoreCase("back"))||(choice.equalsIgnoreCase("help"))||
+        while (!((choice.equalsIgnoreCase("back")) || (choice.equalsIgnoreCase("help")) ||
                 (choice.equalsIgnoreCase("logout")))) {
             if (choice.equalsIgnoreCase("new")) {
                 addNewProduct().execute();
@@ -40,7 +41,7 @@ public class AddProductMenu extends Menu {
             this.parentMenu.execute();
         } else if (choice.equalsIgnoreCase("logout")) {
             logoutChangeMenu();
-        } else if(choice.equalsIgnoreCase("help")){
+        } else if (choice.equalsIgnoreCase("help")) {
             this.help();
             this.execute();
         }
@@ -122,14 +123,14 @@ public class AddProductMenu extends Menu {
 
     private void getCategoryFields(NewProductController newProduct) {
         for (Field field : newProduct.getNeededFields()) {
-            System.out.println("    " + field.getName() + ": ");
-            String value = scanner.nextLine();
-            if (value.equalsIgnoreCase("back")) {
-                this.parentMenu.execute();
-            } else if (value.equalsIgnoreCase("logout")) {
-                logoutChangeMenu();
-            }
             while (true) {
+                System.out.println("    " + field.getName() + ": ");
+                String value = scanner.nextLine();
+                if (value.equalsIgnoreCase("back")) {
+                    this.parentMenu.execute();
+                } else if (value.equalsIgnoreCase("logout")) {
+                    logoutChangeMenu();
+                }
                 try {
                     newProduct.setEachCategoryField(value, field);
                     break;
@@ -141,11 +142,8 @@ public class AddProductMenu extends Menu {
     }
 
     private void getCategory(NewProductController newProduct) {
-        int number = 1;
-        for (Category category : sellerController.getAllCategories()) {
-            System.out.println(number + ") " + category.getName());
-            number += 1;
-        }
+        System.out.println("All Categories:");
+        ManageCategoriesMenu.printCategoryTree(sellerController.getMainCategory());
         while (true) {
             try {
                 String category = scanner.nextLine();

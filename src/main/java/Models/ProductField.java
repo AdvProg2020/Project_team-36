@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class ProductField implements Pendable {
-    private Product mainProduct;
+    private int mainProductId;
     private Status status;
     private long price;
     private Sale sale;
@@ -13,12 +13,21 @@ public class ProductField implements Pendable {
     private int supply;
     private HashSet<Customer> allBuyers;
 
-    public ProductField(long price, Seller seller, int supply, Product mainProduct) {
+
+    public ProductField(long price, Seller seller, int supply, int mainProductId) {
+        this.allBuyers = new HashSet<>();
         this.price = price;
         this.seller = seller;
         this.supply = supply;
-        this.mainProduct = mainProduct;
+        this.mainProductId = mainProductId ;
         status = Status.TO_BE_CONFIRMED;
+    }
+
+    public ProductField(ProductField productField) {
+        this.mainProductId = productField.mainProductId;
+        this.price = productField.price;
+        this.seller = productField.seller;
+        this.supply = productField.supply;
     }
 
     public Status getStatus() {
@@ -31,6 +40,18 @@ public class ProductField implements Pendable {
         }else{
             return price - (long) (price*sale.getSalePercent());
         }
+    }
+
+    public void setMainProductId(int mainProductId) {
+        this.mainProductId = mainProductId;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public void setSupply(int supply) {
+        this.supply = supply;
     }
 
     public long getOfficialPrice(){

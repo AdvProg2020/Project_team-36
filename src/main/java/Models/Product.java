@@ -38,6 +38,19 @@ public class Product implements Pendable, Packable {
         this.productionDate = productionDate;
     }
 
+    public Product(Product product, ProductField productField) {
+        this.productFields = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>();
+        this.productId = product.productId;
+        this.name = product.name;
+        this.company = product.company;
+        this.category = product.category;
+        this.productFields.add(productField);
+        this.fieldsOfCategory = product.fieldsOfCategory;
+        this.information = product.information;
+
+    }
+
     public int getProductId() {
         return productId;
     }
@@ -57,6 +70,30 @@ public class Product implements Pendable, Packable {
                 return product;
         }
         return null;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setFieldsOfCategory(ArrayList<Field> fieldsOfCategory) {
+        this.fieldsOfCategory = fieldsOfCategory;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public void setProductFields(ArrayList<ProductField> productFields) {
+        this.productFields = productFields;
     }
 
     public long getHighestCurrentPrice() {

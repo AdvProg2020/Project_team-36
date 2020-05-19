@@ -61,6 +61,12 @@ public class ViewOffsMenu extends Menu {
                 chosenMenu.execute();
             }
             chosenMenu=null;
+            number=1;
+            for (Sale off : sellerController.getAllSellerSales()) {
+                System.out.println(number + ") " + off.getOffId() + "  " + (off.getSalePercent()*100)+"%");
+                number += 1;
+            }
+            System.out.println("choose the off and what you want to do with it :");
             input = scanner.nextLine().trim();
         }
         if (input.equalsIgnoreCase("back")) {
@@ -138,7 +144,7 @@ public class ViewOffsMenu extends Menu {
                         System.out.println("edit was done successfully");
                         return;
                     }
-                    Method editor = sellerController.getFieldEditor(chosenField, sellerController);
+                    Method editor = sellerController.getOffFieldEditor(chosenField, sellerController);
                     System.out.println("enter your desired new value :");
                     while (true) {
                         try {
@@ -148,9 +154,10 @@ public class ViewOffsMenu extends Menu {
                             } else if (newValue.equalsIgnoreCase("logout")){
                                 logoutChangeMenu();
                             }
-                            sellerController.invokeEditor(newValue, off, editor);
-                            System.out.println("edit was done successfully");
-                            return;
+                            sellerController.invokeOffEditor(newValue, off, editor);
+                            sellerController.sendEditOffRequest(off);
+                            System.out.println("edit request was sent successfully");
+                            this.execute();
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {
@@ -177,8 +184,6 @@ public class ViewOffsMenu extends Menu {
 
         };
     }
-
-
 
     private void setStartDateForOff(NewOffController newOff) {
         String input;

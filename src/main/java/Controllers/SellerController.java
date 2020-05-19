@@ -6,20 +6,21 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class SellerController extends UserController{
 
     private static HashMap<String, String> OffFieldsSetters = new HashMap<>();
     private static ArrayList<Product> productsToBeEditedForOff = new ArrayList<>();
 
-
     public SellerController(GlobalVariables userVariables) {
         super(userVariables);
         writeOffFieldsSetters();
+
+    }
+
+    public Seller getLoggedInSeller(){
+        return (Seller)userVariables.getLoggedInUser();
     }
 
     public long getLoggedInSellerBalance() {
@@ -83,7 +84,7 @@ public class SellerController extends UserController{
 
     public void sendAddSellerToProductRequest(long price, int supply, Product product){
         Seller seller = ((Seller)userVariables.getLoggedInUser());
-        new Request(new ProductField(price,seller,supply,product));
+        new Request(new ProductField(price,seller,supply,product.getProductId()));
     }
 
     public ArrayList<Category> getAllCategories(){
@@ -114,16 +115,16 @@ public class SellerController extends UserController{
         return new Sale(off);
     }
 
-    public Method getFieldEditor(String chosenField,SellerController sellerController) throws NoSuchMethodException{
+    public Method getOffFieldEditor(String chosenField,SellerController sellerController) throws NoSuchMethodException{
         for (String regex : OffFieldsSetters.keySet()) {
             if (chosenField.matches(regex)) {
-                return sellerController.getClass().getMethod(OffFieldsSetters.get(regex),String.class,Discount.class);
+                return sellerController.getClass().getMethod(OffFieldsSetters.get(regex),String.class,Sale.class);
             }
         }
         throw new NoSuchMethodException();
     }
 
-    public void invokeEditor(String newValue,Sale off, Method editor) throws IllegalAccessException, InvocationTargetException {
+    public void invokeOffEditor(String newValue,Sale off, Method editor) throws IllegalAccessException, InvocationTargetException {
         editor.invoke(this,newValue,off);
     }
 
@@ -242,12 +243,18 @@ public class SellerController extends UserController{
         off.removeProducts(productsToBeEditedForOff);
     }
 
+    public void sendEditOffRequest(Sale off){
+        new Request(off);
+    }
+
     private void writeOffFieldsSetters() {
         OffFieldsSetters.put("start\\s+date", "editOffStartDate");
         OffFieldsSetters.put("end\\s+date", "editOffEndDate");
         OffFieldsSetters.put("off\\s+percent", "editOffPercent");
         OffFieldsSetters.put("products\\s+included", "editOffProductsIncluded");
     }
+
+
 
     public static class InvalidDateFormatException extends Exception{
     }
