@@ -37,6 +37,7 @@ public class EntryController extends UserController  {
         else if (User.isThereUsername(username))
             throw new InvalidUsernameException("there is a user with this username");
         else {
+            User.addUsername(username);
             createNewAccount(username, type);
         }
     }
@@ -52,7 +53,7 @@ public class EntryController extends UserController  {
     public void register(){
         User user = userVariables.getLoggedInUser();
         if(user instanceof Seller){
-            new Request((Seller) user);
+            new Request((Seller) user,Status.TO_BE_ADDED);
             return;
         }
         User.addNewUser(user);
@@ -81,7 +82,6 @@ public class EntryController extends UserController  {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);
-                Manager.setMainManager((Manager) newUser);
             }
         }
         userVariables.setLoggedInUser(newUser);

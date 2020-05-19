@@ -253,6 +253,7 @@ public class ManagerController extends UserController {
 
     public void deleteUser(User user) {
         user.setUserDeleted();
+        User.removeUsername(user.getUsername());
     }
 
     public ArrayList<Request> getAllRequests() {

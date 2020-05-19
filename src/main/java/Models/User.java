@@ -6,6 +6,7 @@ import static Models.Status.*;
 
 public abstract class User{
     private static ArrayList<User> allUsers = new ArrayList<>();
+    private static ArrayList<String> allUsernames = new ArrayList<>();
     protected int userId;
     protected String username;
     protected String firstname;
@@ -13,7 +14,7 @@ public abstract class User{
     protected String email;
     protected String phoneNumber;
     protected String password;
-    private static int totalUsersMade;
+    private static int totalUsersMade = 0;
     private Status status;
 
     public User(String username){
@@ -101,9 +102,18 @@ public abstract class User{
         return allUsers;
     }
 
-    public static boolean  isThereUsername(String username){
-        for (User user : allUsers) {
-            if(user.getUsername().equals(username))
+    public static void addUsername(String username){
+        allUsernames.add(username);
+    }
+
+    public static void removeUsername(String username){
+        allUsernames.remove(username);
+    }
+
+    public static boolean isThereUsername(String newUsername){
+        updateAllUsers();
+        for (String username : allUsernames) {
+            if(newUsername.equalsIgnoreCase(username))
                 return true;
         }
         return false;
@@ -122,6 +132,7 @@ public abstract class User{
     public Status getStatus() {
         return status;
     }
+
     public User(int userId, String username, String firstname, String lastname,
                 String email, String phoneNumber, String password, Status status) {
         this.userId = userId;
@@ -152,6 +163,7 @@ public abstract class User{
         for (User user : allUsers) {
             if(user.getStatus().equals(DELETED))
                 temp.add(user);
+            allUsernames.remove(user.getUsername());
         }
         allUsers.removeAll(temp);
     }

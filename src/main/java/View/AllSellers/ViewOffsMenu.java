@@ -111,6 +111,7 @@ public class ViewOffsMenu extends Menu {
                 setEndDateForOff(newOff);
                 setOffPercentage(newOff);
                 setProductsIncludedForOff(newOff);
+                newOff.sendNewOffRequest();
             }
         };
     }
