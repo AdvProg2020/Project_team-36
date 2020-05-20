@@ -68,6 +68,13 @@ public class SaveProduct {
     }
 
     public Product generateProduct(){
-        return null;
+        Product product = new Product(this.productId,this.name,
+                this.company,SaveCategory.load(this.categoryId),
+                new ArrayList<>(this.fieldsOfCategory),this.information,
+                this.productionDate,this.seenNumber);
+        this.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
+        this.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
+        this.productFields.forEach(saveProductField -> product.getProductFields().add(saveProductField.generateProductField()));
+        return product;
     }
 }
