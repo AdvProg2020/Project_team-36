@@ -20,19 +20,8 @@ public class SaveSale {
     private Date endTime;
     private Double salePercent;//be darsad nist
 
-    private SaveSale() {
-        productsInSaleIds = new ArrayList<>();
-    }
-
     public static void save(Sale sale){
-        SaveSale saveSale = new SaveSale();
-        saveSale.sellerId = sale.getSeller().getUserId();
-        saveSale.offId = sale.getOffId();
-        sale.getProductsInSale().forEach(product -> saveSale.productsInSaleIds.add(product.getProductId()));
-        saveSale.status = sale.getStatus();
-        saveSale.startTime = sale.getStartTime();
-        saveSale.endTime = sale.getEndTime();
-        saveSale.salePercent = sale.getSalePercent();
+        SaveSale saveSale = new SaveSale(sale);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveSaleGson = gson.toJson(saveSale);
         FileUtil.write(FileUtil.generateAddress(Sale.class.getName(),saveSale.offId),saveSaleGson);
@@ -57,6 +46,14 @@ public class SaveSale {
     }
 
     public SaveSale(Sale sale) {
+        this.sellerId = sale.getSeller().getUserId();
+        this.offId = sale.getOffId();
+        this.productsInSaleIds = new ArrayList<>();
+        sale.getProductsInSale().forEach(product -> this.productsInSaleIds.add(product.getProductId()));
+        this.status = sale.getStatus();
+        this.startTime = sale.getStartTime();
+        this.endTime = sale.getEndTime();
+        this.salePercent = sale.getSalePercent();
     }
 
     public Sale generateSale(){
