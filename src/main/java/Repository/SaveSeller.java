@@ -24,30 +24,9 @@ public class SaveSeller {
     private List<SaveSellerLog> allSellerLogs;
     private List<Integer> allProductIds;
     private List<Integer> allOffIds;
-
-    private SaveSeller() {
-        this.allOffIds = new ArrayList<>();
-        this.allProductIds = new ArrayList<>();
-        this.allSellerLogs = new ArrayList<>();
-    }
-
+    
     public static void save(Seller seller){
-        SaveSeller saveSeller = new SaveSeller();
-        saveSeller.userId = seller.getUserId();
-        saveSeller.username = seller.getUsername();
-        saveSeller.firstname = seller.getFirstname();
-        saveSeller.lastname = seller.getLastname();
-        saveSeller.email = seller.getEmail();
-        saveSeller.phoneNumber = seller.getPhoneNumber();
-        saveSeller.password = seller.getPassword();
-        saveSeller.status = seller.getStatus();
-        saveSeller.credit = seller.getCredit();
-        saveSeller.companyInfo = seller.getCompanyInfo();
-        saveSeller.companyName = seller.getCompanyName();
-        seller.getAllLogs().forEach(sellerLog -> saveSeller.allSellerLogs.add(new SaveSellerLog(sellerLog)));
-        seller.getAllProducts().forEach(product -> saveSeller.allProductIds.add(product.getProductId()));
-        seller.getAllSales().forEach(sale -> saveSeller.allOffIds.add(sale.getOffId()));
-
+        SaveSeller saveSeller = new SaveSeller(seller);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveSellerGson = gson.toJson(saveSeller);
         FileUtil.write(FileUtil.generateAddress(Seller.class.getName(),saveSeller.userId),saveSellerGson);
@@ -76,9 +55,32 @@ public class SaveSeller {
     }
 
     public SaveSeller(Seller seller) {
+        this.allOffIds = new ArrayList<>();
+        this.allProductIds = new ArrayList<>();
+        this.allSellerLogs = new ArrayList<>();
+        this.userId = seller.getUserId();
+        this.username = seller.getUsername();
+        this.firstname = seller.getFirstname();
+        this.lastname = seller.getLastname();
+        this.email = seller.getEmail();
+        this.phoneNumber = seller.getPhoneNumber();
+        this.password = seller.getPassword();
+        this.status = seller.getStatus();
+        this.credit = seller.getCredit();
+        this.companyInfo = seller.getCompanyInfo();
+        this.companyName = seller.getCompanyName();
+        seller.getAllLogs().forEach(sellerLog -> this.allSellerLogs.add(new SaveSellerLog(sellerLog)));
+        seller.getAllProducts().forEach(product -> this.allProductIds.add(product.getProductId()));
+        seller.getAllSales().forEach(sale -> this.allOffIds.add(sale.getOffId()));
     }
 
     public Seller generateSeller(){
-        return null;
+        Seller seller = new Seller(this.userId,this.username,this.firstname,
+                this.lastname,this.email,this.phoneNumber,this.password,
+                this.status,this.credit,this.companyName,this.companyInfo);
+        this.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
+        this.allProductIds.forEach(productId -> seller.getAllProducts().add(SaveProduct.load(productId)));
+        this.allSellerLogs.forEach(sellerLog -> seller.getAllLogs().add(sellerLog.generateSellerLog()));
+        return seller;
     }
 }
