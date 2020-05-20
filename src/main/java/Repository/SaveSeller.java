@@ -34,8 +34,9 @@ public class SaveSeller {
 
     public static Seller load(int id){
         lastId = Math.max(lastId,id);
-        if(Seller.getSellerById(id) != null){
-            return Seller.getSellerById(id);
+        Seller potentialSeller = Seller.getSellerById(id);
+        if(potentialSeller != null){
+            return potentialSeller;
         }
         Gson gson = new Gson();
         String data = FileUtil.read(FileUtil.generateAddress(Seller.class.getName(),id));

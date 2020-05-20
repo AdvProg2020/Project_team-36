@@ -43,8 +43,9 @@ public class SaveRequest {
 
     public static Request load(int id) {
         lastId = Math.max(lastId, id);
-        if (Request.getRequestById(id) != null) {
-            return Request.getRequestById(id);
+        Request potentialRequest = Request.getRequestById(id);
+        if (potentialRequest != null) {
+            return potentialRequest;
         }
 
         Gson gson = new Gson();

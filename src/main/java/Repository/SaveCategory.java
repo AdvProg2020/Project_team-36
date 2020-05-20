@@ -50,8 +50,9 @@ public class SaveCategory {
 
     public static Category load(int id) {
         lastId = Math.max(lastId,id);
-        if (Category.getCategoryById(id) != null) {
-            return Category.getCategoryById(id);
+        Category potentialCategory = Category.getCategoryById(id);
+        if (potentialCategory != null) {
+            return potentialCategory;
         }
         Gson gson = new Gson();
         String data = FileUtil.read(FileUtil.generateAddress(Category.class.getName(), id));

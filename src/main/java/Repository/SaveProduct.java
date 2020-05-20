@@ -29,8 +29,9 @@ public class SaveProduct {
     }
 
     public static Product load(int id){
-        if (Product.getProductById(id) != null){
-            return Product.getProductById(id);
+        Product potentialProduct = Product.getProductById(id);
+        if (potentialProduct != null){
+            return potentialProduct;
         }
         Gson gson = new Gson();
         String data = FileUtil.read(FileUtil.generateAddress(Product.class.getName(),id));

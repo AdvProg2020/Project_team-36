@@ -6,8 +6,9 @@ public class SaveUser {
     private static int lastId;
     public static User load(int id){
         lastId = Math.max(lastId,id);
-        if(User.getUserById(id) != null){
-            return User.getUserById(id);
+        User potentialUser = User.getUserById(id);
+        if(potentialUser != null){
+            return potentialUser;
         }
         if(SaveManager.load(id) != null){
             return SaveManager.load(id);
