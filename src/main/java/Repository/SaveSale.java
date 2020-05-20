@@ -28,8 +28,9 @@ public class SaveSale {
     }
 
     public static Sale load(int id){
-        if(Sale.getSaleById(id) != null){
-            return Sale.getSaleById(id);
+        Sale potentialSale = Sale.getSaleById(id);
+        if(potentialSale != null){
+            return potentialSale;
         }
 
         Gson gson = new Gson();

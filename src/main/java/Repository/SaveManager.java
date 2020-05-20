@@ -38,8 +38,9 @@ public class SaveManager {
 
     public static Manager load(int id){
         lastId = Math.max(lastId,id);
-        if(Manager.getManagerById(id) != null){
-            return Manager.getManagerById(id);
+        Manager potentialManager = Manager.getManagerById(id);
+        if(potentialManager != null){
+            return potentialManager;
         }
 
         Gson gson = new Gson();

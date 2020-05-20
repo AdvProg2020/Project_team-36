@@ -40,8 +40,9 @@ public class SaveDiscount {
 
     public static Discount load(int id){
         lastId = Math.max(lastId,id);
-        if(Discount.getDiscountById(id) != null){
-            return Discount.getDiscountById(id);
+        Discount potentialDiscount = Discount.getDiscountById(id);
+        if(potentialDiscount != null){
+            return potentialDiscount;
         }
         Gson gson = new Gson();
         String data = FileUtil.read(FileUtil.generateAddress(Discount.class.getName(),id));

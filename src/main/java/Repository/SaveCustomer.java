@@ -52,8 +52,9 @@ public class SaveCustomer {
 
     public static Customer load(int id){
         lastId = Math.max(lastId,id);
-        if(Customer.getCustomerById(id) != null){
-            return Customer.getCustomerById(id);
+        Customer potentialCustomer = Customer.getCustomerById(id);
+        if(potentialCustomer != null){
+            return potentialCustomer;
         }
         Gson gson = new Gson();
         String data = FileUtil.read(FileUtil.generateAddress(Customer.class.getName(),id));
