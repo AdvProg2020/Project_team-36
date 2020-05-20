@@ -23,4 +23,7 @@ public class GiveDiscountCode implements Action {
                 (discount.getDiscountPercent() * 100) + "%";
     }
 
+    public Discount getDiscount() {
+        return discount;
+    }
 }
