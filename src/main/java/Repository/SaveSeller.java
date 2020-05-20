@@ -74,4 +74,11 @@ public class SaveSeller {
         saveSeller.allSellerLogs.forEach(sellerLog -> seller.getAllLogs().add(sellerLog.generateSellerLog()));
         return seller;
     }
+
+    public SaveSeller(Seller seller) {
+    }
+
+    public Seller generateSeller(){
+        return null;
+    }
 }

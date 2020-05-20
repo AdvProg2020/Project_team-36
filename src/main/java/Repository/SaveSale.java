@@ -56,4 +56,10 @@ public class SaveSale {
         return sale;
     }
 
+    public SaveSale(Sale sale) {
+    }
+
+    public Sale generateSale(){
+        return null;
+    }
 }
