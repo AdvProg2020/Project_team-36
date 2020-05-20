@@ -21,27 +21,8 @@ public class SaveProduct {
     private List<SaveComment> allComments;
     private int seenNumber;
 
-
-    private SaveProduct() {
-        fieldsOfCategory = new ArrayList<>();
-        productFields = new ArrayList<>();
-        allScore = new ArrayList<>();
-        allComments = new ArrayList<>();
-    }
-
     public static void save(Product product){
-        SaveProduct saveProduct = new SaveProduct();
-        saveProduct.productId = product.getProductId();
-        saveProduct.name = product.getName();
-        saveProduct.company = product.getCompany();
-        saveProduct.categoryId = product.getCategory().getCategoryId();
-        saveProduct.information = product.getInformation();
-        saveProduct.productionDate = product.getProductionDate();
-        saveProduct.seenNumber = product.getSeenNumber();
-        product.getFieldsOfCategory().forEach(feildOfCategory -> saveProduct.fieldsOfCategory.add(feildOfCategory));
-        product.getAllComments().forEach(comment -> saveProduct.allComments.add(new SaveComment(comment)));
-        product.getAllScore().forEach(score -> saveProduct.allScore.add(new SaveScore(score)));
-        product.getProductFields().forEach(productField -> saveProduct.productFields.add(new SaveProductField(productField)));
+        SaveProduct saveProduct = new SaveProduct(product);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveProductGson = gson.toJson(saveProduct);
         FileUtil.write(FileUtil.generateAddress(Product.class.getName(),saveProduct.productId),saveProductGson);
@@ -69,7 +50,21 @@ public class SaveProduct {
     }
 
     public SaveProduct(Product product) {
-
+        this.fieldsOfCategory = new ArrayList<>();
+        this.productFields = new ArrayList<>();
+        this.allScore = new ArrayList<>();
+        this.allComments = new ArrayList<>();
+        this.productId = product.getProductId();
+        this.name = product.getName();
+        this.company = product.getCompany();
+        this.categoryId = product.getCategory().getCategoryId();
+        this.information = product.getInformation();
+        this.productionDate = product.getProductionDate();
+        this.seenNumber = product.getSeenNumber();
+        product.getFieldsOfCategory().forEach(feildOfCategory -> this.fieldsOfCategory.add(feildOfCategory));
+        product.getAllComments().forEach(comment -> this.allComments.add(new SaveComment(comment)));
+        product.getAllScore().forEach(score -> this.allScore.add(new SaveScore(score)));
+        product.getProductFields().forEach(productField -> this.productFields.add(new SaveProductField(productField)));
     }
 
     public Product generateProduct(){
