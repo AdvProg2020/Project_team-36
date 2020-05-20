@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
-public class ProductField {
+public class ProductField implements Pendable {
     private ProductionStatus status;
     private long price;
     private Sale sale;
@@ -67,6 +67,11 @@ public class ProductField {
         this.seller = seller;
         this.supply = supply;
         this.allBuyers = new HashSet<>();
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return null;
     }
 
     //-..-
