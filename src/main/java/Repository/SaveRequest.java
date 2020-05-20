@@ -1,6 +1,7 @@
 package Repository;
 
 import Models.*;
+import View.ManageAllProductsMenu;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -37,6 +38,37 @@ public class SaveRequest {
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveRequestGson = gson.toJson(saveRequest);
-        FileUtil.write(FileUtil.generateAddress(Request.class.getName(),saveRequest.requestId),saveRequestGson);
+        FileUtil.write(FileUtil.generateAddress(Request.class.getName(), saveRequest.requestId), saveRequestGson);
+    }
+
+    public static Request load(int id) {
+        lastId = Math.max(lastId, id);
+        if (Request.getRequestById(id) != null) {
+            return Request.getRequestById(id);
+        }
+
+        Gson gson = new Gson();
+        String data = FileUtil.read(FileUtil.generateAddress(Request.class.getName(), id));
+        if (data == null) {
+            return null;
+        }
+        SaveRequest saveRequest = gson.fromJson(data, SaveRequest.class);
+
+        Pendable pendable = null;
+        if (saveRequest.saveSale != null) {
+            pendable = saveRequest.saveSale.generateSale();
+        } else if (saveRequest.saveComment != null) {
+            pendable = saveRequest.saveComment.generateComment();
+        } else if (saveRequest.saveProductField != null) {
+            pendable = saveRequest.saveProductField.generateProductField();
+        } else if (saveRequest.saveProduct != null) {
+            pendable = saveRequest.saveProduct.generateProduct();
+        } else if (saveRequest.saveSeller != null) {
+            pendable = saveRequest.saveSeller.generateSeller();
+        }
+
+        Request request = new Request(pendable,id,saveRequest.status);
+        Request.addToAllRequests(request);
+        return request;
     }
 }
