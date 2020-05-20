@@ -47,4 +47,31 @@ public class SaveGift {
         id++;
         FileUtil.write(FileUtil.generateAddress(Gift.class.getName(), id), saveGiftGson);
     }
+
+    public static Gift load(int id){
+        Gson gson = new Gson();
+        String data = FileUtil.read(FileUtil.generateAddress(Gift.class.getName(),id));
+        if (data == null){
+            return null;
+        }
+        SaveGift saveGift = gson.fromJson(data,SaveGift.class);
+
+        Action action = null;
+        if (saveGift.discountInCurrentLog != null){
+            action = saveGift.discountInCurrentLog;
+        }else if (saveGift.saveGiveDiscountCode != null){
+            action = saveGift.saveGiveDiscountCode.generateGiveDiscountCode();
+        }
+
+        Event event = null;
+        if (saveGift.firstBuyEvent != null){
+            event = saveGift.firstBuyEvent;
+        }else if (saveGift.highPriceEvent != null){
+            event = saveGift.highPriceEvent;
+        }else if (saveGift.periodicEvent != null){
+            event = saveGift.periodicEvent;
+        }
+
+        return new Gift(saveGift.name,action,event);
+    }
 }
