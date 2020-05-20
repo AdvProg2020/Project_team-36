@@ -67,4 +67,12 @@ public class SaveProduct {
         saveProduct.productFields.forEach(saveProductField -> product.getProductFields().add(saveProductField.generateProductField()));
         return product;
     }
+
+    public SaveProduct(Product product) {
+
+    }
+
+    public Product generateProduct(){
+        return null;
+    }
 }
