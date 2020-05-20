@@ -57,6 +57,9 @@ public class SaveSale {
     }
 
     public Sale generateSale(){
-        return null;
+        Sale sale = new Sale(SaveSeller.load(this.sellerId),this.offId,
+                this.status,this.startTime,this.endTime,this.salePercent);
+        this.productsInSaleIds.forEach(productInSaleId -> sale.getProductsInSale().add(SaveProduct.load(productInSaleId)));
+        return sale;
     }
 }
