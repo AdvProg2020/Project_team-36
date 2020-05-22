@@ -17,7 +17,6 @@ public class Customer extends User  {
         this.allLogs = new ArrayList<>();
         this.cart = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
-        this.credit = 50000000;
     }
 
     @Override
