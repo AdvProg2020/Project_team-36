@@ -35,7 +35,7 @@ public class NewProductController {
     public void setCategory(String categoryName) throws InvalidCategoryName{
         for (Category category : Category.getAllCategories()) {
             if(category.getName().equalsIgnoreCase(categoryName)){
-                this.category = Category.getCategoryWithName(categoryName);
+                this.category = Category.getCategory(categoryName);
                 neededFields.addAll(category.getAllFields());
                 return;
             }
