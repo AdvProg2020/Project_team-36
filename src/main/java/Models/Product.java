@@ -1,5 +1,6 @@
 package Models;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -18,22 +19,38 @@ public class Product implements Pendable {
     private Date productionDate;
     private ArrayList<Comment> allComments;
     private HashSet<Customer> allBuyers;
+    private static int allProductsMade=0;
     private int seenNumber;
+    private String editedField;
 
-    public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
-                   String information, Date productionDate) {
+    public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
+                   String information, ProductField productField, Date productionDate) {
         this.productFields = new ArrayList<>();
         this.fieldsOfCategory = new ArrayList<>();
         this.allBuyers = new HashSet<>();
         this.allComments = new ArrayList<>();
         this.allScore = new ArrayList<>();
-        this.productId = productId;
+        this.productId = (allProductsMade+=1);
         this.name = name;
         this.company = company;
         this.category = category;
         this.fieldsOfCategory = fieldsOfCategory;
         this.information = information;
+        this.productFields.add(productField);
         this.productionDate = productionDate;
+    }
+
+    public Product(Product product, ProductField productField) {
+        this.productFields = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>();
+        this.productId = product.getProductId();
+        this.name = product.getName();
+        this.company = product.getCompany();
+        this.category = product.getCategory();
+        this.productFields.add(productField);
+        this.fieldsOfCategory = product.getFieldsOfCategory();
+        this.information = product.getInformation();
+
     }
 
     public int getProductId() {
@@ -55,6 +72,30 @@ public class Product implements Pendable {
                 return product;
         }
         return null;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setFieldsOfCategory(ArrayList<Field> fieldsOfCategory) {
+        this.fieldsOfCategory = fieldsOfCategory;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public void setProductFields(ArrayList<ProductField> productFields) {
+        this.productFields = productFields;
     }
 
     public void addBuyer(Customer customer){
@@ -102,9 +143,23 @@ public class Product implements Pendable {
         return allComments;
     }
 
+    public ArrayList<Score> getAllScore() {
+        return allScore;
+    }
+
     public static ArrayList<Product> getAllProducts() {
         updateAllProducts();
         return allProducts;
+    }
+
+    public static Product getProductWithId(int productId){
+        updateAllProducts();
+        for (Product product : allProducts) {
+            if(product.getProductId()==productId){
+                return product;
+            }
+        }
+        return null;
     }
 
     public static ArrayList<Product> getAllInSaleProducts() {
@@ -288,6 +343,20 @@ public class Product implements Pendable {
             removeProduct(this);
     }
 
+    public StringBuilder printSellerProductDetails(Seller seller){
+        ProductField productField = getProductFieldBySeller(seller);
+        StringBuilder toBePrinted = new StringBuilder();
+        toBePrinted.append("    product id: ").append(productId).append("\n    name: ").append(name).
+                    append("\n    company: ").append(company).append("\n    price: ").
+                    append(productField.getPrice()).append("\n    supply: ").append(productField.getSupply()).
+                    append("    category: ").append(category.getName()).append('\n');
+        for (Field field : fieldsOfCategory) {
+            toBePrinted.append("       ").append(field.getFieldInfo()).append('\n');
+        }
+        toBePrinted.append("    information: ").append(information).append("\n    production date: ").
+                append(productionDate).append("\n    seen number: ").append(company).append('\n');
+        return toBePrinted;
+    }
 
     public ProductField getProductFieldBySeller(Seller seller) {
         for (ProductField productField : productFields) {
@@ -297,6 +366,10 @@ public class Product implements Pendable {
         return null;
     }
 
+    public void addProductField(ProductField productField){
+        productFields.add(productField);
+    }
+
     public boolean isThereBuyer(Customer customer) {
         this.updateBuyers();
         for (Customer buyer : allBuyers) {
@@ -304,6 +377,52 @@ public class Product implements Pendable {
                 return true;
         }
         return false;
+    }
+
+    public void addComment(Comment comment){
+        allComments.add(comment);
+    }
+
+    public String getEditedField() {
+        return editedField;
+    }
+
+    public void setEditedField(String editedField) {
+        this.editedField = editedField;
+    }
+
+    @Override
+    public void acceptAddRequest() {
+        category.addProduct(this);
+        productFields.get(0).getSeller().addProduct(this);
+        allProducts.add(this);
+    }
+
+    @Override
+    public void acceptEditRequest() {
+        updateAllProducts();
+        if(!Product.isThereProductWithId(this.getProductId())){
+            return;
+        }
+        Product mainProduct = Product.getProductWithId(this.getProductId());
+        switch (this.editedField) {
+            case "name":
+                mainProduct.setName(this.getName());
+                break;
+            case "company":
+                mainProduct.setCompany(this.getCompany());
+                break;
+            case "category":
+                mainProduct.setCategory(this.getCategory());
+                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
+                break;
+            case "fieldsOfCategory":
+                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
+                break;
+            case "information":
+                mainProduct.setInformation(this.getInformation());
+                break;
+        }
     }
 
     @Override

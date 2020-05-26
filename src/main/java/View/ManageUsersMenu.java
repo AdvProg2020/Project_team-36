@@ -4,7 +4,6 @@ import Controllers.ManagerController;
 import Controllers.NewManagerController;
 import Controllers.ProductsController;
 import Models.User;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 

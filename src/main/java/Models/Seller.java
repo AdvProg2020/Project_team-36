@@ -40,6 +40,23 @@ public class Seller extends User implements Pendable {
         return companyInfo;
     }
 
+    public boolean sellerHasTheOff(int id){
+        for (Sale sale : allSales) {
+            if(sale.getOffId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Sale getSaleWithId(int id){
+        for (Sale sale : allSales) {
+            if(sale.getOffId()==id){
+                return sale;
+            }
+        }
+        return null;
+    }
 
     @Override
     public String getPendingRequestType() {
@@ -82,12 +99,20 @@ public class Seller extends User implements Pendable {
         allProducts.remove(product);
     }
 
-    public boolean isThereProduct(int productId) {
+    public void addProduct(Product product){
+        allProducts.add(product);
+    }
+
+    public boolean isThereProduct(int productId){
         for (Product product : allProducts) {
             if (product.getProductId() == productId)
                 return true;
         }
         return false;
+    }
+
+    public void addSale(Sale sale){
+        allSales.add(sale);
     }
 
     @Override
@@ -102,6 +127,15 @@ public class Seller extends User implements Pendable {
                 "    company info: : " + companyInfo + '\n'
                 ;
     }
+
+    @Override
+    public void acceptAddRequest() {
+        User.addNewUser(this);
+        allSellers.add(this);
+    }
+
+    @Override
+    public void acceptEditRequest() { }
 
     public static void updateSellers(){
         ArrayList<Seller> toBeRemoved = new ArrayList<>();

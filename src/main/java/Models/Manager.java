@@ -29,11 +29,6 @@ public class Manager extends User  {
         allManagers.add(manager);
     }
 
-//    public static boolean isMainManager(String username){
-//        return mainManager.getUsername().equals(username);
-//    }
-
-
     @Override
     public String toString() {
         return "username: " + username + "\nfirstname: " + firstname +

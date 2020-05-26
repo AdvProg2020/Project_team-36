@@ -1,12 +1,10 @@
 package Models;
 
 public interface Field {
-
-    public String getName();
-
-    public void setName(String name);
-
-    public String getQuantityString();
-
-    public String toString();
+    String getName();
+    void setName(String name);
+    void setValue(String value);
+    String getFieldInfo();
+    String getQuantityString();
+    String toString();
 }

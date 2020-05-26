@@ -63,6 +63,10 @@ public class Category {
         this.products.remove(product);
     }
 
+    public void addProduct(Product product){
+        this.products.add(product);
+    }
+
     public boolean isThereIntegerField(String name) {
         for (Field field : allFields) {
             if (field.getName().equalsIgnoreCase(name) && field instanceof IntegerField)
