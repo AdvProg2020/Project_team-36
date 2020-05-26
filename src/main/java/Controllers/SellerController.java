@@ -141,6 +141,7 @@ public class SellerController extends UserController{
             throw new StartDateAfterEndDateException();
         } else {
             off.setStartTime(startDate);
+            off.setEditedField("startTime");
         }
     }
 
@@ -156,7 +157,8 @@ public class SellerController extends UserController{
         if (endDate.before(off.getStartTime())) {
             throw new EndDateBeforeStartDateException();
         } else {
-            off.setStartTime(endDate);
+            off.setEndTime(endDate);
+            off.setEditedField("endTime");
         }
     }
 
@@ -165,6 +167,7 @@ public class SellerController extends UserController{
             int percentage = Integer.parseInt(newPercentage);
             if (percentage < 100 && percentage > 0) {
                 off.setSalePercent(percentage * 0.01);
+                off.setEditedField("salePercent");
             } else {
                 throw new InvalidRangeException();
             }
@@ -237,10 +240,12 @@ public class SellerController extends UserController{
 
     public void addProductsToOff(Sale off){
         off.addProducts(productsToBeEditedForOff);
+        off.setEditedField("productsInSale");
     }
 
     public void removeProductsFromOff(Sale off){
         off.removeProducts(productsToBeEditedForOff);
+        off.setEditedField("productsInSale");
     }
 
     public void sendEditOffRequest(Sale off){

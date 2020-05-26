@@ -6,6 +6,7 @@ import java.util.Date;
 import static Models.ProductionStatus.TO_BE;
 
 public class Sale implements Pendable {
+    private static ArrayList<Sale> allSales = new ArrayList<>();
     private Seller seller;
     private int offId;
     private ArrayList<Product> productsInSale;
@@ -76,6 +77,7 @@ public class Sale implements Pendable {
     }
 
 
+
     public void setEditedField(String editedField) {
         this.editedField = editedField;
     }
@@ -93,6 +95,25 @@ public class Sale implements Pendable {
                 ;
     }
 
+    public static Sale getSaleWithId(int offId){
+        for (Sale sale : allSales) {
+            if(sale.getOffId() == offId){
+                return sale;
+            }
+        }
+        return null;
+    }
+
+    public static boolean isThereSaleWithId(int offId){
+        //TODO: updateSales
+        for (Sale sale : allSales) {
+            if(sale.getOffId()==offId){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void acceptAddRequest() {
         seller.addSale(this);
@@ -105,7 +126,24 @@ public class Sale implements Pendable {
 
     @Override
     public void acceptEditRequest() {
-
+        if(!isThereSaleWithId(this.offId)){
+            return;
+        }
+        Sale mainSale = getSaleWithId(this.offId);
+        switch (editedField){
+            case "startTime":
+                mainSale.setStartTime(this.startTime);
+                break;
+            case "endTime":
+                mainSale.setEndTime(this.endTime);
+                break;
+            case "salePercent":
+                mainSale.setSalePercent(this.salePercent);
+                break;
+            case "productsInSale":
+                mainSale.setProductsInSale(this.productsInSale);
+                break;
+        }
     }
 
     @Override

@@ -414,6 +414,7 @@ public class Product implements Pendable, Packable {
 
     @Override
     public void acceptEditRequest() {
+        updateAllProducts();
         if(!Product.isThereProductWithId(this.getProductId())){
             return;
         }

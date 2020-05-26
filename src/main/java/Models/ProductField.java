@@ -130,6 +130,7 @@ public class ProductField implements Pendable {
 
     @Override
     public void acceptEditRequest() {
+        Product.updateAllProducts();
         if((!Product.isThereProductWithId(mainProductId)) || (seller.getStatus().equals(Status.DELETED))){
             return;
         }
