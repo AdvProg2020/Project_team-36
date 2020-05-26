@@ -5,7 +5,7 @@ import java.util.Date;
 
 import static Models.LogStatus.WAITING_TO_BE_SENT;
 
-public class CustomerLog {
+public class  CustomerLog {
     private static int totalLogsMade;
     private Date date;
     private int id;
@@ -98,23 +98,6 @@ public class CustomerLog {
         return customerLog;
     }
 
-    @Override
-    public String toString() {
-        String result;
-        result = "id: "+id+"\ndate: "+date;
-        int i = 1;
-        result+="\nproduct name   count   sale percent   each price";
-        for (ItemInLog item : allItems) {
-            result+="\n"+i+". "+item.getProductName()+"   "+item.getCount()+"   "+"   "+item.getSalePercent()*100+"   "+item.getCurrentPrice();
-        }
-        result+="discount amount: "+getDiscountAmount()+"\ngift amount: "+giftDiscount;
-        return result;
-    }
-
-    public long getGiftDiscount() {
-        return giftDiscount;
-    }
-
     public CustomerLog(Date date, int id, double discountPercent, long discountAmount, long giftDiscount, String address, String phoneNumber, LogStatus logStatus, long totalPrice, long totalPayable, ArrayList<ItemInLog> allItems) {
         this.date = date;
         this.id = id;
@@ -127,5 +110,18 @@ public class CustomerLog {
         this.totalPrice = totalPrice;
         this.totalPayable = totalPayable;
         this.allItems = allItems;
+    }
+
+    @Override
+    public String toString() {
+        String result;
+        result = "id: "+id+"\ndate: "+date;
+        int i = 1;
+        result+="\nproduct name   count   sale percent   each price";
+        for (ItemInLog item : allItems) {
+            result+="\n"+i+". "+item.getProductName()+"   "+item.getCount()+"   "+"   "+item.getSalePercent()*100+"   "+item.getCurrentPrice();
+        }
+        result+="discount amount: "+getDiscountAmount()+"\ngift amount: "+giftDiscount;
+        return result;
     }
 }

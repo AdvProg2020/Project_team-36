@@ -12,6 +12,7 @@ public class Customer extends User  {
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
+
     public Customer(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
@@ -172,6 +173,19 @@ public class Customer extends User  {
         return null;
     }
 
+    public Customer(int userId, String username, String firstname, String lastname,
+                    String email, String phoneNumber, String password, Status status,long credit) {
+        super(userId, username, firstname, lastname, email, phoneNumber, password, status);
+        this.credit = credit;
+        this.allLogs = new ArrayList<>();
+        this.allDiscountsForCustomer = new HashMap<>();
+        this.cart = new ArrayList<>();
+    }
+
+    public static void addToAllCustomers(Customer customer){
+        allCustomers.add(customer);
+    }
+
     public void addToCart(SelectedItem selectedItem){
         for (SelectedItem item : cart) {
             if(item.getProduct().equals(selectedItem.getProduct())){
@@ -203,32 +217,15 @@ public class Customer extends User  {
         cart.removeAll(temp);
     }
 
-    public Customer(int userId, String username, String firstname, String lastname,
-                    String email, String phoneNumber, String password, Status status,long credit) {
-        super(userId, username, firstname, lastname, email, phoneNumber, password, status);
-        this.credit = credit;
-        this.allLogs = new ArrayList<>();
-        this.allDiscountsForCustomer = new HashMap<>();
-        this.cart = new ArrayList<>();
+    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
+        return allDiscountsForCustomer;
     }
 
-    public static void addToAllCustomers(Customer customer){
-        allCustomers.add(customer);
-        public void setCredit(long credit) {
-            this.credit = credit;
-        }
-
-
-        @Override
+    @Override
     public String toString() {
-        return "Customer{" +
-                "credit=" + credit +
-                ", username='" + username + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "username: "+username+"\nfirstname: "+firstname+
+                "\nlastname: "+lastname+"\nphone: "+phoneNumber+
+                "\nemail: "+email+"\ncredit: "+credit+
+                "\npassword: "+password;
     }
 }
