@@ -291,10 +291,10 @@ public class ProductsController implements ObjectController {
             throw new EntryController.NotLoggedInException();
         }
         if (!(userVariables.getLoggedInUser() instanceof Customer)) {
-            new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, false));
+            new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, false),Status.TO_BE_ADDED);
         } else {
             Boolean hasBought = userVariables.getProduct().isThereBuyer((Customer) userVariables.getLoggedInUser());
-            new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, hasBought));
+            new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, hasBought),Status.TO_BE_ADDED);
 
         }
     }
