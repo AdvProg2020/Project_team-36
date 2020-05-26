@@ -1,5 +1,6 @@
 package Models;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Product implements Pendable, Packable {
     private HashSet<Customer> allBuyers;
     private static int allProductsMade=0;
     private int seenNumber;
+    private String editedField;
 
     public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
                    String information, ProductField productField, Date productionDate) {
@@ -41,13 +43,13 @@ public class Product implements Pendable, Packable {
     public Product(Product product, ProductField productField) {
         this.productFields = new ArrayList<>();
         this.fieldsOfCategory = new ArrayList<>();
-        this.productId = product.productId;
-        this.name = product.name;
-        this.company = product.company;
-        this.category = product.category;
+        this.productId = product.getProductId();
+        this.name = product.getName();
+        this.company = product.getCompany();
+        this.category = product.getCategory();
         this.productFields.add(productField);
-        this.fieldsOfCategory = product.fieldsOfCategory;
-        this.information = product.information;
+        this.fieldsOfCategory = product.getFieldsOfCategory();
+        this.information = product.getInformation();
 
     }
 
@@ -395,6 +397,14 @@ public class Product implements Pendable, Packable {
         allComments.add(comment);
     }
 
+    public String getEditedField() {
+        return editedField;
+    }
+
+    public void setEditedField(String editedField) {
+        this.editedField = editedField;
+    }
+
     @Override
     public void acceptAddRequest() {
         category.addProduct(this);
@@ -404,7 +414,28 @@ public class Product implements Pendable, Packable {
 
     @Override
     public void acceptEditRequest() {
-
+        if(!Product.isThereProductWithId(this.getProductId())){
+            return;
+        }
+        Product mainProduct = Product.getProductWithId(this.getProductId());
+        switch (this.editedField) {
+            case "name":
+                mainProduct.setName(this.getName());
+                break;
+            case "company":
+                mainProduct.setCompany(this.getCompany());
+                break;
+            case "category":
+                mainProduct.setCategory(this.getCategory());
+                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
+                break;
+            case "fieldsOfCategory":
+                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
+                break;
+            case "information":
+                mainProduct.setInformation(this.getInformation());
+                break;
+        }
     }
 
     @Override

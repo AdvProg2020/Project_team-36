@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class EditProductController {
 
@@ -27,10 +26,10 @@ public class EditProductController {
         return new Product(product,product.getProductFieldBySeller(seller));
     }
 
-    public Method getProductFieldEditor(String chosenField, SellerController sellerController) throws NoSuchMethodException{
+    public Method getProductFieldEditor(String chosenField, EditProductController editProductController) throws NoSuchMethodException{
         for (String regex : productFieldsSetters.keySet()) {
             if (chosenField.matches(regex)) {
-                return sellerController.getClass().getMethod(productFieldsSetters.get(regex),String.class,Product.class);
+                return editProductController.getClass().getMethod(productFieldsSetters.get(regex),String.class,Product.class);
             }
         }
         throw new NoSuchMethodException();
@@ -42,10 +41,12 @@ public class EditProductController {
 
     public void editProductName(String newName, Product product){
         product.setName(newName);
+        product.setEditedField("name");
     }
 
     public void editProductCompany(String newCompany, Product product){
         product.setCompany(newCompany);
+        product.setEditedField("company");
     }
 
     public void editProductCategory(String newCategory, Product product)throws SameCategoryException,InvalidCategoryException{
@@ -56,6 +57,7 @@ public class EditProductController {
                 }else{
                     product.setCategory(category);
                     neededFields.addAll(category.getAllFields());
+                    product.setEditedField("category");
                     return;
                 }
             }
@@ -88,6 +90,7 @@ public class EditProductController {
     }
 
     public ArrayList<Field> getCategoryFieldsToEdit(Product product){
+        product.setEditedField("fieldsOfCategory");
         return product.getFieldsOfCategory();
     }
 
@@ -113,6 +116,7 @@ public class EditProductController {
 
     public void editProductInformation(String newInformation, Product product){
         product.setInformation(newInformation);
+        product.setEditedField("information");
     }
 
 
@@ -120,6 +124,7 @@ public class EditProductController {
         try{
             long price = Long.parseLong(newPrice);
             product.getProductFieldBySeller(seller).setPrice(price);
+            product.getProductFieldBySeller(seller).setEditedField("price");
         }catch (NumberFormatException e){
             throw new NumberFormatException ();
         }
@@ -129,6 +134,7 @@ public class EditProductController {
         try{
             int supply = Integer.parseInt(newSupply);
             product.getProductFieldBySeller(seller).setSupply(supply);
+            product.getProductFieldBySeller(seller).setEditedField("supply");
         }catch (NumberFormatException e){
             throw new NumberFormatException ();
         }

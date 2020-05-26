@@ -153,7 +153,7 @@ public class ManageProductsMenu extends Menu {
                         System.out.println("edit was done successfully");
                         return;
                     }
-                    Method editor = editProductController.getProductFieldEditor(chosenField, sellerController);
+                    Method editor = editProductController.getProductFieldEditor(chosenField, editProductController);
                     System.out.println("enter your desired new value :");
                     while (true) {
                         try {

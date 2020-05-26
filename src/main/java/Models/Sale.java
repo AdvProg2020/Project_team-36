@@ -14,7 +14,7 @@ public class Sale implements Pendable {
     private Date endTime;
     private Double salePercent;//be darsad nist
     private static int totalOffsMade = 0;
-
+    private String editedField;
 
     public Sale(Seller seller, ArrayList<Product> productsInSale, Date startTime, Date endTime, Double salePercent) {
         this.productsInSale = new ArrayList<>();
@@ -73,6 +73,15 @@ public class Sale implements Pendable {
 
     public Double getSalePercent() {
         return salePercent;
+    }
+
+
+    public void setEditedField(String editedField) {
+        this.editedField = editedField;
+    }
+
+    public String getEditedField() {
+        return editedField;
     }
 
     @Override

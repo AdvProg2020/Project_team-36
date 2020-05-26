@@ -12,6 +12,7 @@ public class ProductField implements Pendable {
     private Seller seller;
     private int supply;
     private HashSet<Customer> allBuyers;
+    private String editedField;
 
 
     public ProductField(long price, Seller seller, int supply, int mainProductId) {
@@ -105,6 +106,13 @@ public class ProductField implements Pendable {
         this.sale = sale;
     }
 
+    public String getEditedField() {
+        return editedField;
+    }
+
+    public void setEditedField(String editedField) {
+        this.editedField = editedField;
+    }
 
     @Override
     public String getPendingRequestType() {
@@ -122,7 +130,19 @@ public class ProductField implements Pendable {
 
     @Override
     public void acceptEditRequest() {
-
+        if((!Product.isThereProductWithId(mainProductId)) || (seller.getStatus().equals(Status.DELETED))){
+            return;
+        }
+        Product mainProduct = Product.getProductWithId(this.mainProductId);
+        ProductField mainProductField = mainProduct.getProductFieldBySeller(this.seller);
+        switch (this.editedField){
+            case "supply":
+                mainProductField.setSupply(this.supply);
+                break;
+            case "price":
+                mainProductField.setPrice(this.price);
+                break;
+        }
     }
 
     //-..-
