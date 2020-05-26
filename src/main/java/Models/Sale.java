@@ -85,6 +85,21 @@ public class Sale implements Pendable {
     }
 
     @Override
+    public void acceptAddRequest() {
+        seller.addSale(this);
+        for (Product product : productsInSale) {
+            if(Product.isThereProductWithId(product.getProductId())) {
+                product.getProductFieldBySeller(seller).setSale(this);
+            }
+        }
+    }
+
+    @Override
+    public void acceptEditRequest() {
+
+    }
+
+    @Override
     public String getPendingRequestType() {
         return "sale";
     }

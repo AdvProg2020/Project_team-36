@@ -135,11 +135,11 @@ public class EditProductController {
     }
 
     public void sendEditProductRequest(Product product){
-        new Request(product);
+        new Request(product,Status.TO_BE_EDITED);
     }
 
     public void sendEditProductFieldRequest(Product product){
-        new Request(product.getProductFieldBySeller(seller));
+        new Request(product.getProductFieldBySeller(seller),Status.TO_BE_EDITED);
     }
 
     private void writeProductFieldsSetters() {
