@@ -1,6 +1,7 @@
 package View.Products;
 
 import Controllers.EntryController;
+import Controllers.ObjectController;
 import Controllers.ProductsController;
 import View.Menu;
 
@@ -10,15 +11,15 @@ import java.util.regex.Matcher;
 
 public class SortingMenu extends Menu {
     private String sort;
-    private ProductsController controller;
+    private ObjectController controller;
 
-    public SortingMenu(String name, Menu parentMenu, ProductsController productsController) {
+    public SortingMenu(String name, Menu parentMenu, ObjectController controller) {
         super(name, parentMenu);
         subMenus.put("show\\s+available\\s+sorts", getAvailableSortsMenu());
         subMenus.put("current\\s+sort", getCurrentSortMenu());
         subMenus.put("disable\\s+sort", getDisableSortMenu());
         subMenus.put("sort\\s+(.+)", getSortMenu());
-        this.controller = productsController;
+        this.controller = controller;
     }
 
     @Override

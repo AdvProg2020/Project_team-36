@@ -4,6 +4,7 @@ import Controllers.ManagerController;
 import Models.Discount;
 import Models.Request;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class ManageRequestsMenu extends Menu {
@@ -12,49 +13,51 @@ public class ManageRequestsMenu extends Menu {
 
     public ManageRequestsMenu(Menu parentMenu) {
         super("ManageRequestsMenu", parentMenu);
-        subMenus.put("details\\s+(\\d+)",showRequestDetails());
-        subMenus.put("accept\\s+(\\d+)",acceptRequest());
-        subMenus.put("decline\\s+(\\d+)",declineRequest());
+        subMenus.put("details\\s+(\\d+)", showRequestDetails());
+        subMenus.put("accept\\s+(\\d+)", acceptRequest());
+        subMenus.put("decline\\s+(\\d+)", declineRequest());
     }
 
     @Override
     public void help() {
         System.out.println("details [requestId]\n" +
                 "accept [requestId]\n" +
-                "decline [requestId\n");
+                "decline [requestId\n" +
+                "filter by [type]");
+        System.out.println("Type can be: comment\\seller\\product\\seller for a product");
     }
 
     @Override
     public void execute() {
-        int number = 1;
         Matcher matcher;
         Menu chosenMenu = null;
-        for (Request request : managerController.getAllRequests()) {
-            System.out.println(number + ") " + request.getRequestId());
-            number += 1;
-        }
+        printRequest(managerController.getAllRequests());
         System.out.println("choose the request and what you want to do with it :");
         String input = scanner.nextLine().trim();
-        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help"))||
+        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help")) ||
                 (input.equalsIgnoreCase("logout")))) {
-            for (String regex : subMenus.keySet()) {
-                matcher = getMatcher(input, regex);
-                if (matcher.matches()) {
-                    chosenMenu = subMenus.get(regex);
-                    try {
-                        this.id = Integer.parseInt(matcher.group(1));
-                    } catch (NumberFormatException e) {
-                        System.err.println("you can't enter anything but number as id");
+            if (input.matches("filter by comment|seller|product|seller for a product"))
+                filterRequests(input);
+            else {
+                for (String regex : subMenus.keySet()) {
+                    matcher = getMatcher(input, regex);
+                    if (matcher.matches()) {
+                        chosenMenu = subMenus.get(regex);
+                        try {
+                            this.id = Integer.parseInt(matcher.group(1));
+                        } catch (NumberFormatException e) {
+                            System.err.println("you can't enter anything but number as id");
+                        }
+                        break;
                     }
-                    break;
+                }
+                if (chosenMenu == null) {
+                    System.err.println("Invalid command! Try again please");
+                } else {
+                    chosenMenu.execute();
                 }
             }
-            if (chosenMenu == null) {
-                System.err.println("Invalid command! Try again please");
-            } else {
-                chosenMenu.execute();
-            }
-            chosenMenu=null;
+            chosenMenu = null;
             input = scanner.nextLine().trim();
         }
         if (input.matches("back")) {
@@ -62,8 +65,20 @@ public class ManageRequestsMenu extends Menu {
         } else if (input.matches("help")) {
             this.help();
             this.execute();
-        } else if((input.equalsIgnoreCase("logout"))){
+        } else if ((input.equalsIgnoreCase("logout"))) {
             logoutChangeMenu();
+        }
+    }
+
+    private void filterRequests(String input){
+        printRequest(managerController.filterRequests(input));
+    }
+
+    private void printRequest(ArrayList<Request> requests) {
+        int number = 1;
+        for (Request request : requests) {
+            System.out.println(number + ") " + request.getRequestId() + "  " + request.getPendableRequest().getPendingRequestType()+"  "+request.getStatus());
+            number += 1;
         }
     }
 
@@ -78,7 +93,7 @@ public class ManageRequestsMenu extends Menu {
                 try {
                     Request request = managerController.getRequestWithId(id);
                     System.out.println(request);
-                } catch (ManagerController.InvalidRequestIdException e){
+                } catch (ManagerController.InvalidRequestIdException e) {
                     System.err.println(e.getMessage());
                 }
             }
@@ -95,7 +110,7 @@ public class ManageRequestsMenu extends Menu {
             public void execute() {
                 try {
                     managerController.declineRequest(id);
-                } catch (ManagerController.InvalidRequestIdException e){
+                } catch (ManagerController.InvalidRequestIdException e) {
                     System.err.println(e.getMessage());
                 }
             }

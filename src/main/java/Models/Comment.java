@@ -31,6 +31,10 @@ public class Comment implements Pendable {
         return product;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -56,5 +60,14 @@ public class Comment implements Pendable {
         this.comment = comment;
         ConfirmationStatus = confirmationStatus;
         this.hasBought = hasBought;
+    }
+  
+    @Override
+    public void acceptAddRequest() {
+        product.addComment(this);
+    }
+
+    @Override
+    public void acceptEditRequest() {
     }
 }

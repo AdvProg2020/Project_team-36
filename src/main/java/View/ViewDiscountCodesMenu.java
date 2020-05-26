@@ -1,9 +1,12 @@
 package View;
 
 import Controllers.ManagerController;
+import Controllers.ProductsController;
 import Models.Customer;
 import Models.Discount;
+
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 
@@ -23,40 +26,50 @@ public class ViewDiscountCodesMenu extends Menu {
         System.out.println("you can view edit and remove discount codes with the following commands :\n" +
                 "view discount code [code]\n" +
                 "edit discount code [code]\n" +
-                "remove discount code [code]\n");
+                "remove discount code [code]\n" +
+                "sort by [field] ascending\\descending");
+        System.out.println("fields can be: end time\\start time\\percent\\limit");
+
     }
 
     @Override
     public void execute() {
-        int number = 1;
         Matcher matcher;
         Menu chosenMenu = null;
-        for (Discount discountCode : managerController.getAllDiscountCodes()) {
-            System.out.println(number + ") " + discountCode.getId());
-            number += 1;
-        }
+        printDiscountCode(managerController.getAllDiscountCodes());
         System.out.println("choose the discount and what you want to do with it :");
         String input = scanner.nextLine().trim();
-        while (!((input.equalsIgnoreCase("back"))||(input.equalsIgnoreCase("help"))||
+        while (!((input.equalsIgnoreCase("back")) || (input.equalsIgnoreCase("help")) ||
                 (input.equalsIgnoreCase("logout")))) {
-            for (String regex : subMenus.keySet()) {
-                matcher = getMatcher(input, regex);
-                if (matcher.matches()) {
-                    chosenMenu = subMenus.get(regex);
+            if ((matcher = getMatcher(input, "sort\\s+by\\s+(.*)\\s+(.*)")).matches()) {
+                if (matcher.group(2).equalsIgnoreCase("ascending") || matcher.group(2).equalsIgnoreCase("descending")) {
                     try {
-                        this.id = Integer.parseInt(matcher.group(1));
-                    } catch (NumberFormatException e) {
-                        System.err.println("you can't enter anything but number as id");
+                        printDiscountCode(managerController.sortDiscountCodes(matcher.group(1), matcher.group(2)));
+                    } catch (ProductsController.NoSortException e) {
+                        System.err.println("There is no field with this name!");
                     }
-                    break;
+                } else
+                    System.err.println("Invalid type");
+            } else {
+                for (String regex : subMenus.keySet()) {
+                    matcher = getMatcher(input, regex);
+                    if (matcher.matches()) {
+                        chosenMenu = subMenus.get(regex);
+                        try {
+                            this.id = Integer.parseInt(matcher.group(1));
+                        } catch (NumberFormatException e) {
+                            System.err.println("you can't enter anything but number as id");
+                        }
+                        break;
+                    }
+                }
+                if (chosenMenu == null) {
+                    System.err.println("Invalid command! Try again please");
+                } else {
+                    chosenMenu.execute();
                 }
             }
-            if (chosenMenu == null) {
-                System.err.println("Invalid command! Try again please");
-            } else {
-                chosenMenu.execute();
-            }
-            chosenMenu=null;
+            chosenMenu = null;
             input = scanner.nextLine().trim();
         }
         if (input.equalsIgnoreCase("back")) {
@@ -64,8 +77,16 @@ public class ViewDiscountCodesMenu extends Menu {
         } else if (input.equalsIgnoreCase("help")) {
             this.help();
             this.execute();
-        } else if(input.equalsIgnoreCase("logout")){
+        } else if (input.equalsIgnoreCase("logout")) {
             logoutChangeMenu();
+        }
+    }
+
+    private void printDiscountCode(ArrayList<Discount> discounts) {
+        int number = 1;
+        for (Discount discountCode : discounts) {
+            System.out.println(number + ") " + discountCode.getId() + "   " + discountCode.getDiscountPercent() * 100 + "%");
+            number += 1;
         }
     }
 
@@ -109,7 +130,7 @@ public class ViewDiscountCodesMenu extends Menu {
                     String chosenField = scanner.nextLine().trim();
                     if (chosenField.equalsIgnoreCase("back")) {
                         this.parentMenu.execute();
-                    } else if (chosenField.equalsIgnoreCase("logout")){
+                    } else if (chosenField.equalsIgnoreCase("logout")) {
                         logoutChangeMenu();
                     }
                     if (chosenField.matches("customers\\s+included")) {
@@ -124,7 +145,7 @@ public class ViewDiscountCodesMenu extends Menu {
                             String newValue = scanner.nextLine().trim();
                             if (newValue.equalsIgnoreCase("back")) {
                                 this.parentMenu.execute();
-                            } else if (newValue.equalsIgnoreCase("logout")){
+                            } else if (newValue.equalsIgnoreCase("logout")) {
                                 logoutChangeMenu();
                             }
                             managerController.invokeEditor(newValue, discount, editor);
@@ -153,7 +174,7 @@ public class ViewDiscountCodesMenu extends Menu {
             String choice = scanner.nextLine().trim();
             if (choice.equalsIgnoreCase("back")) {
                 this.parentMenu.execute();
-            } else if (choice.equalsIgnoreCase("logout")){
+            } else if (choice.equalsIgnoreCase("logout")) {
                 logoutChangeMenu();
             }
             if (choice.equalsIgnoreCase("add")) {
@@ -179,18 +200,20 @@ public class ViewDiscountCodesMenu extends Menu {
         while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
             if (input.equalsIgnoreCase("back")) {
                 this.parentMenu.execute();
-            } else if (input.equalsIgnoreCase("logout")){
+            } else if (input.equalsIgnoreCase("logout")) {
                 logoutChangeMenu();
             }
             try {
-                if(input.matches("remove\\s+(\\S+)")){
-                    Matcher matcher = getMatcher(input,"remove\\s+(\\S+)");
-                    managerController.setCustomersForEditingDiscountCode(matcher.group(1));
+                if(input.matches("add\\s+(\\S+)")){
+                    Matcher matcher = getMatcher(input,"add\\s+(\\S+)");
+                    managerController.setCustomersForAddingDiscountCode(matcher.group(1),discount.getId());
                 } else {
                     System.err.println("wrong command. please try again.");
                 }
             } catch (ManagerController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
+            } catch (ManagerController.CustomerAlreadyAddedException e){
+                System.err.println("you have already selected this customer");
             }
         }
         managerController.giveCodeToSelectedCustomers(discount);
@@ -207,18 +230,20 @@ public class ViewDiscountCodesMenu extends Menu {
         while (!(input = scanner.nextLine().trim()).equalsIgnoreCase("end")) {
             if (input.equalsIgnoreCase("back")) {
                 this.parentMenu.execute();
-            } else if (input.equalsIgnoreCase("logout")){
+            } else if (input.equalsIgnoreCase("logout")) {
                 logoutChangeMenu();
             }
             try {
                 if(input.matches("remove\\s+(\\S+)")){
                     Matcher matcher = getMatcher(input,"remove\\s+(\\S+)");
-                    managerController.setCustomersForEditingDiscountCode(matcher.group(1));
+                    managerController.setCustomersForRemovingDiscountCode(matcher.group(1),discount.getId());
                 } else {
                     System.err.println("wrong command. please try again.");
                 }
             } catch (ManagerController.InvalidUsernameException e) {
                 System.err.println(e.getMessage());
+            } catch (ManagerController.CustomerAlreadyAddedException e){
+                System.err.println("you have already selected this customer");
             }
         }
         managerController.removeCodeFromSelectedCustomers(discount);

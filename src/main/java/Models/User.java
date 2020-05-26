@@ -1,10 +1,12 @@
 package Models;
 
+
 import java.util.ArrayList;
 import static Models.Status.*;
 
 public abstract class User{
     private static ArrayList<User> allUsers = new ArrayList<>();
+    private static ArrayList<String> allUsernames = new ArrayList<>();
     protected int userId;
     protected String username;
     protected String firstname;
@@ -16,10 +18,26 @@ public abstract class User{
     private Status status;
 
     public User(String username){
-        totalUsersMade ++;
+        totalUsersMade++;
         this.username = username;
         this.userId = totalUsersMade;
         this.status = AVAILABLE;
+    }
+
+    public static void addTest(){
+        Customer customer = new Customer("sahar");
+        Manager customer1 = new Manager("sayeh");
+        customer.setEmail("dsbh@c.co");
+        customer.setPassword("sahar");
+        customer.setFirstname("jk");
+        customer.setLastname("hidf");
+        customer1.setEmail("dsbh@c.co");
+        customer1.setPassword("sahar");
+        customer1.setFirstname("jk");
+        customer1.setLastname("hidf");
+        allUsers.add(customer);
+        allUsers.add(customer1);
+        Customer.getAllCustomers().add(customer);
     }
 
     public String getUsername() {
@@ -80,12 +98,22 @@ public abstract class User{
     }
 
     public static ArrayList<User> getAllUsers() {
+        updateAllUsers();
         return allUsers;
     }
 
-    public static boolean isThereUsername(String username){
-        for (User user : allUsers) {
-            if(user.getUsername().equals(username))
+    public static void addUsername(String username){
+        allUsernames.add(username);
+    }
+
+    public static void removeUsername(String username){
+        allUsernames.remove(username);
+    }
+
+    public static boolean isThereUsername(String newUsername){
+        updateAllUsers();
+        for (String username : allUsernames) {
+            if(newUsername.equalsIgnoreCase(username))
                 return true;
         }
         return false;
@@ -129,6 +157,14 @@ public abstract class User{
         }
         return null;
     }
-
-    //-..-
+  
+    public static void updateAllUsers(){
+        ArrayList<User> temp = new ArrayList<>();
+        for (User user : allUsers) {
+            if(user.getStatus().equals(DELETED))
+                temp.add(user);
+                allUsernames.remove(user.getUsername());
+        }
+        allUsers.removeAll(temp);
+    }
 }

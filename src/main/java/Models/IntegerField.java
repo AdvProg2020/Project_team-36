@@ -10,7 +10,8 @@ public class IntegerField implements Field{
         this.name = name;
     }
 
-    public void setQuantity(String quantity) {
+    @Override
+    public void setValue(String quantity) {
         this.quantity = new BigDecimal(quantity);
     }
 
@@ -23,7 +24,22 @@ public class IntegerField implements Field{
         this.name = name;
     }
 
+    @Override
+    public String getFieldInfo() {
+        return "field: " + this.name + "  ->  quantity: " + this.quantity;
+    }
+
+    @Override
+    public String getQuantityString() {
+        return quantity.toString();
+    }
+
     public BigDecimal getQuantity() {
         return quantity;
+    }
+
+    @Override
+    public String toString() {
+        return name+": "+quantity;
     }
 }

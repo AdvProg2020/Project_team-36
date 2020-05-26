@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Category{
+public class Category {
     private String name;
     private int categoryId;
     private static int totalCategoriesMade;
@@ -87,6 +87,10 @@ public class Category{
 
     public void removeProduct(Product product){
         this.products.remove(product);
+    }
+
+    public void addProduct(Product product){
+        this.products.add(product);
     }
 
     public boolean isThereIntegerField(String name) {
@@ -267,5 +271,4 @@ public class Category{
         allCategories.removeAll(this.getAllSubCategories());
         allCategories.remove(this);
     }
-
 }

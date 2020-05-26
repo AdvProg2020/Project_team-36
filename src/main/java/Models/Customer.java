@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Customer extends User{
+public class Customer extends User  {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<CustomerLog> allLogs;
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
-
     public Customer(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
@@ -25,6 +24,9 @@ public class Customer extends User{
         return "customer";
     }
 
+    public void setCredit(long credit) {
+        this.credit = credit;
+    }
 
     public static void addNewCustomer(Customer customer) {
         allCustomers.add(customer);
@@ -43,6 +45,7 @@ public class Customer extends User{
     }
 
     public ArrayList<SelectedItem> getCart() {
+        updateCart();
         for (SelectedItem selectedItem : this.cart) {
             selectedItem.checkTag();
         }
@@ -102,27 +105,22 @@ public class Customer extends User{
         return null;
     }
 
-    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
-        this.updateDiscounts();
-        return allDiscountsForCustomer;
-    }
-
-    private void updateDiscounts() {
-        Set<Discount> temp = new HashSet<>();
+    public HashMap<Discount, Integer> getAllActiveDiscountsForCustomer() {
+        HashMap<Discount,Integer> toBeReturned = new HashMap<>();
         for (Discount discount : this.allDiscountsForCustomer.keySet()) {
-            if (!discount.isDiscountAvailable()) {
-                temp.add(discount);
-            }
+            if(discount.isDiscountAvailable()&&allDiscountsForCustomer.get(discount)>0)
+                toBeReturned.put(discount,allDiscountsForCustomer.get(discount));
         }
-        this.allDiscountsForCustomer.keySet().removeAll(temp);
-
+        return toBeReturned;
     }
+
 
     public void decreaseCredit(long totalDecrease){
         this.credit -= totalDecrease;
     }
 
     public boolean isThereProductInCart(int productId) {
+        updateCart();
         for (SelectedItem item : cart) {
             if (item.getProduct().getProductId()==(productId))
                 return true;
@@ -148,6 +146,7 @@ public class Customer extends User{
 
 
     public long getCartPrice() {
+        updateCart();
         long sum = 0;
         for (SelectedItem item : cart) {
             sum += item.getItemTotalPrice();
@@ -184,5 +183,44 @@ public class Customer extends User{
 
     public static void addToAllCustomers(Customer customer){
         allCustomers.add(customer);
+    }
+
+    public void addToCart(SelectedItem selectedItem){
+        for (SelectedItem item : cart) {
+            if(item.getProduct().equals(selectedItem.getProduct())){
+                for (Seller seller : item.getSellers()) {
+                    if(seller.equals(selectedItem.getSellers())){
+                        item.increaseAmountFromSeller(seller,1);
+                        return;
+                    }
+                }
+                item.getSellers().addAll(selectedItem.getSellers());
+                item.getCountFromEachSeller().add(1);
+                return;
+            }
+        }
+        cart.add(selectedItem);
+    }
+
+    public void updateCart(){
+        ArrayList<SelectedItem> temp = new ArrayList<>();
+        for (SelectedItem item : cart) {
+            if(!Product.isThereProductWithId(item.getProduct().getProductId()))
+                temp.add(item);
+            else{
+                item.updateSelectedItem();
+                if(item.getSellers().size()==0)
+                    temp.add(item);
+            }
+        }
+        cart.removeAll(temp);
+    }
+
+    @Override
+    public String toString() {
+        return "username: "+username+"\nfirstname: "+firstname+
+                "\nlastname: "+lastname+"\nphone: "+phoneNumber+
+                "\nemail: "+email+"\ncredit: "+credit+
+                "\npassword: "+password;
     }
 }

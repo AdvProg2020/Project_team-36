@@ -4,11 +4,17 @@ import Models.*;
 import View.*;
 
 public class EntryController extends UserController  {
+    UserAreaMenu userAreaMenu;
     public EntryController(GlobalVariables userVariables) {
         super(userVariables);
+
     }
 
-    public void setPasswordLogin(String password, UserAreaMenu userAreaMenu) throws WrongPasswordException{
+    public void setUserAreaMenu(UserAreaMenu userAreaMenu) {
+        this.userAreaMenu = userAreaMenu;
+    }
+
+    public void setPasswordLogin(String password) throws WrongPasswordException{
         if(!password.equals(userVariables.getLoggedInUser().getPassword())){
             throw new WrongPasswordException("Wrong password!");
         }else{
@@ -32,6 +38,7 @@ public class EntryController extends UserController  {
         else if (User.isThereUsername(username))
             throw new InvalidUsernameException("there is a user with this username");
         else {
+            User.addUsername(username);
             createNewAccount(username, type);
         }
     }
@@ -47,7 +54,7 @@ public class EntryController extends UserController  {
     public void register(){
         User user = userVariables.getLoggedInUser();
         if(user instanceof Seller){
-            new Request((Seller) user);
+            new Request((Seller) user,Status.TO_BE_ADDED);
             return;
         }
         User.addNewUser(user);
@@ -71,6 +78,7 @@ public class EntryController extends UserController  {
             newUser = new Customer(username);
         } else if (type.matches("seller")) {
             newUser = new Seller(username);
+
         } else {
             if (!Manager.canManagerRegister()) {
                 throw new ManagerExistsException("There is a manager!You cannot register");

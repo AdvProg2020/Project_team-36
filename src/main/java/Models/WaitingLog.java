@@ -101,11 +101,11 @@ public class WaitingLog {
 
     public void setDiscount(Discount discount) {
         if (this.discount != null) {
-            this.customer.increaseDiscountCode(discount, 1);
+            this.customer.increaseDiscountCode(this.discount, 1);
         }
         this.customer.decreaseDiscountCode(discount, 1);
         this.discount = discount;
-        this.discountAmount= discount.getPayableAfterDiscount(totalPrice);
+        this.discountAmount= totalPrice-discount.getPayableAfterDiscount(totalPrice);
     }
 
     public String getCustomerAddress() {
@@ -126,6 +126,7 @@ public class WaitingLog {
             for (Seller seller : item.getSellers()) {
                 product.getProductFieldBySeller(seller).addBuyer(this.customer);
             }
+            product.addBuyer(this.customer);
         }
     }
 

@@ -44,8 +44,6 @@ public class ItemInLog {
         return sellerUsername;
     }
 
-
-
     public int getCount() {
         return count;
     }
@@ -71,5 +69,4 @@ public class ItemInLog {
         int count = selectedItem.getCountFromEachSeller().get(index);
         return new ItemInLog(selectedItem.getProduct(),count,seller);
     }
-
 }

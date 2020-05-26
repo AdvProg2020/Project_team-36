@@ -1,6 +1,8 @@
 package View.AllSellers;
 
 import Controllers.SellerController;
+import Models.SellerLog;
+import View.ManageCategoriesMenu;
 import View.Menu;
 import View.Products.OffsMenu;
 import View.Products.ProductsMenu;
@@ -9,38 +11,21 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class SellerMenu extends Menu {
-    private int productId;
 
     public SellerMenu(Menu parentMenu) {
         super("SellerMenu", parentMenu);
         subMenus = new HashMap<>();
-        subMenus.put("view\\s+balance",getViewBalanceMenu());
-        subMenus.put("view\\s+company\\s+information",getViewCompanyInformationMenu());
-        subMenus.put("remove\\s+product\\s+(\\d+)",getRemoveProductMenu());
-        subMenus.put("offs", new OffsMenu("off menu",this));
-        subMenus.put("products",new ProductsMenu("ProductsMenu",this));
+        subMenus.put("^add\\s+product$",new AddProductMenu(this));
+        subMenus.put("^view\\s+offs$",new ViewOffsMenu(this));
+        subMenus.put("^view\\s+balance$",getViewBalanceMenu());
+        subMenus.put("^view\\s+company\\s+information$",getViewCompanyInformationMenu());
+        subMenus.put("^show\\s+categories$",getShowCategories());
+        subMenus.put("^view\\s+sales\\s+history$",getViewSalesHistory());
+        subMenus.put("^offs", new OffsMenu("off menu",this));
+        subMenus.put("^products$",new ProductsMenu("ProductsMenu",this));
     }
 
-    public Menu getRemoveProductMenu(){
-        return new Menu("remove\\s+product\\s+(\\d+)",this) {
-            @Override
-            public void execute() {
-                try {
-                    sellerController.removeSellerProduct(productId);
-                    System.out.println("Product removed!");
-                } catch (SellerController.NoProductForSeller noProductForSeller) {
-                    System.err.println("There is no product with this id in your products!");
-                }
-            }
-
-            @Override
-            public void help() {
-            }
-        };
-    }
-
-
-    public Menu getViewBalanceMenu(){
+    private Menu getViewBalanceMenu(){
         return new Menu("viewBalanceMenu",this) {
             @Override
             public void execute() {
@@ -53,7 +38,7 @@ public class SellerMenu extends Menu {
         };
     }
 
-    public Menu getViewCompanyInformationMenu(){
+    private Menu getViewCompanyInformationMenu(){
         return new Menu("view\\s+company\\s+information",this) {
             @Override
             public void execute() {
@@ -61,6 +46,35 @@ public class SellerMenu extends Menu {
             }
             @Override
             public void help() {}
+        };
+    }
+
+    private Menu getShowCategories(){
+        return new Menu("getShowCategories",this) {
+            @Override
+            public void help() { }
+
+            @Override
+            public void execute() {
+                System.out.println("All Categories:");
+                ManageCategoriesMenu.printCategoryTree(sellerController.getMainCategory());
+            }
+        };
+    }
+
+    private Menu getViewSalesHistory(){
+        return new Menu("getViewSalesHistory",this) {
+            @Override
+            public void help() { }
+
+            @Override
+            public void execute() {
+                int number = 1;
+                for (SellerLog sellerLog : sellerController.getAllSellerLogs()) {
+                    System.out.println(number+") \n"+sellerLog.getSellerLogInfo());
+                    number+=1;
+                }
+            }
         };
     }
 
@@ -86,11 +100,6 @@ public class SellerMenu extends Menu {
                 for (String regex : subMenus.keySet()) {
                     if((matcher = getMatcher(input,regex)).matches()){
                         chosenMenu = subMenus.get(regex);
-                        try{
-                            productId = Integer.parseInt(matcher.group(1));
-                        }catch (Exception e){
-                            //DO NOTHING
-                        }
                     }
                 }
                 if(chosenMenu==null)
@@ -99,7 +108,7 @@ public class SellerMenu extends Menu {
                     chosenMenu.execute();
             }
         }
+        this.parentMenu.getParentMenu().execute();
     }
 
-    //TODO hate git!
 }

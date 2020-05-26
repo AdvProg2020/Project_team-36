@@ -11,7 +11,7 @@ public class Seller extends User implements Pendable {
     private String companyName;
     private String companyInfo;
 
-    public Seller(String username){
+    public Seller(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
         this.allSales = new ArrayList<>();
@@ -39,6 +39,23 @@ public class Seller extends User implements Pendable {
         return companyInfo;
     }
 
+    public boolean sellerHasTheOff(int id){
+        for (Sale sale : allSales) {
+            if(sale.getOffId()==id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Sale getSaleWithId(int id){
+        for (Sale sale : allSales) {
+            if(sale.getOffId()==id){
+                return sale;
+            }
+        }
+        return null;
+    }
 
     @Override
     public String getPendingRequestType() {
@@ -69,34 +86,44 @@ public class Seller extends User implements Pendable {
         return allSales;
     }
 
-    public void addNewLog(SellerLog sellerLog){
+    public void addNewLog(SellerLog sellerLog) {
         this.allLogs.add(sellerLog);
     }
 
-    public void increaseCredit(long amount){
+    public void increaseCredit(long amount) {
         this.credit += amount;
     }
 
-    public void removeProduct(Product product){
+    public void removeProduct(Product product) {
         allProducts.remove(product);
+    }
+
+    public void addProduct(Product product){
+        allProducts.add(product);
     }
 
     public boolean isThereProduct(int productId){
         for (Product product : allProducts) {
-            if(product.getProductId()==productId)
+            if (product.getProductId() == productId)
                 return true;
         }
         return false;
     }
 
+    public void addSale(Sale sale){
+        allSales.add(sale);
+    }
+
     @Override
     public String toString() {
-        return  "    username: " + username + '\n' +
+        return "    username: " + username + '\n' +
                 "    firstname: " + firstname + '\n' +
                 "    lastname: " + lastname + '\n' +
                 "    email: " + email + '\n' +
                 "    phoneNumber: " + phoneNumber + '\n' +
-                "    company: " + companyName + '\n'
+                "    password: " + password + '\n' +
+                "    company: " + companyName + '\n' +
+                "    company info: : " + companyInfo + '\n'
                 ;
     }
 
@@ -125,6 +152,22 @@ public class Seller extends User implements Pendable {
     public static void addToAllSellers(Seller seller){
         allSellers.add(seller);
     }
+  
+    @Override
+    public void acceptAddRequest() {
+        User.addNewUser(this);
+        allSellers.add(this);
+    }
 
-    //-..-
+    @Override
+    public void acceptEditRequest() { }
+
+    public static void updateSellers(){
+        ArrayList<Seller> toBeRemoved = new ArrayList<>();
+        for (Seller seller : allSellers) {
+            if(seller.getStatus().equals(Status.DELETED))
+                toBeRemoved.add(seller);
+        }
+        allSellers.removeAll(toBeRemoved);
+    }
 }
