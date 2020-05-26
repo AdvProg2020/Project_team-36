@@ -31,10 +31,6 @@ public class Comment implements Pendable {
         return product;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public String getComment() {
         return comment;
     }

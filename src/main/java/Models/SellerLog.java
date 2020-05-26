@@ -95,16 +95,8 @@ public class SellerLog {
         return totalLogsMade;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public Customer getCustomer() {
         return customer;
-    }
-
-    public long getSale() {
-        return sale;
     }
 
     public String getCustomerAddress() {
@@ -117,10 +109,6 @@ public class SellerLog {
 
     public LogStatus getLogStatus() {
         return logStatus;
-    }
-
-    public long getTotalPrice() {
-        return totalPrice;
     }
 
     public ArrayList<ItemInLog> getAllItems() {

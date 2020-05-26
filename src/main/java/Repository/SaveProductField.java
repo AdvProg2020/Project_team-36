@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SaveProductField {
-    private ProductionStatus status;
+    private Status status;
     private long price;
     private int offId;
     private int sellerId;

@@ -216,6 +216,10 @@ public class Customer extends User  {
         cart.removeAll(temp);
     }
 
+    public HashMap<Discount, Integer> getAllDiscountsForCustomer() {
+        return allDiscountsForCustomer;
+    }
+
     @Override
     public String toString() {
         return "username: "+username+"\nfirstname: "+firstname+
