@@ -72,6 +72,7 @@ public class EntryController extends UserController  {
             newUser = new Customer(username);
         } else if (type.matches("seller")) {
             newUser = new Seller(username);
+
         } else {
             if (!Manager.canManagerRegister()) {
                 throw new ManagerExistsException("There is a manager!You cannot register");

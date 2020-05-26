@@ -111,6 +111,10 @@ public class Seller extends User implements Pendable,Packable {
         return false;
     }
 
+    public void addSale(Sale sale){
+        allSales.add(sale);
+    }
+
     @Override
     public String toString() {
         return  "    username: " + username + '\n' +
@@ -124,13 +128,12 @@ public class Seller extends User implements Pendable,Packable {
 
     @Override
     public void acceptAddRequest() {
-
+        User.addNewUser(this);
+        allSellers.add(this);
     }
 
     @Override
-    public void acceptEditRequest() {
-
-    }
+    public void acceptEditRequest() { }
 
     //-..-
 }

@@ -101,6 +101,9 @@ public class ProductField implements Pendable {
         this.supply +=amount;
     }
 
+    public void setSale(Sale sale){
+        this.sale = sale;
+    }
 
 
     @Override

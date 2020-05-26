@@ -105,6 +105,7 @@ public abstract class User implements Packable{
         for (User user : allUsers) {
             if(user.getStatus().equals(DELETED)){
                 usersToDelete.add(user);
+                allUsernames.remove(user.getUsername());
             }
         }
         allUsers.removeAll(usersToDelete);
