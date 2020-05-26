@@ -102,9 +102,6 @@ public class ProductField implements Pendable {
         this.supply +=amount;
     }
 
-    public void setSale(Sale sale){
-        this.sale = sale;
-    }
 
     public ProductField(Status status, long price, Sale sale, Seller seller, int supply) {
         this.status = status;
