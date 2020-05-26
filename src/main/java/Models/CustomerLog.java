@@ -98,6 +98,24 @@ public class CustomerLog {
         return customerLog;
     }
 
+    public long getGiftDiscount() {
+        return giftDiscount;
+    }
+
+    public CustomerLog(Date date, int id, double discountPercent, long discountAmount, long giftDiscount, String address, String phoneNumber, LogStatus logStatus, long totalPrice, long totalPayable, ArrayList<ItemInLog> allItems) {
+        this.date = date;
+        this.id = id;
+        this.discountPercent = discountPercent;
+        this.discountAmount = discountAmount;
+        this.giftDiscount = giftDiscount;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.logStatus = logStatus;
+        this.totalPrice = totalPrice;
+        this.totalPayable = totalPayable;
+        this.allItems = allItems;
+    }
+
     @Override
     public String toString() {
         String result;

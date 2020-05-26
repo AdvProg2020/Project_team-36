@@ -91,6 +91,59 @@ public class SellerLog {
         return allItemsForSellers;
     }
 
+    public static int getTotalLogsMade() {
+        return totalLogsMade;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public long getSale() {
+        return sale;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
+
+    public LogStatus getLogStatus() {
+        return logStatus;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public ArrayList<ItemInLog> getAllItems() {
+        return allItems;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public SellerLog(Date date, int id, Customer customer, long sale, String customerAddress, String customerPhoneNumber, LogStatus logStatus,
+                     long totalPrice, ArrayList<ItemInLog> allItems) {
+        this.date = date;
+        this.id = id;
+        this.customer = customer;
+        this.sale = sale;
+        this.customerAddress = customerAddress;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.logStatus = logStatus;
+        this.totalPrice = totalPrice;
+        this.allItems = allItems;
+    }
+
     public StringBuilder getSellerLogInfo() {
         StringBuilder toBePrinted = new StringBuilder();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");

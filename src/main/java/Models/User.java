@@ -14,7 +14,7 @@ public abstract class User{
     protected String email;
     protected String phoneNumber;
     protected String password;
-    private static int totalUsersMade;
+    private static int totalUsersMade = 0;
     private Status status;
 
     public User(String username){
@@ -133,6 +133,31 @@ public abstract class User{
         return status;
     }
 
+    public User(int userId, String username, String firstname, String lastname,
+                String email, String phoneNumber, String password, Status status) {
+        this.userId = userId;
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.status = status;
+    }
+
+    public static void addToAllUsers(User user){
+        allUsers.add(user);
+    }
+
+    public static User getUserById(int id){
+        for (User user : allUsers) {
+            if (user.userId == id){
+                return user;
+            }
+        }
+        return null;
+    }
+  
     public static void updateAllUsers(){
         ArrayList<User> temp = new ArrayList<>();
         for (User user : allUsers) {

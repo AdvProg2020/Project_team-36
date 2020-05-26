@@ -151,6 +151,33 @@ public class Sale implements Pendable {
         return "sale";
     }
 
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public static Sale getSaleById(int id){
+        for (Sale sale : allSales) {
+            if (sale.offId == id){
+                return sale;
+            }
+        }
+        return null;
+    }
+
+    public Sale(Seller seller, int offId, ProductionStatus status, Date startTime, Date endTime, Double salePercent) {
+        this.seller = seller;
+        this.offId = offId;
+        this.status = status;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.salePercent = salePercent;
+        this.productsInSale = new ArrayList<>();
+    }
+
+    public static void addToAllSales(Sale sale){
+        allSales.add(sale);
+    }
+
     public static void updateSales(){
         ArrayList<Sale> toBeRemoved = new ArrayList<>();
         ArrayList<Product> removingProducts= new ArrayList<>();
@@ -209,5 +236,4 @@ public class Sale implements Pendable {
         }
         return false;
     }
-
 }

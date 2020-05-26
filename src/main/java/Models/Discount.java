@@ -150,6 +150,29 @@ public class Discount {
         return allDiscounts;
     }
 
+    public static Discount getDiscountById(int id){
+        for (Discount discount : allDiscounts) {
+            if (discount.id == id){
+                return discount;
+            }
+        }
+        return null;
+    }
+
+    public Discount(int id, Date startTime, Date endTime, double discountPercent, long discountLimit, int repetitionForEachUser) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.discountPercent = discountPercent;
+        this.discountLimit = discountLimit;
+        this.repetitionForEachUser = repetitionForEachUser;
+        this.customersIncluded = new ArrayList<>();
+    }
+
+    public static void addToAllDiscounts(Discount discount){
+        allDiscounts.add(discount);
+    }
+
     public static void updateDiscounts(){
         ArrayList<Customer> toBeRemoved = new ArrayList<>();
         for (Discount discount : allDiscounts) {

@@ -53,8 +53,32 @@ public class Product implements Pendable {
 
     }
 
+    public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory, String information, Date productionDate, int seenNumber) {
+        this.productId = productId;
+        this.name = name;
+        this.company = company;
+        this.category = category;
+        this.fieldsOfCategory = fieldsOfCategory;
+        this.information = information;
+        this.productionDate = productionDate;
+        this.seenNumber = seenNumber;
+        this.productFields = new ArrayList<>();
+        this.allComments = new ArrayList<>();
+        this.allScore = new ArrayList<>();
+    }
+
+    // TODO: 5/18/2020 product constructor nadare:))) va inke id hash ro chejuri generate krdin???!!!
     public int getProductId() {
         return productId;
+    }
+
+    public static Product getProductById(int productId){
+        for (Product product : allProducts) {
+            if(product.productId == productId){
+                return product;
+            }
+        }
+        return null;
     }
 
     public String getName() {
@@ -430,6 +454,10 @@ public class Product implements Pendable {
         return "product";
     }
 
+    public static void addToAllProducts(Product product){
+        allProducts.add(product);
+    }
+
     public void updateComments(){
         ArrayList<Comment> temp = new ArrayList<>();
         for (Comment comment : this.allComments) {
@@ -469,6 +497,4 @@ public class Product implements Pendable {
         }
         allBuyers.removeAll(toBeRemoved);
     }
-
-
 }

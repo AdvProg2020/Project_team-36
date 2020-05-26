@@ -21,7 +21,7 @@ public class HighPriceEvent implements Event{
         if(this.checkDate()){
             return waitingLog.getTotalPrice() >= minimumLogPrice;
         }else
-        return false;
+            return false;
     }
 
     public boolean checkDate(){

@@ -73,4 +73,10 @@ public class Gift {
     public String toString() {
         return this.name + "\n" + this.action.toString();
     }
+
+    public String getName() {
+        return name;
+    }
+
+
 }

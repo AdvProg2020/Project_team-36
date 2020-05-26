@@ -3,7 +3,7 @@ package Models;
 
 import java.util.ArrayList;
 
-public class ItemInLog  {
+public class ItemInLog {
     private String productName;
     private int productId;
     private int count;
@@ -69,7 +69,4 @@ public class ItemInLog  {
         int count = selectedItem.getCountFromEachSeller().get(index);
         return new ItemInLog(selectedItem.getProduct(),count,seller);
     }
-
-
-
 }

@@ -24,6 +24,32 @@ public class Category {
         this.allFields = new HashSet<>();
     }
 
+    public Category(String name, int categoryId, HashSet<Field> allFields, Category parentCategory) {
+        this.name = name;
+        this.categoryId = categoryId;
+        this.allFields = allFields;
+        this.parentCategory = parentCategory;
+        this.subCategories = new ArrayList<>();
+        this.products = new ArrayList<>();
+    }
+
+    public static void addToAllCategories(Category category){
+        allCategories.add(category);
+    }
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+
+    public static Category getCategoryById(int id){
+        for (Category category : allCategories) {
+            if (category.categoryId == id){
+                return category;
+            }
+        }
+        return null;
+    }
+
     private int randomId() {
         totalCategoriesMade += 1;
         return totalCategoriesMade;
@@ -73,6 +99,10 @@ public class Category {
                 return true;
         }
         return false;
+    }
+
+    public static void setTotalCategoriesMade(int totalCategoriesMade) {
+        Category.totalCategoriesMade = totalCategoriesMade;
     }
 
     public boolean isThereOptionalField(String name) {
@@ -241,6 +271,4 @@ public class Category {
         allCategories.removeAll(this.getAllSubCategories());
         allCategories.remove(this);
     }
-
-
 }

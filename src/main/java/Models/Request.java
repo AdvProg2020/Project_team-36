@@ -5,7 +5,7 @@ import java.util.Date;
 
 import static Models.Status.*;
 
-public class Request  {
+public class Request {
     private Pendable pendableRequest;
     private int requestId;
     private static int totalRequestsMade;
@@ -84,11 +84,30 @@ public class Request  {
     }
 
     public void acceptRequest() {
-        if(status.equals(TO_BE_EDITED)){
+       if(status.equals(TO_BE_EDITED)){
             pendableRequest.acceptEditRequest();
         } else if (status.equals(TO_BE_ADDED)){
             pendableRequest.acceptAddRequest();
         }
+    }
+
+    public static Request getRequestById(int id){
+        for (Request request : allRequests) {
+            if (request.requestId == id){
+                return request;
+            }
+        }
+        return null;
+    }
+
+    public Request(Pendable pendableRequest, int requestId, Status status) {
+        this.pendableRequest = pendableRequest;
+        this.requestId = requestId;
+        this.status = status;
+    }
+
+    public static void addToAllRequests(Request request){
+        allRequests.add(request);
     }
 
 }
