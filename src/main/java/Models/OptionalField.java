@@ -22,13 +22,13 @@ public class OptionalField implements Field {
         return this.quality;
     }
 
-    public String getQuality() {
-        return quality;
-    }
-
     @Override
     public void setValue(String quality) {
         this.quality = quality;
+    }
+
+    public String getQuality() {
+        return quality;
     }
 
     @Override

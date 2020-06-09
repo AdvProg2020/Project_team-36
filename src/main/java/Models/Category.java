@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Category{
+public class Category {
     private String name;
     private int categoryId;
     private static int totalCategoriesMade;
@@ -261,15 +261,6 @@ public class Category{
         }
     }
 
-    public static Category getCategoryWithName(String name){
-        for (Category category : allCategories) {
-            if(category.getName().equalsIgnoreCase(name)){
-                return category;
-            }
-        }
-        return null;
-    }
-
     public void removeCategory(){
         int size = this.getAllSubProducts().size();
         for(int i=0;i<size;i++){
@@ -280,8 +271,4 @@ public class Category{
         allCategories.removeAll(this.getAllSubCategories());
         allCategories.remove(this);
     }
-
-
-
-
 }

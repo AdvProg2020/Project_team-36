@@ -57,7 +57,7 @@ public class Comment implements Pendable {
         ConfirmationStatus = confirmationStatus;
         this.hasBought = hasBought;
     }
-
+  
     @Override
     public void acceptAddRequest() {
         product.addComment(this);

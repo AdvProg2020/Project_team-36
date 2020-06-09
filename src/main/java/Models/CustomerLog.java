@@ -5,7 +5,7 @@ import java.util.Date;
 
 import static Models.LogStatus.WAITING_TO_BE_SENT;
 
-public class  CustomerLog {
+public class CustomerLog {
     private static int totalLogsMade;
     private Date date;
     private int id;

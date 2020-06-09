@@ -12,7 +12,6 @@ public class Customer extends User  {
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
-
     public Customer(String username) {
         super(username);
         this.allLogs = new ArrayList<>();

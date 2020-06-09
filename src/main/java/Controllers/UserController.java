@@ -1,4 +1,5 @@
 package Controllers;
+
 import Models.Customer;
 import Models.Seller;
 import Models.User;
@@ -6,12 +7,11 @@ import Models.User;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-public abstract class UserController {
 
+public class UserController {
     private HashMap<String, Method> generalInfoMethods;
     private HashMap<String, Method> sellerInfoMethods;
-    protected GlobalVariables userVariables;
-    GlobalVariables userVariables;
+   protected GlobalVariables userVariables;
     public UserController(GlobalVariables userVariables) {
         this.userVariables = userVariables;
         this.generalInfoMethods = new HashMap<>();
@@ -71,7 +71,6 @@ public abstract class UserController {
         }
         throw new NoFieldWithThisType();
     }
-
     public void setPassword(String password){
         this.userVariables.getLoggedInUser().setPassword(password);
     }
