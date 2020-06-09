@@ -7,5 +7,3 @@ public interface Pendable {
     void acceptEditRequest();
     //-..-
 }
-
-

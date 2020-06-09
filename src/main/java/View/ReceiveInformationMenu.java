@@ -52,5 +52,6 @@ public class ReceiveInformationMenu extends Menu {
         else if(input.matches("logout"))
             logoutChangeMenu();
         subMenus.get("Discount Code Menu").execute();
+
     }
 }

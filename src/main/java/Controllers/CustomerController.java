@@ -64,9 +64,6 @@ public class CustomerController extends UserController {
         }
 
     }
-    public void setCredit(long credit)throws NoLoggedInUserException {
-        ((Customer)userVariables.getLoggedInUser()).setCredit(credit);
-    }
 
     public boolean isThereProductInCart(int productId) {
         return ((Customer) userVariables.getLoggedInUser()).isThereProductInCart(productId);
@@ -79,23 +76,6 @@ public class CustomerController extends UserController {
     public boolean isThereMultipleSellers(int productId) {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
         return item.getSellers().size() > 1;
-    }
-
-    public boolean isThereAvailableItemInCart(){
-        ArrayList<SelectedItem> cart = ((Customer)userVariables.getLoggedInUser()).getCart();
-        if(cart.isEmpty())
-            return false;
-        for (SelectedItem item : cart) {
-            if(item.getTag().equals(ENOUGH_SUPPLY))
-                return true;
-            if(item.getTag().equals(NOT_ENOUGH_SUPPLY)){
-                for (Seller seller : item.getSellers()) {
-                    if(item.getProduct().getProductFieldBySeller(seller).getSupply()>0)
-                        return true;
-                }
-            }
-        }
-        return false;
     }
 
     public void startPurchase() throws EmptyCart, NotEnoughSupplyInCart {
@@ -134,6 +114,7 @@ public class CustomerController extends UserController {
         } else {
             throw new NotEnoughSupply();
         }
+
 
     }
 
@@ -243,7 +224,6 @@ public class CustomerController extends UserController {
         Customer customer = (Customer) userVariables.getLoggedInUser();
         if (waitingLog.getPayablePrice() > customer.getCredit()) {
             waitingLog.removeDiscount();
-            cancelPurchase();
             throw new NotEnoughMoney(waitingLog.getPayablePrice() - customer.getCredit());
         }
         waitingLog.applyPurchaseChanges();

@@ -110,8 +110,8 @@ public class ProductField implements Pendable {
         this.seller = seller;
         this.supply = supply;
         this.allBuyers = new HashSet<>();
-    }
-
+}
+  
     public void setSale(Sale sale){
         this.sale = sale;
     }

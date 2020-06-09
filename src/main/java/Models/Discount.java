@@ -150,19 +150,6 @@ public class Discount {
         return allDiscounts;
     }
 
-    public static void updateDiscounts(){
-        ArrayList<Customer> toBeRemoved = new ArrayList<>();
-        for (Discount discount : allDiscounts) {
-            for (Customer customer : discount.customersIncluded) {
-                if(customer.getStatus().equals(Status.DELETED)){
-                    toBeRemoved.add(customer);
-                }
-            }
-            discount.customersIncluded.removeAll(toBeRemoved);
-            toBeRemoved.clear();
-        }
-    }
-
     public static Discount getDiscountById(int id){
         for (Discount discount : allDiscounts) {
             if (discount.id == id){
@@ -184,5 +171,18 @@ public class Discount {
 
     public static void addToAllDiscounts(Discount discount){
         allDiscounts.add(discount);
+    }
+
+    public static void updateDiscounts(){
+        ArrayList<Customer> toBeRemoved = new ArrayList<>();
+        for (Discount discount : allDiscounts) {
+            for (Customer customer : discount.customersIncluded) {
+                if(customer.getStatus().equals(Status.DELETED)){
+                    toBeRemoved.add(customer);
+                }
+            }
+            discount.customersIncluded.removeAll(toBeRemoved);
+            toBeRemoved.clear();
+        }
     }
 }

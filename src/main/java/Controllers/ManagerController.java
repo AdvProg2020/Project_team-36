@@ -15,16 +15,15 @@ public class ManagerController extends UserController {
     private HashMap<Integer, String> giftEvents;
     private static HashMap<String, String> discountFieldsSetters = new HashMap<>();
     private static ArrayList<Customer> customersToBeEditedForDiscountCode = new ArrayList<>();
-    private HashMap<String, Method> sortUsersMethods;
-    private HashMap<String, Method> sortDiscountMethods;
-
+    private HashMap<String,Method> sortUsersMethods;
+    private HashMap<String,Method> sortDiscountMethods;
     public ManagerController(GlobalVariables userVariables) {
         super(userVariables);
         writeDiscountFieldsSetters();
         giftEvents = new HashMap<>();
-        giftEvents.put(1, "first buy gift");
-        giftEvents.put(2, "high log price gift");
-        giftEvents.put(3, "periodic gift");
+        giftEvents.put(1,"first buy gift");
+        giftEvents.put(2,"high log price gift");
+        giftEvents.put(3,"periodic gift");
         setSortUsersMethods();
         setSortDiscountMethods();
     }
@@ -49,7 +48,7 @@ public class ManagerController extends UserController {
         }
     }
 
-    private void setSortUsersMethods() {
+    private void setSortUsersMethods(){
         sortUsersMethods = new HashMap<>();
         try {
             Method method = User.class.getDeclaredMethod("getUserId");
@@ -206,7 +205,7 @@ public class ManagerController extends UserController {
         return availableCustomers;
     }
 
-    public void setCustomersForAddingDiscountCode(String username, int id) throws InvalidUsernameException, CustomerAlreadyAddedException {
+    public void setCustomersForAddingDiscountCode(String username,int id) throws InvalidUsernameException, CustomerAlreadyAddedException {
         for (Customer customer : getCustomersWithoutThisCode(id)) {
             if (customer.getUsername().equals(username)) {
                 if (isThereCustomerWithUsername(username)) {
@@ -220,7 +219,7 @@ public class ManagerController extends UserController {
         throw new InvalidUsernameException("There is no available customer with this username");
     }
 
-    public void setCustomersForRemovingDiscountCode(String username, int id) throws InvalidUsernameException, CustomerAlreadyAddedException {
+    public void setCustomersForRemovingDiscountCode(String username,int id) throws InvalidUsernameException, CustomerAlreadyAddedException {
         for (Customer customer : getCustomersWithThisCode(id)) {
             if (customer.getUsername().equals(username)) {
                 if (isThereCustomerWithUsername(username)) {
@@ -301,28 +300,24 @@ public class ManagerController extends UserController {
         discountFieldsSetters.put("customers\\s+included", "editDiscountCustomersIncluded");
     }
 
-    public HashMap<Integer, String> getGiftEventsName() {
-        return this.giftEvents;
-    }
-
-    public ArrayList<User> sortUsers(String field, String type) throws ProductsController.NoSortException {
+    public ArrayList<User> sortUsers(String field,String type) throws ProductsController.NoSortException {
         ArrayList<User> toBeReturned = new ArrayList<>();
         toBeReturned.addAll(getAllUsers());
         for (String regex : sortUsersMethods.keySet()) {
-            if (regex.equalsIgnoreCase(field)) {
-                new Sort().sort(toBeReturned, sortUsersMethods.get(regex), type.equalsIgnoreCase("ascending"));
+            if(regex.equalsIgnoreCase(field)){
+                new Sort().sort(toBeReturned,sortUsersMethods.get(regex),type.equalsIgnoreCase("ascending"));
                 return toBeReturned;
             }
         }
         throw new ProductsController.NoSortException();
     }
 
-    public ArrayList<Discount> sortDiscountCodes(String field, String type) throws ProductsController.NoSortException {
+    public ArrayList<Discount> sortDiscountCodes(String field,String type) throws ProductsController.NoSortException {
         ArrayList<Discount> toBeReturned = new ArrayList<>();
         toBeReturned.addAll(getAllDiscountCodes());
         for (String regex : sortDiscountMethods.keySet()) {
-            if (regex.equalsIgnoreCase(field)) {
-                new Sort().sort(toBeReturned, sortDiscountMethods.get(regex), type.equalsIgnoreCase("ascending"));
+            if(regex.equalsIgnoreCase(field)){
+                new Sort().sort(toBeReturned,sortDiscountMethods.get(regex),type.equalsIgnoreCase("ascending"));
                 return toBeReturned;
             }
         }
@@ -330,28 +325,31 @@ public class ManagerController extends UserController {
 
     }
 
-    public ArrayList<Request> filterRequests(String input) {
+    public ArrayList<Request> filterRequests(String input){
         ArrayList<Request> requests = new ArrayList<>();
         requests.addAll(Request.getAllRequests());
-        ArrayList<Request> toBeReturned = new ArrayList<>();
-        if (input.matches("seller")) {
+        ArrayList<Request> toBeReturned= new ArrayList<>();
+        if(input.matches("seller")){
             for (Request request : requests) {
-                if (request.getPendableRequest() instanceof Seller)
+                if(request.getPendableRequest() instanceof Seller)
                     toBeReturned.add(request);
             }
-        } else if (input.matches("product")) {
+        }
+        else if(input.matches("product")){
             for (Request request : requests) {
-                if (request.getPendableRequest() instanceof Product)
+                if(request.getPendableRequest() instanceof Product)
                     toBeReturned.add(request);
             }
-        } else if (input.matches("seller for product")) {
+        }
+        else if(input.matches("seller for product")){
             for (Request request : requests) {
-                if (request.getPendableRequest() instanceof ProductField)
+                if(request.getPendableRequest() instanceof ProductField)
                     toBeReturned.add(request);
             }
-        } else if (input.matches("comment")) {
+        }
+        else if(input.matches("comment")){
             for (Request request : requests) {
-                if (request.getPendableRequest() instanceof Comment)
+                if(request.getPendableRequest() instanceof Comment)
                     toBeReturned.add(request);
             }
         }
@@ -359,46 +357,47 @@ public class ManagerController extends UserController {
 
     }
 
-    public HashMap<Integer, String> getGiftEventsName() {
-
-        public static class InvalidDiscountIdException extends Exception {
-            public InvalidDiscountIdException(String message) {
-                super(message);
-            }
-        }
-
-        public static class InvalidDateException extends Exception {
-            public InvalidDateException(String message) {
-                super(message);
-            }
-        }
-
-        public static class InvalidUsernameException extends Exception {
-            public InvalidUsernameException(String message) {
-                super(message);
-            }
-        }
-
-        public static class InvalidRangeException extends Exception {
-            public InvalidRangeException(String message) {
-                super(message);
-            }
-        }
-
-        public static class InvalidRequestIdException extends Exception {
-            public InvalidRequestIdException(String message) {
-                super(message);
-            }
-        }
-
-        public static class InvalidProductIdException extends Exception {
-            public InvalidProductIdException(String message) {
-                super(message);
-            }
-        }
-
-        public static class CustomerAlreadyAddedException extends Exception {
-        }
-
-        //-..-
+    public HashMap<Integer,String> getGiftEventsName(){
+        return this.giftEvents;
     }
+
+    public static class InvalidDiscountIdException extends Exception {
+        public InvalidDiscountIdException(String message) {
+            super(message);
+        }
+    }
+
+    public static class InvalidDateException extends Exception {
+        public InvalidDateException(String message) {
+            super(message);
+        }
+    }
+
+    public static class InvalidUsernameException extends Exception {
+        public InvalidUsernameException(String message) {
+            super(message);
+        }
+    }
+
+    public static class InvalidRangeException extends Exception {
+        public InvalidRangeException(String message) {
+            super(message);
+        }
+    }
+
+    public static class InvalidRequestIdException extends Exception {
+        public InvalidRequestIdException(String message) {
+            super(message);
+        }
+    }
+
+    public static class InvalidProductIdException extends Exception {
+        public InvalidProductIdException(String message) {
+            super(message);
+        }
+    }
+
+    public static class CustomerAlreadyAddedException extends Exception {
+    }
+
+}

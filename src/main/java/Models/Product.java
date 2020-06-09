@@ -371,9 +371,9 @@ public class Product implements Pendable {
         ProductField productField = getProductFieldBySeller(seller);
         StringBuilder toBePrinted = new StringBuilder();
         toBePrinted.append("    product id: ").append(productId).append("\n    name: ").append(name).
-                append("\n    company: ").append(company).append("\n    price: ").
-                append(productField.getPrice()).append("\n    supply: ").append(productField.getSupply()).
-                append("    category: ").append(category.getName()).append('\n');
+                    append("\n    company: ").append(company).append("\n    price: ").
+                    append(productField.getPrice()).append("\n    supply: ").append(productField.getSupply()).
+                    append("    category: ").append(category.getName()).append('\n');
         for (Field field : fieldsOfCategory) {
             toBePrinted.append("       ").append(field.getFieldInfo()).append('\n');
         }

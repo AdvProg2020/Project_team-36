@@ -136,9 +136,9 @@ public class SellerLog {
         StringBuilder toBePrinted = new StringBuilder();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         toBePrinted.append("    log id: ").append(id).append("\n    date: ").append(formatter.format(date)).
-                append("\n    customer: ").append(customer.getUsername()).append("\n    customer address: ").
-                append(customerAddress).append("\n    customer phone number: ").append(customerPhoneNumber).
-                append("\n    sale: ").append(sale).append("\n    all items bought: ");
+                    append("\n    customer: ").append(customer.getUsername()).append("\n    customer address: ").
+                    append(customerAddress).append("\n    customer phone number: ").append(customerPhoneNumber).
+                    append("\n    sale: ").append(sale).append("\n    all items bought: ");
         for (ItemInLog item : allItems) {
             toBePrinted.append("\n        ").append(item.getProductId()).append("  ").append(item.getProductName());
         }

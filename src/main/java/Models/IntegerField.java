@@ -18,13 +18,15 @@ public class IntegerField implements Field{
     public String getName() {
         return name;
     }
-    @Override
-    public String getQuantityString() {
-        return quantity.toString();
-    }
+
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String getFieldInfo() {
+        return "field: " + this.name + "  ->  quantity: " + this.quantity;
     }
 
     @Override
@@ -34,11 +36,6 @@ public class IntegerField implements Field{
 
     public BigDecimal getQuantity() {
         return quantity;
-    }
-
-    @Override
-    public String getFieldInfo() {
-        return "field: " + this.name + "  ->  quantity: " + this.quantity;
     }
 
     @Override

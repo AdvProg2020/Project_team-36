@@ -69,7 +69,4 @@ public class ItemInLog {
         int count = selectedItem.getCountFromEachSeller().get(index);
         return new ItemInLog(selectedItem.getProduct(),count,seller);
     }
-
-
-
 }

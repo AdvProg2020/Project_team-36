@@ -1,7 +1,6 @@
 package View;
 
 import Controllers.CustomerController;
-import Exceptions.NoLoggedInUserException;
 
 public class EnterDiscountCodeMenu extends Menu {
 
@@ -29,8 +28,6 @@ public class EnterDiscountCodeMenu extends Menu {
                     System.out.println("Discount added successfully");
                 } catch (CustomerController.NoDiscountAvailableWithId e) {
                     System.err.println("There is no available discount with this code for you! Try again or type next!");
-                }catch (NoLoggedInUserException e){
-                    System.err.println(e.getMessage());
                 }
             } else if (input.matches("help")) {
                 help();
@@ -39,18 +36,14 @@ public class EnterDiscountCodeMenu extends Menu {
             }
             input = scanner.nextLine().trim();
         }
-        try {
-            if (input.matches("back")){
-                customerController.cancelPurchase();
-                this.parentMenu.execute();}
-            else if (input.matches("next")) {
-                subMenus.get("Purchase Menu").execute();
-            }else if(input.matches("logout")){
-                customerController.cancelPurchase();
-                logoutChangeMenu();
-            }
-        }catch (NoLoggedInUserException e){
-            System.err.println(e.getMessage());
+        if (input.matches("back")){
+            customerController.cancelPurchase();
+            this.parentMenu.execute();}
+        else if (input.matches("next")) {
+            subMenus.get("Purchase Menu").execute();
+        }else if(input.matches("logout")){
+            customerController.cancelPurchase();
+            logoutChangeMenu();
         }
     }
 }

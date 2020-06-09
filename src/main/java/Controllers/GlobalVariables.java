@@ -1,5 +1,5 @@
 package Controllers;
-import Exceptions.NoLoggedInUserException;
+
 import Models.*;
 
 import java.math.BigDecimal;
@@ -100,10 +100,7 @@ public class GlobalVariables {
         this.loggedInUser = loggedInUser;
     }
 
-    public User getLoggedInUser() throws NoLoggedInUserException {
-        if(loggedInUser == null){
-            throw new NoLoggedInUserException("No user has logged in!");
-        }
+    public User getLoggedInUser() {
         return loggedInUser;
     }
 

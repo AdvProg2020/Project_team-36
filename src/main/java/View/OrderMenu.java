@@ -79,7 +79,7 @@ public class OrderMenu extends Menu {
 
     private void rateProductMenu(int productId, int rate) {
         if(rate>5||rate<1){
-            System.err.println("Unacceptable number! Try again");
+            System.err.println("Unacceptable rate number! Try again");
         }
         try{
             customerController.rateProduct(productId,rate);

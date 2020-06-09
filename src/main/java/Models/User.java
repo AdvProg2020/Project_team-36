@@ -157,13 +157,13 @@ public abstract class User{
         }
         return null;
     }
-
+  
     public static void updateAllUsers(){
         ArrayList<User> temp = new ArrayList<>();
         for (User user : allUsers) {
             if(user.getStatus().equals(DELETED))
                 temp.add(user);
-            allUsernames.remove(user.getUsername());
+                allUsernames.remove(user.getUsername());
         }
         allUsers.removeAll(temp);
     }
