@@ -4,9 +4,9 @@ import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 
-public class TestController {
+public class Test2Controller {
     public void open() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/test2.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
         Constants.getGuiManager().open(fxmlLoader.load());
     }
 

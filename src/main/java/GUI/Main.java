@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
 import java.util.Scanner;
@@ -23,9 +24,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/test.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        Constants.getGuiManager().setStage(stage);
+        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
+        Parent parent = fxmlLoader.load();
+        stage.setScene(new Scene(parent));
+        Constants.getGuiManager().addToOpenedParents(parent);
         stage.show();
     }
 }
