@@ -1,5 +1,7 @@
 package Models;
 
+import javafx.scene.image.ImageView;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,7 @@ public class Product implements Pendable {
     private HashSet<Customer> allBuyers;
     private static int allProductsMade=0;
     private int seenNumber;
+    private ImageView productImage;
     private String editedField;
 
     public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
@@ -496,5 +499,9 @@ public class Product implements Pendable {
                 toBeRemoved.add(buyer);
         }
         allBuyers.removeAll(toBeRemoved);
+    }
+
+    public ImageView getProductImage() {
+        return productImage;
     }
 }

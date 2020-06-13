@@ -14,7 +14,6 @@ public class Category {
     private Category parentCategory;
     private ArrayList<Category> subCategories;
     private ArrayList<Product> products;
-    private ImageView categoryImage;
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private static Category mainCategory = new Category("General Category");
 
@@ -273,10 +272,6 @@ public class Category {
         }
         allCategories.removeAll(this.getAllSubCategories());
         allCategories.remove(this);
-    }
-
-    public ImageView getCategoryImage() {
-        return categoryImage;
     }
 
 }
