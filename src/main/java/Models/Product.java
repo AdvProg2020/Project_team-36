@@ -1,5 +1,6 @@
 package Models;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.lang.reflect.Method;
@@ -26,6 +27,35 @@ public class Product implements Pendable {
     private ImageView productImage;
     private String editedField;
 
+
+    public static void addTest(){
+        ArrayList<Field> fields = new ArrayList<>();
+        IntegerField size = new IntegerField("size");
+        size.setValue("5000");
+        IntegerField productionDate = new IntegerField("production date");
+        productionDate.setValue("2020");
+        OptionalField color = new OptionalField("color");
+        color.setValue("red");
+        OptionalField waterProof = new OptionalField("waterProof");
+        waterProof.setValue("high level");
+        fields.add(size);
+        fields.add(color);
+        fields.add(productionDate);
+        fields.add(waterProof);
+        Seller seller = new Seller("seller");
+        Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
+        Product product = new Product("tester","team36",new Category("testingCategory"),fields,
+                "this a string of information about this product.",new ProductField(2000,seller,
+                100,0),new Date());
+        product.setProductImage(new ImageView(image));
+        allProducts.add(product);
+        seller.addProduct(product);
+    }
+
+    public void setProductImage(ImageView productImage) {
+        this.productImage = productImage;
+    }
+
     public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
                    String information, ProductField productField, Date productionDate) {
         this.productFields = new ArrayList<>();
@@ -41,6 +71,7 @@ public class Product implements Pendable {
         this.information = information;
         this.productFields.add(productField);
         this.productionDate = productionDate;
+        productField.setMainProductId(this.productId);
     }
 
     public Product(Product product, ProductField productField) {
