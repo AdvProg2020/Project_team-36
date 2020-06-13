@@ -28,7 +28,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
-        Constants.getGuiManager().addToOpenedParents(parent);
+        Constants.getGuiManager().addToOpenedParents("test",1);
         stage.show();
     }
 }

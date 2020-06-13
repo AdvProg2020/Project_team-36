@@ -4,13 +4,17 @@ import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 
-public class Test2Controller {
+public class Test2Controller implements Initializable{
     public void open() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
-        Constants.getGuiManager().open(fxmlLoader.load());
+        Constants.getGuiManager().open("test",1);
     }
 
-    public void back(){
+    public void back() throws IOException {
         Constants.getGuiManager().back();
+    }
+
+    @Override
+    public void initialize(int id) {
+
     }
 }
