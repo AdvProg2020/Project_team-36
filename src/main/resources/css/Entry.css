@@ -1,0 +1,30 @@
+#seller {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100%;
+    -fx-background-image: url("../images/seller.png");
+}
+.tab-pane {
+   -fx-background-color: white;
+}
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: palegoldenrod;
+}
+
+
+#customer {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 40px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url("../images/buyer.png");
+    -fx-background-size: 100%;
+}
+
+#textFieldError {
+    -fx-border-color: RED;
+}
+
+#textFieldWhite {
+    -fx-border-color: WHITE;
+}

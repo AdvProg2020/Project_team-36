@@ -35,9 +35,12 @@ public abstract class User{
         customer1.setPassword("sahar");
         customer1.setFirstname("jk");
         customer1.setLastname("hidf");
+
         allUsers.add(customer);
         allUsers.add(customer1);
         Customer.getAllCustomers().add(customer);
+        allUsernames.add("sayeh");
+        allUsernames.add("sahar");
     }
 
     public String getUsername() {
@@ -113,8 +116,9 @@ public abstract class User{
     public static boolean isThereUsername(String newUsername){
         updateAllUsers();
         for (String username : allUsernames) {
-            if(newUsername.equalsIgnoreCase(username))
+            if(newUsername.equalsIgnoreCase(username)) {
                 return true;
+            }
         }
         return false;
     }
@@ -161,9 +165,10 @@ public abstract class User{
     public static void updateAllUsers(){
         ArrayList<User> temp = new ArrayList<>();
         for (User user : allUsers) {
-            if(user.getStatus().equals(DELETED))
+            if(user.getStatus().equals(DELETED)) {
                 temp.add(user);
                 allUsernames.remove(user.getUsername());
+            }
         }
         allUsers.removeAll(temp);
     }

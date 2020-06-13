@@ -18,7 +18,8 @@ public class EntryController extends UserController  {
         if(!password.equals(userVariables.getLoggedInUser().getPassword())){
             throw new WrongPasswordException("Wrong password!");
         }else{
-            userAreaMenu.newUserMenu(userVariables.getLoggedInUser().getType());
+            //TODO change
+            //userAreaMenu.newUserMenu(userVariables.getLoggedInUser().getType());
         }
     }
 
@@ -38,10 +39,10 @@ public class EntryController extends UserController  {
         else if (User.isThereUsername(username))
             throw new InvalidUsernameException("there is a user with this username");
         else {
-            User.addUsername(username);
             createNewAccount(username, type);
         }
     }
+
 
     public void setCompany(String name){
         ((Seller)userVariables.getLoggedInUser()).setCompanyName(name);
@@ -53,6 +54,7 @@ public class EntryController extends UserController  {
 
     public void register(){
         User user = userVariables.getLoggedInUser();
+        User.addUsername(user.getUsername());
         if(user instanceof Seller){
             new Request((Seller) user,Status.TO_BE_ADDED);
             return;

@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class Main extends Application {
     public static void main(String[] args) {
-//        User.addTest();
+       User.addTest();
 //        Menu.setScanner(new Scanner(System.in));
 //        Menu.setControllers();
 //        Menu runMenu = new MainMenu();
