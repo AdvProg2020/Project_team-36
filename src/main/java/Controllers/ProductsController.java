@@ -27,17 +27,17 @@ public class ProductsController implements ObjectController {
     private void setSortMethodsProducts() {
         try {
             Method method = Product.class.getDeclaredMethod("getProductionDate");
-            this.sortMethods.put("production time", method);
+            this.sortMethods.put("production date", method);
             method = Product.class.getDeclaredMethod("getSeenNumber");
-            this.sortMethods.put("seen count", method);
+            this.sortMethods.put("seen", method);
             method = Product.class.getDeclaredMethod("getName");
             this.sortMethods.put("name", method);
             method = Product.class.getDeclaredMethod("getScore");
             this.sortMethods.put("score", method);
             method = Product.class.getDeclaredMethod("getHighestCurrentPrice");
-            this.sortMethods.put("Maximum current price", method);
+            this.sortMethods.put("maximum price of all", method);
             method = Product.class.getDeclaredMethod("getLowestCurrentPrice");
-            this.sortMethods.put("Minimum current price", method);
+            this.sortMethods.put("minimum price of all", method);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
