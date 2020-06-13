@@ -40,16 +40,16 @@ public abstract class Menu {
         Menu.scanner = scanner;
     }
 
-    public static void setControllers() {
-        GlobalVariables user = new GlobalVariables();
-        Menu.customerController = new CustomerController(user);
-        Menu.entryController = new EntryController(user);
-        Menu.managerController = new ManagerController(user);
-        Menu.offController = new OffController(user);
-        Menu.sellerController = new SellerController(user);
-        Menu.userController = new UserController(user);
-        Menu.productsController = new ProductsController(user);
-    }
+//    public static void setControllers() {
+//        GlobalVariables user = new GlobalVariables();
+//        Menu.customerController = new CustomerController(user);
+//        Menu.entryController = new EntryController(user);
+//        Menu.managerController = new ManagerController(user);
+//        Menu.offController = new OffController(user);
+//        Menu.sellerController = new SellerController(user);
+//        Menu.userController = new UserController(user);
+//        Menu.productsController = new ProductsController(user);
+//    }
 
     public void logoutChangeMenu() {
         Menu parent = this;

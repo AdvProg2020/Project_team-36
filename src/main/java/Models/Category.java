@@ -1,5 +1,7 @@
 package Models;
 
+import javafx.scene.image.ImageView;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -271,4 +273,5 @@ public class Category {
         allCategories.removeAll(this.getAllSubCategories());
         allCategories.remove(this);
     }
+
 }
