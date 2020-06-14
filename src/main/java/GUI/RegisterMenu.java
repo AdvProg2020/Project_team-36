@@ -2,10 +2,7 @@ package GUI;
 
 import Controllers.EntryController;
 import Controllers.GlobalVariables;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 public class RegisterMenu {
@@ -16,15 +13,15 @@ public class RegisterMenu {
     public Tab customer;
     public TextArea companyInfo;
     public TextField companyName;
-    public TextField sellerRePassword;
-    public TextField sellerPassword;
+    public PasswordField sellerRePassword;
+    public PasswordField sellerPassword;
     public TextField sellerPhone;
     public TextField sellerEmail;
     public TextField sellerLastname;
     public TextField sellerFirstname;
     public TextField sellerUsername;
-    public TextField customerRePassword;
-    public TextField customerPassword;
+    public PasswordField customerRePassword;
+    public PasswordField customerPassword;
     public TextField customerPhone;
     public TextField customerEmail;
     public TextField customerLastname;

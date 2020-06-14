@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ProductsMenuController">
+   <top>
+      <Pane prefHeight="91.0" prefWidth="1360.0" BorderPane.alignment="CENTER">
+         <children>
+            <ComboBox fx:id="sortBox" layoutX="198.0" layoutY="53.0" onAction="#sort" prefHeight="25.0" prefWidth="198.0" promptText="choose sort">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="--None--" />
+                        <String fx:value="seen" />
+                        <String fx:value="name" />
+                        <String fx:value="score" />
+                        <String fx:value="maximum price of all" />
+                        <String fx:value="minimum price of all" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <CheckBox fx:id="ascendingSort" disable="true" layoutX="417.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#ascendingSort" prefHeight="29.0" prefWidth="120.0" text="Ascending order" />
+            <Label layoutX="145.0" layoutY="53.0" prefHeight="24.0" prefWidth="53.0" text="Sorting" />
+         </children>
+      </Pane>
+   </top>
+   <bottom>
+      <HBox fx:id="bottomPane" alignment="CENTER" prefHeight="78.0" prefWidth="1360.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+
+         </children></HBox>
+   </bottom>
+   <right>
+      <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <ScrollPane fx:id="scrollPane"  prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>

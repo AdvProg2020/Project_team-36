@@ -150,12 +150,12 @@ public class GlobalVariables {
     }
 
     public void removeSortProduct() {
-        this.sortProduct = "seen count";
+        this.sortProduct = "production date";
         this.sortProductType = "ascending";
     }
 
     public void removeSortOff() {
-        this.sortOff = "seen count";
+        this.sortOff = "production date";
         this.sortOffType = "ascending";
     }
 

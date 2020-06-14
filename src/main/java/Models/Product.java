@@ -1,8 +1,11 @@
 package Models;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -26,6 +29,90 @@ public class Product implements Pendable {
     private ImageView productImage;
     private String editedField;
 
+
+    public static void addTest(){
+        ArrayList<Field> fields = new ArrayList<>();
+        IntegerField size = new IntegerField("size");
+        size.setValue("5000");
+        IntegerField productionDate = new IntegerField("production date");
+        productionDate.setValue("2020");
+        OptionalField color = new OptionalField("color");
+        color.setValue("red");
+        OptionalField waterProof = new OptionalField("waterProof");
+        waterProof.setValue("high level");
+        fields.add(size);
+        fields.add(color);
+        fields.add(productionDate);
+        fields.add(waterProof);
+        Seller seller = new Seller("seller");
+        Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
+        Product product = new Product("tester","team36",new Category("testingCategory"),fields,
+                "this a string of information about this product.",new ProductField(2000,seller,
+                100,0),new Date());
+        product.setProductImage(new ImageView(image));
+        ArrayList<Product> sale=  new ArrayList<>();
+        sale.add(product);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        dateFormat.setLenient(false);
+        Date startDate=null;
+        Date endDate=null;
+        try {
+            startDate = dateFormat.parse("2020/5/10");
+            endDate = dateFormat.parse("2020/10/10");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        product.getProductFieldBySeller(seller).setSale(new Sale(seller,sale,startDate,endDate,0.2));
+        allProducts.add(product);
+        seller.addProduct(product);
+        test1();
+    }
+
+    private static void test1(){
+        ArrayList<Field> fields = new ArrayList<>();
+        IntegerField size = new IntegerField("size");
+        size.setValue("4000");
+        IntegerField productionDate = new IntegerField("production date");
+        productionDate.setValue("2018");
+        OptionalField color = new OptionalField("color");
+        color.setValue("red");
+        OptionalField waterProof = new OptionalField("waterProof");
+        waterProof.setValue("high level");
+        fields.add(size);
+        fields.add(color);
+        fields.add(productionDate);
+        fields.add(waterProof);
+        Seller seller = new Seller("sell");
+        Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
+        Product product = new Product("karane","team37",new Category("nazanin"),fields,
+                "this a string of information about that product.",new ProductField(755555,seller,
+                0,123),new Date());
+        product.setProductImage(new ImageView(image));
+        ArrayList<Product> sale=  new ArrayList<>();
+        sale.add(product);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        dateFormat.setLenient(false);
+        Date startDate=null;
+        Date endDate=null;
+        try {
+            startDate = dateFormat.parse("2018/5/10");
+            endDate = dateFormat.parse("2019/10/10");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        product.getProductFieldBySeller(seller).setSale(new Sale(seller,sale,startDate,endDate,0.8));
+        allProducts.add(product);
+        seller.addProduct(product);
+
+
+    }
+
+    public void setProductImage(ImageView productImage) {
+        this.productImage = productImage;
+    }
+
     public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
                    String information, ProductField productField, Date productionDate) {
         this.productFields = new ArrayList<>();
@@ -41,6 +128,7 @@ public class Product implements Pendable {
         this.information = information;
         this.productFields.add(productField);
         this.productionDate = productionDate;
+        productField.setMainProductId(this.productId);
     }
 
     public Product(Product product, ProductField productField) {
@@ -70,7 +158,6 @@ public class Product implements Pendable {
         this.allScore = new ArrayList<>();
     }
 
-    // TODO: 5/18/2020 product constructor nadare:))) va inke id hash ro chejuri generate krdin???!!!
     public int getProductId() {
         return productId;
     }
@@ -158,11 +245,13 @@ public class Product implements Pendable {
 
     public double getScore() {
         int sum = 0;
+        if(allScore.isEmpty())
+            return 0;
         for (Score score : allScore) {
             sum += score.getScore();
         }
         int size = allScore.size();
-        return (double) (sum / size);
+        return  ((double)sum / size);
     }
 
     public ArrayList<Comment> getAllComments() {
@@ -199,12 +288,14 @@ public class Product implements Pendable {
         return result;
     }
 
-    public ProductField getBestSale() {
+    public ProductField getBestSale() throws NoSaleForProduct{
         ArrayList<ProductField> temp = new ArrayList<>();
         for (ProductField field : productFields) {
             if (field.getSale() != null)
                 temp.add(field);
         }
+        if(temp.isEmpty())
+            throw new NoSaleForProduct();
         try {
             new Sort().sort(temp, ProductField.class.getDeclaredMethod("getCurrentPrice"), false);
         } catch (NoSuchMethodException e) {
@@ -470,6 +561,14 @@ public class Product implements Pendable {
         this.allComments.removeAll(temp);
     }
 
+    public int getTotalSupply(){
+        int sum=0;
+        for (ProductField field : productFields) {
+            sum+=field.getSupply();
+        }
+        return sum;
+    }
+
     public static void updateAllProducts(){
         ArrayList<ProductField> tempProductField = new ArrayList<>();
         ArrayList<Product> tempProduct = new ArrayList<>();
@@ -503,5 +602,9 @@ public class Product implements Pendable {
 
     public ImageView getProductImage() {
         return productImage;
+    }
+
+    public static class NoSaleForProduct extends Exception{
+
     }
 }

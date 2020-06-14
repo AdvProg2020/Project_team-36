@@ -1,6 +1,8 @@
 package Models;
 
 
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
 import static Models.Status.*;
 
@@ -16,6 +18,7 @@ public abstract class User{
     protected String password;
     private static int totalUsersMade = 0;
     private Status status;
+    private ImageView profilePicture;
 
     public User(String username){
         totalUsersMade++;
@@ -171,5 +174,9 @@ public abstract class User{
             }
         }
         allUsers.removeAll(temp);
+    }
+
+    public ImageView getProfilePicture() {
+        return profilePicture;
     }
 }

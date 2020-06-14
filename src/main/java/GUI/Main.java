@@ -1,5 +1,6 @@
 package GUI;
 
+import Models.Product;
 import Models.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static void main(String[] args) {
        User.addTest();
+        Product.addTest();
 //        Menu.setScanner(new Scanner(System.in));
 //        Menu.setControllers();
 //        Menu runMenu = new MainMenu();
@@ -26,6 +28,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Constants.getGuiManager().setStage(stage);
         FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
+       // FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/productsMenu.fxml"));
         Parent parent = fxmlLoader.load();
        // stage.setMaximized(true);
         stage.setScene(new Scene(parent));

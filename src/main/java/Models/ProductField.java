@@ -20,7 +20,7 @@ public class ProductField implements Pendable {
         this.price = price;
         this.seller = seller;
         this.supply = supply;
-        this.mainProductId = mainProductId ;
+        this.mainProductId = mainProductId;
         status = Status.TO_BE_CONFIRMED;
     }
 
@@ -36,10 +36,10 @@ public class ProductField implements Pendable {
     }
 
     public long getCurrentPrice() {
-        if(this.sale == null||!sale.isSaleAvailable()){
+        if (this.sale == null || !sale.isSaleAvailable()) {
             return price;
-        }else{
-            return price - (long) (price*sale.getSalePercent());
+        } else {
+            return price - (long) (price * sale.getSalePercent());
         }
     }
 
@@ -55,11 +55,12 @@ public class ProductField implements Pendable {
         this.supply = supply;
     }
 
-    public long getOfficialPrice(){
+    public long getOfficialPrice() {
         return this.price;
     }
 
     public Sale getSale() {
+        updateProductField();
         return sale;
     }
 
@@ -80,26 +81,26 @@ public class ProductField implements Pendable {
         return allBuyers;
     }
 
-    private void updateAllBuyers(){
+    private void updateAllBuyers() {
         ArrayList<Customer> toBeDeleted = new ArrayList<>();
         for (Customer buyer : allBuyers) {
-            if(buyer.getStatus().equals(Status.DELETED)){
+            if (buyer.getStatus().equals(Status.DELETED)) {
                 toBeDeleted.add(buyer);
             }
         }
         allBuyers.removeAll(toBeDeleted);
     }
 
-    public void addBuyer(Customer buyer){
+    public void addBuyer(Customer buyer) {
         this.allBuyers.add(buyer);
     }
 
-    public void buyFromSeller(int count){
+    public void buyFromSeller(int count) {
         this.supply -= count;
     }
 
-    public void increaseSupply(int amount){
-        this.supply +=amount;
+    public void increaseSupply(int amount) {
+        this.supply += amount;
     }
 
 
@@ -110,9 +111,9 @@ public class ProductField implements Pendable {
         this.seller = seller;
         this.supply = supply;
         this.allBuyers = new HashSet<>();
-}
-  
-    public void setSale(Sale sale){
+    }
+
+    public void setSale(Sale sale) {
         this.sale = sale;
     }
 
@@ -132,7 +133,7 @@ public class ProductField implements Pendable {
     @Override
     public void acceptAddRequest() {
         Product.updateAllProducts();
-        if(Product.isThereProductWithId(mainProductId)){
+        if (Product.isThereProductWithId(mainProductId)) {
             Product.getProductWithId(mainProductId).addProductField(this);
             seller.addProduct(Product.getProductWithId(mainProductId));
         }
@@ -141,12 +142,12 @@ public class ProductField implements Pendable {
     @Override
     public void acceptEditRequest() {
         Product.updateAllProducts();
-        if((!Product.isThereProductWithId(mainProductId)) || (seller.getStatus().equals(Status.DELETED))){
+        if ((!Product.isThereProductWithId(mainProductId)) || (seller.getStatus().equals(Status.DELETED))) {
             return;
         }
         Product mainProduct = Product.getProductWithId(this.mainProductId);
         ProductField mainProductField = mainProduct.getProductFieldBySeller(this.seller);
-        switch (this.editedField){
+        switch (this.editedField) {
             case "supply":
                 mainProductField.setSupply(this.supply);
                 break;
@@ -155,27 +156,28 @@ public class ProductField implements Pendable {
                 break;
         }
     }
+
     @Override
     public String toString() {
-        String result = "Seller: "+seller.getUsername();
-        result+="\nOfficial price: "+price;
-        if(sale!= null&& sale.isSaleAvailable())
-            result+="\n**This is on SALE**\nCurrent price: "+getCurrentPrice();
-        if(supply==0)
-            result+="\n not enough supply!";
+        String result = "Seller: " + seller.getUsername();
+        result += "\nOfficial price: " + price;
+        if (sale != null && sale.isSaleAvailable())
+            result += "\n**This is on SALE**\nCurrent price: " + getCurrentPrice();
+        if (supply == 0)
+            result += "\n not enough supply!";
         else
-            result+="\nSupply: "+supply;
+            result += "\nSupply: " + supply;
         return result;
     }
 
-    public void updateProductField(){
+    public void updateProductField() {
         HashSet<Customer> toBeRemoved = new HashSet<>();
         for (Customer buyer : allBuyers) {
-            if(buyer.getStatus().equals(Status.DELETED))
+            if (buyer.getStatus().equals(Status.DELETED))
                 toBeRemoved.add(buyer);
         }
         allBuyers.removeAll(toBeRemoved);
-        if(sale.getEndTime().before(new Date()))
+        if (sale != null && sale.getEndTime().before(new Date()))
             sale = null;
     }
 }
