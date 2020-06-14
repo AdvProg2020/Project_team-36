@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -39,6 +40,8 @@ public class ProductController implements Initializable {
     private Button cart;
     @FXML
     private Button account;
+    @FXML
+    private VBox productFieldsVBox;
 
 
 
@@ -49,7 +52,7 @@ public class ProductController implements Initializable {
     @Override
     public void initialize(int id) {
         Product product = Product.getProduct(id);
-
+        imageView = product.getProductImage();
     }
 }
 

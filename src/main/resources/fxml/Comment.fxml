@@ -55,7 +55,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Text fx:id="comment" strokeType="OUTSIDE" strokeWidth="0.0" text="TextTextTextTextTextTextText" wrappingWidth="674.515625" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
+      <Text fx:id="comment" strokeType="OUTSIDE" strokeWidth="0.0" text="TextTextTextTextTextTextText" wrappingWidth="512.515625" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP">
          <font>
             <Font size="16.0" />
          </font>
