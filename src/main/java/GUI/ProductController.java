@@ -6,32 +6,40 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
 public class ProductController implements Initializable {
     @FXML
-    ImageView imageView;
+    private ImageView imageView;
     @FXML
-    Label name;
+    private Label name;
     @FXML
-    Label company;
+    private Label company;
     @FXML
-    Label rate;
+    private HBox rate;
     @FXML
-    Label numberseen;
+    private Label numberseen;
     @FXML
-    ScrollPane fieldsOfCategory;
+    private ScrollPane fieldsOfCategory;
     @FXML
-    ScrollPane comments;
+    private ScrollPane comments;
     @FXML
-    ScrollPane productFields;
+    private ScrollPane productFields;
     @FXML
-    Button back;
+    private Button back;
     @FXML
-    Button login;
+    private Button login;
     @FXML
-    Button addToCart;
+    private Button addToCart;
+    @FXML
+    private Button logout;
+    @FXML
+    private Button cart;
+    @FXML
+    private Button account;
+
 
 
     public void back() throws IOException {
