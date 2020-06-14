@@ -11,6 +11,7 @@ public class  Constants {
     public static ProductsController productsController;
     public static OffController offController;
     public static UserController userController;
+    public static GlobalVariables loggedInUser;
 
     private static GUIManager guiManager = new GUIManager();
 
@@ -19,14 +20,14 @@ public class  Constants {
     }
 
     public static void setControllers() {
-        GlobalVariables user = new GlobalVariables();
-        Constants.customerController = new CustomerController(user);
-        Constants.entryController = new EntryController(user);
-        Constants.managerController = new ManagerController(user);
-        Constants.offController = new OffController(user);
-        Constants.sellerController = new SellerController(user);
-        Constants.userController = new UserController(user);
-        Constants.productsController = new ProductsController(user);
+        loggedInUser = new GlobalVariables();
+        Constants.customerController = new CustomerController(loggedInUser);
+        Constants.entryController = new EntryController(loggedInUser);
+        Constants.managerController = new ManagerController(loggedInUser);
+        Constants.offController = new OffController(loggedInUser);
+        Constants.sellerController = new SellerController(loggedInUser);
+        Constants.userController = new UserController(loggedInUser);
+        Constants.productsController = new ProductsController(loggedInUser);
     }
 
 }

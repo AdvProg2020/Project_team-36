@@ -29,8 +29,9 @@ public class Main extends Application {
         Constants.getGuiManager().setStage(stage);
         FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
        // FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/productsMenu.fxml"));
+        //FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/manageUsers.fxml"));
+
         Parent parent = fxmlLoader.load();
-       // stage.setMaximized(true);
         stage.setScene(new Scene(parent));
         Constants.getGuiManager().addToOpenedParents("test",1);
         stage.show();
