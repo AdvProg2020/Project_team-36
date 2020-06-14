@@ -1,6 +1,8 @@
 package Models;
 
 
+import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public abstract class User{
     private static int totalUsersMade = 0;
     private Status status;
     private ImageView profilePicture;
+    private String profilePictureUrl;
 
     public User(String username){
         totalUsersMade++;
@@ -34,11 +37,12 @@ public abstract class User{
         customer.setPassword("sahar");
         customer.setFirstname("jk");
         customer.setLastname("hidf");
+        customer.setProfilePictureUrl("/images/buyer.png");
         customer1.setEmail("dsbh@c.co");
         customer1.setPassword("sahar");
         customer1.setFirstname("jk");
         customer1.setLastname("hidf");
-
+        customer1.setProfilePictureUrl("/images/seller.png");
         allUsers.add(customer);
         allUsers.add(customer1);
         Customer.getAllCustomers().add(customer);
@@ -178,5 +182,30 @@ public abstract class User{
 
     public ImageView getProfilePicture() {
         return profilePicture;
+    }
+
+    public Hyperlink getRemoveHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("remove");
+        remove.setStyle("");
+        //remove.setOnAction(e->);
+        return remove;
+    }
+
+    public ImageView getProfilePicture(int height,int width) {
+        Image image = new Image(Product.class.getResource(this.profilePictureUrl).toExternalForm(),width,height,false,false);
+        return new ImageView(image);
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public ImageView getSmallProfilePicture(){
+        return new ImageView(new Image(getClass().getResource(this.getProfilePictureUrl()).toExternalForm(),50,50,false,false));
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
     }
 }

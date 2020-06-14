@@ -27,6 +27,7 @@ public class Product implements Pendable {
     private static int allProductsMade=0;
     private int seenNumber;
     private ImageView productImage;
+    private String productImageUrl;
     private String editedField;
 
 
@@ -602,6 +603,11 @@ public class Product implements Pendable {
 
     public ImageView getProductImage() {
         return productImage;
+    }
+
+    public ImageView getProductImage(int height, int width) {
+        Image image = new Image(Product.class.getResource(this.productImageUrl).toExternalForm(),width,height,false,false);
+        return new ImageView(image);
     }
 
     public static class NoSaleForProduct extends Exception{
