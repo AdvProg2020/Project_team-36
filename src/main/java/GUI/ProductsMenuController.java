@@ -56,7 +56,6 @@ public class ProductsMenuController implements Initializable {
         }
     }
 
-
     public void sort(ActionEvent actionEvent) {
         ascendingSort.setDisable(false);
         String ascending = "descending";
@@ -123,11 +122,19 @@ public class ProductsMenuController implements Initializable {
 
     private void changePage(int pageNumber) {
         page = pageNumber;
+        for (Button button : pageButtons) {
+            if(pageButtons.indexOf(button)==pageNumber-1){
+                button.setStyle("-fx-border-width: 4px;-fx-border-color: red");
+            }
+            else
+                button.setStyle("-fx-border-width: 4px;-fx-border-color: white");
+        }
         showAllProducts(productsController.getFinalProductsList());
     }
 
     private VBox productView(Product product) {
         VBox vBox = new VBox();
+        vBox.setStyle("-fx-background-color: white");
         vBox.setOnMouseClicked(mouseEvent -> {
             int productId = Integer.parseInt(((Label) vBox.getChildren().get(4)).getText().substring(4));
             System.out.println(productId);
@@ -143,15 +150,14 @@ public class ProductsMenuController implements Initializable {
         Label price = new Label("lowest price: " + Double.toString(product.getLowestCurrentPrice()));
         Label id = new Label("id: " + product.getProductId());
         id.setOpacity(0.3);
-        //    HBox score = createProductScore(product.getScore());
-        HBox score = createProductScore(4);
-        setProductImageEffect(vBox, product, imageView,sale);
+        HBox score = createProductScore(product.getScore());
+        setProductImageEffect(product, imageView,sale);
         vBox.getChildren().addAll(sale,imageView, name, price, id, score);
         return vBox;
     }
 
 
-    private void setProductImageEffect(VBox vBox, Product product, ImageView imageView,Label sale) {
+    private void setProductImageEffect( Product product, ImageView imageView,Label sale) {
         if (product.getTotalSupply() <= 0) {
             ColorAdjust monochrome = new ColorAdjust();
             monochrome.setSaturation(-1);
@@ -192,6 +198,5 @@ public class ProductsMenuController implements Initializable {
             return hBox;
         hBox.getChildren().add(star);
         return hBox;
-
     }
 }

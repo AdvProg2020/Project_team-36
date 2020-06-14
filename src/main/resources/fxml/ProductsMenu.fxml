@@ -29,8 +29,7 @@
    <bottom>
       <HBox fx:id="bottomPane" alignment="CENTER" prefHeight="78.0" prefWidth="1360.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="27.0" prefWidth="82.0" text="page number" />
-            <Spinner fx:id="pageSpinner" prefHeight="26.0" prefWidth="139.0" />
+
          </children></HBox>
    </bottom>
    <right>
