@@ -3,6 +3,7 @@ package GUI;
 import Controllers.EntryController;
 import Models.Comment;
 import Models.Product;
+import Models.Status;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,10 +26,12 @@ public class CommentsController {
         ArrayList<Comment> comments = product.getAllComments();
         vBox.getChildren().clear();
         for (Comment comment : comments) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Comment.fxml"));
-            Parent parent = fxmlLoader.load();
-            ((CommentController) fxmlLoader.getController()).fill(comment);
-            vBox.getChildren().add(parent);
+            if (comment.getConfirmationStatus() == Status.CONFIRMED){
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Comment.fxml"));
+                Parent parent = fxmlLoader.load();
+                ((CommentController) fxmlLoader.getController()).fill(comment);
+                vBox.getChildren().add(parent);
+            }
         }
     }
 
