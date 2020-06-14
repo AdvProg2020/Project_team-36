@@ -27,13 +27,17 @@
       </Pane>
    </top>
    <bottom>
-      <HBox fx:id="bottomPane" prefHeight="78.0" prefWidth="1360.0" BorderPane.alignment="CENTER" />
+      <HBox fx:id="bottomPane" alignment="CENTER" prefHeight="78.0" prefWidth="1360.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="27.0" prefWidth="82.0" text="page number" />
+            <Spinner fx:id="pageSpinner" prefHeight="26.0" prefWidth="139.0" />
+         </children></HBox>
    </bottom>
    <right>
       <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <ScrollPane fx:id="scrollPane" prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
+      <ScrollPane fx:id="scrollPane"  prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER" />

@@ -53,7 +53,7 @@ public class ProductsMenu extends Menu {
             @Override
             public void execute() {
                 int i =1;
-                ArrayList<Product> allProducts = productsController.geFinalProductsList();
+                ArrayList<Product> allProducts = productsController.getFinalProductsList();
                 if(allProducts.isEmpty())
                     System.out.println("There is nothing to show!");
                 else

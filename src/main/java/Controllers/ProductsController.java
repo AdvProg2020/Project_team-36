@@ -209,7 +209,7 @@ public class ProductsController implements ObjectController {
         userVariables.setProductFilterRange(min, max);
     }
 
-    public ArrayList<Product> geFinalProductsList() {
+    public ArrayList<Product> getFinalProductsList() {
         ArrayList<Product> result = new ArrayList<>();
         if (userVariables.getFilterProductsCategory() != null) {
             result.addAll(userVariables.getFilterProductsCategory().getAllSubProducts());

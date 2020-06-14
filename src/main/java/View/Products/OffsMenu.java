@@ -43,8 +43,13 @@ public class OffsMenu extends Menu {
                 else{
                     for (Product product : products) {
                         System.out.println(product);
-                        System.out.println("Before sale: "+product.getBestSale().getPrice());
-                        System.out.println("After sale: "+product.getBestSale().getCurrentPrice());
+                        try {
+                            System.out.println("Before sale: "+product.getBestSale().getPrice());
+                            System.out.println("After sale: "+product.getBestSale().getCurrentPrice());
+                        } catch (Product.NoSaleForProduct noSaleForProduct) {
+                            noSaleForProduct.printStackTrace();
+                        }
+
                     }
                 }
             }

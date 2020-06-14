@@ -2,20 +2,16 @@ package GUI;
 
 import Controllers.ProductsController;
 import Models.Product;
-import View.Products.ProductsMenu;
+import Models.ProductField;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 
@@ -23,10 +19,11 @@ public class ProductsMenuController implements Initializable {
 
     public CheckBox ascendingSort;
     private ProductsController productsController;
-    private int pageNumber;
+    private int page = 1;
     public ComboBox sortBox;
     public HBox bottomPane;
     public ScrollPane scrollPane;
+    private ArrayList<Button> pageButtons = new ArrayList<>();
 
     public ProductsMenuController() {
         this.productsController = Constants.productsController;
@@ -34,7 +31,29 @@ public class ProductsMenuController implements Initializable {
 
     @Override
     public void initialize(int id) {
+        showAllProducts(productsController.getFinalProductsList());
+    }
 
+    private void showAllProducts(ArrayList<Product> allProducts) {
+        if (allProducts.isEmpty()) {
+            ImageView imageView = new ImageView(new Image("images/noProduct.png"));
+            scrollPane.setCenterShape(true);
+            scrollPane.setContent(imageView);
+            return;
+        }
+        if (allProducts.size() > 16) {
+            ArrayList<Product> temp = new ArrayList<>();
+            int beginIndex = (page - 1) * 16;
+            int endIndex = page * 16;
+            for (int i = beginIndex; i < endIndex; i++) {
+                temp.add(allProducts.get(i));
+            }
+            setPageButtons(allProducts.size() % 16 == 0 ? allProducts.size() / 16 : allProducts.size() / 16 + 1);
+            showProducts(temp);
+        } else {
+            showProducts(allProducts);
+            setPageButtons(1);
+        }
     }
 
 
@@ -53,7 +72,8 @@ public class ProductsMenuController implements Initializable {
         } catch (ProductsController.NoSortException e) {
             e.printStackTrace();
         }
-        showProducts(productsController.geFinalProductsList());
+
+        showAllProducts(productsController.getFinalProductsList());
 
     }
 
@@ -71,70 +91,107 @@ public class ProductsMenuController implements Initializable {
         } catch (ProductsController.NoSortException e) {
             e.printStackTrace();
         }
-        showProducts(productsController.geFinalProductsList());
+        showAllProducts(productsController.getFinalProductsList());
     }
 
     private void showProducts(ArrayList<Product> allProducts) {
-        if (allProducts.isEmpty()) {
-            ImageView imageView = new ImageView(new Image("images/noProduct.png"));
-            scrollPane.setCenterShape(true);
-            scrollPane.setContent(imageView);
-            return;
-        }
         int size = allProducts.size();
         GridPane gridPane = new GridPane();
-        int rowCount = 0;
-        if (size > 12) {
-            rowCount = 4;
-            if (size % 12 != 0) {
-                addPageLayouts(size / 12 + 1);
-            } else {
-                addPageLayouts(size / 12);
-            }
-        } else {
-            rowCount = size % 4 == 0 ? size / 4 : size / 4 + 1;
-        }
+        int rowCount;
+        rowCount = size % 4 == 0 ? size / 4 : size / 4 + 1;
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < rowCount && 4 * i + j < size; j++) {
-                gridPane.add(productView(allProducts.get(i*4+j)),j,i);
+            for (int j = 0; j <= rowCount && 4 * i + j < size; j++) {
+                gridPane.add(productView(allProducts.get(i * 4 + j)), j, i);
             }
         }
         scrollPane.setContent(gridPane);
     }
 
-    private void addPageLayouts(int count) {
-    //TODO add pages
+    private void setPageButtons(int count) {
+        pageButtons.clear();
+        bottomPane.getChildren().clear();
+        for (int i = 1; i <= count; i++) {
+            Button button = new Button();
+            button.setPrefSize(20, 20);
+            button.setTextAlignment(TextAlignment.CENTER);
+            button.setText(Integer.toString(i));
+            bottomPane.getChildren().add(button);
+            button.setOnMouseClicked(mouseEvent -> changePage(Integer.parseInt(button.getText())));
+            pageButtons.add(button);
+        }
+    }
+
+    private void changePage(int pageNumber) {
+        page = pageNumber;
+        showAllProducts(productsController.getFinalProductsList());
     }
 
     private VBox productView(Product product) {
         VBox vBox = new VBox();
+        vBox.setOnMouseClicked(mouseEvent -> {
+            int productId = Integer.parseInt(((Label) vBox.getChildren().get(4)).getText().substring(4));
+            System.out.println(productId);
+            //TODO go to product page NAZANIN
+        });
         vBox.setPrefSize(265, 265);
         vBox.setAlignment(Pos.CENTER);
         ImageView imageView = product.getProductImage();
-        imageView.setFitHeight(200);
-        imageView.setFitWidth(200);
+        imageView.setFitHeight(180);
+        imageView.setFitWidth(180);
+        Label sale = new Label();
         Label name = new Label(product.getName());
         Label price = new Label("lowest price: " + Double.toString(product.getLowestCurrentPrice()));
-        HBox score = createProductScore(product.getScore());
-        vBox.getChildren().addAll(imageView, name, price, score);
+        Label id = new Label("id: " + product.getProductId());
+        id.setOpacity(0.3);
+        //    HBox score = createProductScore(product.getScore());
+        HBox score = createProductScore(4);
+        setProductImageEffect(vBox, product, imageView,sale);
+        vBox.getChildren().addAll(sale,imageView, name, price, id, score);
         return vBox;
+    }
+
+
+    private void setProductImageEffect(VBox vBox, Product product, ImageView imageView,Label sale) {
+        if (product.getTotalSupply() <= 0) {
+            ColorAdjust monochrome = new ColorAdjust();
+            monochrome.setSaturation(-1);
+            imageView.setEffect(monochrome);
+            return;
+        }
+        try {
+            ProductField saleField = product.getBestSale();
+            sale.setText(saleField.getSale().getSalePercent() * 100 + "%");
+            sale.setStyle("-fx-text-fill: red;-fx-font-style: italic;-fx-font-weight: bold");
+        } catch (Product.NoSaleForProduct noSaleForProduct) {
+
+        }
     }
 
     private HBox createProductScore(double score) {
         HBox hBox = new HBox();
+        hBox.setAlignment(Pos.CENTER);
         int completeStars = (int) score;
         double halfStar = score - completeStars;
         for (int i = 0; i < completeStars; i++) {
-            hBox.getChildren().add(new ImageView(new Image("star.png")));
+            ImageView star = new ImageView(new Image("images/star.png"));
+            star.setFitWidth(20);
+            star.setFitHeight(20);
+            hBox.getChildren().add(star);
         }
+        ImageView star = new ImageView();
+        star.setFitHeight(20);
+        star.setFitWidth(20);
         if (halfStar > 0.6) {
-            hBox.getChildren().add(new ImageView(new Image("starPrim.png")));
-        } else if (halfStar < 0.4) {
-            hBox.getChildren().add(new ImageView(new Image("starPrimPrim.png")));
-        } else {
-            hBox.getChildren().add(new ImageView(new Image("halfStar.png")));
-        }
-        hBox.setMaxSize(200, 20);
+            star.setImage(new Image("images/starPrim.png"));
+            hBox.getChildren().add(star);
+        } else if (halfStar < 0.4 && halfStar > 0) {
+            star.setImage(new Image("images/starPrimPrim.png"));
+        } else if (halfStar != 0) {
+            star.setImage(new Image("images/halfStar.png"));
+        } else
+            return hBox;
+        hBox.getChildren().add(star);
         return hBox;
+
     }
 }
