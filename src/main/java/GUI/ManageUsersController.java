@@ -19,7 +19,6 @@ public class ManageUsersController extends ManagerProfileController implements I
 
     public ImageView profilePicture;
     public TableView allUsersTable;
-    public TableColumn numberColumn;
     public TableColumn profilePictureColumn;
     public TableColumn usernameColumn;
     public TableColumn roleColumn;
@@ -33,9 +32,8 @@ public class ManageUsersController extends ManagerProfileController implements I
 //        Image profile = new Image(getClass().getResource(manager.getProfilePictureUrl()).toExternalForm(),150,150,false,false);
 //        profilePicture.setImage(profile);
 //        usernameLabel.setText(manager.getUsername());
-
+        User.setManageUsersController(this);
         allUsersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        allUsersTable.setStyle("-fx-alignment: CENTER-RIGHT;");
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -44,6 +42,10 @@ public class ManageUsersController extends ManagerProfileController implements I
         ArrayList<User> allUsers = Constants.managerController.getAllUsers();
         allUsersTable.getItems().addAll(allUsers);
 
+    }
+
+    public void removeAction(User user){
+        allUsersTable.getItems().remove(user);
     }
 
     public void openCreateNewManager(ActionEvent actionEvent) {
