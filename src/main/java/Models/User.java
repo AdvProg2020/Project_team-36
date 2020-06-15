@@ -1,6 +1,7 @@
 package Models;
 
 
+import GUI.ManageUsersController;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +23,7 @@ public abstract class User{
     private Status status;
     private ImageView profilePicture;
     private String profilePictureUrl;
+    private static ManageUsersController manageUsersController;
 
     public User(String username){
         totalUsersMade++;
@@ -188,7 +190,12 @@ public abstract class User{
         Hyperlink remove = new Hyperlink();
         remove.setText("remove");
         remove.setStyle("");
-        //remove.setOnAction(e->);
+        remove.setOnAction(e->{
+            this.setUserDeleted();
+            User.removeUsername(this.getUsername());
+            updateAllUsers();
+            manageUsersController.removeAction(this);
+        });
         return remove;
     }
 
@@ -207,5 +214,9 @@ public abstract class User{
 
     public String getProfilePictureUrl() {
         return profilePictureUrl;
+    }
+
+    public static void setManageUsersController(ManageUsersController manageUsersController) {
+        User.manageUsersController = manageUsersController;
     }
 }
