@@ -7,7 +7,7 @@ public abstract class ManagerProfileController {
         Constants.getGuiManager().open("test2",1);
     }
     public void openAllProducts() throws IOException {
-        Constants.getGuiManager().open("test2",1);
+        Constants.getGuiManager().open("manageProducts",1);
     }
     public void openAllUsers() throws IOException {
         Constants.getGuiManager().open("manageUsers",1);
