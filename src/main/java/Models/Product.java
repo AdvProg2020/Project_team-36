@@ -1,5 +1,7 @@
 package Models;
 
+import GUI.ManageProductsController;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -29,6 +31,7 @@ public class Product implements Pendable {
     private ImageView productImage;
     private String productImageUrl;
     private String editedField;
+    private static ManageProductsController manageProductsController;
 
 
     public static void addTest(){
@@ -53,7 +56,7 @@ public class Product implements Pendable {
         product.setProductImage(new ImageView(image));
         ArrayList<Product> sale=  new ArrayList<>();
         sale.add(product);
-
+        product.productImageUrl = "/images/edit.png";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         dateFormat.setLenient(false);
         Date startDate=null;
@@ -92,7 +95,7 @@ public class Product implements Pendable {
         product.setProductImage(new ImageView(image));
         ArrayList<Product> sale=  new ArrayList<>();
         sale.add(product);
-
+        product.productImageUrl = "/images/edit.png";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         dateFormat.setLenient(false);
         Date startDate=null;
@@ -605,9 +608,29 @@ public class Product implements Pendable {
         return productImage;
     }
 
+    public ImageView getSmallProductImage(){
+        return new ImageView(new Image(getClass().getResource(this.productImageUrl).toExternalForm(),50,50,false,false));
+    }
+
     public ImageView getProductImage(int height, int width) {
         Image image = new Image(Product.class.getResource(this.productImageUrl).toExternalForm(),width,height,false,false);
         return new ImageView(image);
+    }
+
+    public Hyperlink getRemoveHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("remove");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            removeProduct(this);
+            updateAllProducts();
+            manageProductsController.removeAction(this);
+        });
+        return remove;
+    }
+
+    public static void setManageProductsController(ManageProductsController manageProductsController){
+        Product.manageProductsController = manageProductsController;
     }
 
     public static class NoSaleForProduct extends Exception{
