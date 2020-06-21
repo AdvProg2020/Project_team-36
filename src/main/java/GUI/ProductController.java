@@ -47,6 +47,8 @@ public class ProductController implements Initializable {
     private VBox fieldsOfCategoryVBox;
     @FXML
     private CommentsController commentController;
+    @FXML
+    private HBox header;
 
     public void back() throws IOException {
         Constants.getGuiManager().back();
@@ -55,7 +57,8 @@ public class ProductController implements Initializable {
     @Override
     public void initialize(int id) throws IOException {
         Product product = Product.getProduct(id);
-        imageView = product.getProductImage();
+        reloadHeader();
+        imageView .setImage( product.getProductImage().getImage());
         name.setText(product.getName());
         company.setText(product.getCompany());
         numberseen.setText("" + product.getSeenNumber());
@@ -99,7 +102,28 @@ public class ProductController implements Initializable {
     }
 
     private void reloadHeader(){
+        if(Constants.globalVariables.getLoggedInUser() == null){
+            header.getChildren().remove(logout);
+            header.getChildren().remove(account);
+        }else {
+            header.getChildren().remove(login);
+        }
+    }
 
+    public void login(){
+        Constants.getGuiManager().login();
+    }
+
+    public void logout(){
+        Constants.getGuiManager().logout();
+    }
+
+    public void goToCart() throws IOException {
+        Constants.getGuiManager().open("Cart",1);
+    }
+
+    public void goToAccount() throws IOException {
+        Constants.getGuiManager().open("Account",1);
     }
 }
 

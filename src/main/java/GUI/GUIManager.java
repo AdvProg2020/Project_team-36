@@ -37,6 +37,10 @@ public class GUIManager {
         }
     }
 
+    public void login(){}
+
+    public void logout(){}
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }

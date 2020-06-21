@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -21,8 +22,15 @@ public class CommentsController {
     private TextArea comment;
     @FXML
     private VBox vBox;
+    @FXML
+    private HBox submitBar;
 
     public void fill(Product product) throws IOException {
+        if (Constants.globalVariables.getLoggedInUser() == null){
+            title.setEditable(false);
+            comment.setEditable(false);
+            vBox.getChildren().remove(submitBar);
+        }
         ArrayList<Comment> comments = product.getAllComments();
         vBox.getChildren().clear();
         for (Comment comment : comments) {
