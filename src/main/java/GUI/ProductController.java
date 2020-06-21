@@ -97,5 +97,9 @@ public class ProductController implements Initializable {
             vBox.getChildren().add(hBox);
         }
     }
+
+    private void reloadHeader(){
+
+    }
 }
 
