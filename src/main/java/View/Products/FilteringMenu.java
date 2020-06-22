@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class FilteringMenu extends Menu {
-    private ObjectController controller;
+    private ProductsController controller;
     private String filter;
 
     public FilteringMenu(String name, Menu parentMenu, ObjectController controller) {
         super(name, parentMenu);
-        this.controller = controller;
+      //  this.controller = controller;
         subMenus.put("show\\s+available\\s+filters", getAvailableFiltersMenu());
         subMenus.put("filter\\s+(.+)", getFilterMenu());
         subMenus.put("current\\s+filters", getCurrentFiltersMenu());

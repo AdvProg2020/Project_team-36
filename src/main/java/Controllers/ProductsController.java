@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.*;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,6 +104,14 @@ public class ProductsController implements ObjectController {
             }
         }
         return result;
+    }
+
+    public HashSet<String> getCompanyNamesForFilter(){
+        HashSet<String> names= new HashSet<>();
+        for (Product product : Product.getAllProducts()) {
+            names.add(product.getCompany());
+        }
+        return names;
     }
 
     public String getProductCurrentSortName() {
