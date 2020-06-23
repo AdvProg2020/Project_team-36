@@ -125,7 +125,14 @@ public class ProductController implements Initializable {
     }
 
     public void goToAccount() throws IOException {
-        Constants.getGuiManager().open("Account",1);
+        User user = Constants.globalVariables.getLoggedInUser();
+        if ( user instanceof Manager){
+            Constants.getGuiManager().open("ManagerTemplate",user.getUserId());
+        }else if (user instanceof Seller){
+            Constants.getGuiManager().open("SellerTemplate",user.getUserId());
+        }else if (user instanceof Customer){
+            Constants.getGuiManager().open("CustomerTemplate",user.getUserId());
+        }
     }
 }
 
