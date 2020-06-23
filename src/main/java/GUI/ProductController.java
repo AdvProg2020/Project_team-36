@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -46,7 +45,7 @@ public class ProductController implements Initializable {
     @FXML
     private VBox fieldsOfCategoryVBox;
     @FXML
-    private CommentsController commentController;
+    private CommentsController commentsController;
     @FXML
     private HBox header;
 
@@ -65,7 +64,7 @@ public class ProductController implements Initializable {
         info.setText(product.getInformation());
         fillFieldsOfCategory(product.getFieldsOfCategory(), fieldsOfCategoryVBox);
         fillProductFields(product.getProductFields(),productFieldsVBox);
-        commentController.fill(product);
+        commentsController.fill(product);
     }
 
     private void fillProductFields(ArrayList<ProductField> productFields, VBox vBox) throws IOException {

@@ -66,7 +66,7 @@
                             </content>
                         </ScrollPane>
                         <ScrollPane fx:id="comments" hbarPolicy="NEVER" prefHeight="334.0" vbarPolicy="ALWAYS">
-                            <fx:include fx:id="commentController" source="Comments.fxml" />
+                            <fx:include fx:id="comments" source="Comments.fxml" />
                         </ScrollPane>
                     </children>
                     <padding>

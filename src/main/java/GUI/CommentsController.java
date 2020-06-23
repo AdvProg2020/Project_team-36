@@ -24,12 +24,14 @@ public class CommentsController {
     private VBox vBox;
     @FXML
     private HBox submitBar;
+    @FXML
+    private VBox submitBox;
 
     public void fill(Product product) throws IOException {
         if (Constants.globalVariables.getLoggedInUser() == null){
             title.setEditable(false);
             comment.setEditable(false);
-            vBox.getChildren().remove(submitBar);
+            submitBox.getChildren().remove(submitBar);
         }
         ArrayList<Comment> comments = product.getAllComments();
         vBox.getChildren().clear();

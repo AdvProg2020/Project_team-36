@@ -19,6 +19,7 @@ public class Main extends Application {
 //        Menu.setControllers();
 //        Menu runMenu = new MainMenu();
 //        runMenu.execute();
+        Product.addTest();
         Constants.setControllers();
         launch(args);
 
@@ -27,13 +28,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Constants.getGuiManager().setStage(stage);
-        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/test.fxml"));
+        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/Product.fxml"));
        // FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/productsMenu.fxml"));
         //FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/manageUsers.fxml"));
 
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
-        Constants.getGuiManager().addToOpenedParents("test",1);
+        Constants.getGuiManager().open("Product",1);
         stage.show();
     }
 }
