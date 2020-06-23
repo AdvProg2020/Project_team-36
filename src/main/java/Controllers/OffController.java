@@ -188,39 +188,41 @@ public class OffController implements ObjectController {
         userVariables.getAllFiltersProducts().removeAll(temp);
     }
 
-    public HashSet<String> getCompanyNamesForFilter(){
-        HashSet<String> names= new HashSet<>();
+    public HashSet<String> getCompanyNamesForFilter() {
+        HashSet<String> names = new HashSet<>();
         for (Product product : Product.getAllProducts()) {
             names.add(product.getCompany());
         }
         return names;
     }
 
-    public ArrayList<Product> getAllInSaleProducts(){
+    public ArrayList<Product> getAllInSaleProducts() {
         ArrayList<Product> result = new ArrayList<>();
-        if(userVariables.getFilterOffsCategory()!=null){
-            getInSaleCategories(result,userVariables.getFilterOffsCategory());
-        }else{
+        if (userVariables.getFilterOffsCategory() != null) {
+            getInSaleCategories(result, userVariables.getFilterOffsCategory());
+        } else {
             result.addAll(Product.getAllInSaleProducts());
         }
         for (Filter filter : userVariables.getAllFiltersOffs()) {
             result = filter.filter(result);
         }
         boolean isAscending = false;
-        if(userVariables.getSortOffType().equalsIgnoreCase("ascending"))
+        if (userVariables.getSortOffType().equalsIgnoreCase("ascending"))
             isAscending = true;
         for (String type : sortMethods.keySet()) {
-            if(type.equalsIgnoreCase(userVariables.getSortOff()))
-                new Sort().sort(result,sortMethods.get(type),isAscending);
+            if (type.equalsIgnoreCase(userVariables.getSortOff()))
+                new Sort().sort(result, sortMethods.get(type), isAscending);
         }
         return result;
     }
-@Override
+
+    @Override
     public void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName {
 
         for (Category category : Category.getAllCategories()) {
-            if(category.getName().equalsIgnoreCase(name)){
-                userVariables.setFilterOffsCategory(category);}
+            if (category.getName().equalsIgnoreCase(name)) {
+                userVariables.setFilterOffsCategory(category);
+            }
         }
         throw new ProductsController.NoCategoryWithName();
     }
@@ -230,16 +232,56 @@ public class OffController implements ObjectController {
         return sortMethods.keySet();
     }
 
-    private void getInSaleCategories(ArrayList<Product> products,Category category){
+    private void getInSaleCategories(ArrayList<Product> products, Category category) {
         products.addAll(category.getAllSubProducts());
         ArrayList<Product> temp = new ArrayList<>();
         for (Product product : products) {
-            if(!product.isProductInSale()){
+            if (!product.isProductInSale()) {
                 temp.add(product);
             }
         }
         products.removeAll(temp);
     }
+
+    public void setCompanyFilter(ArrayList<String> options) {
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if (filter.getName().equals("company")) {
+                userVariables.getAllFiltersOffs().remove(filter);
+                break;
+            }
+        }
+        if (options.isEmpty())
+            return;
+        OptionalFilter optionalFilter = new OptionalFilter(optionalFilterMethods.get("company"), "company");
+        optionalFilter.setOptions(options);
+        userVariables.addFilterOffs(optionalFilter);
+    }
+
+    public void addNameFilter(String name){
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equals("name")){
+                ((OptionalFilter)filter).addOption(name);
+                return;
+            }
+        }
+        OptionalFilter optionalFilter = new OptionalFilter(optionalFilterMethods.get("name"),"name");
+        optionalFilter.addOption(name);
+        userVariables.addFilterOffs(optionalFilter);
+    }
+
+    public void removeNameFilter(String name){
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equals("name")){
+                ((OptionalFilter)filter).removeOption(name);
+                if(((OptionalFilter) filter).getOptions().isEmpty()){
+                    userVariables.getAllFiltersOffs().remove(filter);
+                    return;
+                }
+                return;
+            }
+        }
+    }
+
 
 
 

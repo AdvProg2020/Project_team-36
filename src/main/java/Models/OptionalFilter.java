@@ -37,7 +37,7 @@ public class OptionalFilter implements Filter {
         toBeFiltered.stream().filter(product -> {
             for (String option : options) {
                 try {
-                    if(option.equalsIgnoreCase((String)method.invoke(product)))
+                    if(option.contains((String)method.invoke(product)))
                         return true;
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     System.exit(1);
@@ -55,7 +55,7 @@ public class OptionalFilter implements Filter {
         toBeFiltered.stream().filter(product -> {
             for (String option : options) {
                 OptionalField optionalField = (OptionalField) product.getField(name);
-                if(option.equalsIgnoreCase(optionalField.getQuality()))
+                if(option.contains(optionalField.getQuality()))
                     return true;
             }
             return false;
@@ -74,6 +74,14 @@ public class OptionalFilter implements Filter {
 
     public void setOptions(ArrayList<String> options) {
         this.options = options;
+    }
+
+    public void addOption(String option){
+        this.options.add(option);
+    }
+
+    public void removeOption(String name){
+        options.remove(name);
     }
 
     @Override
