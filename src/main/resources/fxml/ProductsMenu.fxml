@@ -36,12 +36,21 @@
       <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <ScrollPane fx:id="scrollPane" prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
+      <ScrollPane fx:id="productsScrollPane" prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="CENTER" layoutX="12.0" layoutY="6.0" prefHeight="44.0" prefWidth="116.0" text="General Filters" textAlignment="CENTER" />
+            <MenuButton fx:id="companyFilterMenu" layoutX="5.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Company ">
+              <items>
+                  <CustomMenuItem hideOnClick="false" mnemonicParsing="false" text="Unspecified Action">
+                     <content>
+                        <ScrollPane fx:id="companyFilterScroll" prefHeight="200.0" prefWidth="130.0" />
+                     </content>
+                  </CustomMenuItem>
+              </items>
+            </MenuButton>
          </children></Pane>
    </left>
 </BorderPane>

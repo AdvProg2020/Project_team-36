@@ -33,4 +33,6 @@ public interface ObjectController {
     public void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName;
 
     public Set<String> getAvailableSorts();
+
+    void setCompanyFilter(ArrayList<String> options);
 }

@@ -308,6 +308,20 @@ public class ProductsController implements ObjectController {
         }
     }
 
+    public void setCompanyFilter(ArrayList<String> options){
+        for (Filter filter : userVariables.getAllFiltersProducts()) {
+            if(filter.getName().equals("company")) {
+                userVariables.getAllFiltersProducts().remove(filter);
+                break;
+            }
+        }
+        if(options.isEmpty())
+            return;
+       OptionalFilter optionalFilter = new OptionalFilter(optionalFilterMethods.get("company"),"company");
+        optionalFilter.setOptions(options);
+        userVariables.addFilterProducts(optionalFilter);
+    }
+
     public static class NoProductWithId extends Exception {
     }
 
