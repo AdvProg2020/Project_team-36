@@ -36,9 +36,12 @@
       <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <ScrollPane fx:id="scrollPane"  prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
+      <ScrollPane fx:id="scrollPane" prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
-      <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="558.0" prefWidth="140.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" layoutX="12.0" layoutY="6.0" prefHeight="44.0" prefWidth="116.0" text="General Filters" textAlignment="CENTER" />
+         </children></Pane>
    </left>
 </BorderPane>

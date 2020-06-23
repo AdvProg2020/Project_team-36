@@ -50,7 +50,7 @@ public class Product implements Pendable {
         fields.add(waterProof);
         Seller seller = new Seller("seller");
         Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
-        Product product = new Product("tester","team36",new Category("testingCategory"),fields,
+        Product product = new Product("abc","team36",new Category("testingCategory"),fields,
                 "this a string of information about this product.",new ProductField(2000,seller,
                 100,0),new Date());
         product.setProductImage(new ImageView(image));
@@ -71,6 +71,7 @@ public class Product implements Pendable {
         allProducts.add(product);
         seller.addProduct(product);
         test1();
+        test2();
     }
 
     private static void test1(){
@@ -89,7 +90,7 @@ public class Product implements Pendable {
         fields.add(waterProof);
         Seller seller = new Seller("sell");
         Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
-        Product product = new Product("karane","team37",new Category("nazanin"),fields,
+        Product product = new Product("def","team37",new Category("nazanin"),fields,
                 "this a string of information about that product.",new ProductField(755555,seller,
                 0,123),new Date());
         product.setProductImage(new ImageView(image));
@@ -111,6 +112,46 @@ public class Product implements Pendable {
         seller.addProduct(product);
 
 
+    }
+
+    private static void test2(){
+       for(int i=0;i<20;i++) {
+            ArrayList<Field> fields = new ArrayList<>();
+            IntegerField size = new IntegerField("size");
+            size.setValue("4000");
+            IntegerField productionDate = new IntegerField("production date");
+            productionDate.setValue("2018");
+            OptionalField color = new OptionalField("color");
+            color.setValue("red");
+            OptionalField waterProof = new OptionalField("waterProof");
+            waterProof.setValue("high level");
+            fields.add(size);
+            fields.add(color);
+            fields.add(productionDate);
+            fields.add(waterProof);
+            Seller seller = new Seller("what?");
+            Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
+            Product product = new Product("nazanin", "shalalay", new Category("NAZANIN"), fields,
+                    "this a string of information about nazanin.", new ProductField(i*4567+45, seller,
+                    i*23+4, 456), new Date());
+            product.setProductImage(new ImageView(image));
+            ArrayList<Product> sale = new ArrayList<>();
+            sale.add(product);
+            product.productImageUrl = "/images/edit.png";
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            dateFormat.setLenient(false);
+            Date startDate = null;
+            Date endDate = null;
+            try {
+                startDate = dateFormat.parse("2017/5/10");
+                endDate = dateFormat.parse("2020/10/30");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            product.getProductFieldBySeller(seller).setSale(new Sale(seller, sale, startDate, endDate, 0.15));
+            allProducts.add(product);
+            seller.addProduct(product);
+        }
     }
 
     public void setProductImage(ImageView productImage) {

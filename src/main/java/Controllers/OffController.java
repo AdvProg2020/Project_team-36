@@ -188,6 +188,14 @@ public class OffController implements ObjectController {
         userVariables.getAllFiltersProducts().removeAll(temp);
     }
 
+    public HashSet<String> getCompanyNamesForFilter(){
+        HashSet<String> names= new HashSet<>();
+        for (Product product : Product.getAllProducts()) {
+            names.add(product.getCompany());
+        }
+        return names;
+    }
+
     public ArrayList<Product> getAllInSaleProducts(){
         ArrayList<Product> result = new ArrayList<>();
         if(userVariables.getFilterOffsCategory()!=null){

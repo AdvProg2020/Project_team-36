@@ -45,7 +45,7 @@ public class ProductsMenuController implements Initializable {
             ArrayList<Product> temp = new ArrayList<>();
             int beginIndex = (page - 1) * 16;
             int endIndex = page * 16;
-            for (int i = beginIndex; i < endIndex; i++) {
+            for (int i = beginIndex; i < endIndex && i < allProducts.size(); i++) {
                 temp.add(allProducts.get(i));
             }
             setPageButtons(allProducts.size() % 16 == 0 ? allProducts.size() / 16 : allProducts.size() / 16 + 1);
@@ -98,9 +98,9 @@ public class ProductsMenuController implements Initializable {
         GridPane gridPane = new GridPane();
         int rowCount;
         rowCount = size % 4 == 0 ? size / 4 : size / 4 + 1;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j <= rowCount && 4 * i + j < size; j++) {
-                gridPane.add(productView(allProducts.get(i * 4 + j)), j, i);
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < 4&& 4 * i + j < size; j++) {
+                gridPane.add(productView(allProducts.get(i * 4 + j)), j, i);//third parameter: column,forth parameter: row
             }
         }
         scrollPane.setContent(gridPane);
@@ -123,10 +123,9 @@ public class ProductsMenuController implements Initializable {
     private void changePage(int pageNumber) {
         page = pageNumber;
         for (Button button : pageButtons) {
-            if(pageButtons.indexOf(button)==pageNumber-1){
+            if (pageButtons.indexOf(button) == pageNumber - 1) {
                 button.setStyle("-fx-border-width: 4px;-fx-border-color: red");
-            }
-            else
+            } else
                 button.setStyle("-fx-border-width: 4px;-fx-border-color: white");
         }
         showAllProducts(productsController.getFinalProductsList());
@@ -151,16 +150,15 @@ public class ProductsMenuController implements Initializable {
         Label id = new Label("id: " + product.getProductId());
         id.setOpacity(0.3);
         HBox score = createProductScore(product.getScore());
-        setProductImageEffect(product, imageView,sale);
-        vBox.getChildren().addAll(sale,imageView, name, price, id, score);
+        setProductImageEffect(product, imageView, sale);
+        vBox.getChildren().addAll(sale, imageView, name, price, id, score);
         return vBox;
     }
 
-
-    private void setProductImageEffect( Product product, ImageView imageView,Label sale) {
+    private void setProductImageEffect(Product product, ImageView imageView, Label sale) {
         if (product.getTotalSupply() <= 0) {
             ColorAdjust monochrome = new ColorAdjust();
-            monochrome.setSaturation(-1);
+            monochrome.setSaturation(-0.7);
             imageView.setEffect(monochrome);
             return;
         }
@@ -169,7 +167,7 @@ public class ProductsMenuController implements Initializable {
             sale.setText(saleField.getSale().getSalePercent() * 100 + "%");
             sale.setStyle("-fx-text-fill: red;-fx-font-style: italic;-fx-font-weight: bold");
         } catch (Product.NoSaleForProduct noSaleForProduct) {
-
+            return;
         }
     }
 
