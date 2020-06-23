@@ -257,5 +257,32 @@ public class OffController implements ObjectController {
         userVariables.addFilterOffs(optionalFilter);
     }
 
+    public void addNameFilter(String name){
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equals("name")){
+                ((OptionalFilter)filter).addOption(name);
+                return;
+            }
+        }
+        OptionalFilter optionalFilter = new OptionalFilter(optionalFilterMethods.get("name"),"name");
+        optionalFilter.addOption(name);
+        userVariables.addFilterOffs(optionalFilter);
+    }
+
+    public void removeNameFilter(String name){
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equals("name")){
+                ((OptionalFilter)filter).removeOption(name);
+                if(((OptionalFilter) filter).getOptions().isEmpty()){
+                    userVariables.getAllFiltersOffs().remove(filter);
+                    return;
+                }
+                return;
+            }
+        }
+    }
+
+
+
 
 }

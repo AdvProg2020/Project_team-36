@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -24,19 +25,21 @@ public class ProductsMenuController implements Initializable {
     public CheckBox ascendingSort;
     public MenuButton companyFilterMenu;
     public ScrollPane companyFilterScroll;
-    private ProductsController productsController = Constants.productsController;
+    public VBox filterNamesBox;
+    public TextField filterName;
+    private final ProductsController productsController = Constants.productsController;
     private int page = 1;
     public ComboBox sortBox;
     public HBox bottomPane;
     public ScrollPane productsScrollPane;
-    private ArrayList<Button> pageButtons = new ArrayList<>();
-    private ArrayList<CheckBox> companyFilterCheckBox = new ArrayList<>();
-
+    private final ArrayList<Button> pageButtons = new ArrayList<>();
+    private final ArrayList<CheckBox> companyFilterCheckBox = new ArrayList<>();
 
     @Override
     public void initialize(int id) {
         showAllProducts(productsController.getFinalProductsList());
         setCompanyFilters();
+
     }
 
     private void setCompanyFilters() {
@@ -61,6 +64,8 @@ public class ProductsMenuController implements Initializable {
             });
         }
     }
+
+
 
     private void showAllProducts(ArrayList<Product> allProducts) {
         if (allProducts.isEmpty()) {
@@ -224,5 +229,33 @@ public class ProductsMenuController implements Initializable {
             return hBox;
         hBox.getChildren().add(star);
         return hBox;
+    }
+
+    public void addNameFilter(MouseEvent mouseEvent) {
+        if(!filterName.getText().isEmpty()){
+            for (Node node : filterNamesBox.getChildren()) {
+                if(((CheckBox)node).getText().equalsIgnoreCase(filterName.getText()))
+                    return;
+            }
+            CheckBox names = new CheckBox(filterName.getText());
+            filterNamesBox.getChildren().add(names);
+            productsController.addNameFilter(filterName.getText());
+            names.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    removeNameFilter(names);
+                }
+            });
+
+        }
+        filterName.setText("");
+        showAllProducts(productsController.getFinalProductsList());
+    }
+
+    private void removeNameFilter(CheckBox name){
+        productsController.removeNameFilter(name.getText());
+        filterNamesBox.getChildren().remove(name);
+        showAllProducts(productsController.getFinalProductsList());
+
     }
 }

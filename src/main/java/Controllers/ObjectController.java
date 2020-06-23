@@ -8,31 +8,35 @@ import java.util.Set;
 
 public interface ObjectController {
 
-    public String getProductCurrentSortName();
+     String getProductCurrentSortName();
 
-    public String getSortProductType();
+     String getSortProductType();
 
-    public void removeSortProduct();
+     void removeSortProduct();
 
-    public void setSort(String name, String type) throws ProductsController.NoSortException;
+     void setSort(String name, String type) throws ProductsController.NoSortException;
 
-    public Set<String> getAvailableFilters();
+     Set<String> getAvailableFilters();
 
-    public ArrayList<Filter> getCurrentFilters();
+     ArrayList<Filter> getCurrentFilters();
 
-    public Category getCurrentCategoryFilter();
+     Category getCurrentCategoryFilter();
 
-    public void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException;
+     void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException;
 
-    public void setFilterRange(String min, String max);
+     void setFilterRange(String min, String max);
 
-    public void setFilterOptions(ArrayList<String> options);
+     void setFilterOptions(ArrayList<String> options);
 
-    public void removeFilter(String name) throws ProductsController.NoFilterWithNameException;
+     void removeFilter(String name) throws ProductsController.NoFilterWithNameException;
 
-    public void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName;
+     void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName;
 
-    public Set<String> getAvailableSorts();
+     Set<String> getAvailableSorts();
 
     void setCompanyFilter(ArrayList<String> options);
+
+     void addNameFilter(String name);
+
+    void removeNameFilter(String name);
 }

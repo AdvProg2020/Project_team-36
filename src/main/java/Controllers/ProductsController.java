@@ -322,6 +322,31 @@ public class ProductsController implements ObjectController {
         userVariables.addFilterProducts(optionalFilter);
     }
 
+    public void addNameFilter(String name){
+        for (Filter filter : userVariables.getAllFiltersProducts()) {
+            if(filter.getName().equals("name")){
+                ((OptionalFilter)filter).addOption(name);
+                return;
+            }
+        }
+        OptionalFilter optionalFilter = new OptionalFilter(optionalFilterMethods.get("name"),"name");
+        optionalFilter.addOption(name);
+        userVariables.addFilterProducts(optionalFilter);
+    }
+
+    public void removeNameFilter(String name){
+        for (Filter filter : userVariables.getAllFiltersProducts()) {
+            if(filter.getName().equals("name")){
+                ((OptionalFilter)filter).removeOption(name);
+                if(((OptionalFilter) filter).getOptions().isEmpty()){
+                    userVariables.getAllFiltersProducts().remove(filter);
+                    return;
+                }
+                return;
+            }
+        }
+    }
+
     public static class NoProductWithId extends Exception {
     }
 
