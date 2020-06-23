@@ -45,8 +45,8 @@ public class GUIManager {
         this.stage = stage;
     }
 
-    public void addToOpenedParents(String name, int id) {
-        openedParents.add(name);
-        openedParentsIds.add(id);
+    public void reopen() throws IOException {
+        open(openedParents.remove(openedParents.size() - 1),
+                openedParentsIds.remove(openedParentsIds.size() - 1));
     }
 }
