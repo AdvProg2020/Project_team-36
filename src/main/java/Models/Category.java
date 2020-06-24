@@ -219,8 +219,11 @@ public class Category {
     }
 
     private void getAllSubProducts(Category category, ArrayList<Product> allProducts) {
-        if (category.getSubCategories().isEmpty())
-            allProducts.addAll(category.products);
+        if (category.getSubCategories().isEmpty()) {
+            if(!category.products.isEmpty()) {
+                allProducts.addAll(category.products);
+            }
+        }
         else {
             allProducts.addAll(category.products);
             for (Category subCategory : this.subCategories) {
@@ -285,18 +288,13 @@ public class Category {
             size--;
             i--;
         }
+        this.getParentCategory().removeSubCategory(this);
         allCategories.removeAll(this.getAllSubCategories());
         allCategories.remove(this);
     }
 
-    public Hyperlink getRemoveHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("remove");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            manageCategoriesController.removeAction(this);
-        });
-        return remove;
+    private void removeSubCategory(Category category){
+        subCategories.remove(category);
     }
 
     public Hyperlink getViewHyperlink(){
@@ -322,4 +320,5 @@ public class Category {
     public static void setManageCategoriesController(ManageCategoriesController manageCategoriesController) {
         Category.manageCategoriesController = manageCategoriesController;
     }
+
 }

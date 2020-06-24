@@ -18,7 +18,6 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     public ImageView profilePicture;
     public TreeTableColumn nameColumn;
     public TreeTableColumn viewColumn;
-    public TreeTableColumn removeColumn;
     public TreeTableColumn addSubcategoryColumn;
     public TreeTableView allCategoriesTable;
 
@@ -32,20 +31,21 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         Category.setManageCategoriesController(this);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
         viewColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("viewHyperlink"));
-        removeColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("removeHyperlink"));
         addSubcategoryColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("addSubcategory"));
         CategoryController categoryController = new CategoryController();
-        Category mainCategory = categoryController.getMainCategory();
-        TreeItem tableMainRoot = new TreeItem(mainCategory);
-        ArrayList<Category> mainCategories = mainCategory.getSubCategories();
+        Category mainCategoryRoot = categoryController.getMainCategory();
+        TreeItem tableMainRoot = new TreeItem(mainCategoryRoot);
+        allCategoriesTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
+        allCategoriesTable.setRoot(tableMainRoot);
+
+        ArrayList<Category> mainCategories = mainCategoryRoot.getSubCategories();
         for (Category category : mainCategories) {
             TreeItem categoryItem = new TreeItem(category);
             setTheSubcategories(category, categoryItem, 0);
             tableMainRoot.getChildren().add(categoryItem);
         }
-        allCategoriesTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
-        allCategoriesTable.setRoot(tableMainRoot);
     }
+
 
     private void setTheSubcategories(Category mainCategory, TreeItem categoryItem, int indent){
 
@@ -54,26 +54,37 @@ public class ManageCategoriesController extends ManagerProfileController impleme
             TreeItem subcategory = new TreeItem(mainCategory);
             categoryItem.getChildren().add(subcategory);
         } else if (!subcategories.isEmpty() && indent!=0){
-
             TreeItem subItem = new TreeItem(mainCategory);
             for (Category subcategory : subcategories) {
                 setTheSubcategories(subcategory, subItem, indent+1);
             }
             categoryItem.getChildren().add(subItem);
         } else if (!subcategories.isEmpty()){
-            TreeItem subItem = new TreeItem(mainCategory);
             for (Category subcategory : subcategories) {
                 setTheSubcategories(subcategory, categoryItem, indent+1);
             }
-            categoryItem.getChildren().add(subItem);
         }
     }
 
     public void openAddNewCategory(ActionEvent actionEvent) {
     }
 
-    public void removeAction(Category category){
+    public void removeAction(){
+        TreeTableView.TreeTableViewSelectionModel<Category> selectedCategory = allCategoriesTable.getSelectionModel();
 
+        if (selectedCategory.isEmpty()) {
+            return;
+        }
+
+        int rowIndex = selectedCategory.getSelectedIndex();
+        TreeItem<Category> selectedItem = selectedCategory.getModelItem(rowIndex);
+        TreeItem<Category> parent = selectedItem.getParent();
+        selectedItem.getValue().removeCategory();
+        if (parent != null) {
+            parent.getChildren().remove(selectedItem);
+        } else {
+            allCategoriesTable.setRoot(null);
+        }
     }
 
     public void viewAction(Category category){
