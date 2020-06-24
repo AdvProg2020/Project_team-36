@@ -45,6 +45,10 @@ public class GUIManager {
         this.stage = stage;
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public void reopen() throws IOException {
         open(openedParents.remove(openedParents.size() - 1),
                 openedParentsIds.remove(openedParentsIds.size() - 1));
