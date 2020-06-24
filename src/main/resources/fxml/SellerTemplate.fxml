@@ -15,7 +15,7 @@
             <children>
                 <Pane prefHeight="149.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" text="online shop" textAlignment="CENTER" textFill="#d3d0d0">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" text="Online Shop" textAlignment="CENTER" textFill="#d3d0d0">
                             <font>
                                 <Font name="Arial Bold" size="21.0" />
                             </font>
@@ -37,7 +37,7 @@
             <children>
                 <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
                     <children>
-                        <Button alignment="BASELINE_LEFT" layoutX="836.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #556B2F;" text="edit info" textFill="#ebe29d">
+                        <Button alignment="BASELINE_LEFT" layoutX="836.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #556B2F;" text="Edit Info" textFill="#ebe29d">
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

@@ -32,7 +32,6 @@ public class Main extends Application {
         Constants.getGuiManager().setStage(stage);
         FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/MainMenu.fxml"));
        // FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/productsMenu.fxml"));
-        //FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/manageUsers.fxml"));
 
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
