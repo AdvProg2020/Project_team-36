@@ -4,7 +4,6 @@ import Controllers.ProductsController;
 import Models.Product;
 import Models.ProductField;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -28,6 +27,12 @@ public class ProductsMenuController implements Initializable {
     public VBox filterNamesBox;
     public TextField filterName;
     private final ProductsController productsController = Constants.productsController;
+    public CheckBox onlyAvailables;
+    public TextField filterSeller;
+    public VBox filterSellersBox;
+    public ComboBox categoryFilter;
+    public TextField minimumPrice;
+    public TextField maximumPrice;
     private int page = 1;
     public ComboBox sortBox;
     public HBox bottomPane;
@@ -39,7 +44,9 @@ public class ProductsMenuController implements Initializable {
     public void initialize(int id) {
         showAllProducts(productsController.getFinalProductsList());
         setCompanyFilters();
-
+        setCategoryFilters();
+        setMinimumPriceFilter();
+        setMaximumPriceFilter();
     }
 
     private void setCompanyFilters() {
@@ -65,7 +72,53 @@ public class ProductsMenuController implements Initializable {
         }
     }
 
+    private void setCategoryFilters(){
+        ArrayList<String>names = productsController.getCategories();
+        categoryFilter.getItems().add("none");
+        for (String name : names) {
+            categoryFilter.getItems().add(name);
+        }
 
+
+    }
+
+    private void setMinimumPriceFilter(){
+        minimumPrice.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (!newValue.matches("\\d+")) {
+                minimumPrice.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+            try {
+                productsController.setNewFilter("price");
+            } catch (ProductsController.IntegerFieldException e) {
+                String min =minimumPrice.getText().isEmpty()? "0":  minimumPrice.getText().replaceAll("[^\\d]", "");
+                String max = maximumPrice.getText().isEmpty()? "99999999999999": maximumPrice.getText().replaceAll("[^\\d]", "");
+                productsController.setFilterRange(min,max);
+                showAllProducts(productsController.getFinalProductsList());
+            } catch (ProductsController.OptionalFieldException | ProductsController.NoFilterWithNameException e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
+    private void setMaximumPriceFilter(){
+        maximumPrice.textProperty().addListener((observableValue, s, newValue) -> {
+            if (!newValue.matches("\\d+")) {
+                maximumPrice.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+            try {
+                productsController.setNewFilter("price");
+            } catch (ProductsController.IntegerFieldException e) {
+                String minimum= minimumPrice.getText().isEmpty() ? "0" : minimumPrice.getText().replaceAll("[^\\d]", "");
+                String maximum =  maximumPrice.getText().isEmpty() ? "99999999999999" : maximumPrice.getText().replaceAll("[^\\d]", "");
+                System.out.println(minimum+" "+maximum);
+                productsController.setFilterRange(minimum, maximum);
+                showAllProducts(productsController.getFinalProductsList());
+            } catch (ProductsController.OptionalFieldException | ProductsController.NoFilterWithNameException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     private void showAllProducts(ArrayList<Product> allProducts) {
         if (allProducts.isEmpty()) {
@@ -179,7 +232,7 @@ public class ProductsMenuController implements Initializable {
         imageView.setFitWidth(180);
         Label sale = new Label();
         Label name = new Label(product.getName());
-        Label price = new Label("lowest price: " + Double.toString(product.getLowestCurrentPrice()));
+        Label price = new Label("lowest price: " + Double.toString(product.getLowestPrice()));
         Label id = new Label("id: " + product.getProductId());
         id.setOpacity(0.3);
         HBox score = createProductScore(product.getScore());
@@ -240,16 +293,10 @@ public class ProductsMenuController implements Initializable {
             CheckBox names = new CheckBox(filterName.getText());
             filterNamesBox.getChildren().add(names);
             productsController.addNameFilter(filterName.getText());
-            names.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    removeNameFilter(names);
-                }
-            });
-
+            names.setOnAction(actionEvent -> removeNameFilter(names));
+            filterName.setText("");
+            showAllProducts(productsController.getFinalProductsList());
         }
-        filterName.setText("");
-        showAllProducts(productsController.getFinalProductsList());
     }
 
     private void removeNameFilter(CheckBox name){
@@ -257,5 +304,54 @@ public class ProductsMenuController implements Initializable {
         filterNamesBox.getChildren().remove(name);
         showAllProducts(productsController.getFinalProductsList());
 
+    }
+
+    public void changeAvailability(ActionEvent actionEvent) {
+        if(onlyAvailables.isSelected()){
+            productsController.availabilityFilter();
+        }
+        else
+            productsController.removeAvailabilityFilter();
+
+        showAllProducts(productsController.getFinalProductsList());
+    }
+
+    public void addSellerFilter(MouseEvent mouseEvent) {
+        if(!filterSeller.getText().isEmpty()){
+            for (Node node : filterSellersBox.getChildren()) {
+                if(((CheckBox)node).getText().equalsIgnoreCase(filterName.getText()))
+                    return;
+            }
+            CheckBox names = new CheckBox(filterSeller.getText());
+            filterSellersBox.getChildren().add(names);
+            productsController.addSellerFilter(filterSeller.getText());
+            names.setOnAction(actionEvent -> removeSellerFilter(names));
+            filterSeller.setText("");
+            showAllProducts(productsController.getFinalProductsList());
+        }
+
+    }
+
+    private void removeSellerFilter(CheckBox checkBox){
+        productsController.removeSellerFilter(checkBox.getText());
+        filterSellersBox.getChildren().remove(checkBox);
+        showAllProducts(productsController.getFinalProductsList());
+    }
+
+    public void filterCategory(ActionEvent actionEvent) {
+        if(categoryFilter.getValue().toString().equals("none")) {
+            try {
+                productsController.removeFilter("category");
+            } catch (ProductsController.NoFilterWithNameException e) {
+                return;
+            }
+        }else{
+            try {
+                productsController.setCategoryFilter(categoryFilter.getValue().toString());
+            } catch (ProductsController.NoCategoryWithName noCategoryWithName) {
+                noCategoryWithName.printStackTrace();
+            }
+        }
+        showAllProducts(productsController.getFinalProductsList());
     }
 }

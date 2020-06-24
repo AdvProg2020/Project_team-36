@@ -48,10 +48,10 @@ public class ProductsController implements ObjectController {
         try {
             Method method = Product.class.getDeclaredMethod("getName");
             this.optionalFilterMethods.put("name", method);
-            method = Product.class.getDeclaredMethod("getLowestCurrentPrice");
-            this.integerFilterMethods.put("lowest price", method);
-            method = Product.class.getDeclaredMethod("getHighestCurrentPrice");
-            this.integerFilterMethods.put("highest price", method);
+             method = Product.class.getDeclaredMethod("isThereSeller", String.class);
+            this.optionalFilterMethods.put("seller", method);
+            method = Product.class.getDeclaredMethod("getLowestPrice");
+            this.integerFilterMethods.put("price", method);
             method = Product.class.getDeclaredMethod("getCompany");
             this.optionalFilterMethods.put("company", method);
         } catch (NoSuchMethodException e) {
@@ -83,10 +83,7 @@ public class ProductsController implements ObjectController {
     }
 
     private void sort(ArrayList<Product> toBeSorted, String type, Method method) {
-        if (type.equalsIgnoreCase("ascending"))
-            new Sort().sort(toBeSorted, method, true);
-        else
-            new Sort().sort(toBeSorted, method, false);
+        new Sort().sort(toBeSorted, method, type.equalsIgnoreCase("ascending"));
     }
 
     public Set<String> getAvailableSorts() {
@@ -167,6 +164,12 @@ public class ProductsController implements ObjectController {
     }
 
     public void setNewFilter(String name) throws IntegerFieldException, OptionalFieldException, NoFilterWithNameException {
+        for (Filter filter : userVariables.getAllFiltersProducts()) {
+            if(filter.getName().equalsIgnoreCase(name)){
+                userVariables.getAllFiltersProducts().remove(filter);
+                break;
+            }
+        }
         for (String type : integerFilterMethods.keySet()) {
             if (type.equalsIgnoreCase(name)) {
                 userVariables.setPendingFilter(new RangeFilter(integerFilterMethods.get(type), type));
@@ -181,8 +184,6 @@ public class ProductsController implements ObjectController {
         }
         if (userVariables.getFilterProductsCategory() != null)
             checkCategoryFieldsFilter(name);
-        else
-            throw new NoFilterWithNameException();
     }
 
     public void setCategoryFilter(String name) throws NoCategoryWithName {
@@ -345,6 +346,59 @@ public class ProductsController implements ObjectController {
                 return;
             }
         }
+    }
+
+    public void availabilityFilter(){
+        try {
+            Filter filter = new BooleanFilter(Product.class.getDeclaredMethod("isProductAvailable"));
+            userVariables.getAllFiltersProducts().add(filter);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeAvailabilityFilter(){
+        for (Filter filter : userVariables.getAllFiltersProducts()) {
+            if(filter instanceof BooleanFilter&&filter.getName().equals("available")) {
+                userVariables.getAllFiltersProducts().remove(filter);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void addSellerFilter(String name) {
+        System.out.println("SAyeh");
+        for (Filter filter : userVariables.getAllFiltersProducts()) {
+            if(filter.getName().equals("seller")){
+                ((BooleanFilter)filter).addOption(name);
+                return;
+            }
+        }
+        ArrayList<String> names = new ArrayList<>();
+        names.add(name);
+        BooleanFilter booleanFilter = new BooleanFilter(optionalFilterMethods.get("seller"),names);
+        userVariables.addFilterProducts(booleanFilter);
+    }
+
+    @Override
+    public void removeSellerFilter(String name) {
+        for (Filter filter : userVariables.getAllFiltersProducts()) {
+            if(filter.getName().equals("seller")){
+                ((BooleanFilter)filter).removeOption(name);
+                if(((BooleanFilter)filter).getOptions().isEmpty())
+                    userVariables.getAllFiltersProducts().remove(filter);
+                return;
+            }
+        }
+    }
+
+    public ArrayList<String> getCategories(){
+        ArrayList<String> categoryNames = new ArrayList<>();
+        for (Category category : Category.getAllCategories()) {
+            categoryNames.add(category.getName());
+        }
+    return categoryNames;
     }
 
     public static class NoProductWithId extends Exception {

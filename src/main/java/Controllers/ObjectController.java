@@ -1,42 +1,52 @@
 package Controllers;
 
+import Models.BooleanFilter;
 import Models.Category;
 import Models.Filter;
+import Models.Product;
 
 import java.util.ArrayList;
 import java.util.Set;
 
 public interface ObjectController {
 
-     String getProductCurrentSortName();
+    String getProductCurrentSortName();
 
-     String getSortProductType();
+    String getSortProductType();
 
-     void removeSortProduct();
+    void removeSortProduct();
 
-     void setSort(String name, String type) throws ProductsController.NoSortException;
+    void setSort(String name, String type) throws ProductsController.NoSortException;
 
-     Set<String> getAvailableFilters();
+    Set<String> getAvailableFilters();
 
-     ArrayList<Filter> getCurrentFilters();
+    ArrayList<Filter> getCurrentFilters();
 
-     Category getCurrentCategoryFilter();
+    Category getCurrentCategoryFilter();
 
-     void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException;
+    void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException;
 
-     void setFilterRange(String min, String max);
+    void setFilterRange(String min, String max);
 
-     void setFilterOptions(ArrayList<String> options);
+    void setFilterOptions(ArrayList<String> options);
 
-     void removeFilter(String name) throws ProductsController.NoFilterWithNameException;
+    void removeFilter(String name) throws ProductsController.NoFilterWithNameException;
 
-     void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName;
+    void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName;
 
-     Set<String> getAvailableSorts();
+    Set<String> getAvailableSorts();
 
     void setCompanyFilter(ArrayList<String> options);
 
-     void addNameFilter(String name);
+    void addNameFilter(String name);
 
     void removeNameFilter(String name);
+
+    void availabilityFilter();
+
+    void removeAvailabilityFilter();
+
+    void addSellerFilter(String name);
+
+    void removeSellerFilter(String name);
 }

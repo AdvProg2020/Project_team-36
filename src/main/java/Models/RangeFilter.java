@@ -43,7 +43,7 @@ public class RangeFilter implements Filter {
         ArrayList<Product> toBeReturned = new ArrayList<>();
         toBeFiltered.stream().filter(product -> {
             try {
-                return (double)method.invoke(product)>=min.doubleValue()&&((double)method.invoke(product)<=max.doubleValue());
+               return (Long)method.invoke(product)>=min.doubleValue()&&((Long)method.invoke(product)<=max.doubleValue());
             } catch (IllegalAccessException | InvocationTargetException e) {
                 System.exit(1);
             }
@@ -57,9 +57,7 @@ public class RangeFilter implements Filter {
         ArrayList<Product> toBeReturned = new ArrayList<>();
         toBeFiltered.stream().filter(product -> {
             IntegerField integerField = (IntegerField) product.getField(name);
-            if(min.compareTo(integerField.getQuantity())!=1&&max.compareTo(integerField.getQuantity())!=-1)
-                return true;
-            return false;
+            return min.compareTo(integerField.getQuantity()) != 1 && max.compareTo(integerField.getQuantity()) != -1;
         }).forEach(toBeReturned::add);
 
         return toBeReturned;

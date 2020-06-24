@@ -280,6 +280,16 @@ public class Product implements Pendable {
         return Collections.min(temp);
     }
 
+    public long getLowestPrice(){
+        ArrayList<Long> temp = new ArrayList<>();
+
+        for (ProductField productField : this.productFields) {
+            if (!productField.getSeller().getStatus().equals(Status.DELETED))
+                temp.add(productField.getOfficialPrice());
+        }
+        return Collections.min(temp);
+    }
+
     public void seen() {
         this.seenNumber += 1;
     }
@@ -634,6 +644,18 @@ public class Product implements Pendable {
             product.getCategory().removeProduct(product);
         }
         allProducts.removeAll(tempProduct);
+    }
+
+    public boolean isProductAvailable(){
+        return this.getTotalSupply()>0;
+    }
+
+    public boolean isThereSeller(String username){
+        for (ProductField field : productFields) {
+            if(field.getSeller().getUsername().equalsIgnoreCase(username))
+                return true;
+        }
+        return false;
     }
 
     public void updateBuyers(){
