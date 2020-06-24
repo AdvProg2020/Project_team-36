@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
-public class PersonalInfo implements Initializable {
+public class PersonalInfoController implements Initializable {
     @FXML
     private TextField username;
     @FXML
