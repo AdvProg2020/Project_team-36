@@ -63,7 +63,7 @@ public class PersonalInfoController implements Initializable {
     }
 
 
-    public String editInfo() {
+    public void editInfo() {
         String output = "";
         if (!firstname.getText().equals(user.getFirstname())) {
             try {
@@ -144,6 +144,11 @@ public class PersonalInfoController implements Initializable {
             }
         }
 
-        return output;
+        AlertBox.display("Edit Info",output);
+        try {
+            initialize(user.getUserId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

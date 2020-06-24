@@ -22,7 +22,7 @@
                         </Label>
                     </children>
                 </Pane>
-                <Button layoutX="1.0" layoutY="182.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Personal Info" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="182.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Personal Info" textFill="#d7d4d4" />
                 <Button layoutX="1.0" layoutY="247.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Cart" textFill="#d7d4d4" />
                 <Button layoutX="1.0" layoutY="319.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Purchase" textFill="#d7d4d4" />
                 <Button layoutX="3.0" layoutY="385.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Orders" textFill="#d7d4d4" />
@@ -64,14 +64,10 @@
                         </ImageView>
                     </children>
                 </Pane>
-                <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;" />
-                    </content>
-                </ScrollPane>
+                <ScrollPane fx:id="scrollPane" layoutY="208.0" prefHeight="461.0" prefWidth="1016.0" />
             </children>
         </AnchorPane>
-        <Button alignment="BASELINE_LEFT" layoutX="1244.0" layoutY="17.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Logout" textFill="#ebe29d">
+        <Button alignment="BASELINE_LEFT" layoutX="1244.0" layoutY="17.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Logout" textFill="#ebe29d">
             <graphic>
                 <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -83,7 +79,7 @@
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-      <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
+      <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

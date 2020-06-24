@@ -2,8 +2,13 @@ package GUI;
 
 import Models.User;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
@@ -14,6 +19,10 @@ public class CustomerTemplateController implements Initializable{
     private Label username;
     @FXML
     private Button editInfo;
+    @FXML
+    private ImageView profilePicture;
+    @FXML
+    private ScrollPane scrollPane;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -23,6 +32,23 @@ public class CustomerTemplateController implements Initializable{
         }
         username.setText(user.getUsername());
         editInfo.setVisible(false);
+        profilePicture.setImage(user.getProfilePicture().getImage());
     }
 
+    public void logout(){
+        Constants.getGuiManager().logout();
+    }
+
+    public void back() throws IOException {
+        Constants.getGuiManager().back();
+    }
+
+    public void showPersonalInfo() throws IOException {
+        editInfo.setVisible(true);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PersonalInfo.fxml"));
+        Parent parent = fxmlLoader.load();
+        this.personalInfoController = fxmlLoader.getController();
+        scrollPane.setContent(parent);
+        editInfo.setOnAction(actionEvent -> personalInfoController.editInfo());
+    }
 }
