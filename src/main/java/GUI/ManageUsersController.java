@@ -1,15 +1,11 @@
 package GUI;
 
-import Models.Product;
 import Models.User;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -18,11 +14,11 @@ public class ManageUsersController extends ManagerProfileController implements I
 
 
     public ImageView profilePicture;
-    public TableView allUsersTable;
-    public TableColumn profilePictureColumn;
-    public TableColumn usernameColumn;
-    public TableColumn roleColumn;
-    public TableColumn removeColumn;
+    public TableView<User> allUsersTable;
+    public TableColumn<Object, Object> profilePictureColumn;
+    public TableColumn<?, ?> usernameColumn;
+    public TableColumn<?, ?> roleColumn;
+    public TableColumn<?, ?> removeColumn;
     public Label usernameLabel;
     private User manager;
 
