@@ -1,5 +1,7 @@
 package Models;
 
+import GUI.ManageCategoriesController;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 
 import java.lang.reflect.Array;
@@ -16,7 +18,20 @@ public class Category {
     private ArrayList<Product> products;
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private static Category mainCategory = new Category("General Category");
+    private static ManageCategoriesController manageCategoriesController;
 
+    public static void addTest(){
+        Category sublessRoot = new Category("sublessRoot",90,null,mainCategory);
+        sublessRoot.addCategory();
+        Category root = new Category("root",100,null,mainCategory);
+        root.addCategory();
+        Category rootSub1 = new Category("rootSub1",101,null,root);
+        rootSub1.addCategory();
+        Category rootSub2 = new Category("rootSub2",102,null,root);
+        rootSub2.addCategory();
+        Category sub2Sub = new Category("sub2Sub",1021,null,rootSub2);
+        sub2Sub.addCategory();
+    }
 
     public Category(String name) {
         this.name = name;
@@ -274,4 +289,37 @@ public class Category {
         allCategories.remove(this);
     }
 
+    public Hyperlink getRemoveHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("remove");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            manageCategoriesController.removeAction(this);
+        });
+        return remove;
+    }
+
+    public Hyperlink getViewHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("view");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            manageCategoriesController.viewAction(this);
+        });
+        return remove;
+    }
+
+    public Hyperlink getAddSubcategory(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("edit");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            manageCategoriesController.addSubcategoryAction(this);
+        });
+        return remove;
+    }
+
+    public static void setManageCategoriesController(ManageCategoriesController manageCategoriesController) {
+        Category.manageCategoriesController = manageCategoriesController;
+    }
 }

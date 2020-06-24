@@ -1,5 +1,8 @@
 package Models;
 
+import GUI.ManageDiscountCodesController;
+import javafx.scene.control.Hyperlink;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +17,7 @@ public class Discount {
     private int repetitionForEachUser;
     private static int totalCodesMade = 0;
     private ArrayList<Customer> customersIncluded;
+    private static ManageDiscountCodesController manageDiscountCodesController;
 
     public Discount(Date startTime, Date endTime, double discountPercent, long discountLimit, int repetitionForEachUser, ArrayList<Customer> customersIncluded) {
         this.id = makeNewId();
@@ -185,4 +189,42 @@ public class Discount {
             toBeRemoved.clear();
         }
     }
+
+    public static void setManageDiscountCodesController(ManageDiscountCodesController manageDiscountCodesController) {
+        Discount.manageDiscountCodesController = manageDiscountCodesController;
+    }
+
+    public Hyperlink getRemoveHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("remove");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+
+            manageDiscountCodesController.removeAction(this);
+            this.removeDiscount();
+
+        });
+        return remove;
+    }
+
+    public Hyperlink getViewHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("view");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            manageDiscountCodesController.viewAction(this);
+        });
+        return remove;
+    }
+
+    public Hyperlink getEditHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("edit");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            manageDiscountCodesController.editAction(this);
+        });
+        return remove;
+    }
+
 }

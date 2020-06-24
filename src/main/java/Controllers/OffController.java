@@ -47,10 +47,10 @@ public class OffController implements ObjectController {
         try {
             Method method = Product.class.getDeclaredMethod("getName");
             this.optionalFilterMethods.put("name", method);
-            method = Product.class.getDeclaredMethod("getLowestCurrentPrice");
-            this.integerFilterMethods.put("lowest price", method);
-            method = Product.class.getDeclaredMethod("getHighestCurrentPrice");
-            this.integerFilterMethods.put("highest price", method);
+            method = Product.class.getDeclaredMethod("isThereSeller", String.class);
+            this.optionalFilterMethods.put("seller", method);
+            method = Product.class.getDeclaredMethod("getLowestPrice");
+            this.integerFilterMethods.put("price", method);
             method = Product.class.getDeclaredMethod("getCompany");
             this.optionalFilterMethods.put("company", method);
         } catch (NoSuchMethodException e) {
@@ -112,6 +112,12 @@ public class OffController implements ObjectController {
 
     @Override
     public void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException {
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equalsIgnoreCase(name)){
+                userVariables.getAllFiltersProducts().remove(filter);
+                break;
+            }
+        }
         for (String type : integerFilterMethods.keySet()) {
             if (type.equalsIgnoreCase(name)) {
                 userVariables.setPendingFilter(new RangeFilter(integerFilterMethods.get(type), type));
@@ -169,7 +175,6 @@ public class OffController implements ObjectController {
                     userVariables.getAllFiltersOffs().remove(filter);
                     return;
                 }
-
             }
             throw new ProductsController.NoFilterWithNameException();
         }
@@ -277,6 +282,50 @@ public class OffController implements ObjectController {
                     userVariables.getAllFiltersOffs().remove(filter);
                     return;
                 }
+                return;
+            }
+        }
+    }
+
+    public void availabilityFilter(){
+        try {
+            Filter filter = new BooleanFilter(Product.class.getDeclaredMethod("isProductAvailable"));
+            userVariables.getAllFiltersOffs().add(filter);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeAvailabilityFilter(){
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter instanceof BooleanFilter&&filter.getName().equalsIgnoreCase("available")) {
+                userVariables.getAllFiltersOffs().remove(filter);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void addSellerFilter(String name) {
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equals("seller")){
+                ((BooleanFilter)filter).addOption(name);
+                return;
+            }
+        }
+        ArrayList<String> names = new ArrayList<>();
+        names.add(name);
+        BooleanFilter booleanFilter = new BooleanFilter(optionalFilterMethods.get("seller"),names);
+        userVariables.addFilterOffs(booleanFilter);
+    }
+
+    @Override
+    public void removeSellerFilter(String name) {
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter instanceof BooleanFilter&&filter.getName().equals("seller")){
+                ((BooleanFilter)filter).removeOption(name);
+                if(((BooleanFilter)filter).getOptions().isEmpty())
+                    userVariables.getAllFiltersOffs().remove(filter);
                 return;
             }
         }

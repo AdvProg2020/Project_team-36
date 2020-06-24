@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:controller="GUI.ManageUsersController" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"  prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;">
+<AnchorPane prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManageCategoriesController">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -45,7 +45,7 @@
                                 <Font name="Times New Roman" size="30.0" />
                             </font>
                         </Label>
-                        <Label layoutX="232.0" layoutY="47.0" prefHeight="33.0" prefWidth="230.0" text="role" textFill="#070b07">
+                        <Label layoutX="232.0" layoutY="47.0" prefHeight="33.0" prefWidth="230.0" text="manager" textFill="#070b07">
                             <font>
                                 <Font name="Times New Roman" size="22.0" />
                             </font>
@@ -62,7 +62,18 @@
                 </Pane>
                 <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
+                     <children>
+                        <TreeTableView fx:id="allCategoriesTable" layoutX="100.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
+                          <columns>
+                            <TreeTableColumn fx:id="nameColumn" prefWidth="200.0" text="category name" />
+                            <TreeTableColumn fx:id="viewColumn" prefWidth="200.0" text="view" />
+                              <TreeTableColumn fx:id="removeColumn" prefWidth="200.0" text="remove" />
+                              <TreeTableColumn fx:id="addSubcategoryColumn" prefWidth="200.0" text="add subcategory" />
+                          </columns>
+                        </TreeTableView>
+                        <Button layoutX="100.0" layoutY="48.0" mnemonicParsing="false" onAction="#openAddNewCategory" text="+ add a new category" />
+                     </children></AnchorPane>
                     </content>
                 </ScrollPane>
             </children>
