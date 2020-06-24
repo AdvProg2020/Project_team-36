@@ -28,14 +28,18 @@ public class ManageUsersController extends ManagerProfileController implements I
 //        Image profile = new Image(getClass().getResource(manager.getProfilePictureUrl()).toExternalForm(),150,150,false,false);
 //        profilePicture.setImage(profile);
 //        usernameLabel.setText(manager.getUsername());
+
+        ArrayList<User> allUsers = Constants.managerController.getAllUsers();
+        setTheTable(allUsers);
+    }
+
+    private void setTheTable(ArrayList<User> allUsers){
         User.setManageUsersController(this);
         allUsersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         removeColumn.setCellValueFactory(new PropertyValueFactory<>("removeHyperlink"));
-
-        ArrayList<User> allUsers = Constants.managerController.getAllUsers();
         allUsersTable.getItems().addAll(allUsers);
 
     }

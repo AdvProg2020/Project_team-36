@@ -14,11 +14,11 @@ public class ManageProductsController extends ManagerProfileController implement
 
     public Label usernameLabel;
     public ImageView profilePicture;
-    public TableView allProductsTable;
-    public TableColumn productPictureColumn;
-    public TableColumn productNameColumn;
-    public TableColumn productIdColumn;
-    public TableColumn removeColumn;
+    public TableView<Product> allProductsTable;
+    public TableColumn<?, ?> productPictureColumn;
+    public TableColumn<?, ?> productNameColumn;
+    public TableColumn<?, ?> productIdColumn;
+    public TableColumn<?, ?> removeColumn;
     private User manager;
 
     @Override
@@ -28,17 +28,19 @@ public class ManageProductsController extends ManagerProfileController implement
 //        Image profile = new Image(getClass().getResource(manager.getProfilePictureUrl()).toExternalForm(),150,150,false,false);
 //        profilePicture.setImage(profile);
 //        usernameLabel.setText(manager.getUsername());
+        ArrayList<Product> allProducts = Constants.managerController.getAllProducts();
+        setTheTable(allProducts);
 
+    }
+
+    private void setTheTable(ArrayList<Product> allProducts){
         Product.setManageProductsController(this);
         allProductsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
         removeColumn.setCellValueFactory(new PropertyValueFactory<>("removeHyperlink"));
-
-        ArrayList<Product> allProducts = Constants.managerController.getAllProducts();
         allProductsTable.getItems().addAll(allProducts);
-
     }
 
     public void removeAction(Product product){
