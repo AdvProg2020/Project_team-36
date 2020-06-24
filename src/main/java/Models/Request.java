@@ -1,5 +1,8 @@
 package Models;
 
+import GUI.ManageRequestsController;
+import javafx.scene.control.Hyperlink;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,6 +15,7 @@ public class Request {
     private Status status;
     private Date date;
     private static ArrayList<Request> allRequests = new ArrayList<>();
+    private static ManageRequestsController manageRequestsController;
 
     public Request(Pendable pendable, Status status){
         this.requestId = getRandomId();
@@ -108,6 +112,52 @@ public class Request {
 
     public static void addToAllRequests(Request request){
         allRequests.add(request);
+    }
+
+    public static void setManageRequestsController(ManageRequestsController manageRequestsController) {
+        Request.manageRequestsController = manageRequestsController;
+    }
+
+    public String getRequestType(){
+        String type;
+        if(status.equals(TO_BE_ADDED)) {
+            type = "add a new " + pendableRequest.getPendingRequestType() ;
+        } else {
+            type = "edit a " + pendableRequest.getPendingRequestType();
+        }
+        return type;
+    }
+
+    public Hyperlink getViewHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("remove");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            manageRequestsController.viewAction(this);
+        });
+        return remove;
+    }
+
+    public Hyperlink getDeclineHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("view");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            denyRequest(this.getRequestId());
+            manageRequestsController.removeAction(this);
+        });
+        return remove;
+    }
+
+    public Hyperlink getAcceptHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("edit");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            this.acceptRequest();
+            manageRequestsController.removeAction(this);
+        });
+        return remove;
     }
 
 }
