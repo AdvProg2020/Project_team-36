@@ -7,19 +7,19 @@ public abstract class ManagerProfileController {
         Constants.getGuiManager().open("test2",1);
     }
     public void openAllProducts() throws IOException {
-        Constants.getGuiManager().open("manageProducts",1);
+        Constants.getGuiManager().open("ManageProducts",1);
     }
     public void openAllUsers() throws IOException {
-        Constants.getGuiManager().open("manageUsers",1);
+        Constants.getGuiManager().open("ManageUsers",1);
     }
     public void openDiscountCodes() throws IOException {
-        Constants.getGuiManager().open("test2",1);
+        Constants.getGuiManager().open("ManageDiscountCodes",1);
     }
     public void openCategories() throws IOException {
-        Constants.getGuiManager().open("test2",1);
+        Constants.getGuiManager().open("ManageCategories",1);
     }
     public void openRequests () throws IOException {
-        Constants.getGuiManager().open("test2",1);
+        Constants.getGuiManager().open("ManageRequests",1);
     }
     public void back() throws IOException {
         Constants.getGuiManager().back();
