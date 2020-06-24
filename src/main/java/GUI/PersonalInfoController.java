@@ -5,6 +5,7 @@ import Models.Customer;
 import Models.Seller;
 import Models.User;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -26,9 +27,9 @@ public class PersonalInfoController implements Initializable {
     @FXML
     private TextField companyInfo;
     @FXML
-    private TextField password;
+    private PasswordField password;
     @FXML
-    private TextField confirmedPassword;
+    private PasswordField confirmedPassword;
     @FXML
     private TextField credit;
     @FXML
@@ -61,7 +62,6 @@ public class PersonalInfoController implements Initializable {
             pane.getChildren().removeAll(companyInfo, companyName);
         }
     }
-
 
     public void editInfo() {
         String output = "";
