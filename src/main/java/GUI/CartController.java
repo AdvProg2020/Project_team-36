@@ -57,4 +57,8 @@ public class CartController implements Initializable {
 
         totalPrice.setText("" + price);
     }
+
+    public void goToPurchase() throws IOException {
+        Constants.getGuiManager().open("Purchase",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
 }

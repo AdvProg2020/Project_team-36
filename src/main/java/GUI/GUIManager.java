@@ -24,8 +24,8 @@ public class GUIManager {
         openedParentsIds.add(id);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
         Parent parent = fxmlLoader.load();
-        ((Initializable) fxmlLoader.getController()).initialize(id);
         stage.getScene().setRoot(parent);
+        ((Initializable) fxmlLoader.getController()).initialize(id);
     }
 
     public void back() throws IOException {
