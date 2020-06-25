@@ -36,8 +36,7 @@ public LoginMenu(){
         try {
             entryController.setUserNameLogin(username.getText());
             entryController.setPasswordLogin(password.getText());
-            System.out.println("login");
-            //TODO close the new window
+            Constants.getGuiManager().successfulLogin();
         } catch (EntryController.InvalidUsernameException e) {
             username.setStyle("-fx-text-box-border: RED;");
             loginLabel.setText("No user with this id!");

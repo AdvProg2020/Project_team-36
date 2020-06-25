@@ -1,10 +1,8 @@
 package GUI;
 
 import Controllers.ObjectController;
-import Controllers.OffController;
 import Controllers.ProductsController;
-import Models.Product;
-import Models.ProductField;
+import Models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -17,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -28,6 +27,12 @@ public class ProductsMenuController implements Initializable {
     public ScrollPane companyFilterScroll;
     public VBox filterNamesBox;
     public TextField filterName;
+    public Button back;
+    public Button cart;
+    public Button login;
+    public Button account;
+    public Button logout;
+    public HBox header;
     private ObjectController controller;
     public CheckBox onlyAvailables;
     public TextField filterSeller;
@@ -43,11 +48,12 @@ public class ProductsMenuController implements Initializable {
     public ScrollPane productsScrollPane;
     private final ArrayList<Button> pageButtons = new ArrayList<>();
     private final ArrayList<CheckBox> companyFilterCheckBox = new ArrayList<>();
-    private int id;
+    private int pageId;
 
     @Override
     public void initialize(int id) {
-        this.id = id;
+        reloadHeader();
+        this.pageId = id;
         if (id == 1)
             controller = Constants.productsController;
         else {
@@ -240,7 +246,7 @@ public class ProductsMenuController implements Initializable {
         vBox.setPrefSize(265, 265);
         vBox.setAlignment(Pos.CENTER);
         ImageView imageView = product.getProductImage();
-        if (id == 1) {
+        if (pageId == 1) {
             imageView.setFitHeight(180);
             imageView.setFitWidth(180);
         } else {
@@ -254,7 +260,7 @@ public class ProductsMenuController implements Initializable {
         id.setOpacity(0.3);
         Label startDate=null;
         Label endDate=null;
-        if(this.id==2){
+        if(this.pageId ==2){
             try {
                  startDate = new Label("start date:"+product.getBestSale().getSale().getStartTime().toLocaleString());
                  endDate = new Label("end date:"+product.getBestSale().getSale().getEndTime().toLocaleString());
@@ -268,7 +274,7 @@ public class ProductsMenuController implements Initializable {
         HBox score = createProductScore(product.getScore());
         setProductImageEffect(product, imageView, sale);
         vBox.getChildren().addAll(sale, imageView, name, price, id);
-        if(this.id==2)
+        if(this.pageId ==2)
             vBox.getChildren().addAll(startDate,endDate,score);
         else
             vBox.getChildren().add(score);
@@ -529,4 +535,40 @@ public class ProductsMenuController implements Initializable {
         return optionCheckBox;
     }
 
+    public void logout(ActionEvent actionEvent) {
+        Constants.getGuiManager().logout();
+    }
+
+    private void reloadHeader(){
+        if(Constants.globalVariables.getLoggedInUser() == null){
+            header.getChildren().remove(logout);
+            header.getChildren().remove(account);
+            header.getChildren().remove(cart);
+        }else {
+            header.getChildren().remove(login);
+        }
+    }
+
+    public void goToAccount(ActionEvent actionEvent) throws IOException {
+        User user = Constants.globalVariables.getLoggedInUser();
+        if ( user instanceof Manager){
+            Constants.getGuiManager().open("ManagerTemplate",user.getUserId());
+        }else if (user instanceof Seller){
+            Constants.getGuiManager().open("SellerTemplate",user.getUserId());
+        }else if (user instanceof Customer){
+            Constants.getGuiManager().open("CustomerTemplate",user.getUserId());
+        }
+    }
+
+    public void login(ActionEvent actionEvent) {
+        Constants.getGuiManager().login();
+    }
+
+    public void goToCart(ActionEvent actionEvent) throws IOException {
+        Constants.getGuiManager().open("Cart",1);
+    }
+
+    public void back(ActionEvent actionEvent) throws IOException {
+        Constants.getGuiManager().back();
+    }
 }

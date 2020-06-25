@@ -13,6 +13,7 @@ public class GUIManager {
     private List<String> openedParents;
     private List<Integer> openedParentsIds;
     private Stage stage;
+    private Stage loginStage;
 
     public GUIManager() {
         this.openedParents = new ArrayList<>();
@@ -37,7 +38,20 @@ public class GUIManager {
         }
     }
 
-    public void login(){}
+    public void login(){
+         LoginBox loginBox = new LoginBox();
+         this.loginStage = loginBox.getWindow();
+         loginBox.display();
+    }
+
+    public void successfulLogin(){
+        loginStage.close();
+        try {
+            reopen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void logout(){}
 
