@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CreateNewManagerController">
+    <children>
+        <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
+            <children>
+                <Pane prefHeight="149.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" text="Online Shop" textAlignment="CENTER" textFill="#d3d0d0">
+                            <font>
+                                <Font name="Arial Bold" size="21.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Button layoutX="1.0" layoutY="182.0" mnemonicParsing="false" onAction="#openPersonalInfo" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Personal Info" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="247.0" mnemonicParsing="false" onAction="#openAllUsers" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="All Users" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="319.0" mnemonicParsing="false" onAction="#openAllProducts" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="All Products" textFill="#d7d4d4" />
+                <Button layoutX="3.0" layoutY="385.0" mnemonicParsing="false" onAction="#openDiscountCodes" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Discount Codes" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="456.0" mnemonicParsing="false" onAction="#openCategories" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Categories" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="532.0" mnemonicParsing="false" onAction="#openRequests" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Request" textFill="#d7d4d4" />
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">
+            <children>
+                <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
+                    <children>
+                        <Button alignment="BASELINE_LEFT" layoutX="836.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #556B2F;" text="Edit Info" textFill="#ebe29d">
+                            <graphic>
+                                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/edit.png" />
+                                    </image></ImageView>
+                            </graphic>
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font></Button>
+                        <Label fx:id="usernameLabel" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
+                            <font>
+                                <Font name="Times New Roman" size="30.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="232.0" layoutY="47.0" prefHeight="33.0" prefWidth="230.0" text="Manager" textFill="#070b07">
+                            <font>
+                                <Font name="Times New Roman" size="22.0" />
+                            </font>
+                        </Label>
+                    </children></Pane>
+                <Pane layoutY="127.0" prefHeight="81.0" prefWidth="1016.0" style="-fx-background-color: #FFFACD;">
+                    <children>
+                        <ImageView fx:id="profilePicture" fitHeight="150.0" fitWidth="150.0" layoutX="74.0" layoutY="-75.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/seller.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
+                              <TextField fx:id="username" layoutX="51.0" layoutY="149.0" prefWidth="150.0" promptText="username" />
+                              <TextField fx:id="firstname" layoutX="51.0" layoutY="191.0" prefHeight="26.0" prefWidth="150.0" promptText="firstname" />
+                              <TextField fx:id="lastname" layoutX="51.0" layoutY="231.0" prefHeight="26.0" prefWidth="150.0" promptText="lastname" />
+                              <TextField fx:id="email" layoutX="51.0" layoutY="277.0" prefWidth="150.0" promptText="email" />
+                              <TextField fx:id="phone" layoutX="326.0" layoutY="149.0" prefWidth="150.0" promptText="phone number" />
+                              <PasswordField fx:id="password" layoutX="326.0" layoutY="192.0" prefWidth="150.0" promptText="password" />
+                              <PasswordField fx:id="rePassword" layoutX="324.0" layoutY="232.0" prefWidth="150.0" promptText="re-enter password" />
+                                <Button layoutX="364.0" layoutY="277.0" mnemonicParsing="false" onAction="#addImage" text="add image" />
+                              <Button layoutX="679.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="26.0" prefWidth="120.0" text="Create Account" />
+                     <ImageView fx:id="image" fitHeight="105.0" fitWidth="132.0" layoutX="60.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
+                     <ImageView fitHeight="266.0" fitWidth="438.0" layoutX="520.0" layoutY="41.0" pickOnBounds="true">
+                        <image>
+                           <Image url="@../images/managerBackground.jpg" />
+                        </image>
+                     </ImageView>
+                              <Label fx:id="alertLabel" layoutX="137.0" layoutY="338.0" prefHeight="31.0" prefWidth="271.0" textFill="#dd2c2c">
+                                  <font>
+                                      <Font size="14.0" />
+                                     </font>
+                              </Label>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </AnchorPane>
+        <Button alignment="BASELINE_LEFT" layoutX="1252.0" layoutY="6.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Logout" textFill="#ebe29d">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/logout.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+        <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
