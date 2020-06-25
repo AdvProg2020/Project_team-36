@@ -26,9 +26,14 @@ public class ManageRequestsController extends ManagerProfileController implement
 
     @Override
     public void initialize(int id) throws IOException {
-        this.user = User.getUserById(id);
-        if (!Constants.globalVariables.getLoggedInUser().equals(user)) {
+        if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
+            return;
+        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
+            Constants.getGuiManager().back();
+            return;
+        } else {
+            this.user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
