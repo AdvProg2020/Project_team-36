@@ -47,6 +47,7 @@ public class CustomerTemplateController implements Initializable{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PersonalInfo.fxml"));
         Parent parent = fxmlLoader.load();
         this.personalInfoController = fxmlLoader.getController();
+        personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
         editInfo.setOnAction(actionEvent -> personalInfoController.editInfo());
     }
