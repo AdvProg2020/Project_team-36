@@ -85,7 +85,11 @@ public class RegisterMenu {
             return false;
         }
         try {
-            entryController.setUsernameRegister("seller", username.getText());
+           if(isSeller) {
+                entryController.setUsernameRegister("seller", username.getText());
+            }else {
+               entryController.setUsernameRegister("customer", username.getText());
+           }
             return true;
         } catch (EntryController.InvalidTypeException | EntryController.ManagerExistsException e) {
             e.printStackTrace();
