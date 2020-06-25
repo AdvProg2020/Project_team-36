@@ -27,7 +27,7 @@
                 </HBox>
                 <HBox prefHeight="221.0" prefWidth="1360.0" spacing="8.0">
                     <children>
-                        <ImageView fx:id="imageView" fitHeight="258.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="imageView" fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="365.0" spacing="8.0">
                             <children>
                                 <Label fx:id="name" text="Label" textAlignment="CENTER">
