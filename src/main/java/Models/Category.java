@@ -271,6 +271,7 @@ public class Category {
         }
     }
 
+
     private void removeFieldFromEach(Field removingField) {
         for (Field field : this.getAllFields()) {
             if (field.getName().equalsIgnoreCase(removingField.getName())) {
