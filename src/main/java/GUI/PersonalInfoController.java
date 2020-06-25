@@ -32,8 +32,6 @@ public class PersonalInfoController implements Initializable {
     private PasswordField confirmedPassword;
     @FXML
     private TextField credit;
-    @FXML
-    private AnchorPane pane;
 
     private User user;
 
@@ -64,9 +62,12 @@ public class PersonalInfoController implements Initializable {
         } else if (user instanceof Customer) {
             credit.setText("" + ((Customer) user).getCredit());
             credit.setEditable(false);
-            pane.getChildren().removeAll(companyInfo, companyName);
+            companyInfo.setVisible(false);
+            companyName.setVisible(false);
         } else {
-            pane.getChildren().removeAll(companyInfo, companyName);
+            companyInfo.setVisible(false);
+            companyName.setVisible(false);
+            credit.setVisible(false);
         }
     }
 
