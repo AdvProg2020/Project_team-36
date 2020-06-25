@@ -17,8 +17,6 @@ public class CustomerTemplateController implements Initializable{
     @FXML
     private Label username;
     @FXML
-    private Button editInfo;
-    @FXML
     private ImageView profilePicture;
     @FXML
     private ScrollPane scrollPane;
@@ -30,8 +28,7 @@ public class CustomerTemplateController implements Initializable{
             Constants.getGuiManager().back();
         }
         username.setText(user.getUsername());
-        editInfo.setVisible(false);
-        profilePicture.setImage(user.getProfilePicture().getImage());
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
     }
 
     public void logout(){
@@ -43,14 +40,13 @@ public class CustomerTemplateController implements Initializable{
     }
 
     public void showPersonalInfo() throws IOException {
-        editInfo.setVisible(true);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PersonalInfo.fxml"));
         Parent parent = fxmlLoader.load();
         this.personalInfoController = fxmlLoader.getController();
         personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
-        editInfo.setOnAction(actionEvent -> personalInfoController.editInfo());
     }
+
 
     public void goToCart() throws IOException {
         Constants.getGuiManager().open("Cart",1);

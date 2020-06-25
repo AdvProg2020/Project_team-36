@@ -32,16 +32,6 @@
             <children>
                 <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
                     <children>
-                        <Button fx:id="editInfo" alignment="BASELINE_LEFT" layoutX="836.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #556B2F;" text="Edit Info" textFill="#ebe29d">
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../images/edit.png" />
-                                    </image></ImageView>
-                            </graphic>
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font></Button>
                         <Label fx:id="username" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
                             <font>
                                 <Font name="Times New Roman" size="30.0" />
