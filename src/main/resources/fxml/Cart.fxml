@@ -8,12 +8,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
 <AnchorPane maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CartController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" layoutX="63.0" layoutY="279.0" prefHeight="366.0" prefWidth="820.0" />
+      <ScrollPane hbarPolicy="NEVER" layoutX="63.0" layoutY="279.0" prefHeight="366.0" prefWidth="820.0">
+         <content>
+            <VBox fx:id="vBox" maxWidth="810.0" prefHeight="427.0" prefWidth="810.0" />
+         </content>
+      </ScrollPane>
       <Button alignment="CENTER" layoutX="28.0" layoutY="20.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -63,7 +68,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label layoutX="235.0" layoutY="10.0" text="Label">
+            <Label fx:id="totalPrice" layoutX="235.0" layoutY="10.0" text="Label">
                <font>
                   <Font size="24.0" />
                </font>

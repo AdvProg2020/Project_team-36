@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 public class ItemInCartController {
     @FXML
     private Label productName;
@@ -45,15 +47,17 @@ public class ItemInCartController {
         }
     }
 
-    public void increase() {
+    public void increase() throws IOException {
         count.setText("" + (Integer.parseInt(count.getText()) + 1));
         fill(product,productField,Integer.parseInt(count.getText()));
         //todo: taghirate inja ro tu carti k tucustomer zakhire shode hm byd emal kni hala chjuri idk
+        Constants.getGuiManager().reopen();
     }
 
-    public void decrease(){
+    public void decrease() throws IOException {
         count.setText("" + (Integer.parseInt(count.getText()) - 1));
         fill(product,productField,Integer.parseInt(count.getText()));
         //todo: taghirate inja ro tu carti k tucustomer zakhire shode hm byd emal kni hala chjuri idk
+        Constants.getGuiManager().reopen();
     }
 }
