@@ -48,6 +48,8 @@ public class Discount {
         return discountPercent;
     }
 
+    public int getDiscountPercentForTable(){ return (int)(discountPercent*100); }
+
     public Long getDiscountLimit() {
         return discountLimit;
     }
@@ -210,13 +212,13 @@ public class Discount {
     }
 
     public Hyperlink getViewHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("view");
-        remove.setStyle("");
-        remove.setOnAction(e->{
+        Hyperlink view = new Hyperlink();
+        view.setText("view");
+        view.setStyle("");
+        view.setOnAction(e->{
             manageDiscountCodesController.viewAction(this);
         });
-        return remove;
+        return view;
     }
 
     public Hyperlink getEditHyperlink(){
@@ -227,6 +229,12 @@ public class Discount {
             manageDiscountCodesController.editAction(this);
         });
         return remove;
+    }
+
+    public void giveDiscountCodeToCustomers(){
+        for (Customer customer : customersIncluded) {
+            customer.setDiscountForCustomer(this);
+        }
     }
 
 }

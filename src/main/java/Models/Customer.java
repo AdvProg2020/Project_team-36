@@ -89,6 +89,7 @@ public class Customer extends User  {
     }
 
     public static ArrayList<Customer> getAllCustomers() {
+        updateAllUsers();
         return allCustomers;
     }
 
