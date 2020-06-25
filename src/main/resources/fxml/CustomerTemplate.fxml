@@ -25,7 +25,7 @@
                 <Button layoutX="1.0" layoutY="182.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Personal Info" textFill="#d7d4d4" />
                 <Button fx:id="goToCart" layoutX="1.0" layoutY="247.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Cart" textFill="#d7d4d4" />
                 <Button layoutX="3.0" layoutY="312.0" mnemonicParsing="false" onAction="#viewOrders" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Orders" textFill="#d7d4d4" />
-                <Button layoutX="1.0" layoutY="375.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Discount Codes" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="375.0" mnemonicParsing="false" onAction="#viewDiscounts" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Discount Codes" textFill="#d7d4d4" />
             </children>
         </AnchorPane>
         <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">

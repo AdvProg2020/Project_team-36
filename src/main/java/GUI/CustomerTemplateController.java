@@ -61,6 +61,13 @@ public class CustomerTemplateController implements Initializable{
         scrollPane.setContent(parent);
     }
 
+    public void viewDiscounts() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Orders.fxml"));
+        Parent parent = fxmlLoader.load();
+        ((OrdersController) fxmlLoader.getController()).fill();
+        scrollPane.setContent(parent);
+    }
+
     public void goToCart() throws IOException {
         Constants.getGuiManager().open("Cart",user.getUserId());
     }

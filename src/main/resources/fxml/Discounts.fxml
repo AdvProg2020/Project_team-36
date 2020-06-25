@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="450.0" maxWidth="950.0" minHeight="450.0" minWidth="950.0" prefHeight="450.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.DiscountsController">
+   <children>
+      <TableView fx:id="allDiscounts" layoutX="186.0" layoutY="74.0" prefHeight="350.0" prefWidth="578.0">
+        <columns>
+          <TableColumn fx:id="id" prefWidth="75.0" text="Id" />
+            <TableColumn fx:id="startTime" prefWidth="75.0" text="Start Time" />
+            <TableColumn fx:id="endTime" prefWidth="75.0" text="End Time" />
+            <TableColumn fx:id="discountPercent" prefWidth="119.0" text="Discount Percent" />
+            <TableColumn fx:id="discountLimit" prefWidth="105.0" text="Discount Limit" />
+            <TableColumn fx:id="remaining" prefWidth="128.0" text="Remaining use" />
+        </columns>
+      </TableView>
+      <Label layoutX="372.0" layoutY="21.0" text="All Discounts">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
