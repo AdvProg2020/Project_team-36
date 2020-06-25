@@ -30,13 +30,14 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Constants.getGuiManager().setStage(stage);
-        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/ManageUsers.fxml"));
+        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/MainMenu.fxml"));
        // FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/productsMenu.fxml"));
+        //FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/te.fxml"));
 
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
-        Constants.globalVariables.setLoggedInUser(User.getUserByUsername("sayeh"));
-        Constants.getGuiManager().open("ManageUsers",Constants.globalVariables.getLoggedInUser().getUserId());
+      //  Constants.globalVariables.setLoggedInUser(User.getUserById(2));
+       Constants.getGuiManager().open("MainMenu",2);
         stage.show();
     }
 }

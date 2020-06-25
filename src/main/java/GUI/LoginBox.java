@@ -15,8 +15,6 @@ public class LoginBox {
     public LoginBox() {
         this.window = new Stage();
         window.setTitle("Entry page");
-        window.setMinWidth(600);
-        window.setMinHeight(600);
         window.initModality(Modality.APPLICATION_MODAL);
     }
 
