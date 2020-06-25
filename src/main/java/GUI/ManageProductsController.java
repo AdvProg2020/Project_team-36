@@ -8,6 +8,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ManageProductsController extends ManagerProfileController implements Initializable {
@@ -19,15 +20,22 @@ public class ManageProductsController extends ManagerProfileController implement
     public TableColumn<?, ?> productNameColumn;
     public TableColumn<?, ?> productIdColumn;
     public TableColumn<?, ?> removeColumn;
-    private User manager;
+    private User user;
 
     @Override
-    public void initialize(int id) {
+    public void initialize(int id) throws IOException {
+        if (Constants.globalVariables.getLoggedInUser() == null) {
+            Constants.getGuiManager().back();
+            return;
+        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
+            Constants.getGuiManager().back();
+            return;
+        } else {
+            this.user = Constants.globalVariables.getLoggedInUser();
+        }
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
 
-//        manager = Constants.loggedInUser.getLoggedInUser();
-//        Image profile = new Image(getClass().getResource(manager.getProfilePictureUrl()).toExternalForm(),150,150,false,false);
-//        profilePicture.setImage(profile);
-//        usernameLabel.setText(manager.getUsername());
         ArrayList<Product> allProducts = Constants.managerController.getAllProducts();
         setTheTable(allProducts);
 
