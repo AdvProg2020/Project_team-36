@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManagerRegisterController">
+<children>
+    <VBox alignment="CENTER" layoutX="742.0" layoutY="57.0" prefHeight="576.0" prefWidth="279.0" spacing="20.0">
+        <children>
+            <TextField fx:id="username" promptText="username" />
+            <TextField fx:id="firstname" prefHeight="26.0" prefWidth="191.0" promptText="firstname" />
+            <TextField fx:id="lastname" prefHeight="26.0" prefWidth="56.0" promptText="lastname" />
+            <TextField fx:id="email" promptText="email" />
+            <TextField fx:id="phone" promptText="phone number" />
+            <PasswordField fx:id="password" promptText="password" />
+            <PasswordField fx:id="rePassword" promptText="re-enter password" />
+            <HBox alignment="CENTER" prefHeight="74.0" prefWidth="262.0" spacing="40.0">
+                <children>
+                    <ImageView fx:id="image" fitHeight="74.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" />
+                    <Button mnemonicParsing="false" onAction="#addImage" text="add image" />
+                </children>
+            </HBox>
+            <Button mnemonicParsing="false" onMouseClicked="#register" prefHeight="26.0" prefWidth="92.0" text="Register me!" />
+            <Label fx:id="alertLabel" prefHeight="31.0" prefWidth="271.0" textFill="#dd2c2c">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Label>
+        </children>
+    </VBox>
+    <ImageView fitHeight="315.0" fitWidth="548.0" layoutX="87.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../images/managerBackground.jpg" />
+        </image>
+    </ImageView>
+    <Label layoutX="75.0" layoutY="81.0" prefHeight="38.0" prefWidth="588.0" text=" You are the first manager of online shop! ">
+        <font>
+            <Font name="System Bold Italic" size="24.0" />
+        </font>
+    </Label>
+      <Label layoutX="87.0" layoutY="33.0" prefHeight="48.0" prefWidth="271.0" text="Congratulations!">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="87.0" layoutY="121.0" prefHeight="48.0" prefWidth="415.0" text="Please register to continue">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+</children></AnchorPane>
