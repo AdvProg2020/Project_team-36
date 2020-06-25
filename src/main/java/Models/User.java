@@ -187,16 +187,11 @@ public abstract class User{
         for (User user : allUsers) {
             if(user.getStatus().equals(DELETED)) {
                 temp.add(user);
-                allUsernames.remove(user.getUsername());
-                if(user instanceof Customer){
-                    Customer.removeFromAllCustomers((Customer)user);
-                } else if(user instanceof Seller){
-                    Seller.removeFromAllSellers((Seller)user);
-                } else {
-                    Manager.removeFromAllManagers((Manager)user);
-                }
             }
         }
+        Customer.updateAllCustomers();
+        Seller.updateSellers();
+        Manager.updateManagers();
         allUsers.removeAll(temp);
     }
 

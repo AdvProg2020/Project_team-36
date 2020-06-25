@@ -228,4 +228,14 @@ public class Customer extends User  {
                 "\nemail: "+email+"\ncredit: "+credit+
                 "\npassword: "+password;
     }
+
+    public static void updateAllCustomers(){
+        ArrayList<Customer> customers = new ArrayList<>();
+        for (Customer customer : allCustomers) {
+            if(customer.getStatus().equals(Status.DELETED))
+                customers.add(customer);
+
+        }
+        allCustomers.removeAll(customers);
+    }
 }

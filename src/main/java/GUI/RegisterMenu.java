@@ -273,4 +273,8 @@ public class RegisterMenu {
             return true;
         }
     }
+
+    public void login(ActionEvent actionEvent) {
+        Constants.getGuiManager().openLogin();
+    }
 }

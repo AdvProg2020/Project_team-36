@@ -16,9 +16,10 @@ private EntryController entryController;
     public PasswordField password;
     public CheckBox robotChecking;
     public Button loginButton;
-public LoginMenu(){
-    this.entryController = new EntryController(new GlobalVariables());
-}
+
+    public LoginMenu(){
+    this.entryController = Constants.entryController;
+    }
 
 
     public void loginProcess(MouseEvent mouseEvent) {
@@ -56,7 +57,7 @@ public LoginMenu(){
     }
 
     public void createAccount(MouseEvent mouseEvent) {
-    //todo change to register menu
+        Constants.getGuiManager().openRegister();
     }
 
 

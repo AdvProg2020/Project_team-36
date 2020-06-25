@@ -3,6 +3,7 @@ package GUI;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -70,5 +71,28 @@ public class GUIManager {
 
     public Stage getLoginStage() {
         return loginStage;
+    }
+
+    public void openRegister(){
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/RegisterMenu.fxml"));
+        Parent parent = null;
+        try {
+            parent = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        loginStage.getScene().setRoot(parent);
+
+    }
+
+    public void openLogin(){
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/LoginMenu.fxml"));
+        Parent parent = null;
+        try {
+            parent = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        loginStage.getScene().setRoot(parent);
     }
 }
