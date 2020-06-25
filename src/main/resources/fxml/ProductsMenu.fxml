@@ -10,6 +10,16 @@
    <top>
       <Pane prefHeight="91.0" prefWidth="1360.0" BorderPane.alignment="CENTER">
          <children>
+            <HBox fx:id="header" layoutX="10.0" layoutY="14.0" prefHeight="26.0" prefWidth="1335.0" spacing="8.0">
+               <children>
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="51.0" text="Back" />
+                  <Region prefHeight="26.0" prefWidth="1020.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="cart" mnemonicParsing="false" onAction="#goToCart" prefHeight="26.0" prefWidth="58.0" text="Cart" />
+                  <Button fx:id="login" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="59.0" text="Login" />
+                  <Button fx:id="account" mnemonicParsing="false" onAction="#goToAccount" prefHeight="26.0" prefWidth="69.0" text="Account" />
+                  <Button fx:id="logout" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="69.0" text="Logout" />
+               </children>
+            </HBox>
             <ComboBox fx:id="sortBox" layoutX="198.0" layoutY="53.0" onAction="#sort" prefHeight="25.0" prefWidth="198.0" promptText="choose sort">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
