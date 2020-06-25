@@ -62,9 +62,9 @@ public class CustomerTemplateController implements Initializable{
     }
 
     public void viewDiscounts() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Orders.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Discounts.fxml"));
         Parent parent = fxmlLoader.load();
-        ((OrdersController) fxmlLoader.getController()).fill();
+        ((DiscountsController) fxmlLoader.getController()).fill();
         scrollPane.setContent(parent);
     }
 
