@@ -89,6 +89,7 @@ public class Customer extends User  {
     }
 
     public static ArrayList<Customer> getAllCustomers() {
+        updateAllUsers();
         return allCustomers;
     }
 
@@ -227,5 +228,15 @@ public class Customer extends User  {
                 "\nlastname: "+lastname+"\nphone: "+phoneNumber+
                 "\nemail: "+email+"\ncredit: "+credit+
                 "\npassword: "+password;
+    }
+
+    public static void updateAllCustomers(){
+        ArrayList<Customer> customers = new ArrayList<>();
+        for (Customer customer : allCustomers) {
+            if(customer.getStatus().equals(Status.DELETED))
+                customers.add(customer);
+
+        }
+        allCustomers.removeAll(customers);
     }
 }

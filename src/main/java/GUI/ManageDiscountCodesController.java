@@ -36,15 +36,16 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         setTheTable(allDiscountCodes);
     }
 
-    public void openCreateDiscountCode(ActionEvent actionEvent) {
+    public void openCreateDiscountCode(ActionEvent actionEvent) throws IOException {
+        Constants.getGuiManager().open("CreateDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
 
     }
 
     private void setTheTable(ArrayList<Discount> allDiscountCodes){
         Discount.setManageDiscountCodesController(this);
         allDiscountCodesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        percentColumn.setCellValueFactory(new PropertyValueFactory<>("discountPercent"));
-        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperLink"));
+        percentColumn.setCellValueFactory(new PropertyValueFactory<>("discountPercentForTable"));
+        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperlink"));
         discountCodeColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         editColumn.setCellValueFactory(new PropertyValueFactory<>("editHyperlink"));
         removeColumn.setCellValueFactory(new PropertyValueFactory<>("removeHyperlink"));

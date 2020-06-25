@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 public class SellerLog {
     private static ArrayList<SellerLog> allLogs = new ArrayList<>();
-    private static int totalLogsMade;
+    static Random random = new Random();
+    private static int totalLogsMade = random.nextInt(4988 - 1000) + 1000;
     private Date date;
     private int id;
     private Customer customer;

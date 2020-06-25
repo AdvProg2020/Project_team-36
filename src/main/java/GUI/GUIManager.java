@@ -3,6 +3,7 @@ package GUI;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ public class GUIManager {
     private List<String> openedParents;
     private List<Integer> openedParentsIds;
     private Stage stage;
+    private Stage loginStage;
 
     public GUIManager() {
         this.openedParents = new ArrayList<>();
@@ -37,7 +39,20 @@ public class GUIManager {
         }
     }
 
-    public void login(){}
+    public void login(){
+         LoginBox loginBox = new LoginBox();
+         this.loginStage = loginBox.getWindow();
+         loginBox.display();
+    }
+
+    public void successfulLogin(){
+        loginStage.close();
+        try {
+            reopen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void logout(){}
 
@@ -52,5 +67,32 @@ public class GUIManager {
     public void reopen() throws IOException {
         open(openedParents.remove(openedParents.size() - 1),
                 openedParentsIds.remove(openedParentsIds.size() - 1));
+    }
+
+    public Stage getLoginStage() {
+        return loginStage;
+    }
+
+    public void openRegister(){
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/RegisterMenu.fxml"));
+        Parent parent = null;
+        try {
+            parent = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        loginStage.getScene().setRoot(parent);
+
+    }
+
+    public void openLogin(){
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/LoginMenu.fxml"));
+        Parent parent = null;
+        try {
+            parent = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        loginStage.getScene().setRoot(parent);
     }
 }

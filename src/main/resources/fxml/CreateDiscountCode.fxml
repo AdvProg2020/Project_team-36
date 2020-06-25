@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManageUsersController">
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CreateDiscountCodeController">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -62,7 +62,42 @@
                 </Pane>
                 <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
+                     <children>
+                         <Spinner fx:id="percentSpinner" editable="true" layoutX="637.0" layoutY="102.0" BorderPane.alignment="CENTER">
+                             <valueFactory>
+                                 <SpinnerValueFactory.IntegerSpinnerValueFactory max="100" min="0" />
+                             </valueFactory>
+                         </Spinner>
+                        <DatePicker fx:id="startDate" layoutX="196.0" layoutY="102.0" />
+                        <DatePicker fx:id="endDate" layoutX="196.0" layoutY="185.0" />
+                        <TextField fx:id="limit" layoutX="637.0" layoutY="185.0" />
+                        <Label layoutX="114.0" layoutY="106.0" prefHeight="17.0" prefWidth="68.0" text="Start Date:" />
+                        <Label layoutX="114.0" layoutY="189.0" prefHeight="17.0" prefWidth="68.0" text="End Date:" />
+                        <Label layoutX="528.0" layoutY="106.0" text="Discount Percent:" />
+                        <Label layoutX="535.0" layoutY="189.0" text="Discount Limit:" />
+                        <Label layoutX="523.0" layoutY="271.0" text="Allowed Repetition:" />
+                        <Spinner fx:id="repetitionSpinner" editable="true" layoutX="637.0" layoutY="267.0">
+                           <valueFactory>
+                              <SpinnerValueFactory.IntegerSpinnerValueFactory max="1000000000" min="0" />
+                           </valueFactory>
+                        </Spinner>
+                        <Button fx:id="createButton" layoutX="777.0" layoutY="384.0" mnemonicParsing="false" onAction="#createDiscountCode" text="Create New Discount" />
+                        <MenuButton layoutX="197.0" layoutY="267.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="173.0" text="customers">
+                           <items>
+                              <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
+                                 <content>
+                                    <ScrollPane fx:id="customersIncluded" prefHeight="200.0" prefWidth="200.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                      </content>
+                                    </ScrollPane>
+                                 </content>
+                              </CustomMenuItem>
+                           </items></MenuButton>
+                        <Label fx:id="dateError" layoutX="173.0" layoutY="223.0" text="You Must Select Both Start and End Dates." textFill="#d71e06" visible="false" />
+                        <Label fx:id="limitError" layoutX="621.0" layoutY="223.0" text="You Must Enter a Number as Limit." textFill="#d31702" visible="false" />
+                     </children></AnchorPane>
                     </content>
                 </ScrollPane>
             </children>
@@ -79,10 +114,10 @@
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-      <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Button>
+        <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
     </children>
 </AnchorPane>

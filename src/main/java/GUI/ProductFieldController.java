@@ -4,7 +4,6 @@ import Models.ProductField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class ProductFieldController {
     @FXML

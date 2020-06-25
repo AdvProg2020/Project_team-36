@@ -6,6 +6,7 @@ import javafx.scene.control.Hyperlink;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 public class Discount {
     private static ArrayList<Discount> allDiscounts = new ArrayList<>();
@@ -15,7 +16,8 @@ public class Discount {
     private double discountPercent;//bar hasbe darsad nist
     private long discountLimit;
     private int repetitionForEachUser;
-    private static int totalCodesMade = 0;
+    static Random random = new Random();
+    private static int totalCodesMade = random.nextInt(4988 - 1000) + 1000;
     private ArrayList<Customer> customersIncluded;
     private static ManageDiscountCodesController manageDiscountCodesController;
 
@@ -45,6 +47,8 @@ public class Discount {
     public double getDiscountPercent() {
         return discountPercent;
     }
+
+    public int getDiscountPercentForTable(){ return (int)(discountPercent*100); }
 
     public Long getDiscountLimit() {
         return discountLimit;
@@ -208,13 +212,13 @@ public class Discount {
     }
 
     public Hyperlink getViewHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("view");
-        remove.setStyle("");
-        remove.setOnAction(e->{
+        Hyperlink view = new Hyperlink();
+        view.setText("view");
+        view.setStyle("");
+        view.setOnAction(e->{
             manageDiscountCodesController.viewAction(this);
         });
-        return remove;
+        return view;
     }
 
     public Hyperlink getEditHyperlink(){
@@ -225,6 +229,12 @@ public class Discount {
             manageDiscountCodesController.editAction(this);
         });
         return remove;
+    }
+
+    public void giveDiscountCodeToCustomers(){
+        for (Customer customer : customersIncluded) {
+            customer.setDiscountForCustomer(this);
+        }
     }
 
 }

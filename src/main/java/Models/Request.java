@@ -5,13 +5,15 @@ import javafx.scene.control.Hyperlink;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import static Models.Status.*;
 
 public class Request {
     private Pendable pendableRequest;
     private int requestId;
-    private static int totalRequestsMade;
+    static Random random = new Random();
+    private static int totalRequestsMade = random.nextInt(4988 - 1000) + 1000;
     private Status status;
     private Date date;
     private static ArrayList<Request> allRequests = new ArrayList<>();

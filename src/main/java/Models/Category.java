@@ -7,12 +7,14 @@ import javafx.scene.image.ImageView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 public class Category {
     private String name;
     private int categoryId;
-    private static int totalCategoriesMade;
-    private HashSet<Field> allFields;
+    static Random random = new Random();
+    private static int totalCategoriesMade = random.nextInt(4988 - 1000) + 1000;
+    private HashSet<Field> allFields ;
     private Category parentCategory;
     private ArrayList<Category> subCategories;
     private ArrayList<Product> products;
@@ -25,11 +27,19 @@ public class Category {
         sublessRoot.addCategory();
         Category root = new Category("root",100,null,mainCategory);
         root.addCategory();
+        root.setField(new IntegerField("integer1root"));
+        root.setField(new OptionalField("iO2root"));
         Category rootSub1 = new Category("rootSub1",101,null,root);
         rootSub1.addCategory();
+        rootSub1.setField(new IntegerField("integer1rootSub1"));
+        rootSub1.setField(new IntegerField("integer2rootsub1"));
         Category rootSub2 = new Category("rootSub2",102,null,root);
+        rootSub2.setField(new IntegerField("integerROotSub2"));
+        rootSub2.setField(new OptionalField("optionalRootSub2"));
         rootSub2.addCategory();
         Category sub2Sub = new Category("sub2Sub",1021,null,rootSub2);
+        sub2Sub.setField(new IntegerField("integerSub2Sub"));
+        sub2Sub.setField(new OptionalField("optionalSub2Sub"));
         sub2Sub.addCategory();
     }
 
@@ -43,8 +53,9 @@ public class Category {
 
     public Category(String name, int categoryId, HashSet<Field> allFields, Category parentCategory) {
         this.name = name;
-        this.categoryId = categoryId;
-        this.allFields = allFields;
+        this.categoryId = categoryId;//todo
+        this.allFields = new HashSet<>();
+       // this.allFields = allFields;
         this.parentCategory = parentCategory;
         this.subCategories = new ArrayList<>();
         this.products = new ArrayList<>();
@@ -307,12 +318,12 @@ public class Category {
         return remove;
     }
 
-    public Hyperlink getAddSubcategory(){
+    public Hyperlink getEditHyperlink(){
         Hyperlink remove = new Hyperlink();
         remove.setText("edit");
         remove.setStyle("");
         remove.setOnAction(e->{
-            manageCategoriesController.addSubcategoryAction(this);
+            manageCategoriesController.editAction(this);
         });
         return remove;
     }

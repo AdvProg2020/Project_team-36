@@ -113,7 +113,7 @@ public class OffController implements ObjectController {
     @Override
     public void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter.getName().equalsIgnoreCase(name)){
+            if (filter.getName().equalsIgnoreCase(name)) {
                 userVariables.getAllFiltersProducts().remove(filter);
                 break;
             }
@@ -187,7 +187,7 @@ public class OffController implements ObjectController {
         generalFilters.addAll(integerFilterMethods.keySet());
         generalFilters.addAll(optionalFilterMethods.keySet());
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if (generalFilters.contains(filter.getName()))
+            if (!generalFilters.contains(filter.getName()))
                 temp.add(filter);
         }
         userVariables.getAllFiltersProducts().removeAll(temp);
@@ -201,7 +201,18 @@ public class OffController implements ObjectController {
         return names;
     }
 
-    public ArrayList<Product> getAllInSaleProducts() {
+    @Override
+    public ArrayList<String> getSpecialIntegerFilter() {
+        ArrayList<String> toBeReturned = new ArrayList<>();
+        for (Field field : userVariables.getFilterOffsCategory().getAllFields()) {
+            if (field instanceof IntegerField)
+                toBeReturned.add(field.getName());
+        }
+        return toBeReturned;
+    }
+
+    @Override
+    public ArrayList<Product> getFinalProductsList() {
         ArrayList<Product> result = new ArrayList<>();
         if (userVariables.getFilterOffsCategory() != null) {
             getInSaleCategories(result, userVariables.getFilterOffsCategory());
@@ -227,6 +238,7 @@ public class OffController implements ObjectController {
         for (Category category : Category.getAllCategories()) {
             if (category.getName().equalsIgnoreCase(name)) {
                 userVariables.setFilterOffsCategory(category);
+                return;
             }
         }
         throw new ProductsController.NoCategoryWithName();
@@ -262,32 +274,31 @@ public class OffController implements ObjectController {
         userVariables.addFilterOffs(optionalFilter);
     }
 
-    public void addNameFilter(String name){
+    public void addNameFilter(String name) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter.getName().equals("name")){
-                ((OptionalFilter)filter).addOption(name);
+            if (filter.getName().equals("name")) {
+                ((OptionalFilter) filter).addOption(name);
                 return;
             }
         }
-        OptionalFilter optionalFilter = new OptionalFilter(optionalFilterMethods.get("name"),"name");
+        OptionalFilter optionalFilter = new OptionalFilter(optionalFilterMethods.get("name"), "name");
         optionalFilter.addOption(name);
         userVariables.addFilterOffs(optionalFilter);
     }
 
-    public void removeNameFilter(String name){
+    public void removeNameFilter(String name) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter.getName().equals("name")){
-                ((OptionalFilter)filter).removeOption(name);
-                if(((OptionalFilter) filter).getOptions().isEmpty()){
+            if (filter.getName().equals("name")&& filter instanceof OptionalFilter) {
+                ((OptionalFilter) filter).removeOption(name);
+                if (((OptionalFilter) filter).getOptions().isEmpty()) {
                     userVariables.getAllFiltersOffs().remove(filter);
-                    return;
                 }
                 return;
             }
         }
     }
 
-    public void availabilityFilter(){
+    public void availabilityFilter() {
         try {
             Filter filter = new BooleanFilter(Product.class.getDeclaredMethod("isProductAvailable"));
             userVariables.getAllFiltersOffs().add(filter);
@@ -296,9 +307,9 @@ public class OffController implements ObjectController {
         }
     }
 
-    public void removeAvailabilityFilter(){
+    public void removeAvailabilityFilter() {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter instanceof BooleanFilter&&filter.getName().equalsIgnoreCase("available")) {
+            if (filter instanceof BooleanFilter && filter.getName().equalsIgnoreCase("available")) {
                 userVariables.getAllFiltersOffs().remove(filter);
                 return;
             }
@@ -308,30 +319,76 @@ public class OffController implements ObjectController {
     @Override
     public void addSellerFilter(String name) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter.getName().equals("seller")){
-                ((BooleanFilter)filter).addOption(name);
+            if (filter.getName().equals("seller")) {
+                ((BooleanFilter) filter).addOption(name);
                 return;
             }
         }
         ArrayList<String> names = new ArrayList<>();
         names.add(name);
-        BooleanFilter booleanFilter = new BooleanFilter(optionalFilterMethods.get("seller"),names);
+        BooleanFilter booleanFilter = new BooleanFilter(optionalFilterMethods.get("seller"), names);
         userVariables.addFilterOffs(booleanFilter);
     }
 
     @Override
     public void removeSellerFilter(String name) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter instanceof BooleanFilter&&filter.getName().equals("seller")){
-                ((BooleanFilter)filter).removeOption(name);
-                if(((BooleanFilter)filter).getOptions().isEmpty())
+            if (filter instanceof BooleanFilter && filter.getName().equals("seller")) {
+                ((BooleanFilter) filter).removeOption(name);
+                if (((BooleanFilter) filter).getOptions().isEmpty())
                     userVariables.getAllFiltersOffs().remove(filter);
                 return;
             }
         }
     }
 
+    public HashMap<String,HashSet<String>> getAllOptionalChoices(){
+        ArrayList<Product> allProducts = userVariables.getFilterOffsCategory().getAllSubProducts();
+        HashMap<String,HashSet<String>> options = new HashMap<>();
+        for (Field field : userVariables.getFilterOffsCategory().getAllFields()) {
+            if(field instanceof OptionalField)
+                options.put(field.getName(), new HashSet<>());
+        }
+        for (Product product : allProducts) {
+            for (Field field : product.getFieldsOfCategory()) {
+                if(options.keySet().contains(field.getName())&& field instanceof OptionalField)
+                    options.get(field.getName()).add(((OptionalField) field).getQuality());
+            }
+        }
+        return options;
+    }
 
+    public void addOptionalFilter(String filterName,String option){
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equalsIgnoreCase(filterName)&&filter instanceof OptionalFilter){
+                ((OptionalFilter) filter).addOption(option);
+                return;
+            }
+        }
+        OptionalFilter optionalFilter = new OptionalFilter(filterName);
+        optionalFilter.addOption(option);
+        userVariables.addFilterOffs(optionalFilter);
+    }
+
+    public void removeOptionalFilter(String filterName,String option){
+        for (Filter filter : userVariables.getAllFiltersOffs()) {
+            if(filter.getName().equalsIgnoreCase(filterName)&&filter instanceof OptionalFilter){
+                ((OptionalFilter) filter).removeOption(option);
+                if(((OptionalFilter)filter).getOptions().size()==0)
+                    userVariables.getAllFiltersOffs().remove(filter);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public ArrayList<String> getCategoryNames(){
+        ArrayList<String> categoryNames = new ArrayList<>();
+        for (Category category : Category.getAllCategories()) {
+            categoryNames.add(category.getName());
+        }
+        return categoryNames;
+    }
 
 
 }

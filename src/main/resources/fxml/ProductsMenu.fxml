@@ -10,6 +10,16 @@
    <top>
       <Pane prefHeight="91.0" prefWidth="1360.0" BorderPane.alignment="CENTER">
          <children>
+            <HBox fx:id="header" layoutX="10.0" layoutY="14.0" prefHeight="26.0" prefWidth="1335.0" spacing="8.0">
+               <children>
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="51.0" text="Back" />
+                  <Region prefHeight="26.0" prefWidth="1020.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="cart" mnemonicParsing="false" onAction="#goToCart" prefHeight="26.0" prefWidth="58.0" text="Cart" />
+                  <Button fx:id="login" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="59.0" text="Login" />
+                  <Button fx:id="account" mnemonicParsing="false" onAction="#goToAccount" prefHeight="26.0" prefWidth="69.0" text="Account" />
+                  <Button fx:id="logout" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="69.0" text="Logout" />
+               </children>
+            </HBox>
             <ComboBox fx:id="sortBox" layoutX="198.0" layoutY="53.0" onAction="#sort" prefHeight="25.0" prefWidth="198.0" promptText="choose sort">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
@@ -39,7 +49,32 @@
          </children></HBox>
    </bottom>
    <right>
-      <Pane prefHeight="558.0" prefWidth="128.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="558.0" prefWidth="128.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label contentDisplay="CENTER" layoutX="19.0" layoutY="5.0" prefHeight="19.0" prefWidth="90.0" text="Category Based">
+               <font>
+                  <Font name="System Italic" size="13.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="5.0" layoutY="59.0" prefHeight="200.0" prefWidth="119.0">
+               <content>
+                  <VBox fx:id="optionalFields" prefHeight="196.0" prefWidth="115.0" />
+               </content></ScrollPane>
+            <Label layoutX="26.0" layoutY="37.0" prefHeight="22.0" prefWidth="117.0" text="Optional fields">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="301.0" prefHeight="22.0" prefWidth="117.0" text="Numerical fields">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="6.0" layoutY="323.0" prefHeight="200.0" prefWidth="119.0">
+               <content>
+                  <VBox fx:id="integerFields" prefHeight="196.0" prefWidth="116.0" />
+               </content></ScrollPane>
+         </children></Pane>
    </right>
    <center>
       <ScrollPane fx:id="productsScrollPane" prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
@@ -86,7 +121,7 @@
                </font>
             </Label>
             <TextField fx:id="minimumPrice" layoutX="5.0" layoutY="476.0" prefHeight="25.0" prefWidth="130.0" promptText="minimum" />
-            <Label alignment="CENTER" layoutX="14.0" layoutY="-10.0" prefHeight="44.0" prefWidth="116.0" text="General Filters" textAlignment="CENTER" />
+            <Label alignment="CENTER" layoutX="14.0" layoutY="-10.0" prefHeight="44.0" prefWidth="128.0" text="General Filters" textAlignment="CENTER" />
             <TextField fx:id="maximumPrice" layoutX="5.0" layoutY="510.0" prefHeight="25.0" prefWidth="130.0" promptText="maximum" />
          </children></Pane>
    </left>

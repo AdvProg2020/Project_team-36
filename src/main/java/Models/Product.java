@@ -8,10 +8,7 @@ import javafx.scene.image.ImageView;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 public class Product implements Pendable {
     private static ArrayList<Product> allProducts = new ArrayList<>();
@@ -26,7 +23,8 @@ public class Product implements Pendable {
     private Date productionDate;
     private ArrayList<Comment> allComments;
     private HashSet<Customer> allBuyers;
-    private static int allProductsMade=0;
+    static Random random = new Random();
+    private static int allProductsMade = random.nextInt(4988 - 1000) + 1000;
     private int seenNumber;
     private ImageView productImage;
     private String productImageUrl;

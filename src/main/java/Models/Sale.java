@@ -2,6 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import static Models.ProductionStatus.TO_BE;
 
@@ -14,7 +15,8 @@ public class Sale implements Pendable {
     private Date startTime;
     private Date endTime;
     private Double salePercent;//be darsad nist
-    private static int totalOffsMade = 0;
+    static Random random = new Random();
+    private static int totalOffsMade = random.nextInt(4988 - 1000) + 1000;
     private String editedField;
 
     public Sale(Seller seller, ArrayList<Product> productsInSale, Date startTime, Date endTime, Double salePercent) {

@@ -52,9 +52,6 @@ public class GlobalVariables {
         this.pendingFilter = pendingFilter;
     }
 
-    public Filter getPendingFilter() {
-        return pendingFilter;
-    }
 
     public void setProductFilterOptions(ArrayList<String> options) {
         ((OptionalFilter) pendingFilter).setOptions(options);

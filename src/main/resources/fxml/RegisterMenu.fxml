@@ -2,15 +2,16 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1360.0" side="LEFT" stylesheets="@../css/Entry.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.RegisterMenu">
+<TabPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" side="LEFT" stylesheets="@../css/Entry.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.RegisterMenu">
   <tabs>
     <Tab fx:id="seller">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="763.0">
                <children>
                    <VBox alignment="CENTER" layoutX="23.0" layoutY="39.0" prefHeight="572.0" prefWidth="344.0" spacing="13.0">
                        <children>
@@ -23,15 +24,25 @@
                            <PasswordField fx:id="sellerRePassword" promptText="re-enter password" />
                         <TextField fx:id="companyName" prefHeight="26.0" prefWidth="233.0" promptText="company name" />
                         <TextArea fx:id="companyInfo" prefHeight="56.0" prefWidth="200.0" promptText="company information" />
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="344.0" spacing="40.0">
+                           <children>
+                              <ImageView fx:id="profileSeller" fitHeight="76.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
+                                 <effect>
+                                    <Blend />
+                                 </effect></ImageView>
+                              <Button mnemonicParsing="false" onAction="#addSellerImage" text="add image" />
+                           </children>
+                        </HBox>
+                           <Button mnemonicParsing="false" onMouseClicked="#registerSeller" prefHeight="26.0" prefWidth="92.0" text="Register me!" />
+                        <Hyperlink onAction="#login" text="click here to login!" />
                         <Label fx:id="sellerLabel" prefHeight="20.0" prefWidth="269.0" textFill="#f51818">
                            <font>
                               <Font size="12.0" />
                            </font>
                         </Label>
-                           <Button mnemonicParsing="false" onMouseClicked="#registerSeller" prefHeight="26.0" prefWidth="92.0" text="Register me!" />
                        </children>
                    </VBox>
-                  <ImageView fitHeight="402.0" fitWidth="687.0" layoutX="451.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="241.0" fitWidth="355.0" layoutX="385.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../images/sellerBackground.jpg" />
                      <viewport>
                         <Rectangle2D />
@@ -49,7 +60,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <VBox alignment="CENTER" layoutX="19.0" prefHeight="518.0" prefWidth="279.0" spacing="20.0">
+                  <VBox alignment="CENTER" layoutX="19.0" prefHeight="636.0" prefWidth="279.0" spacing="20.0">
                      <children>
                         <TextField fx:id="customerUsername" promptText="username" />
                         <TextField fx:id="customerFirstname" prefHeight="26.0" prefWidth="191.0" promptText="firstname" />
@@ -58,12 +69,19 @@
                         <TextField fx:id="customerPhone" promptText="phone number" />
                         <PasswordField fx:id="customerPassword" promptText="password" />
                         <PasswordField fx:id="customerRePassword" promptText="re-enter password" />
+                        <HBox alignment="CENTER" prefHeight="74.0" prefWidth="262.0" spacing="40.0">
+                           <children>
+                              <ImageView fx:id="customerImage" fitHeight="74.0" fitWidth="89.0" pickOnBounds="true" preserveRatio="true" />
+                              <Button mnemonicParsing="false" onAction="#addCustomerImage" text="add image" />
+                           </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" onMouseClicked="#registerCustomer" prefHeight="26.0" prefWidth="92.0" text="Register me!" />
+                        <Hyperlink onAction="#login" text="Click here to login" />
                         <Label fx:id="customerLabel" prefHeight="31.0" prefWidth="271.0" textFill="#dd2c2c">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#registerCustomer" prefHeight="26.0" prefWidth="92.0" text="Register me!" />
                      </children>
                   </VBox>
                   <Label layoutX="19.0" layoutY="14.0" prefHeight="37.0" prefWidth="222.0" text="Welcome dear customer!">
@@ -71,7 +89,7 @@
                         <Font size="19.0" />
                      </font>
                   </Label>
-                   <ImageView fitHeight="433.0" fitWidth="354.0" layoutX="298.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                   <ImageView fitHeight="433.0" fitWidth="354.0" layoutX="377.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                        <image>
                            <Image url="@../images/customerBackground.jpg" />
                        </image>
