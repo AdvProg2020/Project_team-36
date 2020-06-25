@@ -24,7 +24,8 @@ public class Product implements Pendable {
     private ArrayList<Comment> allComments;
     private HashSet<Customer> allBuyers;
     static Random random = new Random();
-    private static int allProductsMade = random.nextInt(4988 - 1000) + 1000;
+   // private static int allProductsMade = random.nextInt(4988 - 1000) + 1000;
+    private static int allProductsMade = 1;
     private int seenNumber;
     private ImageView productImage;
     private String productImageUrl;
@@ -225,7 +226,7 @@ public class Product implements Pendable {
     public static Product getProduct(int id) {
         updateAllProducts();
         for (Product product : allProducts) {
-            if (product.getProductId() == (id))
+            if (product.getProductId() == id)
                 return product;
         }
         return null;

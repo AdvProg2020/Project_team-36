@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -63,7 +64,9 @@ public class ProductController implements Initializable {
 
     @Override
     public void initialize(int id) throws IOException {
-        Product product = Product.getProduct(id);
+        Product product = Product.getProduct(2);
+        product.addScore(new Score(null,4));
+        product.addScore(new Score(null,3));
         product.seen();
         reloadHeader();
         imageView.setImage(product.getProductImage().getImage());
@@ -147,20 +150,21 @@ public class ProductController implements Initializable {
     }
 
     private void enableVote(Product product) {
-        if (!Constants.productsController.canRate(product, Constants.globalVariables.getLoggedInUser())) {
-            return;
-        }
+//        if (!Constants.productsController.canRate(product, Constants.globalVariables.getLoggedInUser())) {
+//            return;
+//        }
         for(int i=1;i<6;i++){
             ImageView imageView = new ImageView();
-            imageView.setFitWidth(70);
-            imageView.setFitHeight(56);
+            imageView.setFitWidth(40);
+            imageView.setFitHeight(30);
             setVotePiece(i, imageView,product);
             vote.getChildren().add(imageView);
         }
     }
 
     private void setVotePiece(int number, ImageView imageView,Product product){
-        imageView.setOnMouseEntered(mouseEvent -> Constants.getGuiManager().getStage().getScene().setCursor(new ImageCursor(new Image("clickMe.png"))));
+        imageView.setOnMouseEntered(mouseEvent -> Constants.getGuiManager().getStage().getScene().setCursor(new ImageCursor(new Image("images/clickMe.png"))));
+        imageView.setOnMouseExited(mouseEvent -> Constants.getGuiManager().getStage().getScene().setCursor(Cursor.DEFAULT));
         imageView.setOnMouseClicked(mouseEvent -> {
             try {
                 Constants.customerController.rateProduct(product.getProductId(),number);
