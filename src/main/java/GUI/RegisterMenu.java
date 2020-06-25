@@ -55,6 +55,16 @@ public class RegisterMenu {
         }
     }
 
+    public void registerCustomer(MouseEvent mouseEvent) {
+        customerLabel.setStyle("-fx-text-fill: red");
+        setCustomerTextFieldBorders();
+        if (setUserName(false) && setPassword(false)&& setName(false)&& setPersonalInfo(false)&&setImage(false)){
+            entryController.register();
+            customerLabel.setText("Successfully Entered");
+            customerLabel.setStyle("-fx-text-fill: green");
+        }
+    }
+
     private void setSellerTextFieldBorders() {
         sellerEmail.setStyle("-fx-border-color: WHITE");
         sellerFirstname.setStyle("-fx-border-color: WHITE");
@@ -216,16 +226,6 @@ public class RegisterMenu {
         customerRePassword.setStyle("-fx-border-color: WHITE");
         customerPhone.setStyle("-fx-border-color: White");
         customerUsername.setStyle("-fx-border-color: white");
-    }
-
-    public void registerCustomer(MouseEvent mouseEvent) {
-        customerLabel.setStyle("-fx-text-fill: red");
-        setCustomerTextFieldBorders();
-        if (setUserName(false) && setPassword(false)&& setName(false)&& setPersonalInfo(false)&&setImage(false)){
-            entryController.register();
-            sellerLabel.setText("Successfully Entered");
-            customerLabel.setStyle("-fx-text-fill: green");
-        }
     }
 
     public void addSellerImage(ActionEvent actionEvent) {

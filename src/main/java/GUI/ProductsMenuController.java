@@ -240,8 +240,11 @@ public class ProductsMenuController implements Initializable {
         vBox.setStyle("-fx-background-color: white");
         vBox.setOnMouseClicked(mouseEvent -> {
             int productId = Integer.parseInt(((Label) vBox.getChildren().get(4)).getText().substring(4));
-            System.out.println(productId);
-            //TODO go to product page NAZANIN
+            try {
+                Constants.getGuiManager().open("Product",productId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         vBox.setPrefSize(265, 265);
         vBox.setAlignment(Pos.CENTER);
