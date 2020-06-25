@@ -629,7 +629,10 @@ public class Product implements Pendable {
             for (ProductField field : product.getProductFields()) {
                 if (field.getSeller().getStatus().equals(Status.DELETED))
                     tempProductField.add(field);
-                field.updateProductField();
+                else{
+                    field.updateProductField();
+
+                }
             }
             if (tempProductField.size() == product.getProductFields().size())
                 tempProduct.add(product);

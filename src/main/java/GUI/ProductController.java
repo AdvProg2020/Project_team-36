@@ -59,6 +59,7 @@ public class ProductController implements Initializable {
     @Override
     public void initialize(int id) throws IOException {
         Product product = Product.getProduct(id);
+        product.seen();
         reloadHeader();
         imageView .setImage( product.getProductImage().getImage());
         name.setText(product.getName());

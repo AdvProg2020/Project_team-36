@@ -13,7 +13,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="763.0">
                <children>
-                   <VBox alignment="CENTER" layoutX="23.0" layoutY="39.0" prefHeight="572.0" prefWidth="344.0" spacing="13.0">
+                   <VBox alignment="CENTER" layoutX="22.0" layoutY="52.0" prefHeight="572.0" prefWidth="344.0" spacing="13.0">
                        <children>
                            <TextField fx:id="sellerUsername" prefHeight="3.0" prefWidth="414.0" promptText="username" />
                            <TextField fx:id="sellerFirstname" prefHeight="26.0" prefWidth="191.0" promptText="firstname" />
@@ -48,9 +48,9 @@
                         <Rectangle2D />
                      </viewport>
                   </ImageView>
-                   <Label layoutX="83.0" layoutY="14.0" prefHeight="37.0" prefWidth="222.0" text="Welcome dear seller!">
+                   <Label layoutX="83.0" layoutY="14.0" prefHeight="37.0" prefWidth="222.0" text="Welcome dear seller!" textFill="#1ac3cf">
                        <font>
-                           <Font size="19.0" />
+                           <Font name="System Bold Italic" size="19.0" />
                        </font>
                    </Label>
                </children></AnchorPane>
@@ -62,6 +62,11 @@
                <children>
                   <VBox alignment="CENTER" layoutX="19.0" prefHeight="636.0" prefWidth="279.0" spacing="20.0">
                      <children>
+                        <Label prefHeight="37.0" prefWidth="222.0" text="Welcome dear customer!" textFill="#30a6dd">
+                           <font>
+                              <Font name="System Bold Italic" size="19.0" />
+                           </font>
+                        </Label>
                         <TextField fx:id="customerUsername" promptText="username" />
                         <TextField fx:id="customerFirstname" prefHeight="26.0" prefWidth="191.0" promptText="firstname" />
                         <TextField fx:id="customerLastname" prefHeight="26.0" prefWidth="56.0" promptText="lastname" />
@@ -84,11 +89,6 @@
                         </Label>
                      </children>
                   </VBox>
-                  <Label layoutX="19.0" layoutY="14.0" prefHeight="37.0" prefWidth="222.0" text="Welcome dear customer!">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
                    <ImageView fitHeight="433.0" fitWidth="354.0" layoutX="377.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                        <image>
                            <Image url="@../images/customerBackground.jpg" />
