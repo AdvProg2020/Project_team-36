@@ -123,7 +123,7 @@ public class ProductController implements Initializable {
     }
 
     public void goToCart() throws IOException {
-        Constants.getGuiManager().open("Cart",1);
+        Constants.getGuiManager().open("Cart",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void goToAccount() throws IOException {
