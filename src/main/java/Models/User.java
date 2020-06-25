@@ -6,6 +6,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import static Models.Status.*;
 
@@ -24,6 +25,7 @@ public abstract class User{
     private ImageView profilePicture;
     private String profilePictureUrl;
     private static ManageUsersController manageUsersController;
+    private static User userToView;
 
     public User(String username){
         totalUsersMade++;
@@ -186,17 +188,19 @@ public abstract class User{
         return profilePicture;
     }
 
-    public Hyperlink getRemoveHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("remove");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            this.setUserDeleted();
-            User.removeUsername(this.getUsername());
-            updateAllUsers();
-            manageUsersController.removeAction(this);
+    public Hyperlink getViewHyperlink(){
+        Hyperlink view = new Hyperlink();
+        view.setText("view");
+        view.setStyle("");
+        view.setOnAction(e->{
+            userToView = this;
+            try {
+                manageUsersController.viewUserAction();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
-        return remove;
+        return view;
     }
 
     public ImageView getProfilePicture(int height,int width) {
@@ -218,5 +222,9 @@ public abstract class User{
 
     public static void setManageUsersController(ManageUsersController manageUsersController) {
         User.manageUsersController = manageUsersController;
+    }
+
+    public static User getUserToView() {
+        return userToView;
     }
 }

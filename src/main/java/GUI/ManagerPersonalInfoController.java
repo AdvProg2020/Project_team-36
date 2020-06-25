@@ -32,7 +32,7 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
         }
         username.setText(user.getUsername());
         editInfo.setVisible(false);
-        profilePicture = user.getProfilePicture(150,150);
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
         //profilePicture.setImage(user.getProfilePicture().getImage());
     }
 
