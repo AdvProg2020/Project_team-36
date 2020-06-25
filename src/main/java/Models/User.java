@@ -6,7 +6,9 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -44,12 +46,12 @@ public abstract class User{
         customer.setPassword("sahar");
         customer.setFirstname("jk");
         customer.setLastname("hidf");
-        customer.setProfilePictureUrl("/images/buyer.png");
+        customer.setProfilePictureUrl("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\buyer.png");
         customer1.setEmail("dsbh@c.co");
         customer1.setPassword("sahar");
         customer1.setFirstname("jk");
         customer1.setLastname("hidf");
-        customer1.setProfilePictureUrl("/images/seller.png");
+        customer1.setProfilePictureUrl("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\seller.png");
         allUsers.add(customer);
         allUsers.add(customer1);
         Customer.getAllCustomers().add(customer);
@@ -186,6 +188,13 @@ public abstract class User{
             if(user.getStatus().equals(DELETED)) {
                 temp.add(user);
                 allUsernames.remove(user.getUsername());
+                if(user instanceof Customer){
+                    Customer.removeFromAllCustomers((Customer)user);
+                } else if(user instanceof Seller){
+                    Seller.removeFromAllSellers((Seller)user);
+                } else {
+                    Manager.removeFromAllManagers((Manager)user);
+                }
             }
         }
         allUsers.removeAll(temp);
@@ -210,8 +219,10 @@ public abstract class User{
         return view;
     }
 
-    public ImageView getProfilePicture(int height,int width) {
-        Image image = new Image(Product.class.getResource(this.profilePictureUrl).toExternalForm(),width,height,false,false);
+    public ImageView getProfilePicture(int height,int width) throws MalformedURLException {
+        File file = new File (this.profilePictureUrl);
+        String path = file.toURI().toURL().toString();
+        Image image = new Image(path,width,height,false,false);
         return new ImageView(image);
     }
 
@@ -219,8 +230,10 @@ public abstract class User{
         this.profilePictureUrl = profilePictureUrl;
     }
 
-    public ImageView getSmallProfilePicture(){
-        return new ImageView(new Image(getClass().getResource(this.getProfilePictureUrl()).toExternalForm(),50,50,false,false));
+    public ImageView getSmallProfilePicture() throws MalformedURLException {
+        File file = new File (this.profilePictureUrl);
+        String path = file.toURI().toURL().toString();
+        return new ImageView(new Image(path,50,50,false,false));
     }
 
     public String getProfilePictureUrl() {
