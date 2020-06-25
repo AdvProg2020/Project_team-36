@@ -81,9 +81,6 @@ public class ProductsController implements ObjectController {
         throw new NoSortException();
     }
 
-    private void sort(ArrayList<Product> toBeSorted, String type, Method method) {
-        new Sort().sort(toBeSorted, method, type.equalsIgnoreCase("ascending"));
-    }
 
     public Set<String> getAvailableSorts() {
         return sortMethods.keySet();
@@ -445,6 +442,12 @@ public class ProductsController implements ObjectController {
                 return;
             }
         }
+    }
+
+    public boolean canRate(Product product,User user){
+        if(!(user instanceof Customer))
+            return false;
+        return product.isThereBuyer((Customer)user);
     }
 
     public static class NoProductWithId extends Exception {

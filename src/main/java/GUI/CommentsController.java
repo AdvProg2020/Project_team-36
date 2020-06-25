@@ -49,7 +49,7 @@ public class CommentsController {
         try {
             Constants.productsController.addComment(title.getText(),comment.getText());
         } catch (EntryController.NotLoggedInException e) {
-            AlertBox.display("Error",e.getMessage());
+            AlertBox.display("Error","You have to login in order to add comment!");
         }
     }
 }
