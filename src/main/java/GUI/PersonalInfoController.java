@@ -39,10 +39,17 @@ public class PersonalInfoController implements Initializable {
 
     @Override
     public void initialize(int id) throws IOException {
-        this.user = User.getUserById(id);
-        if (Constants.globalVariables.getLoggedInUser() != user) {
+
+        if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
+            return;
+        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
+            Constants.getGuiManager().back();
+            return;
+        } else {
+            this.user = Constants.globalVariables.getLoggedInUser();
         }
+
         username.setText(user.getFirstname());
         username.setEditable(false);
         firstname.setText(user.getFirstname());
@@ -144,7 +151,7 @@ public class PersonalInfoController implements Initializable {
             }
         }
 
-        AlertBox.display("Edit Info",output);
+        AlertBox.display("Edit Info", output);
         try {
             initialize(user.getUserId());
         } catch (IOException e) {
