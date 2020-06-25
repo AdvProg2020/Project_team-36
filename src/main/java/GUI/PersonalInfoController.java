@@ -117,7 +117,7 @@ public class PersonalInfoController implements Initializable {
         }
 
         if (!phoneNumber.getText().equals(user.getPhoneNumber())) {
-            if (!phoneNumber.getText().matches("\\d+|back")) {
+            if (!phoneNumber.getText().matches("(?<!\\d)\\d{11}(?!\\d)")) {
                 output += "New phone number format is not valid\n";
             } else {
                 try {
@@ -164,6 +164,9 @@ public class PersonalInfoController implements Initializable {
             }
         }
 
+        if (output.equals("")){
+            output += "No info is changed!!";
+        }
         AlertBox.display("Edit Info", output);
         try {
             initialize(user.getUserId());
