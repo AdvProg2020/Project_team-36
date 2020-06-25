@@ -2,6 +2,7 @@ package GUI;
 
 import Models.Discount;
 import Models.Request;
+import Models.User;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,14 +22,17 @@ public class ManageRequestsController extends ManagerProfileController implement
     public TableView<Request> allRequestsTable;
     public ImageView profilePicture;
     public Label usernameLabel;
+    private User user;
 
     @Override
     public void initialize(int id) throws IOException {
+        this.user = User.getUserById(id);
+        if (!Constants.globalVariables.getLoggedInUser().equals(user)) {
+            Constants.getGuiManager().back();
+        }
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
 
-//        manager = Constants.loggedInUser.getLoggedInUser();
-//        Image profile = new Image(getClass().getResource(manager.getProfilePictureUrl()).toExternalForm(),150,150,false,false);
-//        profilePicture.setImage(profile);
-//        usernameLabel.setText(manager.getUsername());
         ArrayList<Request> allRequests = Constants.managerController.getAllRequests();
         setTheTable(allRequests);
     }

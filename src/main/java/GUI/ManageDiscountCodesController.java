@@ -22,16 +22,18 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
     public TableColumn<?, ?> discountCodeColumn;
     public TableColumn<?, ?> editColumn;
     public TableColumn<?, ?> removeColumn;
-    private User manager;
+    private User user;
 
 
     @Override
     public void initialize(int id) throws IOException {
+        this.user = User.getUserById(id);
+        if (!Constants.globalVariables.getLoggedInUser().equals(user)) {
+            Constants.getGuiManager().back();
+        }
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
 
-//        manager = Constants.loggedInUser.getLoggedInUser();
-//        Image profile = new Image(getClass().getResource(manager.getProfilePictureUrl()).toExternalForm(),150,150,false,false);
-//        profilePicture.setImage(profile);
-//        usernameLabel.setText(manager.getUsername());
         ArrayList<Discount> allDiscountCodes = Constants.managerController.getAllDiscountCodes();
         setTheTable(allDiscountCodes);
     }

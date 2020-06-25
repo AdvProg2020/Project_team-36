@@ -18,8 +18,6 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
     @FXML
     private Label username;
     @FXML
-    private Button editInfo;
-    @FXML
     private ImageView profilePicture;
     @FXML
     private ScrollPane scrollPane;
@@ -31,9 +29,7 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
             Constants.getGuiManager().back();
         }
         username.setText(user.getUsername());
-        editInfo.setVisible(false);
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
-        //profilePicture.setImage(user.getProfilePicture().getImage());
     }
 
     public void logout(){
@@ -45,11 +41,9 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
     }
 
     public void showPersonalInfo() throws IOException {
-        editInfo.setVisible(true);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PersonalInfo.fxml"));
         Parent parent = fxmlLoader.load();
         this.personalInfoController = fxmlLoader.getController();
-        editInfo.setOnAction(actionEvent -> personalInfoController.editInfo());
         personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
     }

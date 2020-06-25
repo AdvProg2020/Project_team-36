@@ -77,5 +77,6 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
     public void openCreateNewManager(ActionEvent actionEvent) {
+
     }
 }
