@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+
 import static Models.Status.*;
 
 public abstract class User{
@@ -20,7 +22,8 @@ public abstract class User{
     protected String email;
     protected String phoneNumber;
     protected String password;
-    private static int totalUsersMade = 0;
+    static Random random = new Random();
+    private static int totalUsersMade = random.nextInt(4988 - 1000) + 1000;
     private Status status;
     private ImageView profilePicture;
     private String profilePictureUrl;

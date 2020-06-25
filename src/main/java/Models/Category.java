@@ -7,11 +7,13 @@ import javafx.scene.image.ImageView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 
 public class Category {
     private String name;
     private int categoryId;
-    private static int totalCategoriesMade;
+    static Random random = new Random();
+    private static int totalCategoriesMade = random.nextInt(4988 - 1000) + 1000;
     private HashSet<Field> allFields ;
     private Category parentCategory;
     private ArrayList<Category> subCategories;

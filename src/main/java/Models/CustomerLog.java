@@ -2,11 +2,13 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import static Models.LogStatus.WAITING_TO_BE_SENT;
 
 public class  CustomerLog {
-    private static int totalLogsMade;
+    static Random random = new Random();
+    private static int totalLogsMade = random.nextInt(4988 - 1000) + 1000;
     private Date date;
     private int id;
     private double discountPercent;//be darsad nist yani0.2 mishe 20 darsad masan

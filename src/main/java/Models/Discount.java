@@ -6,6 +6,7 @@ import javafx.scene.control.Hyperlink;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 public class Discount {
     private static ArrayList<Discount> allDiscounts = new ArrayList<>();
@@ -15,7 +16,8 @@ public class Discount {
     private double discountPercent;//bar hasbe darsad nist
     private long discountLimit;
     private int repetitionForEachUser;
-    private static int totalCodesMade = 0;
+    static Random random = new Random();
+    private static int totalCodesMade = random.nextInt(4988 - 1000) + 1000;
     private ArrayList<Customer> customersIncluded;
     private static ManageDiscountCodesController manageDiscountCodesController;
 
