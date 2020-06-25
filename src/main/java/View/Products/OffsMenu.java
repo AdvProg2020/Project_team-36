@@ -37,7 +37,7 @@ public class OffsMenu extends Menu {
 
             @Override
             public void execute() {
-                ArrayList<Product> products = offController.getAllInSaleProducts();
+                ArrayList<Product> products = offController.getFinalProductsList();
                 if(products.isEmpty())
                     System.out.println("There is nothing to show!");
                 else{

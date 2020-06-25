@@ -211,7 +211,8 @@ public class OffController implements ObjectController {
         return toBeReturned;
     }
 
-    public ArrayList<Product> getAllInSaleProducts() {
+    @Override
+    public ArrayList<Product> getFinalProductsList() {
         ArrayList<Product> result = new ArrayList<>();
         if (userVariables.getFilterOffsCategory() != null) {
             getInSaleCategories(result, userVariables.getFilterOffsCategory());
@@ -287,11 +288,10 @@ public class OffController implements ObjectController {
 
     public void removeNameFilter(String name) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if (filter.getName().equals("name")) {
+            if (filter.getName().equals("name")&& filter instanceof OptionalFilter) {
                 ((OptionalFilter) filter).removeOption(name);
                 if (((OptionalFilter) filter).getOptions().isEmpty()) {
                     userVariables.getAllFiltersOffs().remove(filter);
-                    return;
                 }
                 return;
             }
@@ -343,9 +343,9 @@ public class OffController implements ObjectController {
     }
 
     public HashMap<String,HashSet<String>> getAllOptionalChoices(){
-        ArrayList<Product> allProducts = userVariables.getFilterProductsCategory().getAllSubProducts();
+        ArrayList<Product> allProducts = userVariables.getFilterOffsCategory().getAllSubProducts();
         HashMap<String,HashSet<String>> options = new HashMap<>();
-        for (Field field : userVariables.getFilterProductsCategory().getAllFields()) {
+        for (Field field : userVariables.getFilterOffsCategory().getAllFields()) {
             if(field instanceof OptionalField)
                 options.put(field.getName(), new HashSet<>());
         }
@@ -374,9 +374,20 @@ public class OffController implements ObjectController {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
             if(filter.getName().equalsIgnoreCase(filterName)&&filter instanceof OptionalFilter){
                 ((OptionalFilter) filter).removeOption(option);
+                if(((OptionalFilter)filter).getOptions().size()==0)
+                    userVariables.getAllFiltersOffs().remove(filter);
                 return;
             }
         }
+    }
+
+    @Override
+    public ArrayList<String> getCategoryNames(){
+        ArrayList<String> categoryNames = new ArrayList<>();
+        for (Category category : Category.getAllCategories()) {
+            categoryNames.add(category.getName());
+        }
+        return categoryNames;
     }
 
 

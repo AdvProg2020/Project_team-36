@@ -59,4 +59,8 @@ public interface ObjectController {
     void addOptionalFilter(String filterName,String option);
 
      void removeOptionalFilter(String filterName,String option);
+
+     ArrayList<Product> getFinalProductsList();
+
+     ArrayList<String> getCategoryNames();
 }

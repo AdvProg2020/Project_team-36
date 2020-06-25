@@ -2,7 +2,6 @@ package Controllers;
 
 import Models.*;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ProductsController implements ObjectController {
-    private GlobalVariables userVariables;
+    private final GlobalVariables userVariables;
     protected HashMap<String, Method> sortMethods;
     protected HashMap<String, Method> optionalFilterMethods;
     protected HashMap<String, Method> integerFilterMethods;
@@ -148,7 +147,6 @@ public class ProductsController implements ObjectController {
             }
             throw new NoFilterWithNameException();
         }
-
     }
 
     private void removeCategoryRelatedFilters() {
@@ -303,7 +301,7 @@ public class ProductsController implements ObjectController {
         if (!(userVariables.getLoggedInUser() instanceof Customer)) {
             new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, false), Status.TO_BE_ADDED);
         } else {
-            Boolean hasBought = userVariables.getProduct().isThereBuyer((Customer) userVariables.getLoggedInUser());
+            boolean hasBought = userVariables.getProduct().isThereBuyer((Customer) userVariables.getLoggedInUser());
             new Request(new Comment(userVariables.getLoggedInUser(), userVariables.getProduct(), title, content, hasBought), Status.TO_BE_ADDED);
 
         }
@@ -368,7 +366,6 @@ public class ProductsController implements ObjectController {
 
     @Override
     public void addSellerFilter(String name) {
-        System.out.println("SAyeh");
         for (Filter filter : userVariables.getAllFiltersProducts()) {
             if (filter.getName().equals("seller")) {
                 ((BooleanFilter) filter).addOption(name);
@@ -393,7 +390,7 @@ public class ProductsController implements ObjectController {
         }
     }
 
-    public ArrayList<String> getCategories() {
+    public ArrayList<String> getCategoryNames() {
         ArrayList<String> categoryNames = new ArrayList<>();
         for (Category category : Category.getAllCategories()) {
             categoryNames.add(category.getName());
@@ -443,6 +440,8 @@ public class ProductsController implements ObjectController {
         for (Filter filter : userVariables.getAllFiltersProducts()) {
             if (filter.getName().equalsIgnoreCase(filterName) && filter instanceof OptionalFilter) {
                 ((OptionalFilter) filter).removeOption(option);
+                if(((OptionalFilter)filter).getOptions().size()==0)
+                    userVariables.getAllFiltersProducts().remove(filter);
                 return;
             }
         }
