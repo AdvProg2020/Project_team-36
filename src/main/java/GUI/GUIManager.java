@@ -67,4 +67,8 @@ public class GUIManager {
         open(openedParents.remove(openedParents.size() - 1),
                 openedParentsIds.remove(openedParentsIds.size() - 1));
     }
+
+    public Stage getLoginStage() {
+        return loginStage;
+    }
 }

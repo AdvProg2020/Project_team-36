@@ -119,6 +119,10 @@ public abstract class User{
         return allUsers;
     }
 
+    public void setImageURL(String path){
+        this.profilePictureUrl = path;
+    }
+
     public static void addUsername(String username){
         allUsernames.add(username);
     }

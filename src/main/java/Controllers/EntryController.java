@@ -17,10 +17,11 @@ public class EntryController extends UserController  {
     public void setPasswordLogin(String password) throws WrongPasswordException{
         if(!password.equals(userVariables.getLoggedInUser().getPassword())){
             throw new WrongPasswordException("Wrong password!");
-        }else{
-            //TODO change
-            //userAreaMenu.newUserMenu(userVariables.getLoggedInUser().getType());
         }
+            //  else{
+     //       //TODO change
+            //userAreaMenu.newUserMenu(userVariables.getLoggedInUser().getType());
+        //}
     }
 
 
@@ -95,6 +96,10 @@ public class EntryController extends UserController  {
         if(userVariables.getLoggedInUser()!= null)
             return true;
         return false;
+    }
+
+    public void setImage(String path){
+        userVariables.getLoggedInUser().setImageURL(path);
     }
 
     public static class InvalidUsernameException extends Exception {

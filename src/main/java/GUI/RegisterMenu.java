@@ -2,12 +2,22 @@ package GUI;
 
 import Controllers.EntryController;
 import Controllers.GlobalVariables;
+import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 public class RegisterMenu {
     public Label customerLabel;
     public Label sellerLabel;
+    public ImageView profileSeller;
+    public ImageView customerImage;
     EntryController entryController;
     public Tab seller;
     public Tab customer;
@@ -27,6 +37,8 @@ public class RegisterMenu {
     public TextField customerLastname;
     public TextField customerFirstname;
     public TextField customerUsername;
+    private String sellerProfilePath="";
+    private String customerProfilePath="";
 
     public RegisterMenu() {
         this.entryController = new EntryController(new GlobalVariables());
@@ -36,7 +48,7 @@ public class RegisterMenu {
     public void registerSeller(MouseEvent mouseEvent) {
         sellerLabel.setStyle("-fx-text-fill: red");
         setSellerTextFieldBorders();
-        if (setUserName(true) && setPassword(true)&& setName(true)&& setSellerCompanyInfo()&& setPersonalInfo(true)){
+        if (setUserName(true) && setPassword(true)&& setName(true)&& setSellerCompanyInfo()&& setPersonalInfo(true)&&setImage(true)){
             entryController.register();
             sellerLabel.setText("Successfully Entered");
             sellerLabel.setStyle("-fx-text-fill: green");
@@ -107,7 +119,7 @@ public class RegisterMenu {
         } else if (!password.getText().equals(rePassword.getText())) {
             password.setStyle("-fx-border-color: red");
             rePassword.setStyle("-fx-border-color: red");
-            label.setText("watch out");
+            label.setText("Diffrent password boxes");
             return false;
         }
         entryController.setPassword(password.getText());
@@ -205,12 +217,60 @@ public class RegisterMenu {
     public void registerCustomer(MouseEvent mouseEvent) {
         customerLabel.setStyle("-fx-text-fill: red");
         setCustomerTextFieldBorders();
-        if (setUserName(false) && setPassword(false)&& setName(false)&& setPersonalInfo(false)){
+        if (setUserName(false) && setPassword(false)&& setName(false)&& setPersonalInfo(false)&&setImage(false)){
             entryController.register();
             sellerLabel.setText("Successfully Entered");
             customerLabel.setStyle("-fx-text-fill: green");
-            System.out.println("SUcc");
         }
     }
 
+    public void addSellerImage(ActionEvent actionEvent) {
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(imageFilter);
+        fileChooser.setTitle("Profile");
+        File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
+        if (file != null){
+            try {
+                sellerProfilePath = file.getPath();
+                profileSeller.setImage(new Image(new FileInputStream(file)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void addCustomerImage(ActionEvent actionEvent) {
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(imageFilter);
+        fileChooser.setTitle("Profile");
+        File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
+        if (file != null){
+            try {
+                customerProfilePath = file.getPath();
+                customerImage.setImage(new Image(new FileInputStream(file)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+    }
+
+    private boolean setImage(boolean isSeller){
+        if(isSeller){
+            if(sellerProfilePath.isEmpty()){
+                sellerLabel.setText("You need profile pic!");
+                return false;
+            }
+            entryController.setImage(sellerProfilePath);
+            return true;
+        }else{
+            if(customerProfilePath.isEmpty()) {
+                customerLabel.setText("You need profile pic!");
+                return false;
+            }
+            entryController.setImage(customerProfilePath);
+            return true;
+        }
+    }
 }

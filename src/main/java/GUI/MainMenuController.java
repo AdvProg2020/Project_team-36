@@ -31,7 +31,9 @@ public class MainMenuController implements Initializable{
     }
 
     public void chooseBackground()  {
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(imageFilter);
         fileChooser.setTitle("Background");
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getStage());
         if (file != null){
