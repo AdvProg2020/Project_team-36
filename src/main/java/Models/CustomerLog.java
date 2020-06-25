@@ -45,6 +45,8 @@ public class  CustomerLog {
         return id;
     }
 
+
+
     private int randomId(){
         totalLogsMade +=1;
         return totalLogsMade;

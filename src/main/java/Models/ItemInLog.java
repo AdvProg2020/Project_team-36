@@ -24,6 +24,10 @@ public class ItemInLog {
         this.currentPrice = product.getProductFieldBySeller(seller).getCurrentPrice();
     }
 
+    public String getSellerUsername() {
+        return sellerUsername;
+    }
+
     public String getProductName() {
         return productName;
     }

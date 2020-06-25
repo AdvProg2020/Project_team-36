@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.Orders"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane maxHeight="450.0" maxWidth="950.0" minWidth="950.0" prefHeight="450.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.OrdersController">
+   <children>
+      <TableView fx:id="customerLog" layoutX="68.0" layoutY="94.0" prefHeight="303.0" prefWidth="473.0">
+        <columns>
+          <TableColumn fx:id="id" editable="false" prefWidth="46.0" text="Id" />
+          <TableColumn fx:id="date" editable="false" prefWidth="92.0" text="Date" />
+            <TableColumn fx:id="totalPrice" editable="false" prefWidth="104.0" text="Total Price" />
+            <TableColumn fx:id="totalPayable" editable="false" prefWidth="115.0" text="Total Payable" />
+            <TableColumn fx:id="status" editable="false" prefWidth="120.0" text="Status" />
+        </columns>
+      </TableView>
+      <TableView fx:id="itemInLog" layoutX="574.0" layoutY="135.0" prefHeight="221.0" prefWidth="317.0">
+        <columns>
+          <TableColumn fx:id="productName" prefWidth="73.0" text="Product " />
+          <TableColumn fx:id="sellerUsername" prefWidth="67.0" text="Seller" />
+            <TableColumn fx:id="initialPrice" prefWidth="57.0" text=" Price" />
+            <TableColumn fx:id="currentPrice" prefWidth="62.0" text="Payable" />
+            <TableColumn fx:id="count" prefWidth="59.0" text="Count" />
+        </columns>
+      </TableView>
+      <Label layoutX="226.0" layoutY="41.0" text="All Orders">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="617.0" layoutY="94.0" text="All Items In The Order">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
