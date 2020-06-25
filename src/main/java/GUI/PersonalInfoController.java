@@ -5,9 +5,9 @@ import Models.Customer;
 import Models.Seller;
 import Models.User;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
@@ -32,6 +32,12 @@ public class PersonalInfoController implements Initializable {
     private PasswordField confirmedPassword;
     @FXML
     private TextField credit;
+    @FXML
+    private Label companyNameLabel;
+    @FXML
+    private Label companyInfoLabel;
+    @FXML
+    private Label creditLabel;
 
     private User user;
 
@@ -48,7 +54,7 @@ public class PersonalInfoController implements Initializable {
             this.user = Constants.globalVariables.getLoggedInUser();
         }
 
-        username.setText(user.getFirstname());
+        username.setText(user.getUsername());
         username.setEditable(false);
         firstname.setText(user.getFirstname());
         lastname.setText(user.getLastname());
@@ -64,10 +70,15 @@ public class PersonalInfoController implements Initializable {
             credit.setEditable(false);
             companyInfo.setVisible(false);
             companyName.setVisible(false);
+            companyInfoLabel.setVisible(false);
+            companyNameLabel.setVisible(false);
         } else {
             companyInfo.setVisible(false);
             companyName.setVisible(false);
             credit.setVisible(false);
+            companyInfoLabel.setVisible(false);
+            companyNameLabel.setVisible(false);
+            creditLabel.setVisible(false);
         }
     }
 

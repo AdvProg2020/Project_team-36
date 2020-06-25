@@ -12,9 +12,9 @@
       <Label layoutX="485.0" layoutY="89.0" text="Last Name :" />
       <Label layoutX="37.0" layoutY="137.0" text="Email :" />
       <Label layoutX="485.0" layoutY="137.0" text="Phone Number :" />
-      <Label layoutX="37.0" layoutY="184.0" text="Company Name :" />
-      <Label layoutX="485.0" layoutY="184.0" text="Company Info :" />
-      <Label layoutX="36.0" layoutY="266.0" text="Credit :" />
+      <Label fx:id="companyNameLabel" layoutX="37.0" layoutY="184.0" text="Company Name :" />
+      <Label fx:id="companyInfoLabel" layoutX="485.0" layoutY="184.0" text="Company Info :" />
+      <Label fx:id="creditLabel" layoutX="36.0" layoutY="266.0" text="Credit :" />
       <Label layoutX="36.0" layoutY="336.0" text="Password :" />
       <TextField fx:id="username" layoutX="141.0" layoutY="33.0" prefHeight="25.0" prefWidth="256.0" />
       <TextField fx:id="firstname" layoutX="141.0" layoutY="85.0" prefHeight="25.0" prefWidth="256.0" />
