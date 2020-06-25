@@ -318,12 +318,12 @@ public class Category {
         return remove;
     }
 
-    public Hyperlink getAddSubcategory(){
+    public Hyperlink getEditHyperlink(){
         Hyperlink remove = new Hyperlink();
         remove.setText("edit");
         remove.setStyle("");
         remove.setOnAction(e->{
-            manageCategoriesController.addSubcategoryAction(this);
+            manageCategoriesController.editAction(this);
         });
         return remove;
     }

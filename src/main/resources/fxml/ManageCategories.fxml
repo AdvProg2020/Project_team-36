@@ -40,7 +40,7 @@
                             <font>
                                 <Font name="System Bold" size="14.0" />
                             </font></Button>
-                        <Label layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
+                        <Label fx:id="usernameLabel" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
                             <font>
                                 <Font name="Times New Roman" size="30.0" />
                             </font>
@@ -68,7 +68,7 @@
                           <columns>
                             <TreeTableColumn fx:id="nameColumn" prefWidth="267.0" text="Category Name" />
                             <TreeTableColumn fx:id="viewColumn" prefWidth="267.0" text="View" />
-                              <TreeTableColumn fx:id="addSubcategoryColumn" prefWidth="267.0" text="Add Subcategory" />
+                              <TreeTableColumn fx:id="editColumn" prefWidth="267.0" text="edit" />
                           </columns>
                         </TreeTableView>
                         <Button layoutX="100.0" layoutY="48.0" mnemonicParsing="false" onAction="#openAddNewCategory" text="+ Add a new category" />
