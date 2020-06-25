@@ -126,6 +126,7 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
         Discount discount = new Discount(startDate, endDate, percent*0.01, limit, repetition, selectedCustomers);
         discount.giveDiscountCodeToCustomers();
 
+        AlertBox.display("Done","Discount Code Was Created SuccessFully");
 
         this.endDate.setValue(null);
         this.startDate.setValue(null);

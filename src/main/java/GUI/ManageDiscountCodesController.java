@@ -64,8 +64,8 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         allDiscountCodesTable.getItems().remove(discount);
     }
 
-    public void viewAction(Discount discount){
-
+    public void viewAction() throws IOException {
+        Constants.getGuiManager().open("ViewDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void editAction(Discount discount){

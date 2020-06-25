@@ -3,6 +3,7 @@ package Models;
 import GUI.ManageDiscountCodesController;
 import javafx.scene.control.Hyperlink;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Discount {
     private static int totalCodesMade = random.nextInt(4988 - 1000) + 1000;
     private ArrayList<Customer> customersIncluded;
     private static ManageDiscountCodesController manageDiscountCodesController;
+    private static Discount discountToView;
 
     public Discount(Date startTime, Date endTime, double discountPercent, long discountLimit, int repetitionForEachUser, ArrayList<Customer> customersIncluded) {
         this.id = makeNewId();
@@ -28,7 +30,7 @@ public class Discount {
         this.discountPercent = discountPercent;
         this.discountLimit = discountLimit;
         this.repetitionForEachUser = repetitionForEachUser;
-        this.customersIncluded = customersIncluded;
+        this.customersIncluded = new ArrayList<>(customersIncluded);
         allDiscounts.add(this);
     }
 
@@ -216,7 +218,12 @@ public class Discount {
         view.setText("view");
         view.setStyle("");
         view.setOnAction(e->{
-            manageDiscountCodesController.viewAction(this);
+            discountToView = this;
+            try {
+                manageDiscountCodesController.viewAction();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
         return view;
     }
@@ -237,4 +244,11 @@ public class Discount {
         }
     }
 
+    public static Discount getDiscountToView() {
+        return discountToView;
+    }
+
+    public static void setDiscountToView(Discount discountToView) {
+        Discount.discountToView = discountToView;
+    }
 }
