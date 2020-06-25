@@ -49,14 +49,7 @@ public class CustomerTemplateController implements Initializable{
         this.personalInfoController = fxmlLoader.getController();
         personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
-        editInfo.setOnAction(actionEvent -> {personalInfoController.editInfo();
-                    try {
-                        personalInfoController.initialize(user.getUserId());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
+        editInfo.setOnAction(actionEvent -> personalInfoController.editInfo());
     }
 
     public void goToCart() throws IOException {
