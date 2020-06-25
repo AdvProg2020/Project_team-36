@@ -4,6 +4,7 @@ import Controllers.ProductsController;
 import Models.Product;
 import Models.ProductField;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -33,6 +34,8 @@ public class ProductsMenuController implements Initializable {
     public ComboBox categoryFilter;
     public TextField minimumPrice;
     public TextField maximumPrice;
+    public VBox integerFields;
+    public VBox optionalFields;
     private int page = 1;
     public ComboBox sortBox;
     public HBox bottomPane;
@@ -72,8 +75,8 @@ public class ProductsMenuController implements Initializable {
         }
     }
 
-    private void setCategoryFilters(){
-        ArrayList<String>names = productsController.getCategories();
+    private void setCategoryFilters() {
+        ArrayList<String> names = productsController.getCategories();
         categoryFilter.getItems().add("none");
         for (String name : names) {
             categoryFilter.getItems().add(name);
@@ -82,7 +85,7 @@ public class ProductsMenuController implements Initializable {
 
     }
 
-    private void setMinimumPriceFilter(){
+    private void setMinimumPriceFilter() {
         minimumPrice.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!newValue.matches("\\d+")) {
                 minimumPrice.setText(newValue.replaceAll("[^\\d]", ""));
@@ -90,9 +93,9 @@ public class ProductsMenuController implements Initializable {
             try {
                 productsController.setNewFilter("price");
             } catch (ProductsController.IntegerFieldException e) {
-                String min =minimumPrice.getText().isEmpty()? "0":  minimumPrice.getText().replaceAll("[^\\d]", "");
-                String max = maximumPrice.getText().isEmpty()? "99999999999999": maximumPrice.getText().replaceAll("[^\\d]", "");
-                productsController.setFilterRange(min,max);
+                String min = minimumPrice.getText().isEmpty() ? "0" : minimumPrice.getText().replaceAll("[^\\d]", "");
+                String max = maximumPrice.getText().isEmpty() ? "99999999999999" : maximumPrice.getText().replaceAll("[^\\d]", "");
+                productsController.setFilterRange(min, max);
                 showAllProducts(productsController.getFinalProductsList());
             } catch (ProductsController.OptionalFieldException | ProductsController.NoFilterWithNameException e) {
                 e.printStackTrace();
@@ -101,7 +104,7 @@ public class ProductsMenuController implements Initializable {
 
     }
 
-    private void setMaximumPriceFilter(){
+    private void setMaximumPriceFilter() {
         maximumPrice.textProperty().addListener((observableValue, s, newValue) -> {
             if (!newValue.matches("\\d+")) {
                 maximumPrice.setText(newValue.replaceAll("[^\\d]", ""));
@@ -109,9 +112,9 @@ public class ProductsMenuController implements Initializable {
             try {
                 productsController.setNewFilter("price");
             } catch (ProductsController.IntegerFieldException e) {
-                String minimum= minimumPrice.getText().isEmpty() ? "0" : minimumPrice.getText().replaceAll("[^\\d]", "");
-                String maximum =  maximumPrice.getText().isEmpty() ? "99999999999999" : maximumPrice.getText().replaceAll("[^\\d]", "");
-                System.out.println(minimum+" "+maximum);
+                String minimum = minimumPrice.getText().isEmpty() ? "0" : minimumPrice.getText().replaceAll("[^\\d]", "");
+                String maximum = maximumPrice.getText().isEmpty() ? "99999999999999" : maximumPrice.getText().replaceAll("[^\\d]", "");
+                System.out.println(minimum + " " + maximum);
                 productsController.setFilterRange(minimum, maximum);
                 showAllProducts(productsController.getFinalProductsList());
             } catch (ProductsController.OptionalFieldException | ProductsController.NoFilterWithNameException e) {
@@ -285,9 +288,9 @@ public class ProductsMenuController implements Initializable {
     }
 
     public void addNameFilter(MouseEvent mouseEvent) {
-        if(!filterName.getText().isEmpty()){
+        if (!filterName.getText().isEmpty()) {
             for (Node node : filterNamesBox.getChildren()) {
-                if(((CheckBox)node).getText().equalsIgnoreCase(filterName.getText()))
+                if (((CheckBox) node).getText().equalsIgnoreCase(filterName.getText()))
                     return;
             }
             CheckBox names = new CheckBox(filterName.getText());
@@ -299,7 +302,7 @@ public class ProductsMenuController implements Initializable {
         }
     }
 
-    private void removeNameFilter(CheckBox name){
+    private void removeNameFilter(CheckBox name) {
         productsController.removeNameFilter(name.getText());
         filterNamesBox.getChildren().remove(name);
         showAllProducts(productsController.getFinalProductsList());
@@ -307,19 +310,18 @@ public class ProductsMenuController implements Initializable {
     }
 
     public void changeAvailability(ActionEvent actionEvent) {
-        if(onlyAvailables.isSelected()){
+        if (onlyAvailables.isSelected()) {
             productsController.availabilityFilter();
-        }
-        else
+        } else
             productsController.removeAvailabilityFilter();
 
         showAllProducts(productsController.getFinalProductsList());
     }
 
     public void addSellerFilter(MouseEvent mouseEvent) {
-        if(!filterSeller.getText().isEmpty()){
+        if (!filterSeller.getText().isEmpty()) {
             for (Node node : filterSellersBox.getChildren()) {
-                if(((CheckBox)node).getText().equalsIgnoreCase(filterName.getText()))
+                if (((CheckBox) node).getText().equalsIgnoreCase(filterName.getText()))
                     return;
             }
             CheckBox names = new CheckBox(filterSeller.getText());
@@ -332,26 +334,168 @@ public class ProductsMenuController implements Initializable {
 
     }
 
-    private void removeSellerFilter(CheckBox checkBox){
+    private void removeSellerFilter(CheckBox checkBox) {
         productsController.removeSellerFilter(checkBox.getText());
         filterSellersBox.getChildren().remove(checkBox);
         showAllProducts(productsController.getFinalProductsList());
     }
 
     public void filterCategory(ActionEvent actionEvent) {
-        if(categoryFilter.getValue().toString().equals("none")) {
+        if (categoryFilter.getValue().toString().equals("none")) {
             try {
                 productsController.removeFilter("category");
+                removeSpecialIntegerFilters();
             } catch (ProductsController.NoFilterWithNameException e) {
                 return;
             }
-        }else{
+        } else {
             try {
+                removeSpecialIntegerFilters();
                 productsController.setCategoryFilter(categoryFilter.getValue().toString());
+                addSpecialIntegerFilters();
+                addSpecialOptionalFilter();
             } catch (ProductsController.NoCategoryWithName noCategoryWithName) {
                 noCategoryWithName.printStackTrace();
             }
         }
         showAllProducts(productsController.getFinalProductsList());
     }
+
+    private void addSpecialIntegerFilters() {
+        for (String filterName : productsController.getSpecialIntegerFilter()) {
+            integerFields.getChildren().add(getEachIntegerFilter(filterName));
+        }
+    }
+
+    private MenuButton getEachIntegerFilter(String name) {
+        MenuButton menuButton = new MenuButton();
+        CheckBox checkBox = new CheckBox(name);
+        menuButton.setGraphic(checkBox);
+        CustomMenuItem customMenuItem = new CustomMenuItem();
+        customMenuItem.setHideOnClick(false);
+        menuButton.getItems().add(customMenuItem);
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.setPrefSize(integerFields.getPrefWidth()-10,integerFields.getPrefHeight());
+        TextField min = new TextField();
+        min.setPromptText("Minimum");
+        TextField max = new TextField();
+        addListenerIntegerFields(name, min, max, true);
+        addListenerIntegerFields(name, max, min, false);
+        vbox.getChildren().addAll(min,max);
+        max.setPromptText("Maximum");
+        customMenuItem.setContent(vbox);
+        checkBox.setOnAction(actionEvent -> {
+            if (!checkBox.isSelected()) {
+                disableIntegerFilter(checkBox);
+                min.setText("");
+                max.setText("");
+            } else {
+                menuButton.setDisable(false);
+            }
+        });
+        return menuButton;
+    }
+
+    private void addListenerIntegerFields(String field, TextField listenerAdder, TextField textField, boolean isMin) {
+        listenerAdder.textProperty().addListener((observableValue, s, newValue) -> {
+            if (!newValue.matches("\\d*\\.\\d*")) {
+                listenerAdder.setText(newValue.replaceAll("[^\\d|^.]", ""));
+            }
+            try {
+                productsController.setNewFilter(field);
+            } catch (ProductsController.IntegerFieldException e) {
+                if (isMin) {
+                    String min = listenerAdder.getText().isEmpty() ? "0" : listenerAdder.getText().replaceAll("[^\\d|^.]", "");
+                    String max = textField.getText().isEmpty() ? "9999999999999999" : textField.getText().replaceAll("[^\\d|.]", "");
+                    productsController.setFilterRange(min, max);
+                } else {
+                    String max = listenerAdder.getText().isEmpty() ? "9999999999999" : listenerAdder.getText().replaceAll("[^\\d|^.]", "");
+                    String min = textField.getText().isEmpty() ? "0" : textField.getText().replaceAll("[^\\d|.]", "");
+                    productsController.setFilterRange(min, max);
+                }
+                showAllProducts(productsController.getFinalProductsList());
+            } catch (ProductsController.OptionalFieldException | ProductsController.NoFilterWithNameException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+    }
+
+    private void removeSpecialIntegerFilters() {
+        integerFields.getChildren().clear();
+        optionalFields.getChildren().clear();
+    }
+
+    private void disableIntegerFilter(CheckBox checkBox) {
+        try {
+            productsController.removeFilter(checkBox.getText());
+        } catch (ProductsController.NoFilterWithNameException e) {
+            return;
+        }
+    }
+
+    private void addSpecialOptionalFilter(){
+        for (String option : productsController.getAllOptionalChoices().keySet()) {
+            getEachOptionalFilter(option,productsController.getAllOptionalChoices().get(option));
+        }
+    }
+
+    private MenuButton getEachOptionalFilter(String name,HashSet<String> options){
+        MenuButton menuButton = new MenuButton();
+        CheckBox checkBox = new CheckBox(name);
+        menuButton.setGraphic(checkBox);
+        CustomMenuItem customMenuItem = new CustomMenuItem();
+        customMenuItem.setHideOnClick(false);
+        menuButton.getItems().add(customMenuItem);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefSize(menuButton.getPrefWidth(),menuButton.getPrefHeight());
+        customMenuItem.setContent(scrollPane);
+        VBox innerVBox = new VBox();
+        scrollPane.setContent(innerVBox);
+        innerVBox.setPrefSize(menuButton.getPrefWidth(),menuButton.getPrefHeight());
+        checkBox.setOnAction(actionEvent -> {
+            if (!checkBox.isSelected()) {
+                try {
+                    productsController.removeFilter(checkBox.getText());
+                    for (Node child : innerVBox.getChildren()) {
+                        if(child instanceof CheckBox){
+                            child.setDisable(true);
+                            ((CheckBox) child).setSelected(false);
+                        }
+                    }
+                } catch (ProductsController.NoFilterWithNameException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                for (Node child : innerVBox.getChildren()) {
+                    if(child instanceof CheckBox){
+                        child.setDisable(false);
+                        ((CheckBox) child).setSelected(false);
+                    }
+                }
+            }
+        });
+        for (String option : options) {
+           CheckBox optionCheckBox = getOptionCheckBox(option,checkBox);
+            innerVBox.getChildren().add(optionCheckBox);
+        }
+        return menuButton;
+    }
+
+    private CheckBox getOptionCheckBox(String option,CheckBox fieldCheckBox){
+        CheckBox optionCheckBox = new CheckBox(option);
+        optionCheckBox.setOnAction(actionEvent -> {
+            if(optionCheckBox.isSelected()){
+                productsController.addOptionalFilter(fieldCheckBox.getText(),optionCheckBox.getText());
+            }else{
+                productsController.removeOptionalFilter(fieldCheckBox.getText(),optionCheckBox.getText());
+            }
+            showAllProducts(productsController.getFinalProductsList());
+        });
+        return optionCheckBox;
+    }
+
 }

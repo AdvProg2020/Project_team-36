@@ -1,11 +1,10 @@
 package Controllers;
 
-import Models.BooleanFilter;
-import Models.Category;
-import Models.Filter;
-import Models.Product;
+import Models.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public interface ObjectController {
@@ -49,4 +48,15 @@ public interface ObjectController {
     void addSellerFilter(String name);
 
     void removeSellerFilter(String name);
+
+    HashSet<String> getCompanyNamesForFilter();
+
+    ArrayList<String> getSpecialIntegerFilter();
+
+
+    HashMap<String,HashSet<String>> getAllOptionalChoices();
+
+    void addOptionalFilter(String filterName,String option);
+
+     void removeOptionalFilter(String filterName,String option);
 }

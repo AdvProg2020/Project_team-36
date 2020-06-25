@@ -39,7 +39,32 @@
          </children></HBox>
    </bottom>
    <right>
-      <Pane prefHeight="558.0" prefWidth="128.0" BorderPane.alignment="CENTER" />
+      <Pane prefHeight="558.0" prefWidth="128.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label contentDisplay="CENTER" layoutX="19.0" layoutY="5.0" prefHeight="19.0" prefWidth="90.0" text="Category Based">
+               <font>
+                  <Font name="System Italic" size="13.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="5.0" layoutY="59.0" prefHeight="200.0" prefWidth="119.0">
+               <content>
+                  <VBox fx:id="optionalFields" prefHeight="196.0" prefWidth="115.0" />
+               </content></ScrollPane>
+            <Label layoutX="26.0" layoutY="37.0" prefHeight="22.0" prefWidth="117.0" text="Optional fields">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="301.0" prefHeight="22.0" prefWidth="117.0" text="Numerical fields">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="6.0" layoutY="323.0" prefHeight="200.0" prefWidth="119.0">
+               <content>
+                  <VBox fx:id="integerFields" prefHeight="196.0" prefWidth="116.0" />
+               </content></ScrollPane>
+         </children></Pane>
    </right>
    <center>
       <ScrollPane fx:id="productsScrollPane" prefHeight="520.0" prefWidth="1080.0" BorderPane.alignment="CENTER" />
@@ -86,7 +111,7 @@
                </font>
             </Label>
             <TextField fx:id="minimumPrice" layoutX="5.0" layoutY="476.0" prefHeight="25.0" prefWidth="130.0" promptText="minimum" />
-            <Label alignment="CENTER" layoutX="14.0" layoutY="-10.0" prefHeight="44.0" prefWidth="116.0" text="General Filters" textAlignment="CENTER" />
+            <Label alignment="CENTER" layoutX="14.0" layoutY="-10.0" prefHeight="44.0" prefWidth="128.0" text="General Filters" textAlignment="CENTER" />
             <TextField fx:id="maximumPrice" layoutX="5.0" layoutY="510.0" prefHeight="25.0" prefWidth="130.0" promptText="maximum" />
          </children></Pane>
    </left>
