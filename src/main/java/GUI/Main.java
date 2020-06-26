@@ -1,6 +1,7 @@
 package GUI;
 
 import Models.Category;
+import Models.Manager;
 import Models.Product;
 import Models.User;
 import javafx.application.Application;
@@ -14,7 +15,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public static void main(String[] args) {
-       User.addTest();
+//        User.addTest();
         Product.addTest();
         Category.addTest();
 //        Menu.setScanner(new Scanner(System.in));
@@ -30,14 +31,20 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Constants.getGuiManager().setStage(stage);
-        FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/Product.fxml"));
-       // FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/productsMenu.fxml"));
-        //FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/fxml/te.fxml"));
+        String firstPage = "ManagerRegister";
 
+        for (User user : User.getAllUsers()) {
+            if (user instanceof Manager){
+                firstPage = "MainMenu";
+                break;
+            }
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + firstPage + ".fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
         Constants.globalVariables.setLoggedInUser(User.getUserById(2));
-       Constants.getGuiManager().open("Product",1);
+        Constants.getGuiManager().open(firstPage, 1);
         stage.show();
     }
 }
