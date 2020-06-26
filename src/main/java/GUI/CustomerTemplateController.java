@@ -1,5 +1,6 @@
 package GUI;
 
+import Controllers.EntryController;
 import Models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,7 +38,7 @@ public class CustomerTemplateController implements Initializable{
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
     }
 
-    public void logout(){
+    public void logout() throws EntryController.NotLoggedInException, IOException {
         Constants.getGuiManager().logout();
     }
 

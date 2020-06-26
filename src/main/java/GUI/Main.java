@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public static void main(String[] args) {
-//        User.addTest();
+    //    User.addTest();
         Product.addTest();
         Category.addTest();
 //        Menu.setScanner(new Scanner(System.in));

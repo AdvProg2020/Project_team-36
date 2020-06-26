@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainMenuController">
+<AnchorPane fx:id="anchorPane" maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" stylesheets="@../css/MainMenuStyleSheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainMenuController">
    <children>
-      <Label layoutX="430.0" layoutY="27.0" text="Online Shop">
+      <Label layoutX="520.0" layoutY="49.0" text="Online Shop">
          <font>
             <Font size="96.0" />
          </font>
@@ -27,8 +27,17 @@
             <Font size="64.0" />
          </font>
       </Button>
-      <Button layoutX="25.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="52.0" text="Back" />
-      <Button layoutX="92.0" layoutY="27.0" mnemonicParsing="false" onAction="#chooseBackground" text="Choose Background" />
-      <Button fx:id="logout" layoutX="1265.0" layoutY="31.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Button layoutX="25.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefHeight="43.0" prefWidth="84.0" text="Back">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button layoutX="133.0" layoutY="28.0" mnemonicParsing="false" onAction="#chooseBackground" prefHeight="42.0" prefWidth="170.0" text="Choose Background">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button fx:id="logout" layoutX="1249.0" layoutY="28.0" mnemonicParsing="false" onAction="#logout" text="Logout">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
    </children>
 </AnchorPane>

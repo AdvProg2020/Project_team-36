@@ -1,5 +1,6 @@
 package GUI;
 
+import Controllers.EntryController;
 import Models.Customer;
 import Models.Manager;
 import Models.Seller;
@@ -26,7 +27,7 @@ public class MainMenuController implements Initializable{
         Constants.getGuiManager().back();
     }
 
-    public void logout(){
+    public void logout() throws EntryController.NotLoggedInException, IOException {
         Constants.getGuiManager().logout();
     }
 

@@ -43,7 +43,7 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         }
 
         usernameLabel.setText(user.getUsername());
-        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
 
         Category.setManageCategoriesController(this);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
@@ -64,30 +64,30 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     }
 
 
-    private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent){
+    private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent) {
 
         ArrayList<Category> subcategories = mainCategory.getSubCategories();
-        if(subcategories.isEmpty() && indent!=0){
+        if (subcategories.isEmpty() && indent != 0) {
             TreeItem<Category> subcategory = new TreeItem<>(mainCategory);
             categoryItem.getChildren().add(subcategory);
-        } else if (!subcategories.isEmpty() && indent!=0){
+        } else if (!subcategories.isEmpty() && indent != 0) {
             TreeItem<Category> subItem = new TreeItem<>(mainCategory);
             for (Category subcategory : subcategories) {
-                setTheSubcategories(subcategory, subItem, indent+1);
+                setTheSubcategories(subcategory, subItem, indent + 1);
             }
             categoryItem.getChildren().add(subItem);
-        } else if (!subcategories.isEmpty()){
+        } else if (!subcategories.isEmpty()) {
             for (Category subcategory : subcategories) {
-                setTheSubcategories(subcategory, categoryItem, indent+1);
+                setTheSubcategories(subcategory, categoryItem, indent + 1);
             }
         }
     }
 
-    public void openAddNewCategory(ActionEvent actionEvent) {
-        //todo
+    public void openAddNewCategory(ActionEvent actionEvent) throws IOException {
+        Constants.getGuiManager().open("AddCategory", 1);
     }
 
-    public void removeAction(){
+    public void removeAction() {
         TreeTableView.TreeTableViewSelectionModel<Category> selectedCategory = allCategoriesTable.getSelectionModel();
 
         if (selectedCategory.isEmpty()) {
@@ -105,13 +105,14 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         }
     }
 
-    public void viewAction(Category category){
+    public void viewAction(Category category) {
 
     }
 
-    public void editAction(Category category){
-//todo
+    public void editAction(Category category) throws IOException {
+        Constants.getGuiManager().open("EditCategory", category.getCategoryId());
     }
-
 }
+
+
 

@@ -1,5 +1,6 @@
 package GUI;
 
+import Controllers.EntryController;
 import Controllers.ObjectController;
 import Controllers.ProductsController;
 import Models.*;
@@ -538,7 +539,7 @@ public class ProductsMenuController implements Initializable {
         return optionCheckBox;
     }
 
-    public void logout(ActionEvent actionEvent) {
+    public void logout(ActionEvent actionEvent) throws EntryController.NotLoggedInException, IOException {
         Constants.getGuiManager().logout();
     }
 

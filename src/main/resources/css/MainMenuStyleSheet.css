@@ -1,0 +1,13 @@
+@font-face{
+    font-family: 'dellicious strawberry', Arial;
+    src: url('font.ttf');
+}
+
+.button{
+    -fx-font-family: 'Dellicious Strawberry', Arial;
+}
+
+.label{
+    -fx-font-family: 'Dellicious Strawberry', Arial;
+    -fx-text-fill: beige;
+}

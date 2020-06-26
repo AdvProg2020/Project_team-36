@@ -56,6 +56,7 @@ public class ManagerController extends UserController {
 
     private void setSortMethodsProducts() {
         try {
+            sortProductsMethods = new HashMap<>();
             Method method = Product.class.getDeclaredMethod("getProductionDate");
             this.sortProductsMethods.put("production date", method);
             method = Product.class.getDeclaredMethod("getSeenNumber");

@@ -1,5 +1,7 @@
 package GUI;
 
+import Controllers.EntryController;
+
 import java.io.IOException;
 
 public abstract class ManagerProfileController {
@@ -24,7 +26,7 @@ public abstract class ManagerProfileController {
     public void back() throws IOException {
         Constants.getGuiManager().back();
     }
-    public void logout(){
+    public void logout() throws EntryController.NotLoggedInException, IOException {
         Constants.getGuiManager().logout();
     }
 }

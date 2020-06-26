@@ -1,11 +1,15 @@
 package Models;
 
+import GUI.ItemInCartController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Customer extends User  {
+public class Customer extends User {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
     private long credit;
     private ArrayList<CustomerLog> allLogs;
@@ -37,7 +41,7 @@ public class Customer extends User  {
         return this.credit;
     }
 
-    public void addNewLog(CustomerLog customerLog){
+    public void addNewLog(CustomerLog customerLog) {
         this.allLogs.add(customerLog);
     }
 
@@ -53,7 +57,7 @@ public class Customer extends User  {
         return this.cart;
     }
 
-    public WaitingLog getWaitingLog(){
+    public WaitingLog getWaitingLog() {
         return this.waitingLog;
     }
 
@@ -108,23 +112,23 @@ public class Customer extends User  {
     }
 
     public HashMap<Discount, Integer> getAllActiveDiscountsForCustomer() {
-        HashMap<Discount,Integer> toBeReturned = new HashMap<>();
+        HashMap<Discount, Integer> toBeReturned = new HashMap<>();
         for (Discount discount : this.allDiscountsForCustomer.keySet()) {
-            if(discount.isDiscountAvailable()&&allDiscountsForCustomer.get(discount)>0)
-                toBeReturned.put(discount,allDiscountsForCustomer.get(discount));
+            if (discount.isDiscountAvailable() && allDiscountsForCustomer.get(discount) > 0)
+                toBeReturned.put(discount, allDiscountsForCustomer.get(discount));
         }
         return toBeReturned;
     }
 
 
-    public void decreaseCredit(long totalDecrease){
+    public void decreaseCredit(long totalDecrease) {
         this.credit -= totalDecrease;
     }
 
     public boolean isThereProductInCart(int productId) {
         updateCart();
         for (SelectedItem item : cart) {
-            if (item.getProduct().getProductId()==(productId))
+            if (item.getProduct().getProductId() == (productId))
                 return true;
         }
         return false;
@@ -132,7 +136,7 @@ public class Customer extends User  {
 
     public SelectedItem getProductInCart(int productId) {
         for (SelectedItem item : cart) {
-            if (item.getProduct().getProductId()==(productId))
+            if (item.getProduct().getProductId() == (productId))
                 return item;
         }
         return null;
@@ -156,18 +160,18 @@ public class Customer extends User  {
         return sum;
     }
 
-    public static boolean isThereCustomerWithUsername(String username){
+    public static boolean isThereCustomerWithUsername(String username) {
         for (Customer customer : allCustomers) {
-            if (customer.getUsername().equals(username)){
+            if (customer.getUsername().equals(username)) {
                 return true;
             }
         }
         return false;
     }
 
-    public static Customer getCustomerById(int id){
+    public static Customer getCustomerById(int id) {
         for (Customer customer : allCustomers) {
-            if (customer.userId == id){
+            if (customer.userId == id) {
                 return customer;
             }
         }
@@ -175,24 +179,24 @@ public class Customer extends User  {
     }
 
     public Customer(int userId, String username, String firstname, String lastname,
-                    String email, String phoneNumber, String password, Status status,long credit,String profilePictureURL) {
-        super(userId, username, firstname, lastname, email, phoneNumber, password, status,profilePictureURL);
+                    String email, String phoneNumber, String password, Status status, long credit, String profilePictureURL) {
+        super(userId, username, firstname, lastname, email, phoneNumber, password, status, profilePictureURL);
         this.credit = credit;
         this.allLogs = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
         this.cart = new ArrayList<>();
     }
 
-    public static void addToAllCustomers(Customer customer){
+    public static void addToAllCustomers(Customer customer) {
         allCustomers.add(customer);
     }
 
-    public void addToCart(SelectedItem selectedItem){
+    public void addToCart(SelectedItem selectedItem) {
         for (SelectedItem item : cart) {
-            if(item.getProduct().equals(selectedItem.getProduct())){
+            if (item.getProduct().equals(selectedItem.getProduct())) {
                 for (Seller seller : item.getSellers()) {
-                    if(seller.equals(selectedItem.getSellers())){
-                        item.increaseAmountFromSeller(seller,1);
+                    if (seller.equals(selectedItem.getSellers())) {
+                        item.increaseAmountFromSeller(seller, 1);
                         return;
                     }
                 }
@@ -204,14 +208,14 @@ public class Customer extends User  {
         cart.add(selectedItem);
     }
 
-    public void updateCart(){
+    public void updateCart() {
         ArrayList<SelectedItem> temp = new ArrayList<>();
         for (SelectedItem item : cart) {
-            if(!Product.isThereProductWithId(item.getProduct().getProductId()))
+            if (!Product.isThereProductWithId(item.getProduct().getProductId()))
                 temp.add(item);
-            else{
+            else {
                 item.updateSelectedItem();
-                if(item.getSellers().size()==0)
+                if (item.getSellers().size() == 0)
                     temp.add(item);
             }
         }
@@ -224,19 +228,40 @@ public class Customer extends User  {
 
     @Override
     public String toString() {
-        return "username: "+username+"\nfirstname: "+firstname+
-                "\nlastname: "+lastname+"\nphone: "+phoneNumber+
-                "\nemail: "+email+"\ncredit: "+credit+
-                "\npassword: "+password;
+        return "username: " + username + "\nfirstname: " + firstname +
+                "\nlastname: " + lastname + "\nphone: " + phoneNumber +
+                "\nemail: " + email + "\ncredit: " + credit +
+                "\npassword: " + password;
     }
 
-    public static void updateAllCustomers(){
+    public static void updateAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
         for (Customer customer : allCustomers) {
-            if(customer.getStatus().equals(Status.DELETED))
+            if (customer.getStatus().equals(Status.DELETED))
                 customers.add(customer);
 
         }
         allCustomers.removeAll(customers);
     }
+
+    public boolean isCartEmpty() {
+        if (cart.size() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public long getCartPriceConsideringSale() {
+        long price = 0;
+        for (SelectedItem selectedItem : cart) {
+            int counter = 0;
+            for (Seller seller : selectedItem.getSellers()) {
+                price += selectedItem.getProduct().getProductFieldBySeller(seller).getProductFieldPriceOnSale() *
+                        selectedItem.getCountFromEachSeller().get(counter);
+                counter++;
+            }
+        }
+        return price;
+    }
+
 }

@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PurchaseController">
    <children>
       <Button alignment="CENTER" layoutX="38.0" layoutY="30.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
@@ -57,19 +56,19 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="245.0" layoutY="428.0" prefHeight="25.0" prefWidth="396.0" />
+      <TextField fx:id="phoneNumber" layoutX="245.0" layoutY="428.0" prefHeight="25.0" prefWidth="396.0" />
       <Label layoutX="101.0" layoutY="465.0" text="Discount Code : ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="245.0" layoutY="466.0" prefHeight="25.0" prefWidth="396.0" />
+      <TextField fx:id="discountCode" layoutX="245.0" layoutY="466.0" prefHeight="25.0" prefWidth="396.0" />
       <Label layoutX="107.0" layoutY="551.0" text="Total Price : ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="245.0" layoutY="551.0" text="Label">
+      <Label fx:id="totalPrice" layoutX="245.0" layoutY="551.0" text="Label">
          <font>
             <Font size="18.0" />
          </font>
@@ -79,7 +78,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="245.0" layoutY="590.0" text="Label">
+      <Label fx:id="totalPayable" layoutX="245.0" layoutY="590.0" text="Label">
          <font>
             <Font size="18.0" />
          </font>
@@ -100,6 +99,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <TextArea layoutX="246.0" layoutY="217.0" prefHeight="196.0" prefWidth="396.0" />
+      <TextArea fx:id="address" layoutX="246.0" layoutY="217.0" prefHeight="196.0" prefWidth="396.0" />
    </children>
 </AnchorPane>
