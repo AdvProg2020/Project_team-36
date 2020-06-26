@@ -2,6 +2,7 @@ package GUI;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -92,5 +93,20 @@ public class GUIManager {
             e.printStackTrace();
         }
         loginStage.getScene().setRoot(parent);
+    }
+
+    public void openCompareStage(int id) throws IOException {
+        Stage compareStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/CompareBox.fxml"));
+        Parent parent = null;
+        try {
+            parent = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        compareStage.setScene(new Scene(parent));
+        compareStage.getScene().setRoot(parent);
+        ((Initializable) fxmlLoader.getController()).initialize(id);
+        compareStage.showAndWait();
     }
 }

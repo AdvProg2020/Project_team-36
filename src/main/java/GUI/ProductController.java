@@ -58,6 +58,7 @@ public class ProductController implements Initializable {
     private CommentsController commentsController;
     @FXML
     private HBox header;
+    private Product product;
 
     public void back() throws IOException {
         Constants.getGuiManager().back();
@@ -66,6 +67,7 @@ public class ProductController implements Initializable {
     @Override
     public void initialize(int id) throws IOException {
         Product product = Product.getProduct(2);
+        this.product = product;
         product.addScore(new Score(null,4));//todo pak she
         product.addScore(new Score(null,3));
         Constants.globalVariables.setProduct(product);
@@ -221,6 +223,11 @@ public class ProductController implements Initializable {
     }
 
     public void compare(ActionEvent actionEvent) {
+        try {
+            Constants.getGuiManager().openCompareStage(product.getProductId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
