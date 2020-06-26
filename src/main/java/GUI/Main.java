@@ -16,13 +16,13 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static void main(String[] args) {
     //    User.addTest();
-        Product.addTest();
-        Category.addTest();
+    //    Product.addTest();
+    //    Category.addTest();
 //        Menu.setScanner(new Scanner(System.in));
 //        Menu.setControllers();
 //        Menu runMenu = new MainMenu();
 //        runMenu.execute();
-        Product.addTest();
+      //  Product.addTest();
         Constants.setControllers();
         launch(args);
 
@@ -33,12 +33,8 @@ public class Main extends Application {
         Constants.getGuiManager().setStage(stage);
         String firstPage = "ManagerRegister";
 
-        for (User user : User.getAllUsers()) {
-            if (user instanceof Manager){
-                firstPage = "MainMenu";
-                break;
-            }
-        }
+        if (!Manager.canManagerRegister())
+            firstPage = "MainMenu";
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + firstPage + ".fxml"));
         Parent parent = fxmlLoader.load();
