@@ -1,5 +1,9 @@
 package Models;
 
+import GUI.ViewOffsController;
+import javafx.scene.control.Hyperlink;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -18,6 +22,10 @@ public class Sale implements Pendable {
     static Random random = new Random();
     private static int totalOffsMade = random.nextInt(4988 - 1000) + 1000;
     private String editedField;
+    private static Sale offToView;
+    private static Sale offToEdit;
+    private static ViewOffsController viewOffsController;
+
 
     public Sale(Seller seller, ArrayList<Product> productsInSale, Date startTime, Date endTime, Double salePercent) {
         this.productsInSale = new ArrayList<>();
@@ -116,11 +124,26 @@ public class Sale implements Pendable {
         return false;
     }
 
+    private void removeProduct(Product product){
+        productsInSale.remove(product);
+    }
+
+    public static void removeSale(Sale sale){
+        sale.seller.removeSale(sale);
+        for (Product product : sale.productsInSale) {
+            product.getProductFieldBySeller(sale.seller).setSale(null);
+        }
+        allSales.remove(sale);
+    }
+
     @Override
     public void acceptAddRequest() {
         seller.addSale(this);
         for (Product product : productsInSale) {
             if(Product.isThereProductWithId(product.getProductId())) {
+                if(!(product.getProductFieldBySeller(seller).getSale()==null)){
+                    product.getProductFieldBySeller(seller).getSale().removeProduct(product);
+                }
                 product.getProductFieldBySeller(seller).setSale(this);
             }
         }
@@ -180,6 +203,7 @@ public class Sale implements Pendable {
         allSales.add(sale);
     }
 
+
     public static void updateSales(){
         ArrayList<Sale> toBeRemoved = new ArrayList<>();
         ArrayList<Product> removingProducts= new ArrayList<>();
@@ -237,5 +261,51 @@ public class Sale implements Pendable {
             }
         }
         return false;
+    }
+
+    public int getSalePercentForTable(){
+        return (int) (salePercent*100);
+    }
+
+    public Hyperlink getViewHyperlink(){
+        Hyperlink view = new Hyperlink();
+        view.setText("view");
+        view.setStyle("");
+        view.setOnAction(e->{
+            offToView = this;
+            try {
+                viewOffsController.viewAction();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+        return view;
+    }
+
+    public Hyperlink getEditHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("edit");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            offToEdit = this;
+            try {
+                viewOffsController.editAction();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+        return remove;
+    }
+
+    public static void setViewOffsController(ViewOffsController viewOffsController) {
+        Sale.viewOffsController = viewOffsController;
+    }
+
+    public static Sale getOffToView() {
+        return offToView;
+    }
+
+    public static Sale getOffToEdit() {
+        return offToEdit;
     }
 }
