@@ -1,4 +1,4 @@
 package GUI;
 
-public class SellerTemplateController {
+public class SellerTemplateController extends SellerPersonalInfoController {
 }
