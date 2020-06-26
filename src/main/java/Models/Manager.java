@@ -32,9 +32,9 @@ public class Manager extends User {
 //        return mainManager.getUsername().equals(username);
 //    }
 
-    public static Manager getManagerById(int id){
+    public static Manager getManagerById(int id) {
         for (Manager manager : allManagers) {
-            if(manager.userId == id){
+            if (manager.userId == id) {
                 return manager;
             }
         }
@@ -42,11 +42,11 @@ public class Manager extends User {
     }
 
     public Manager(int userId, String username, String firstname, String lastname, String email,
-                   String phoneNumber, String password, Status status) {
-        super(userId, username, firstname, lastname, email, phoneNumber, password, status);
+                   String phoneNumber, String password, Status status, String profilePictureURL) {
+        super(userId, username, firstname, lastname, email, phoneNumber, password, status, profilePictureURL);
     }
 
-    public static void addToAllManager(Manager manager){
+    public static void addToAllManager(Manager manager) {
         allManagers.add(manager);
     }
 
@@ -58,10 +58,10 @@ public class Manager extends User {
                 "\npassword: " + password;
     }
 
-    public static void updateManagers(){
-        ArrayList<Manager> toBeRemoved =new ArrayList<>();
+    public static void updateManagers() {
+        ArrayList<Manager> toBeRemoved = new ArrayList<>();
         for (Manager manager : allManagers) {
-            if(manager.getStatus().equals(Status.DELETED))
+            if (manager.getStatus().equals(Status.DELETED))
                 toBeRemoved.add(manager);
         }
         allManagers.removeAll(toBeRemoved);

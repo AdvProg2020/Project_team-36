@@ -15,6 +15,7 @@ public class SaveManager {
     private String phoneNumber;
     private String password;
     private Status status;
+    private String profilePictureURL;
     private static int lastId = 0;
 
     private SaveManager() {
@@ -22,6 +23,7 @@ public class SaveManager {
 
     public static void save(Manager manager){
         SaveManager saveManager = new SaveManager();
+        saveManager.profilePictureURL = manager.getProfilePictureUrl();
         saveManager.userId = manager.getUserId();
         saveManager.username = manager.getUsername();
         saveManager.firstname = manager.getFirstname();
@@ -50,7 +52,8 @@ public class SaveManager {
         }
         SaveManager saveManager = gson.fromJson(data,SaveManager.class);
         Manager manager = new Manager(saveManager.userId,saveManager.username,saveManager.firstname,
-                saveManager.lastname,saveManager.email,saveManager.phoneNumber,saveManager.password,saveManager.status);
+                saveManager.lastname,saveManager.email,saveManager.phoneNumber,
+                saveManager.password,saveManager.status,saveManager.profilePictureURL);
         Manager.addToAllManager(manager);
         User.addToAllUsers(manager);
         return manager;

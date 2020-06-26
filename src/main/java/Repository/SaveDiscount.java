@@ -29,6 +29,7 @@ public class SaveDiscount {
         saveDiscount.startTime = discount.getStartTime();
         saveDiscount.endTime = discount.getEndTime();
         saveDiscount.discountPercent = discount.getDiscountPercent();
+        saveDiscount.discountLimit = discount.getDiscountLimit();
         saveDiscount.repetitionForEachUser = discount.getRepetitionForEachUser();
         discount.getCustomersIncluded().forEach(customer -> saveDiscount.customersIncludedIds.add(customer.getUserId()));
 
