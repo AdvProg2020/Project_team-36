@@ -1,8 +1,6 @@
 package Repository;
 
-import Models.Category;
-import Models.Field;
-import Models.Product;
+import Models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,7 +12,8 @@ import java.util.Set;
 public class SaveCategory {
     private String name;
     private int categoryId;
-    private Set<Field> allFields;
+    private Set<IntegerField> allIntegerFields;
+    private Set<OptionalField> allOptionalFields;
     private int parentCategoryId;
     private List<Integer> subCategoriesIds;
     private List<Integer> productsIds;
@@ -23,6 +22,8 @@ public class SaveCategory {
     private SaveCategory() {
         subCategoriesIds = new ArrayList<>();
         productsIds = new ArrayList<>();
+        allOptionalFields = new HashSet<>();
+        allIntegerFields = new HashSet<>();
     }
 
     private void addSubCategory(Category subCategory) {
@@ -40,7 +41,14 @@ public class SaveCategory {
         saveCategory.name = category.getName();
         saveCategory.categoryId = category.getCategoryId();
         saveCategory.parentCategoryId = category.getParentCategory().getCategoryId();
-        saveCategory.allFields = category.getAllFields();
+        for (Field field : category.getAllFields()) {
+            if (field instanceof IntegerField){
+                saveCategory.allIntegerFields.add((IntegerField) field);
+            }
+            if (field instanceof OptionalField){
+                saveCategory.allOptionalFields.add((OptionalField) field);
+            }
+        }
         category.getAllSubCategories().forEach(subCategory -> saveCategory.addSubCategory(subCategory));
         category.getProducts().forEach(product -> saveCategory.addProduct(product));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -62,7 +70,8 @@ public class SaveCategory {
         SaveCategory saveCategory = gson.fromJson(data, SaveCategory.class);
         Category parentCategory = load(saveCategory.parentCategoryId);
         HashSet<Field> allFields = new HashSet<>();
-        saveCategory.allFields.forEach(field -> allFields.add(field));
+        saveCategory.allIntegerFields.forEach(field -> allFields.add(field));
+        saveCategory.allOptionalFields.forEach(field -> allFields.add(field));
         Category category = new Category(saveCategory.name, saveCategory.categoryId, allFields, parentCategory);
         Category.addToAllCategories(category);
         saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.load(productId)));
