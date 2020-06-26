@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.CustomerController;
 import Models.*;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,8 +66,9 @@ public class ProductController implements Initializable {
     @Override
     public void initialize(int id) throws IOException {
         Product product = Product.getProduct(2);
-        product.addScore(new Score(null,4));
+        product.addScore(new Score(null,4));//todo pak she
         product.addScore(new Score(null,3));
+        Constants.globalVariables.setProduct(product);
         product.seen();
         reloadHeader();
         imageView.setImage(product.getProductImage().getImage());
@@ -150,9 +152,12 @@ public class ProductController implements Initializable {
     }
 
     private void enableVote(Product product) {
-//        if (!Constants.productsController.canRate(product, Constants.globalVariables.getLoggedInUser())) {
-//            return;
-//        }
+        if (!Constants.productsController.canRate(product, Constants.globalVariables.getLoggedInUser())) {
+            Label label = new Label("Login to vote!");
+            label.setStyle("-fx-font-weight: bold;-fx-font-size: 30;-fx-text-fill: mediumseagreen");
+            vote.getChildren().add(label);
+            return;
+        }
         for(int i=1;i<6;i++){
             ImageView imageView = new ImageView();
             imageView.setFitWidth(40);
@@ -170,7 +175,7 @@ public class ProductController implements Initializable {
                 Constants.customerController.rateProduct(product.getProductId(),number);
                 vote.getChildren().clear();
                 Label label = new Label("Thanks for your vote!");
-                label.setStyle("-fx-font-weight: bold;-fx-font-size: 30");
+                label.setStyle("-fx-font-weight: bold;-fx-font-size: 30;-fx-text-fill: mediumseagreen");
                 vote.getChildren().add(label);
                 fillScore(product.getScore());
             } catch (CustomerController.NoProductWithIdInLog noProductWithIdInLog) {
@@ -213,6 +218,9 @@ public class ProductController implements Initializable {
         } else if (user instanceof Customer) {
             Constants.getGuiManager().open("CustomerTemplate", user.getUserId());
         }
+    }
+
+    public void compare(ActionEvent actionEvent) {
     }
 }
 
