@@ -114,6 +114,10 @@ public class Seller extends User implements Pendable {
         allSales.add(sale);
     }
 
+    public void removeSale(Sale sale){
+        this.allSales.remove(sale);
+    }
+
     @Override
     public String toString() {
         return "    username: " + username + '\n' +

@@ -5,7 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #FFFFF2;"  xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManageRequestsController">
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManageRequestsController">
     <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
         <Pane prefHeight="149.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" text="online shop" textAlignment="CENTER" textFill="#d3d0d0">
@@ -60,6 +62,20 @@
                   <TableColumn fx:id="declineColumn" prefWidth="160.0" text="decline" />
                     </columns>
                 </TableView>
+            <ComboBox fx:id="sortName" layoutX="612.0" layoutY="44.0" onAction="#sort" prefWidth="150.0" promptText="none">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="type" />
+                        <String fx:value="request id" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <Label layoutX="576.0" layoutY="48.0" text="Sort">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="isAscending" disable="true" layoutX="781.0" layoutY="48.0" mnemonicParsing="false" onAction="#sort" text="is ascendning" />
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>

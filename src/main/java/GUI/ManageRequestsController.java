@@ -1,11 +1,11 @@
 package GUI;
 
+import Controllers.ProductsController;
 import Models.Discount;
 import Models.Request;
 import Models.User;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
@@ -22,6 +22,8 @@ public class ManageRequestsController extends ManagerProfileController implement
     public TableView<Request> allRequestsTable;
     public ImageView profilePicture;
     public Label usernameLabel;
+    public CheckBox isAscending;
+    public ComboBox sortName;
     private User user;
 
     @Override
@@ -36,13 +38,14 @@ public class ManageRequestsController extends ManagerProfileController implement
             this.user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
-        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
 
         ArrayList<Request> allRequests = Constants.managerController.getAllRequests();
         setTheTable(allRequests);
     }
 
-    private void setTheTable(ArrayList<Request> allRequests){
+    private void setTheTable(ArrayList<Request> allRequests) {
+        allRequestsTable.getItems().clear();
         Request.setManageRequestsController(this);
         allRequestsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestId"));
@@ -54,12 +57,18 @@ public class ManageRequestsController extends ManagerProfileController implement
     }
 
 
-    public void removeAction(Request request){
+    public void removeAction(Request request) {
         allRequestsTable.getItems().remove(request);
     }
 
-    public void viewAction(Request request){
+    public void viewAction(Request request) {
 
     }
 
+    public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
+        if (isAscending.isDisable())
+            isAscending.setDisable(false);
+        ArrayList<Request> requests = Constants.managerController.sortRequests(sortName.getValue().toString(), isAscending.isSelected() ? "ascending" : "descending");
+        setTheTable(requests);
+    }
 }

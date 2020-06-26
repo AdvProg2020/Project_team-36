@@ -1,11 +1,10 @@
 package GUI;
 
+import Controllers.ProductsController;
 import Models.Discount;
 import Models.User;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
@@ -22,6 +21,8 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
     public TableColumn<?, ?> discountCodeColumn;
     public TableColumn<?, ?> editColumn;
     public TableColumn<?, ?> removeColumn;
+    public ComboBox sortName;
+    public CheckBox isAscending;
     private User user;
 
 
@@ -49,6 +50,7 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
     }
 
     private void setTheTable(ArrayList<Discount> allDiscountCodes){
+        allDiscountCodesTable.getItems().clear();
         Discount.setManageDiscountCodesController(this);
         allDiscountCodesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         percentColumn.setCellValueFactory(new PropertyValueFactory<>("discountPercentForTable"));
@@ -72,4 +74,18 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         Constants.getGuiManager().open("EditDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
+
+    public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
+        if(isAscending.isDisable())
+         isAscending.setDisable(false);
+
+        if(isAscending.isSelected()){
+            ArrayList<Discount> discounts =Constants.managerController.sortDiscountCodes(sortName.getValue().toString(),"ascending");
+            setTheTable(discounts);
+        }
+        else{
+            ArrayList<Discount> discounts = Constants.managerController.sortDiscountCodes(sortName.getValue().toString(),"descending");
+            setTheTable(discounts);
+        }
+    }
 }

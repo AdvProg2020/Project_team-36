@@ -13,6 +13,12 @@
                 <HBox fx:id="header" spacing="8.0">
                     <children>
                         <Button fx:id="back" mnemonicParsing="false" onAction="#back" text="Back" />
+                  <Region prefHeight="26.0" prefWidth="56.0" />
+                  <Button mnemonicParsing="false" onAction="#compare" text="Compare It!">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
                         <Region HBox.hgrow="ALWAYS" />
                         <Button fx:id="cart" mnemonicParsing="false" onAction="#goToCart" text="Cart" />
                         <Button fx:id="login" mnemonicParsing="false" onAction="#login" text="Login" />

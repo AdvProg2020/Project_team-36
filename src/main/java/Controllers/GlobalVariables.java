@@ -37,7 +37,7 @@ public class GlobalVariables {
     }
 
     public Product getProduct() {
-        return product;
+        return this.product;
     }
 
     public void setPendingSellerOfProduct(Seller pendingSellerOfProduct) {
