@@ -88,7 +88,7 @@ public class ManageUsersController extends ManagerProfileController implements I
 
     public void setAscending(ActionEvent actionEvent) throws ProductsController.NoSortException {
         if(isAscending.isSelected()){
-            ArrayList<User> users =Constants.managerController.sortUsers(sortName.getValue().toString(),"ascendnig");
+            ArrayList<User> users =Constants.managerController.sortUsers(sortName.getValue().toString(),"ascending");
             setTheTable(users);
         }
         else{
@@ -100,7 +100,7 @@ public class ManageUsersController extends ManagerProfileController implements I
     public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
         isAscending.setDisable(false);
         if(isAscending.isSelected()){
-            ArrayList<User> users =Constants.managerController.sortUsers(sortName.getValue().toString(),"ascendnig");
+            ArrayList<User> users =Constants.managerController.sortUsers(sortName.getValue().toString(),"ascending");
             setTheTable(users);
         }
         else{
