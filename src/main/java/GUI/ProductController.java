@@ -1,6 +1,7 @@
 package GUI;
 
 import Controllers.CustomerController;
+import Controllers.EntryController;
 import Models.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -206,7 +207,7 @@ public class ProductController implements Initializable {
         Constants.getGuiManager().login();
     }
 
-    public void logout() {
+    public void logout() throws EntryController.NotLoggedInException, IOException {
         Constants.getGuiManager().logout();
     }
 

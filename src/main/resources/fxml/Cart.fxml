@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CartController">
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="63.0" layoutY="279.0" prefHeight="366.0" prefWidth="820.0">
@@ -75,7 +74,7 @@
             </Label>
          </children>
       </Pane>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="1103.0" layoutY="525.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #556B2F;" text="Purchase" textFill="#ebe29d">
+      <Button fx:id="purchase" alignment="CENTER" contentDisplay="CENTER" layoutX="1103.0" layoutY="525.0" mnemonicParsing="false" onAction="#goToPurchase" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #556B2F;" text="Purchase" textFill="#ebe29d">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

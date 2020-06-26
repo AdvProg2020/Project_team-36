@@ -1,5 +1,6 @@
 package GUI;
 
+import Controllers.EntryController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,13 +21,14 @@ public class GUIManager {
         this.openedParentsIds = new ArrayList<>();
     }
 
-    public void open(String name, int id) throws IOException {
+    public Object open(String name, int id) throws IOException {
         openedParents.add(name);
         openedParentsIds.add(id);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
         Parent parent = fxmlLoader.load();
         stage.getScene().setRoot(parent);
         ((Initializable) fxmlLoader.getController()).initialize(id);
+        return fxmlLoader.getController();
     }
 
     public void back() throws IOException {
@@ -53,7 +55,10 @@ public class GUIManager {
         }
     }
 
-    public void logout(){}
+    public void logout() throws EntryController.NotLoggedInException, IOException {
+        Constants.entryController.logout();
+        reopen();
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;

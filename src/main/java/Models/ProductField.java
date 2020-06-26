@@ -104,7 +104,7 @@ public class ProductField implements Pendable {
     }
 
 
-    public ProductField(Status status, long price, Sale sale, Seller seller, int supply,int mainProductId) {
+    public ProductField(Status status, long price, Sale sale, Seller seller, int supply, int mainProductId) {
         this.status = status;
         this.price = price;
         this.sale = sale;
@@ -184,5 +184,9 @@ public class ProductField implements Pendable {
 
     public int getMainProductId() {
         return mainProductId;
+    }
+
+    public long getProductFieldPriceOnSale() {
+        return (long) ((1 - sale.getSalePercent()) * price);
     }
 }
