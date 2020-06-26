@@ -83,20 +83,21 @@
                            </valueFactory>
                         </Spinner>
                         <Button fx:id="createButton" layoutX="777.0" layoutY="384.0" mnemonicParsing="false" onAction="#createDiscountCode" text="Create New Discount" />
-                        <MenuButton layoutX="197.0" layoutY="267.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="173.0" text="customers">
-                           <items>
-                              <CustomMenuItem mnemonicParsing="false" text="Unspecified Action">
-                                 <content>
-                                    <ScrollPane fx:id="customersIncluded" prefHeight="200.0" prefWidth="200.0">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                                      </content>
-                                    </ScrollPane>
-                                 </content>
-                              </CustomMenuItem>
-                           </items></MenuButton>
                         <Label fx:id="dateError" layoutX="173.0" layoutY="223.0" text="You Must Select Both Start and End Dates." textFill="#d71e06" visible="false" />
                         <Label fx:id="limitError" layoutX="621.0" layoutY="223.0" text="You Must Enter a Number as Limit." textFill="#d31702" visible="false" />
+                         <TableView fx:id="customersIncludedTable" layoutX="289.0" layoutY="240.0" prefHeight="200.0" prefWidth="124.0">
+                             <columns>
+                                 <TableColumn fx:id="customersIncludedColumn" prefWidth="123.0" text="Customers Included" />
+                             </columns>
+                         </TableView>
+                         <TableView fx:id="availableCustomersTable" layoutX="140.0" layoutY="240.0" prefHeight="200.0" prefWidth="123.0">
+                             <columns>
+                                 <TableColumn fx:id="availableCustomersColumn" prefWidth="122.0" text="Available Customers" />
+                             </columns>
+                         </TableView>
+                         <Button fx:id="removeCustomerButton" layoutX="424.0" layoutY="240.0" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
+                         <Button fx:id="addCustomerButton" layoutX="88.0" layoutY="240.0" mnemonicParsing="false" onAction="#addAction" text="Add" />
+
                      </children></AnchorPane>
                     </content>
                 </ScrollPane>

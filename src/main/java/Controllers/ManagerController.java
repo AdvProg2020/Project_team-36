@@ -122,7 +122,7 @@ public class ManagerController extends UserController {
         if (endDate.before(discount.getStartTime())) {
             throw new InvalidDateException("termination date must be after start date");
         } else {
-            discount.setStartTime(endDate);
+            discount.setEndTime(endDate);
         }
     }
 

@@ -57,6 +57,15 @@ public abstract class User{
         Customer.getAllCustomers().add(customer);
         allUsernames.add("sayeh");
         allUsernames.add("sahar");
+
+        Customer customer2 = new Customer("karaneh");
+        Customer customer3 = new Customer("nazanin");
+        allUsers.add(customer2);
+        allUsers.add(customer3);
+        Customer.getAllCustomers().add(customer2);
+        Customer.getAllCustomers().add(customer3);
+        allUsernames.add("karaneh");
+        allUsernames.add("nazanin");
     }
 
     public String getUsername() {
