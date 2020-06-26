@@ -118,9 +118,9 @@ public class CustomerController extends UserController {
 
     }
 
-    public void increaseProductInCart(int sellerNumber, int productId) throws NotEnoughSupply {
+    public void increaseProductInCart(int sellerId, int productId) throws NotEnoughSupply {
         SelectedItem item = ((Customer) userVariables.getLoggedInUser()).getProductInCart(productId);
-        Seller seller = item.getSellers().get(sellerNumber - 1);
+        Seller seller = Seller.getSellerById(sellerId);
         if (item.getProduct().enoughSupplyOfSeller(seller, 1)) {
             item.increaseAmountFromSeller(seller, 1);
             return;
