@@ -147,4 +147,9 @@ public class SellerLog {
         toBePrinted.append("\n    total price: ").append(totalPrice);
         return toBePrinted;
     }
+
+    public String getCustomerUsername(){
+        return customer.getUsername();
+    }
+
 }
