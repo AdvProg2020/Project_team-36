@@ -127,7 +127,7 @@ public class ManageCategoriesMenu extends Menu {
                     return;
                 }
                 while (true) {
-                    System.out.println("fields you can edit:\nname\nfields\nparent category\nfor editing each part type it\n" +
+                    System.out.println("fields you can edit:\nname\nfields\nfor editing each part type it\n" +
                             "after all edits type end!");
                     input = scanner.nextLine().trim();
                     if (input.matches("back"))
@@ -154,7 +154,11 @@ public class ManageCategoriesMenu extends Menu {
             logoutChangeMenu();
         else if (input.equalsIgnoreCase("back"))
             this.parentMenu.execute();
-        categoryController.editName(input);
+        try {
+            categoryController.editName(input);
+        } catch (CategoryController.InvalidCategoryName invalidCategoryName) {
+            System.out.println("there is a category with this name");
+        }
         System.out.println("Edit completed");
     }
 

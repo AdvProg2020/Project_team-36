@@ -81,7 +81,11 @@ public class CategoryController {
         throw new InvalidCategoryName();
     }
 
-    public void editName(String name) {
+    public void editName(String name) throws InvalidCategoryName {
+        for (Category category1 : Category.getAllCategories()) {
+            if(category1.getName().equalsIgnoreCase(name))
+                throw new InvalidCategoryName();
+        }
         this.category.setName(name);
     }
 

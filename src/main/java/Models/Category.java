@@ -4,8 +4,10 @@ import GUI.ManageCategoriesController;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -53,9 +55,8 @@ public class Category {
 
     public Category(String name, int categoryId, HashSet<Field> allFields, Category parentCategory) {
         this.name = name;
-        this.categoryId = categoryId;//todo
-        this.allFields = new HashSet<>();
-       // this.allFields = allFields;
+        this.categoryId = categoryId;
+        this.allFields = allFields;
         this.parentCategory = parentCategory;
         this.subCategories = new ArrayList<>();
         this.products = new ArrayList<>();
@@ -247,7 +248,19 @@ public class Category {
         String oldName = field.getName();
         field.setName(newName);
         for (Product subProduct : this.getAllSubProducts()) {
-            subProduct.renameField(oldName, newName);
+                subProduct.renameField(oldName, newName);
+        }
+        for (Category subCategory : this.getAllSubCategories()) {
+            subCategory.renameFieldSubCategory(oldName,newName);
+        }
+    }
+
+    private void renameFieldSubCategory(String field,String newName){
+        for (Field allField : this.allFields) {
+            if(allField.getName().equalsIgnoreCase(field)){
+                allField.setName(newName);
+                return;
+            }
         }
     }
 
@@ -324,9 +337,32 @@ public class Category {
         remove.setText("edit");
         remove.setStyle("");
         remove.setOnAction(e->{
-            manageCategoriesController.editAction(this);
+            try {
+                manageCategoriesController.editAction(this);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
         return remove;
+    }
+
+    public HashSet<Field> getCategoryOwnFields(){
+     HashSet<Field> parentFields = this.parentCategory.getAllFields();
+     HashSet<Field> toBeReturned = new HashSet<>();
+     HashSet<Field> toBeRemoved = new HashSet<>();
+        for (Field field : allFields) {
+            for (Field parentField : parentFields) {
+                if(parentField.getName().equalsIgnoreCase(field.getName())) {
+                    toBeRemoved.add(field);
+                    break;
+                }
+            }
+        }
+        for (Field allField : allFields) {
+            if(!toBeRemoved.contains(allField))
+                toBeReturned.add(allField);
+        }
+     return toBeReturned;
     }
 
     public static void setManageCategoriesController(ManageCategoriesController manageCategoriesController) {

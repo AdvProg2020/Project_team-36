@@ -13,6 +13,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -69,12 +70,11 @@ public class ProductController implements Initializable {
     public void initialize(int id) throws IOException {
         Product product = Product.getProduct(2);
         this.product = product;
-        product.addScore(new Score(null,4));//todo pak she
-        product.addScore(new Score(null,3));
         Constants.globalVariables.setProduct(product);
         product.seen();
         reloadHeader();
         imageView.setImage(product.getProductImage().getImage());
+        setImageViewEffect(imageView);
         name.setText(product.getName());
         company.setText(product.getCompany());
         numberseen.setText("" + product.getSeenNumber());
@@ -84,6 +84,14 @@ public class ProductController implements Initializable {
         commentsController.fill(product);
         fillScore(product.getScore());
         enableVote(product);
+    }
+
+    private void setImageViewEffect(ImageView imageView){
+        if (product.getTotalSupply() <= 0) {
+            ColorAdjust monochrome = new ColorAdjust();
+            monochrome.setSaturation(-0.7);
+            imageView.setEffect(monochrome);
+        }
     }
 
     private void fillProductFields(ArrayList<ProductField> productFields, VBox vBox) throws IOException {
