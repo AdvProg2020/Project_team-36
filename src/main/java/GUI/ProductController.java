@@ -120,6 +120,9 @@ public class ProductController implements Initializable {
             header.getChildren().remove(account);
             header.getChildren().remove(cart);
         } else {
+            if (!(Constants.globalVariables.getLoggedInUser() instanceof Customer)){
+                header.getChildren().remove(cart);
+            }
             header.getChildren().remove(login);
         }
     }
