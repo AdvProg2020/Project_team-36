@@ -1,26 +1,21 @@
 package GUI;
 
 import Models.User;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
-public class ManagerPersonalInfoController extends ManagerProfileController implements Initializable {
+public class SellerPersonalInfoController extends SellerProfileController implements Initializable {
 
+    public Label usernameLabel;
+    public ImageView profilePicture;
+    public ScrollPane scrollPane;
     private User user;
     private PersonalInfoController personalInfoController;
-    @FXML
-    private Label username;
-    @FXML
-    private ImageView profilePicture;
-    @FXML
-    private ScrollPane scrollPane;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -33,9 +28,12 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
         } else {
             this.user = Constants.globalVariables.getLoggedInUser();
         }
-        username.setText(user.getUsername());
+        usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+
     }
+
+
 
     public void showPersonalInfo() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PersonalInfo.fxml"));
@@ -44,6 +42,7 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
         personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
     }
+
 
 
 }
