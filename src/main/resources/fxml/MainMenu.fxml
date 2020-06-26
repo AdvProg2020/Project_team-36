@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainMenuController">
+<AnchorPane fx:id="anchorPane" maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" stylesheets="@../css/MainMenuStyleSheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MainMenuController">
    <children>
-      <Label layoutX="430.0" layoutY="27.0" text="Online Shop">
+      <Label layoutX="520.0" layoutY="49.0" text="Online Shop">
          <font>
             <Font size="96.0" />
          </font>
