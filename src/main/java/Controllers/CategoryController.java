@@ -40,6 +40,21 @@ public class CategoryController {
 
     }
 
+    public void setParentCategory(String name){
+        Category parentCategory = null;
+        if(name.equalsIgnoreCase("none"))
+        parentCategory = Category.getMainCategory();
+        else{
+            for (Category category : getAllCategories()) {
+                if(category.getName().equalsIgnoreCase(name)){
+                    parentCategory = category;
+                    break;
+                }
+            }
+        }
+        category.setParentCategory(parentCategory);
+    }
+
     public void setIntegerField(String name) throws ThereIsFieldWithNameException {
         if (this.category.getField(name) != null)
             throw new ThereIsFieldWithNameException();
