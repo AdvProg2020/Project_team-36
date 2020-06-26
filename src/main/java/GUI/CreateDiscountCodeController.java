@@ -47,12 +47,18 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
 
     @Override
     public void initialize(int id) throws IOException {
-        this.user = User.getUserById(id);
-        if (!Constants.globalVariables.getLoggedInUser().equals(user)) {
+        if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
+            return;
+        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
+            Constants.getGuiManager().back();
+            return;
+        } else {
+            this.user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
-        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+
 
         startDate.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
@@ -76,6 +82,7 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
             }
         });
 
+        addTextFieldListener();
         setAvailableCustomers();
 
     }
@@ -118,6 +125,17 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
         customersIncludedTable.getItems().add(toBeAdded);
     }
 
+    private void addTextFieldListener() {
+        startDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (startDate.getEditor().getText().contains("[^\\d]"))
+                startDate.getEditor().setText(startDate.getEditor().getText().replaceAll("[^\\d]", ""));
+        });
+
+        endDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (endDate.getEditor().getText().contains("[^\\d]"))
+                endDate.getEditor().setText(endDate.getEditor().getText().replaceAll("[^\\d]", ""));
+        });
+    }
 
     public void createDiscountCode() throws IOException {
 
