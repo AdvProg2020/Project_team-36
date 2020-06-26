@@ -72,12 +72,12 @@
                             <DatePicker fx:id="endDate" layoutX="196.0" layoutY="185.0" />
                             <Label layoutX="114.0" layoutY="106.0" prefHeight="17.0" prefWidth="68.0" text="Start Date:" />
                             <Label layoutX="114.0" layoutY="189.0" prefHeight="17.0" prefWidth="68.0" text="End Date:" />
-                            <Label layoutX="528.0" layoutY="106.0" text="Discount Percent:" />
+                            <Label layoutX="528.0" layoutY="106.0" text="Off Percent:" />
                             <Button fx:id="createButton" layoutX="777.0" layoutY="384.0" mnemonicParsing="false" onAction="#createOff" text="Create New Off" />
                             <Label fx:id="dateError" layoutX="173.0" layoutY="223.0" text="You Must Select Both Start and End Dates." textFill="#d71e06" visible="false" />
                             <TableView fx:id="productsIncludedTable" layoutX="289.0" layoutY="240.0" prefHeight="200.0" prefWidth="124.0">
                                 <columns>
-                                    <TableColumn fx:id="customersIncludedColumn" prefWidth="123.0" text="Included Products" />
+                                    <TableColumn fx:id="productsIncludedColumn" prefWidth="123.0" text="Included Products" />
                                 </columns>
                             </TableView>
                             <TableView fx:id="availableProductsTable" layoutX="140.0" layoutY="240.0" prefHeight="200.0" prefWidth="123.0">

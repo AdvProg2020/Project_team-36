@@ -1,6 +1,5 @@
 package GUI;
 
-import Controllers.NewOffController;
 import Models.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -19,7 +18,7 @@ public class AddOffController extends SellerPersonalInfoController implements In
     public Button removeCustomerButton;
     public TableColumn<Product,?> availableProductsColumn;
     public TableView<Product> availableProductsTable;
-    public TableColumn<Product,?> customersIncludedColumn;
+    public TableColumn<Product,?> productsIncludedColumn;
     public TableView<Product> productsIncludedTable;
     public DatePicker endDate;
     public DatePicker startDate;
@@ -72,7 +71,7 @@ public class AddOffController extends SellerPersonalInfoController implements In
         ArrayList<Product> availableProducts = ((Seller)user).getAllProducts();
 
         availableProductsColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        customersIncludedColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productsIncludedColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         availableProductsTable.getItems().addAll(availableProducts);
     }
