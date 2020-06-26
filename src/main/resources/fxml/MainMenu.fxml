@@ -27,8 +27,17 @@
             <Font size="64.0" />
          </font>
       </Button>
-      <Button layoutX="25.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="52.0" text="Back" />
-      <Button layoutX="92.0" layoutY="27.0" mnemonicParsing="false" onAction="#chooseBackground" text="Choose Background" />
-      <Button fx:id="logout" layoutX="1265.0" layoutY="31.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Button layoutX="25.0" layoutY="27.0" mnemonicParsing="false" onAction="#back" prefHeight="43.0" prefWidth="84.0" text="Back">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button layoutX="133.0" layoutY="28.0" mnemonicParsing="false" onAction="#chooseBackground" prefHeight="42.0" prefWidth="170.0" text="Choose Background">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button fx:id="logout" layoutX="1249.0" layoutY="28.0" mnemonicParsing="false" onAction="#logout" text="Logout">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
    </children>
 </AnchorPane>

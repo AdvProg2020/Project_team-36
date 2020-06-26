@@ -9,5 +9,5 @@
 
 .label{
     -fx-font-family: 'Dellicious Strawberry', Arial;
-   // -fx-fill: beige;
+    -fx-text-fill: beige;
 }
