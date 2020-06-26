@@ -17,6 +17,7 @@ public class ManagerController extends UserController {
     private static ArrayList<Customer> customersToBeEditedForDiscountCode = new ArrayList<>();
     private HashMap<String,Method> sortUsersMethods;
     private HashMap<String,Method> sortDiscountMethods;
+    private HashMap<String,Method> sortRequestMethods;
     public ManagerController(GlobalVariables userVariables) {
         super(userVariables);
         writeDiscountFieldsSetters();
@@ -26,6 +27,8 @@ public class ManagerController extends UserController {
         giftEvents.put(3,"periodic gift");
         setSortUsersMethods();
         setSortDiscountMethods();
+        setSortRequestsMethods();
+
     }
 
     public ArrayList<User> getAllUsers() {
@@ -43,6 +46,18 @@ public class ManagerController extends UserController {
             sortDiscountMethods.put("percent", method);
             method = Discount.class.getDeclaredMethod("getDiscountLimit");
             sortDiscountMethods.put("limit", method);
+        } catch (NoSuchMethodException e) {
+
+        }
+    }
+
+    public void setSortRequestsMethods(){
+        this.sortRequestMethods = new HashMap<>();
+        try {
+            Method method = Request.class.getDeclaredMethod("getType");
+            sortRequestMethods.put("type", method);
+            method = Request.class.getDeclaredMethod("getRequestId");
+            sortRequestMethods.put("request id", method);
         } catch (NoSuchMethodException e) {
 
         }
@@ -356,6 +371,19 @@ public class ManagerController extends UserController {
             }
         }
         return toBeReturned;
+
+    }
+
+    public ArrayList<Request> sortRequests(String field,String type) throws ProductsController.NoSortException {
+        ArrayList<Request> toBeReturned = new ArrayList<>();
+        toBeReturned.addAll(getAllRequests());
+        for (String regex : sortDiscountMethods.keySet()) {
+            if(regex.equalsIgnoreCase(field)){
+                new Sort().sort(toBeReturned,sortRequestMethods.get(regex),type.equalsIgnoreCase("ascending"));
+                return toBeReturned;
+            }
+        }
+        throw new ProductsController.NoSortException();
 
     }
 

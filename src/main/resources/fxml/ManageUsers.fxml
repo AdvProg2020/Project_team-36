@@ -82,7 +82,7 @@
                     </FXCollections>
                 </items>
             </ComboBox>
-            <CheckBox fx:id="isAscending" disable="true" layoutX="783.0" layoutY="36.0" mnemonicParsing="false" onAction="#setAscending" prefHeight="26.0" prefWidth="103.0" text="is Ascending">
+            <CheckBox fx:id="isAscending" disable="true" layoutX="783.0" layoutY="36.0" mnemonicParsing="false" onAction="#sort" prefHeight="26.0" prefWidth="103.0" text="is Ascending">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>

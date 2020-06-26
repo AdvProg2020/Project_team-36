@@ -74,19 +74,11 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         Constants.getGuiManager().open("EditDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
-    public void setAscending(ActionEvent actionEvent) throws ProductsController.NoSortException {
-        if(isAscending.isSelected()){
-            ArrayList<Discount> discounts =Constants.managerController.sortDiscountCodes(sortName.getValue().toString(),"ascending");
-            setTheTable(discounts);
-        }
-        else{
-            ArrayList<Discount> discounts = Constants.managerController.sortDiscountCodes(sortName.getValue().toString(),"descending");
-            setTheTable(discounts);
-        }
-    }
 
     public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
-        isAscending.setDisable(false);
+        if(isAscending.isDisable())
+         isAscending.setDisable(false);
+
         if(isAscending.isSelected()){
             ArrayList<Discount> discounts =Constants.managerController.sortDiscountCodes(sortName.getValue().toString(),"ascending");
             setTheTable(discounts);

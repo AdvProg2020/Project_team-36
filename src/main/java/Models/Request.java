@@ -162,4 +162,8 @@ public class Request {
         return remove;
     }
 
+    public String getType(){
+        return this.pendableRequest.getPendingRequestType();
+    }
+
 }
