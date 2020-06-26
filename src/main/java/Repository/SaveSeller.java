@@ -16,6 +16,7 @@ public class SaveSeller {
     private String phoneNumber;
     private String password;
     private Status status;
+    private String profilePictureURL;
     private static int lastId = 0;
 
     private long credit;
@@ -46,7 +47,8 @@ public class SaveSeller {
         SaveSeller saveSeller = gson.fromJson(data,SaveSeller.class);
         Seller seller = new Seller(saveSeller.userId,saveSeller.username,saveSeller.firstname,
                 saveSeller.lastname,saveSeller.email,saveSeller.phoneNumber,saveSeller.password,
-                saveSeller.status,saveSeller.credit,saveSeller.companyName,saveSeller.companyInfo);
+                saveSeller.status,saveSeller.credit,saveSeller.companyName,
+                saveSeller.companyInfo,saveSeller.profilePictureURL);
         Seller.addToAllSellers(seller);
         User.addToAllUsers(seller);
         saveSeller.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
@@ -56,6 +58,7 @@ public class SaveSeller {
     }
 
     public SaveSeller(Seller seller) {
+        this.profilePictureURL = seller.getProfilePictureUrl();
         this.allOffIds = new ArrayList<>();
         this.allProductIds = new ArrayList<>();
         this.allSellerLogs = new ArrayList<>();
@@ -78,7 +81,7 @@ public class SaveSeller {
     public Seller generateSeller(){
         Seller seller = new Seller(this.userId,this.username,this.firstname,
                 this.lastname,this.email,this.phoneNumber,this.password,
-                this.status,this.credit,this.companyName,this.companyInfo);
+                this.status,this.credit,this.companyName,this.companyInfo,this.profilePictureURL);
         this.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
         this.allProductIds.forEach(productId -> seller.getAllProducts().add(SaveProduct.load(productId)));
         this.allSellerLogs.forEach(sellerLog -> seller.getAllLogs().add(sellerLog.generateSellerLog()));

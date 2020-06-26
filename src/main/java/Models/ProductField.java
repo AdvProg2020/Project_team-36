@@ -104,12 +104,13 @@ public class ProductField implements Pendable {
     }
 
 
-    public ProductField(Status status, long price, Sale sale, Seller seller, int supply) {
+    public ProductField(Status status, long price, Sale sale, Seller seller, int supply,int mainProductId) {
         this.status = status;
         this.price = price;
         this.sale = sale;
         this.seller = seller;
         this.supply = supply;
+        this.mainProductId = mainProductId;
         this.allBuyers = new HashSet<>();
     }
 
@@ -179,5 +180,9 @@ public class ProductField implements Pendable {
         allBuyers.removeAll(toBeRemoved);
         if (sale != null && sale.getEndTime().before(new Date()))
             sale = null;
+    }
+
+    public int getMainProductId() {
+        return mainProductId;
     }
 }

@@ -137,8 +137,9 @@ public class Seller extends User implements Pendable {
     }
 
     public Seller(int userId, String username, String firstname, String lastname, String email, String phoneNumber,
-                  String password, Status status, long credit, String companyName, String companyInfo) {
-        super(userId, username, firstname, lastname, email, phoneNumber, password, status);
+                  String password, Status status, long credit, String companyName, String companyInfo,String
+                   profilePictureURL) {
+        super(userId, username, firstname, lastname, email, phoneNumber, password, status,profilePictureURL);
         this.credit = credit;
         this.companyName = companyName;
         this.companyInfo = companyInfo;
