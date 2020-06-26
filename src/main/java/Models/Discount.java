@@ -22,6 +22,7 @@ public class Discount {
     private ArrayList<Customer> customersIncluded;
     private static ManageDiscountCodesController manageDiscountCodesController;
     private static Discount discountToView;
+    private static Discount discountToEdit;
 
     public Discount(Date startTime, Date endTime, double discountPercent, long discountLimit, int repetitionForEachUser, ArrayList<Customer> customersIncluded) {
         this.id = makeNewId();
@@ -233,7 +234,12 @@ public class Discount {
         remove.setText("edit");
         remove.setStyle("");
         remove.setOnAction(e->{
-            manageDiscountCodesController.editAction(this);
+            discountToEdit = this;
+            try {
+                manageDiscountCodesController.editAction();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
         return remove;
     }
@@ -248,7 +254,7 @@ public class Discount {
         return discountToView;
     }
 
-    public static void setDiscountToView(Discount discountToView) {
-        Discount.discountToView = discountToView;
+    public static Discount getDiscountToEdit() {
+        return discountToEdit;
     }
 }

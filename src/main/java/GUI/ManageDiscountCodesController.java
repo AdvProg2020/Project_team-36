@@ -68,8 +68,8 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         Constants.getGuiManager().open("ViewDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
-    public void editAction(Discount discount){
-
+    public void editAction() throws IOException {
+        Constants.getGuiManager().open("EditDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
 }
