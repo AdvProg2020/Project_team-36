@@ -1,11 +1,12 @@
 package Models;
 
 import GUI.ManageProductsController;
-import javafx.scene.control.Hyperlink;
+import GUI.SellerProductsController;
+import javafx.collections.FXCollections;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,6 +31,7 @@ public class Product implements Pendable {
     private String productImageUrl;
     private String editedField;
     private static ManageProductsController manageProductsController;
+    private static SellerProductsController sellerProductsController;
 
     public String getProductImageUrl() {
         return productImageUrl;
@@ -702,6 +704,23 @@ public class Product implements Pendable {
 
     public static void setManageProductsController(ManageProductsController manageProductsController){
         Product.manageProductsController = manageProductsController;
+    }
+
+    public static void setSellerProductsController(SellerProductsController sellerProductsController) {
+        Product.sellerProductsController = sellerProductsController;
+    }
+
+    public ComboBox<String> getBuyersDropDown(){
+
+        ArrayList<String> usernames = new ArrayList<>();
+        for (Customer buyer : allBuyers) {
+            usernames.add(buyer.getUsername());
+        }
+
+        ComboBox<String> comboBox =
+                new ComboBox<>(FXCollections
+                        .observableArrayList(usernames));
+        return comboBox;
     }
 
     public HashSet<Customer> getAllBuyers() {
