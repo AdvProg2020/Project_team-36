@@ -1,5 +1,6 @@
 package GUI;
 
+import Controllers.CustomerController;
 import Models.Product;
 import Models.ProductField;
 import javafx.fxml.FXML;
@@ -51,17 +52,32 @@ public class ItemInCartController {
         }
     }
 
-    public void increase() throws IOException {
+    public void increase() throws IOException, CustomerController.NoProductWithIdInCart {
         count.setText("" + (Integer.parseInt(count.getText()) + 1));
         fill(product,productField,Integer.parseInt(count.getText()));
-        //todo: taghirate inja ro tu carti k tucustomer zakhire shode hm byd emal kni hala chjuri idk
+        try {
+            Constants.customerController.increaseProductInCart(productField.getMainProductId());
+        }catch (CustomerController.NotEnoughSupply e){
+            AlertBox.display("Out of this","We do not have more supply of this item for now!!");
+        }catch (CustomerController.MoreThanOneSellerForItem e){
+            try {
+                Constants.customerController.increaseProductInCart(productField.getSeller().getUserId(),productField.getMainProductId());
+            }catch ( CustomerController.NotEnoughSupply ee){
+                AlertBox.display("Out of this","We do not have more supply of this item for now!!");
+            }
+        }
+
         Constants.getGuiManager().reopen();
     }
 
-    public void decrease() throws IOException {
+    public void decrease() throws IOException, CustomerController.NoProductWithIdInCart {
         count.setText("" + (Integer.parseInt(count.getText()) - 1));
         fill(product,productField,Integer.parseInt(count.getText()));
-        //todo: taghirate inja ro tu carti k tucustomer zakhire shode hm byd emal kni hala chjuri idk
+        try {
+            Constants.customerController.decreaseProductInCart(productField.getMainProductId());
+        }catch (CustomerController.MoreThanOneSellerForItem e){
+            Constants.customerController.decreaseProductInCart(productField.getSeller(),productField.getMainProductId());
+        }
         Constants.getGuiManager().reopen();
     }
 }
