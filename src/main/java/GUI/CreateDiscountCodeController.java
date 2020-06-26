@@ -5,18 +5,23 @@ import Models.Discount;
 import Models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.Objects;
 
 public class CreateDiscountCodeController extends ManagerProfileController implements Initializable {
+    public Button createButton;
+    public TableView<Customer> customersIncludedTable;
+    public TableColumn<? extends Object, ? extends Object> customersIncludedColumn;
+    public TableView<Customer> availableCustomersTable;
+    public TableColumn<? extends Object, ? extends Object> availableCustomersColumn;
+    public Button removeCustomerButton;
+    public Button addCustomerButton;
     @FXML
     private Label dateError;
     @FXML
@@ -39,7 +44,6 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
     private Label usernameLabel;
     private User user;
     private ArrayList<Customer> selectedCustomers = new ArrayList<>();
-    private final ArrayList<CheckBox> customersCheckBoxes = new ArrayList<>();
 
     @Override
     public void initialize(int id) throws IOException {
@@ -74,35 +78,48 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
 
         setAvailableCustomers();
 
-        percentSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-            spinnerListener(percentSpinner);
-        });
-
-        repetitionSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-            spinnerListener(repetitionSpinner);
-        });
     }
 
-    private void setAvailableCustomers(){
-        VBox vBox = new VBox();
-        customersIncluded.setContent(vBox);
-        for (Customer customer : Customer.getAllCustomers()) {
-            CheckBox checkBox = new CheckBox(customer.getUsername());
-            checkBox.setPrefSize(120, 25);
-            checkBox.setDisable(false);
-            vBox.getChildren().add(checkBox);
-            customersCheckBoxes.add(checkBox);
-            checkBox.setOnAction(actionEvent -> {
-                for (CheckBox filterCheckBox : customersCheckBoxes) {
-                    if (filterCheckBox.isSelected()) {
-                        selectedCustomers.add((Customer)Customer.getUserByUsername(filterCheckBox.getText()));
-                    }
-                }
-            });
+
+    private void setAvailableCustomers() {
+
+        ArrayList<Customer> availableCustomers = Customer.getAllCustomers();
+
+        availableCustomersColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        customersIncludedColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+
+        availableCustomersTable.getItems().addAll(availableCustomers);
+
+    }
+
+    public void removeAction() {
+        TableView.TableViewSelectionModel<Customer> selectedUser = customersIncludedTable.getSelectionModel();
+
+        if (selectedUser.isEmpty()) {
+            return;
         }
+
+        Customer toBeRemoved = selectedUser.getSelectedItem();
+        selectedCustomers.remove(toBeRemoved);
+        customersIncludedTable.getItems().remove(toBeRemoved);
+        availableCustomersTable.getItems().add(toBeRemoved);
     }
 
-    public void createDiscountCode(){
+    public void addAction(){
+        TableView.TableViewSelectionModel<Customer> selectedUser = availableCustomersTable.getSelectionModel();
+
+        if (selectedUser.isEmpty()) {
+            return;
+        }
+
+        Customer toBeAdded = selectedUser.getSelectedItem();
+        selectedCustomers.add(toBeAdded);
+        availableCustomersTable.getItems().remove(toBeAdded);
+        customersIncludedTable.getItems().add(toBeAdded);
+    }
+
+
+    public void createDiscountCode() throws IOException {
 
         LocalDate start = startDate.getValue();
         LocalDate end = endDate.getValue();
@@ -127,28 +144,7 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
         discount.giveDiscountCodeToCustomers();
 
         AlertBox.display("Done","Discount Code Was Created SuccessFully");
-
-        this.endDate.setValue(null);
-        this.startDate.setValue(null);
-        selectedCustomers.clear();
-        repetitionSpinner.getValueFactory().setValue(0);
-        percentSpinner.getValueFactory().setValue(0);
-        this.limit.setText("");
-        for (CheckBox customersCheckBox : customersCheckBoxes) {
-            customersCheckBox.setSelected(false);
-        }
-        limitError.setVisible(false);
-        dateError.setVisible(false);
+        Constants.getGuiManager().reopen();
     }
 
-    private void spinnerListener(Spinner<Integer> spinner) {
-        if (!spinner.isEditable()) return;
-        try {
-            String text = spinner.getEditor().getText();
-            Integer.parseInt(text);
-        } catch (NumberFormatException e) {
-            percentSpinner.getValueFactory().setValue(0);
-            repetitionSpinner.getValueFactory().setValue(0);
-        }
-    }
 }
