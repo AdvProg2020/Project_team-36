@@ -7,21 +7,26 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
 
 public class CompareBoxController implements Initializable {
 
+    public GridPane title;
+    @FXML
+    private VBox mainVbox;
     @FXML
     private TextField secondProductId;
     @FXML
     private Label alertLabel;
     @FXML
-    private GridPane chart;
+    private VBox chart;
     @FXML
     private Label firstProductName;
     @FXML
@@ -39,6 +44,7 @@ public class CompareBoxController implements Initializable {
 
     public void compare(ActionEvent actionEvent) {
         chart.getChildren().clear();
+        chart.getChildren().add(title);
         int id;
         try {
             id = Integer.parseInt(secondProductId.getText());
@@ -49,6 +55,7 @@ public class CompareBoxController implements Initializable {
         try {
             secondProduct = Constants.productsController.compare(id);
             fillChart();
+            chart.setVisible(true);
         } catch (ProductsController.NoProductWithId noProductWithId) {
             alertLabel.setText("No product with this id!Try again");
         } catch (ProductsController.NotInTheSameCategory notInTheSameCategory) {
@@ -64,43 +71,40 @@ public class CompareBoxController implements Initializable {
     }
 
     private void fillChart() {
+        alertLabel.setText("");
         secondProductName.setText(secondProduct.getName());
+        chart.setPrefHeight((7+firstProduct.getFieldsOfCategory().size())*38+30);
+       mainVbox.setPrefHeight(mainVbox.getPrefHeight()+(7+firstProduct.getFieldsOfCategory().size())*38+30);
 
-        addLabel(0,0,"product id");
-        addLabel(1,0,Integer.toString(firstProduct.getProductId()));
-        addLabel(2,0,Integer.toString(firstProduct.getProductId()));
+        addLabel("product id",Integer.toString(firstProduct.getProductId()),Integer.toString(firstProduct.getProductId()));
 
-        addLabel(0,1,"company");
-        addLabel(1,1,firstProduct.getCompany());
-        addLabel(2,1,secondProduct.getCompany());
+        addLabel("company:",firstProduct.getCompany(),secondProduct.getCompany());
 
-        addLabel(0,2,"score");
-        addLabel(1,2,Double.toString(firstProduct.getScore()));
-        addLabel(2,2,Double.toString(secondProduct.getScore()));
+        addLabel("score",Double.toString(firstProduct.getScore()),Double.toString(secondProduct.getScore()));
 
-        addLabel(0,3,"production date");
-        addLabel(1,3,firstProduct.getProductionDate().toLocaleString());
-        addLabel(2,3,secondProduct.getProductionDate().toLocaleString());
+        addLabel("production date",firstProduct.getProductionDate().toLocaleString(),secondProduct.getProductionDate().toLocaleString());
 
-        addLabel(0,4,"seen number");
-        addLabel(1,4,Integer.toString(firstProduct.getSeenNumber()));
-        addLabel(2,4,Integer.toString(secondProduct.getSeenNumber()));
+        addLabel("seen number",Integer.toString(firstProduct.getSeenNumber()),Integer.toString(secondProduct.getSeenNumber()));
 
-        addLabel(0,5,"best sale percent");
+
+       String first="";
+       String second = "";
         try {
-            addLabel(1,5,firstProduct.getBestSale().getSale().getSalePercent()*100+"%");
+            first = firstProduct.getBestSale().getSale().getSalePercent()*100+"%";
         } catch (Product.NoSaleForProduct noSaleForProduct) {
-            addLabel(1,5,"-");
+           first="-";
         }
         try {
-            addLabel(2,5,firstProduct.getBestSale().getSale().getSalePercent()*100+"%");
+          second=firstProduct.getBestSale().getSale().getSalePercent()*100+"%";
         } catch (Product.NoSaleForProduct noSaleForProduct) {
-            addLabel(2,5,"-");
+            second = "-";
         }
+        addLabel("best sale percent",first,second);
 
-        addLabel(0,6,"lowest current price");
-        addLabel(1,6,Long.toString(firstProduct.getLowestCurrentPrice()));
-        addLabel(2,6,Long.toString(secondProduct.getLowestCurrentPrice()));
+        addLabel("lowest current price",Long.toString(firstProduct.getLowestCurrentPrice()),Long.toString(secondProduct.getLowestCurrentPrice()));
+
+
+
 
         addCategoryFields();
 
@@ -108,19 +112,44 @@ public class CompareBoxController implements Initializable {
     }
 
     private void addCategoryFields(){
-        int row = 7;
         for (Field field : firstProduct.getFieldsOfCategory()) {
-            addLabel(0,row,field.getName());
-            addLabel(1,row,field.getQuantityString());
-            addLabel(2,row,secondProduct.getField(field.getName()).getQuantityString());
-            row++;
+            addLabel(field.getName(),field.getQuantityString(),secondProduct.getField(field.getName()).getQuantityString());
         }
     }
 
-    private void addLabel(int j, int i, String text){
-        if(text ==null||text.isEmpty()||text.isBlank())
-            text = "-";
-        Label label = new Label(text);
-        chart.add(label,j,i);
+    private void addLabel(String field,String first,String second){
+        if(first ==null||first.isEmpty()||first.isBlank())
+            first = "-";
+        if(second ==null||second.isEmpty()||second.isBlank())
+            second = "-";
+        GridPane gridPane = new GridPane();
+        gridPane.setPrefSize(484,38);
+
+        StackPane pane =new StackPane();
+        pane.setPrefSize(160,38);
+        pane.setStyle("-fx-text-alignment: center;");
+        Label label = new Label(field);
+        label.setStyle("-fx-text-alignment: center;-fx-font-size: 13;-fx-content-display: center");
+        pane.getChildren().add(label);
+        gridPane.add(pane,0,0);
+
+        pane=new StackPane();
+        pane.setStyle("-fx-text-alignment: center");
+        pane.setPrefSize(160,38);
+        label = new Label(first);
+        label.setStyle("-fx-text-alignment: center;-fx-font-size: 13;-fx-content-display: center");
+        pane.getChildren().add(label);
+        gridPane.add(pane,1,0);
+
+        pane=new StackPane();
+        pane.setStyle("-fx-text-alignment: center");
+        pane.setPrefSize(160,38);
+        label = new Label(second);
+        label.setStyle("-fx-text-alignment: center;-fx-font-size: 13;-fx-content-display: center");
+        pane.getChildren().add(label);
+        gridPane.add(pane,2,0);
+        gridPane.setGridLinesVisible(true);
+        gridPane.setAlignment(Pos.CENTER);
+        chart.getChildren().add(gridPane);
     }
 }
