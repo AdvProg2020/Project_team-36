@@ -18,6 +18,7 @@ public class SaveCustomer {
     private String phoneNumber;
     private String password;
     private Status status;
+    private String profilePictureURL;
     private static int lastId = 0;
 
     private long credit;
@@ -33,6 +34,7 @@ public class SaveCustomer {
 
     public static void save(Customer customer){
         SaveCustomer saveCustomer = new SaveCustomer();
+        saveCustomer.profilePictureURL = customer.getProfilePictureUrl();
         saveCustomer.userId = customer.getUserId();
         saveCustomer.username = customer.getUsername();
         saveCustomer.firstname = customer.getFirstname();
@@ -64,7 +66,7 @@ public class SaveCustomer {
         SaveCustomer saveCustomer = gson.fromJson(data,SaveCustomer.class);
         Customer customer = new Customer(saveCustomer.userId,saveCustomer.username,saveCustomer.firstname,
                 saveCustomer.lastname,saveCustomer.email,saveCustomer.phoneNumber,saveCustomer.password,
-                saveCustomer.status,saveCustomer.credit);
+                saveCustomer.status,saveCustomer.credit,saveCustomer.profilePictureURL);
         Customer.addToAllCustomers(customer);
         User.addToAllUsers(customer);
         saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));
