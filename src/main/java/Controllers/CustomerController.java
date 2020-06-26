@@ -86,6 +86,7 @@ public class CustomerController extends UserController {
         ArrayList<SelectedItem> temp = new ArrayList<>();
         for (SelectedItem item : cart) {
             int index = 0;
+
             for (Seller seller : item.getSellers()) {
                 if (item.getProduct().getProductFieldBySeller(seller).getSupply() < item.getCountFromEachSeller().get(index)) {
                     temp.add(item);
@@ -97,8 +98,8 @@ public class CustomerController extends UserController {
             throw new NotEnoughSupplyInCart(temp);
     }
 
-    public ArrayList<SelectedItem> getWaitingLogItems() {
-        return ((Customer) userVariables.getLoggedInUser()).getWaitingLog().getAllItems();
+    public WaitingLog getWaitingLog() {
+        return ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
     }
 
     public void increaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem, NotEnoughSupply {
@@ -224,6 +225,7 @@ public class CustomerController extends UserController {
         Customer customer = (Customer) userVariables.getLoggedInUser();
         if (waitingLog.getPayablePrice() > customer.getCredit()) {
             waitingLog.removeDiscount();
+            cancelPurchase();
             throw new NotEnoughMoney(waitingLog.getPayablePrice() - customer.getCredit());
         }
         waitingLog.applyPurchaseChanges();
