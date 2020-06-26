@@ -5,7 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #FFFFF2;"   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManageProductsController">
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManageProductsController">
     <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
         <Pane prefHeight="149.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" text="online shop" textAlignment="CENTER" textFill="#d3d0d0">
@@ -38,7 +40,7 @@
                     <Font name="Times New Roman" size="30.0" />
                 </font>
             </Label>
-            <Label  layoutX="232.0" layoutY="47.0" prefHeight="33.0" prefWidth="230.0" text="manager" textFill="#070b07">
+            <Label layoutX="232.0" layoutY="47.0" prefHeight="33.0" prefWidth="230.0" text="manager" textFill="#070b07">
                 <font>
                     <Font name="Times New Roman" size="22.0" />
                 </font>
@@ -59,6 +61,25 @@
                         <TableColumn fx:id="removeColumn" prefWidth="200.0" text="remove product" />
                     </columns>
                 </TableView>
+            <Label layoutX="583.0" layoutY="52.0" text="Sort">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="sortName" layoutX="611.0" layoutY="48.0" onAction="#sort" prefWidth="150.0" promptText="none" >
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="name" />
+                        <String fx:value="seen" />
+                        <String fx:value="score" />
+                        <String fx:value="production date" />
+                        <String fx:value="maximum price of all" />
+                        <String fx:value="minimum price of all" />
+                        <String fx:value="supply" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <CheckBox fx:id="isAscending" disable="true" layoutX="775.0" layoutY="52.0" mnemonicParsing="false" onAction="#sort" text="is Ascending" />
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>

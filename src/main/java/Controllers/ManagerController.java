@@ -18,6 +18,7 @@ public class ManagerController extends UserController {
     private HashMap<String,Method> sortUsersMethods;
     private HashMap<String,Method> sortDiscountMethods;
     private HashMap<String,Method> sortRequestMethods;
+    private HashMap<String,Method> sortProductsMethods;
     public ManagerController(GlobalVariables userVariables) {
         super(userVariables);
         writeDiscountFieldsSetters();
@@ -28,6 +29,8 @@ public class ManagerController extends UserController {
         setSortUsersMethods();
         setSortDiscountMethods();
         setSortRequestsMethods();
+        setSortMethodsProducts();
+
 
     }
 
@@ -48,6 +51,27 @@ public class ManagerController extends UserController {
             sortDiscountMethods.put("limit", method);
         } catch (NoSuchMethodException e) {
 
+        }
+    }
+
+    private void setSortMethodsProducts() {
+        try {
+            Method method = Product.class.getDeclaredMethod("getProductionDate");
+            this.sortProductsMethods.put("production date", method);
+            method = Product.class.getDeclaredMethod("getSeenNumber");
+            this.sortProductsMethods.put("seen", method);
+            method = Product.class.getDeclaredMethod("getName");
+            this.sortProductsMethods.put("name", method);
+            method = Product.class.getDeclaredMethod("getScore");
+            this.sortProductsMethods.put("score", method);
+            method = Product.class.getDeclaredMethod("getHighestCurrentPrice");
+            this.sortProductsMethods.put("maximum price of all", method);
+            method = Product.class.getDeclaredMethod("getLowestCurrentPrice");
+            this.sortProductsMethods.put("minimum price of all", method);
+            method = Product.class.getDeclaredMethod("getTotalSupply");
+            this.sortProductsMethods.put("supply", method);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
     }
 
@@ -377,14 +401,25 @@ public class ManagerController extends UserController {
     public ArrayList<Request> sortRequests(String field,String type) throws ProductsController.NoSortException {
         ArrayList<Request> toBeReturned = new ArrayList<>();
         toBeReturned.addAll(getAllRequests());
-        for (String regex : sortDiscountMethods.keySet()) {
+        for (String regex : sortRequestMethods.keySet()) {
             if(regex.equalsIgnoreCase(field)){
                 new Sort().sort(toBeReturned,sortRequestMethods.get(regex),type.equalsIgnoreCase("ascending"));
                 return toBeReturned;
             }
         }
         throw new ProductsController.NoSortException();
+    }
 
+    public ArrayList<Product> sortProducts(String field,String type) throws ProductsController.NoSortException {
+        ArrayList<Product> toBeReturned = new ArrayList<>();
+        toBeReturned.addAll(getAllProducts());
+        for (String regex : sortProductsMethods.keySet()) {
+            if(regex.equalsIgnoreCase(field)){
+                new Sort().sort(toBeReturned,sortProductsMethods.get(regex),type.equalsIgnoreCase("ascending"));
+                return toBeReturned;
+            }
+        }
+        throw new ProductsController.NoSortException();
     }
 
     public HashMap<Integer,String> getGiftEventsName(){

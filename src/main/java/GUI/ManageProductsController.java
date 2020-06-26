@@ -1,10 +1,11 @@
 package GUI;
 
+import Controllers.ProductsController;
 import Models.Product;
+import Models.Request;
 import Models.User;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
@@ -20,6 +21,8 @@ public class ManageProductsController extends ManagerProfileController implement
     public TableColumn<?, ?> productNameColumn;
     public TableColumn<?, ?> productIdColumn;
     public TableColumn<?, ?> removeColumn;
+    public ComboBox sortName;
+    public CheckBox isAscending;
     private User user;
 
     @Override
@@ -53,5 +56,13 @@ public class ManageProductsController extends ManagerProfileController implement
 
     public void removeAction(Product product){
         allProductsTable.getItems().remove(product);
+    }
+
+    public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
+            if (isAscending.isDisable())
+                isAscending.setDisable(false);
+            ArrayList<Product> products = Constants.managerController.sortProducts(sortName.getValue().toString(), isAscending.isSelected() ? "ascending" : "descending");
+            setTheTable(products);
+
     }
 }

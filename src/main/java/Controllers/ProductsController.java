@@ -10,9 +10,9 @@ import java.util.Set;
 
 public class ProductsController implements ObjectController {
     private final GlobalVariables userVariables;
-    protected HashMap<String, Method> sortMethods;
-    protected HashMap<String, Method> optionalFilterMethods;
-    protected HashMap<String, Method> integerFilterMethods;
+    private final HashMap<String, Method> sortMethods;
+    private final HashMap<String, Method> optionalFilterMethods;
+    private final HashMap<String, Method> integerFilterMethods;
 
     public ProductsController(GlobalVariables userVariables) {
         this.userVariables = userVariables;
