@@ -66,9 +66,8 @@
                      <children>
                         <TreeTableView fx:id="allCategoriesTable" layoutX="100.0" layoutY="83.0" prefHeight="297.0" prefWidth="801.0">
                           <columns>
-                            <TreeTableColumn fx:id="nameColumn" prefWidth="267.0" text="Category Name" />
-                            <TreeTableColumn fx:id="viewColumn" prefWidth="267.0" text="View" />
-                              <TreeTableColumn fx:id="editColumn" prefWidth="267.0" text="edit" />
+                            <TreeTableColumn fx:id="nameColumn" prefWidth="381.5999755859375" text="Category Name" />
+                              <TreeTableColumn fx:id="editColumn" prefWidth="420.00006103515625" text="edit" />
                           </columns>
                         </TreeTableView>
                         <Button layoutX="100.0" layoutY="48.0" mnemonicParsing="false" onAction="#openAddNewCategory" text="+ Add a new category" />

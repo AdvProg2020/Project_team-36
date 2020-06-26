@@ -96,15 +96,26 @@ public class SelectedItem {
 
     public void updateSelectedItem(){
         ArrayList<Seller> temp = new ArrayList<>();
-        int i =0;
+        ArrayList<Integer> index = new ArrayList<>();
         for (Seller seller : this.sellers) {
             if(seller.getStatus().equals(Status.DELETED)||!User.isThereUsername(seller.getUsername())||!product.getAllSellers().contains(seller)){
                 temp.add(seller);
-                countFromEachSeller.remove(i);
+                index.add(sellers.indexOf(seller));
+            }else if(countFromEachSeller.get(this.sellers.indexOf(seller))<product.getProductFieldBySeller(seller).getSupply()){
+                    if(product.getProductFieldBySeller(seller).getSupply()==0){
+                        temp.add(seller);
+                        index.add(sellers.indexOf(seller));
+                    }
+                    else{
+                        countFromEachSeller.set(this.sellers.indexOf(seller),product.getProductFieldBySeller(seller).getSupply());
+                    }
+
             }
-            i++;
         }
         this.sellers.removeAll(temp);
+        for(int i=index.size()-1;i>=0;i--){
+            countFromEachSeller.remove(index.get(i));
+        }
     }
 
 

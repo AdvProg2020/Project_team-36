@@ -68,6 +68,10 @@ public class ItemInLog {
         return itemsInLog;
     }
 
+    public String getSalePercentForTable(){
+        return Integer.toString((int)(salePercent*100))+"%";
+    }
+
     public static ItemInLog createItemInLog(SelectedItem selectedItem, Seller seller){
         int index = selectedItem.getSellers().indexOf(seller);
         int count = selectedItem.getCountFromEachSeller().get(index);

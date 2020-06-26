@@ -84,6 +84,7 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     }
 
     public void openAddNewCategory(ActionEvent actionEvent) {
+        //todo
     }
 
     public void removeAction(){
@@ -109,7 +110,8 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     }
 
     public void editAction(Category category){
-
+//todo
     }
+
 }
 
