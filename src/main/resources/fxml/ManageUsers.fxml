@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -65,6 +67,26 @@
                     </font>
                 </Button>
             <Button layoutX="302.0" layoutY="37.0" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
+            <Label layoutX="593.0" layoutY="36.0" prefHeight="26.0" prefWidth="28.0" text="Sort">
+               <font>
+                  <Font name="System Italic" size="13.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="sortName" layoutX="621.0" layoutY="37.0" onAction="#sort" prefWidth="150.0" promptText="none">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="username" />
+                        <String fx:value="firstname" />
+                        <String fx:value="lastname" />
+                        <String fx:value="type" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <CheckBox fx:id="isAscending" disable="true" layoutX="783.0" layoutY="36.0" mnemonicParsing="false" onAction="#setAscending" prefHeight="26.0" prefWidth="103.0" text="is Ascending">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </CheckBox>
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>

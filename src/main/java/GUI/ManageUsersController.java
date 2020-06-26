@@ -1,14 +1,12 @@
 package GUI;
 
+import Controllers.ProductsController;
 import Models.Category;
 import Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
@@ -25,6 +23,8 @@ public class ManageUsersController extends ManagerProfileController implements I
     public TableColumn<?, ?> roleColumn;
     public Label usernameLabel;
     public TableColumn<?, ?> viewColumn;
+    public ComboBox sortName;
+    public CheckBox isAscending;
     private User user;
 
     @Override
@@ -47,6 +47,7 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
     private void setTheTable(ArrayList<User> allUsers){
+        allUsersTable.getItems().clear();
         User.setManageUsersController(this);
         allUsersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
@@ -83,5 +84,28 @@ public class ManageUsersController extends ManagerProfileController implements I
 
     public void openCreateNewManager(ActionEvent actionEvent) {
 
+    }
+
+    public void setAscending(ActionEvent actionEvent) throws ProductsController.NoSortException {
+        if(isAscending.isSelected()){
+            ArrayList<User> users =Constants.managerController.sortUsers(sortName.getValue().toString(),"ascendnig");
+            setTheTable(users);
+        }
+        else{
+            ArrayList<User> users = Constants.managerController.sortUsers(sortName.getValue().toString(),"descending");
+            setTheTable(users);
+        }
+    }
+
+    public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
+        isAscending.setDisable(false);
+        if(isAscending.isSelected()){
+            ArrayList<User> users =Constants.managerController.sortUsers(sortName.getValue().toString(),"ascendnig");
+            setTheTable(users);
+        }
+        else{
+            ArrayList<User> users = Constants.managerController.sortUsers(sortName.getValue().toString(),"descending");
+            setTheTable(users);
+        }
     }
 }

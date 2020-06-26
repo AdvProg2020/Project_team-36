@@ -57,6 +57,8 @@ public class ManagerController extends UserController {
             sortUsersMethods.put("lastname", method);
             method = User.class.getDeclaredMethod("getFirstname");
             sortUsersMethods.put("firstname", method);
+            method = User.class.getDeclaredMethod("getType");
+            sortUsersMethods.put("type", method);
         } catch (NoSuchMethodException e) {
         }
     }
