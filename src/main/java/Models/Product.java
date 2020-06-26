@@ -32,6 +32,9 @@ public class Product implements Pendable {
     private String editedField;
     private static ManageProductsController manageProductsController;
 
+    public String getProductImageUrl() {
+        return productImageUrl;
+    }
 
     public static void addTest(){
         ArrayList<Field> fields = new ArrayList<>();
@@ -188,12 +191,16 @@ public class Product implements Pendable {
 
     }
 
-    public Product(int productId, String name, String company, Category category, ArrayList<Field> fieldsOfCategory, String information, Date productionDate, int seenNumber) {
+    public Product(int productId, String name, String company, Category category,
+                   ArrayList<IntegerField> integerFieldsOfCategory,ArrayList<OptionalField> optionalFieldsOfCategory,
+                   String information, Date productionDate, int seenNumber, String productImageURL) {
+        this.productImageUrl = productImageURL;
         this.productId = productId;
         this.name = name;
         this.company = company;
         this.category = category;
-        this.fieldsOfCategory = fieldsOfCategory;
+        optionalFieldsOfCategory.forEach(fieldsOfCategory -> this.fieldsOfCategory.add(fieldsOfCategory));
+        integerFieldsOfCategory.forEach(fieldsOfCategory -> this.fieldsOfCategory.add(fieldsOfCategory));
         this.information = information;
         this.productionDate = productionDate;
         this.seenNumber = seenNumber;
@@ -696,6 +703,10 @@ public class Product implements Pendable {
 
     public static void setManageProductsController(ManageProductsController manageProductsController){
         Product.manageProductsController = manageProductsController;
+    }
+
+    public HashSet<Customer> getAllBuyers() {
+        return allBuyers;
     }
 
     public static class NoSaleForProduct extends Exception{
