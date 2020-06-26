@@ -167,7 +167,7 @@ public abstract class User{
     }
 
     public User(int userId, String username, String firstname, String lastname,
-                String email, String phoneNumber, String password, Status status) {
+                String email, String phoneNumber, String password, Status status,String profilePictureURL) {
         this.userId = userId;
         this.username = username;
         this.firstname = firstname;
@@ -176,6 +176,7 @@ public abstract class User{
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.status = status;
+        this.profilePictureUrl = profilePictureURL;
     }
 
     public static void addToAllUsers(User user){
