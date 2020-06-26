@@ -4,22 +4,22 @@ import java.io.IOException;
 
 public abstract class SellerProfileController {
     public void openPersonalInfo() throws IOException {
-        Constants.getGuiManager().open("ManagerPersonalInfo",Constants.globalVariables.getLoggedInUser().getUserId());
+        Constants.getGuiManager().open("SellerPersonalInfo",Constants.globalVariables.getLoggedInUser().getUserId());
     }
     public void openSalesHistory() throws IOException {
-        Constants.getGuiManager().open("ManageProducts",Constants.globalVariables.getLoggedInUser().getUserId());
+        Constants.getGuiManager().open("SalesHistory",Constants.globalVariables.getLoggedInUser().getUserId());
     }
     public void openManageProducts() throws IOException {
-        Constants.getGuiManager().open("ManageUsers",Constants.globalVariables.getLoggedInUser().getUserId());
+        Constants.getGuiManager().open("SellerProducts",Constants.globalVariables.getLoggedInUser().getUserId());
     }
     public void openShowCategories() throws IOException {
-        Constants.getGuiManager().open("ManageDiscountCodes",Constants.globalVariables.getLoggedInUser().getUserId());
+        Constants.getGuiManager().open("ShowCategories",Constants.globalVariables.getLoggedInUser().getUserId());
     }
     public void openViewBalance() throws IOException {
-        Constants.getGuiManager().open("ManageCategories",Constants.globalVariables.getLoggedInUser().getUserId());
+        Constants.getGuiManager().open("ViewBalance",Constants.globalVariables.getLoggedInUser().getUserId());
     }
     public void openViewOffs() throws IOException {
-        Constants.getGuiManager().open("ManageRequests",Constants.globalVariables.getLoggedInUser().getUserId());
+        Constants.getGuiManager().open("ViewOffs",Constants.globalVariables.getLoggedInUser().getUserId());
     }
     public void back() throws IOException {
         Constants.getGuiManager().back();
