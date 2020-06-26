@@ -43,7 +43,7 @@ public class Sale implements Pendable {
         this.productsInSale = new ArrayList<>();
         this.seller = sale.seller;
         this.offId = sale.offId;
-        this.productsInSale = sale.productsInSale;
+        this.productsInSale = new ArrayList<>(sale.productsInSale);
         this.status = sale.status;
         this.startTime = sale.startTime;
         this.endTime = sale.endTime;
@@ -115,7 +115,7 @@ public class Sale implements Pendable {
     }
 
     public static boolean isThereSaleWithId(int offId){
-        //TODO: updateSales
+        updateSales();
         for (Sale sale : allSales) {
             if(sale.getOffId()==offId){
                 return true;
@@ -155,20 +155,11 @@ public class Sale implements Pendable {
             return;
         }
         Sale mainSale = getSaleWithId(this.offId);
-        switch (editedField){
-            case "startTime":
-                mainSale.setStartTime(this.startTime);
-                break;
-            case "endTime":
-                mainSale.setEndTime(this.endTime);
-                break;
-            case "salePercent":
-                mainSale.setSalePercent(this.salePercent);
-                break;
-            case "productsInSale":
-                mainSale.setProductsInSale(this.productsInSale);
-                break;
-        }
+
+        mainSale.setEndTime(this.endTime);
+        mainSale.setStartTime(this.startTime);
+        mainSale.setSalePercent(this.salePercent);
+        mainSale.setProductsInSale(this.productsInSale);
     }
 
     @Override
@@ -231,7 +222,8 @@ public class Sale implements Pendable {
     }
 
     public void setProductsInSale(ArrayList<Product> productsInSale) {
-        this.productsInSale = productsInSale;
+        this.productsInSale.clear();
+        this.productsInSale.addAll(productsInSale);
     }
 
     public void removeProducts(ArrayList<Product> products){
