@@ -154,7 +154,8 @@ public class CartMenu extends Menu {
                 System.out.println("invalid command! Try again please");
             } else {
                 try {
-                    customerController.increaseProductInCart(Integer.parseInt(input), (productId));
+                    int sellerId=0;
+                    customerController.increaseProductInCart(sellerId, (productId));
                     System.out.println("Increased successfully");
                     return;
                 } catch (CustomerController.NotEnoughSupply e) {
