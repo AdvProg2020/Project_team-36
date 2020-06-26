@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
@@ -24,11 +25,14 @@ public class ItemInCartController {
     private Button increase;
     @FXML
     private Button decrease;
+    @FXML
+    private ImageView image;
 
     private Product product;
     private ProductField productField;
 
     public void fill(Product product, ProductField productField, int count) {
+        image.setImage(product.getProductImage(150,125).getImage());
         this.product = product;
         this.productField = productField;
         productName.setText(product.getName());
