@@ -40,7 +40,7 @@ public abstract class User{
     }
 
     public static void addTest(){
-        Customer customer = new Customer("sahar");
+        Seller customer = new Seller("sahar");
         Manager customer1 = new Manager("sayeh");
         customer.setEmail("dsbh@c.co");
         customer.setPassword("sahar");
@@ -54,7 +54,7 @@ public abstract class User{
         customer1.setProfilePictureUrl("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\seller.png");
         allUsers.add(customer);
         allUsers.add(customer1);
-        Customer.getAllCustomers().add(customer);
+        Seller.getAllSellers().add(customer);
         allUsernames.add("sayeh");
         allUsernames.add("sahar");
 

@@ -7,6 +7,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,6 +33,8 @@ public class Product implements Pendable {
     private ImageView productImage;
     private String productImageUrl;
     private String editedField;
+    private static Product productToEdit;
+    private static Product productToView;
     private static ManageProductsController manageProductsController;
     private static SellerProductsController sellerProductsController;
 
@@ -55,7 +60,7 @@ public class Product implements Pendable {
         Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
         Product product = new Product("abc","team36",new Category("testingCategory"),fields,
                 "this a string of information about this product.",new ProductField(2000,seller,
-                100,0),new Date());
+                100,0),new Date(), "/images/edit.png");
         product.setProductImage(new ImageView(image));
         ArrayList<Product> sale=  new ArrayList<>();
         sale.add(product);
@@ -95,7 +100,7 @@ public class Product implements Pendable {
         Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
         Product product = new Product("def","team37",new Category("nazanin"),fields,
                 "this a string of information about that product.",new ProductField(755555,seller,
-                0,123),new Date());
+                0,123),new Date(), "/images/edit.png");
         product.setProductImage(new ImageView(image));
         ArrayList<Product> sale=  new ArrayList<>();
         sale.add(product);
@@ -136,11 +141,11 @@ public class Product implements Pendable {
             Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
             Product product = new Product("nazanin", "shalalay", new Category("NAZANIN"), fields,
                     "this a string of information about nazanin.", new ProductField(i*4567+45, seller,
-                    i*23+4, 456), new Date());
+                    i*23+4, 456), new Date(), "/images/edit.png");
             product.setProductImage(new ImageView(image));
             ArrayList<Product> sale = new ArrayList<>();
             sale.add(product);
-            product.productImageUrl = "/images/edit.png";
+           // product.productImageUrl = ;
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             dateFormat.setLenient(false);
             Date startDate = null;
@@ -162,9 +167,9 @@ public class Product implements Pendable {
     }
 
     public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
-                   String information, ProductField productField, Date productionDate) {
+                   String information, ProductField productField, Date productionDate, String productImageURL) {
         this.productFields = new ArrayList<>();
-        this.fieldsOfCategory = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>(fieldsOfCategory);
         this.allBuyers = new HashSet<>();
         this.allComments = new ArrayList<>();
         this.allScore = new ArrayList<>();
@@ -172,11 +177,11 @@ public class Product implements Pendable {
         this.name = name;
         this.company = company;
         this.category = category;
-        this.fieldsOfCategory = fieldsOfCategory;
         this.information = information;
         this.productFields.add(productField);
         this.productionDate = productionDate;
         productField.setMainProductId(this.productId);
+        this.productImageUrl = productImageURL;
     }
 
     public Product(Product product, ProductField productField) {
@@ -187,7 +192,7 @@ public class Product implements Pendable {
         this.company = product.getCompany();
         this.category = product.getCategory();
         this.productFields.add(productField);
-        this.fieldsOfCategory = product.getFieldsOfCategory();
+        this.fieldsOfCategory = new ArrayList<>(product.getFieldsOfCategory());
         this.information = product.getInformation();
 
     }
@@ -681,12 +686,16 @@ public class Product implements Pendable {
         return productImage;
     }
 
-    public ImageView getSmallProductImage(){
-        return new ImageView(new Image(getClass().getResource(this.productImageUrl).toExternalForm(),50,50,false,false));
+    public ImageView getSmallProductImage() throws MalformedURLException {
+        File file = new File (this.productImageUrl);
+        String path = file.toURI().toURL().toString();
+        return new ImageView(new Image(path,50,50,false,false));
     }
 
-    public ImageView getProductImage(int height, int width) {
-        Image image = new Image(Product.class.getResource(this.productImageUrl).toExternalForm(),width,height,false,false);
+    public ImageView getProductImage(int height, int width) throws MalformedURLException {
+        File file = new File (this.productImageUrl);
+        String path = file.toURI().toURL().toString();
+        Image image = new Image(path,width,height,false,false);
         return new ImageView(image);
     }
 
@@ -698,6 +707,36 @@ public class Product implements Pendable {
             removeProduct(this);
             updateAllProducts();
             manageProductsController.removeAction(this);
+        });
+        return remove;
+    }
+
+    public Hyperlink getViewHyperlink(){
+        Hyperlink view = new Hyperlink();
+        view.setText("view");
+        view.setStyle("");
+        view.setOnAction(e->{
+            productToView = this;
+            try {
+                sellerProductsController.viewAction();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+        return view;
+    }
+
+    public Hyperlink getEditHyperlink(){
+        Hyperlink remove = new Hyperlink();
+        remove.setText("edit");
+        remove.setStyle("");
+        remove.setOnAction(e->{
+            productToEdit = this;
+            try {
+                sellerProductsController.editAction();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         });
         return remove;
     }
@@ -729,5 +768,13 @@ public class Product implements Pendable {
 
     public static class NoSaleForProduct extends Exception{
 
+    }
+
+    public static Product getProductToEdit() {
+        return productToEdit;
+    }
+
+    public static Product getProductToView() {
+        return productToView;
     }
 }

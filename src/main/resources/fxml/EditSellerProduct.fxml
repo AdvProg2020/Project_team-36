@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ViewOffsController">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="GUI.EditSellerProductController"
+            prefHeight="705.0" prefWidth="1360.0">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -30,6 +37,16 @@
             <children>
                 <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
                     <children>
+                        <Button alignment="BASELINE_LEFT" layoutX="836.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #556B2F;" text="Edit Info" textFill="#ebe29d">
+                            <graphic>
+                                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/edit.png" />
+                                    </image></ImageView>
+                            </graphic>
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font></Button>
                         <Label fx:id="usernameLabel" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
                             <font>
                                 <Font name="Times New Roman" size="30.0" />
@@ -52,22 +69,7 @@
                 </Pane>
                 <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
-                            <TableView fx:id="allOffsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
-                                <columns>
-                                    <TableColumn fx:id="offIdColumn" prefWidth="200.0" sortable="false" text="Off Id" />
-                                    <TableColumn fx:id="percentColumn" minWidth="0.0" prefWidth="200.0" text="Off Percent" />
-                                    <TableColumn fx:id="viewColumn" minWidth="0.0" prefWidth="200.0" text="view" />
-                                    <TableColumn fx:id="editColumn" prefWidth="200.0" text="edit" />
-                                </columns>
-                            </TableView>
-                            <Button layoutX="78.0" layoutY="37.0" mnemonicParsing="false" onAction="#openCreateOff" prefHeight="25.0" prefWidth="212.0" text="+ create a new Off">
-                                <font>
-                                    <Font name="System Bold" size="12.0" />
-                                </font>
-                            </Button>
-                     <Button layoutX="307.0" layoutY="37.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
-                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;" />
                     </content>
                 </ScrollPane>
             </children>

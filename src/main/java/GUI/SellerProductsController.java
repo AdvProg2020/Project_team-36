@@ -59,6 +59,14 @@ public class SellerProductsController extends SellerProfileController implements
         allProductsTable.getItems().addAll(allProducts);
     }
 
+    public void viewAction() throws IOException {
+        Constants.getGuiManager().open("ViewSellerProduct",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
+
+    public void editAction() throws IOException {
+        Constants.getGuiManager().open("EditSellerProduct",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
+
 
     public void removeAction() {
 
@@ -73,7 +81,7 @@ public class SellerProductsController extends SellerProfileController implements
         allProductsTable.getItems().remove(toBeRemoved);
     }
 
-    public void addNewProductAction() {
-
+    public void addNewProductAction() throws IOException {
+        Constants.getGuiManager().open("AddNewProduct",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 }
