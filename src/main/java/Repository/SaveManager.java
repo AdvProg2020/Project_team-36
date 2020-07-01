@@ -58,4 +58,8 @@ public class SaveManager {
         User.addToAllUsers(manager);
         return manager;
     }
+
+    public static int getLastId() {
+        return lastId;
+    }
 }

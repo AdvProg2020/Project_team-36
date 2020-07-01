@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class FileUtil {
+public class  FileUtil {
     public static void write(String address, String data){
         try {
             FileWriter myWriter = new FileWriter(address);

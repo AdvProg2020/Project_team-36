@@ -87,4 +87,8 @@ public class SaveSeller {
         this.allSellerLogs.forEach(sellerLog -> seller.getAllLogs().add(sellerLog.generateSellerLog()));
         return seller;
     }
+
+    public static int getLastId() {
+        return lastId;
+    }
 }

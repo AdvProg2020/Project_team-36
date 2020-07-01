@@ -4,6 +4,7 @@ import Models.Category;
 import Models.Manager;
 import Models.Product;
 import Models.User;
+import Repository.RepositoryManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -31,6 +32,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Constants.getGuiManager().setStage(stage);
+
+        RepositoryManager.loadData();
+
         String firstPage = "ManagerRegister";
 
         if (!Manager.canManagerRegister())
@@ -40,7 +44,8 @@ public class Main extends Application {
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
         Constants.globalVariables.setLoggedInUser(User.getUserById(2));
-        Constants.getGuiManager().open(firstPage, 1);
+        Constants.getGuiManager().open(firstPage, 1000);
         stage.show();
+        stage.setOnCloseRequest(windowEvent -> RepositoryManager.saveData());
     }
 }

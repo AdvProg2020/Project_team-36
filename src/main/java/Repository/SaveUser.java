@@ -21,4 +21,12 @@ public class SaveUser {
         }
         return null;
     }
+
+    public static int getLastId() {
+        return lastId;
+    }
+
+    public static void setLastId(int lastId) {
+        SaveUser.lastId = lastId;
+    }
 }

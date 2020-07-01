@@ -45,7 +45,7 @@ public class DiscountsController {
         allDiscounts.setItems(FXCollections.observableList(discountTables));
     }
 
-    private class DiscountTable{
+    public class DiscountTable{
         private int id;
         private Date startTime;
         private Date endTime;

@@ -57,4 +57,8 @@ public class SaveDiscount {
         saveDiscount.customersIncludedIds.forEach(customerIncludedId -> discount.getCustomersIncluded().add(SaveCustomer.load(customerIncludedId)));
         return discount;
     }
+
+    public static int getLastId() {
+        return lastId;
+    }
 }

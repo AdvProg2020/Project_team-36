@@ -140,7 +140,7 @@ public class Discount {
         this.repetitionForEachUser = repetitionForEachUser;
     }
 
-    public void setTotalCodesMade(int totalCodesMade) {
+    public static void setTotalCodesMade(int totalCodesMade) {
         Discount.totalCodesMade = totalCodesMade;
     }
 
@@ -257,4 +257,5 @@ public class Discount {
     public static Discount getDiscountToEdit() {
         return discountToEdit;
     }
+
 }

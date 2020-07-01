@@ -33,20 +33,25 @@ public class GUIManager {
 
     public void back() throws IOException {
         if (openedParents.size() > 1) {
-            openedParents.remove(openedParents.size() - 1);
-            openedParentsIds.remove(openedParentsIds.size() - 1);
-            open(openedParents.remove(openedParents.size() - 1),
-                    openedParentsIds.remove(openedParentsIds.size() - 1));
+            if (openedParents.get(openedParents.size() - 1).equals("ManagerRegister") &&
+                    openedParentsIds.get(openedParentsIds.size() - 1) == 1000){
+                reopen();
+            }else {
+                openedParents.remove(openedParents.size() - 1);
+                openedParentsIds.remove(openedParentsIds.size() - 1);
+                open(openedParents.remove(openedParents.size() - 1),
+                        openedParentsIds.remove(openedParentsIds.size() - 1));
+            }
         }
     }
 
-    public void login(){
-         LoginBox loginBox = new LoginBox();
-         this.loginStage = loginBox.getWindow();
-         loginBox.display();
+    public void login() {
+        LoginBox loginBox = new LoginBox();
+        this.loginStage = loginBox.getWindow();
+        loginBox.display();
     }
 
-    public void successfulLogin(){
+    public void successfulLogin() {
         loginStage.close();
         try {
             reopen();
@@ -77,7 +82,7 @@ public class GUIManager {
         return loginStage;
     }
 
-    public void openRegister(){
+    public void openRegister() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/RegisterMenu.fxml"));
         Parent parent = null;
         try {
@@ -89,7 +94,7 @@ public class GUIManager {
 
     }
 
-    public void openLogin(){
+    public void openLogin() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/LoginMenu.fxml"));
         Parent parent = null;
         try {

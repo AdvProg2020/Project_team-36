@@ -23,6 +23,10 @@ public class Gift {
         allGifts.add(this);
     }
 
+    public static ArrayList<Gift> getAllGifts() {
+        return allGifts;
+    }
+
     public void setEvent(Event event) {
         this.event = event;
     }

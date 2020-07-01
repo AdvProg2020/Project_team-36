@@ -74,4 +74,8 @@ public class SaveCustomer {
         saveCustomer.allDiscountsForCustomer.forEach((key,value) -> customer.getAllDiscountsForCustomer().put(SaveDiscount.load(key),value));
         return customer;
     }
+
+    public static int getLastId() {
+        return lastId;
+    }
 }

@@ -27,6 +27,10 @@ public class Sale implements Pendable {
     private static ViewOffsController viewOffsController;
 
 
+    public static ArrayList<Sale> getAllSales() {
+        return allSales;
+    }
+
     public Sale(Seller seller, ArrayList<Product> productsInSale, Date startTime, Date endTime, Double salePercent) {
         this.productsInSale = new ArrayList<>();
         this.seller = seller;

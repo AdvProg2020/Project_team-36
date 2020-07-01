@@ -249,7 +249,21 @@ public abstract class User{
         User.manageUsersController = manageUsersController;
     }
 
+    public static void setTotalUsersMade(int totalUsersMade) {
+        User.totalUsersMade = totalUsersMade;
+    }
+
+    public static int getTotalUsersMade() {
+        return totalUsersMade;
+    }
+
     public static User getUserToView() {
         return userToView;
     }
+
+    public static void addUsernameToList(String username){
+        allUsernames.add(username);
+    }
+
+
 }

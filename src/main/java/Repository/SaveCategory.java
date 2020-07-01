@@ -19,6 +19,10 @@ public class SaveCategory {
     private List<Integer> productsIds;
     private static int lastId = 0;
 
+    public static int getLastId() {
+        return lastId;
+    }
+
     private SaveCategory() {
         subCategoriesIds = new ArrayList<>();
         productsIds = new ArrayList<>();
