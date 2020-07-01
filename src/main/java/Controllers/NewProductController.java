@@ -6,22 +6,29 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class NewProductController {
     private Seller seller;
     private String name;
     private String company;
     private Category category;
-    private ArrayList<Field> fieldsOfCategory;
+    private HashMap<String,Field> fieldsOfCategory;
     private ArrayList<Field> neededFields;
     private String information;
     private ProductField productField;
     private Date productionDate;
+    private String imagePath;
 
     public NewProductController(SellerController sellerController) {
-        fieldsOfCategory = new ArrayList<>();
+        fieldsOfCategory = new HashMap<>();
         neededFields = new ArrayList<>();
         seller = (Seller)sellerController.userVariables.getLoggedInUser();
+    }
+
+    public NewProductController() {
+        fieldsOfCategory = new HashMap<>();
+        neededFields = new ArrayList<>();
     }
 
     public void setName(String name) {
@@ -43,6 +50,11 @@ public class NewProductController {
         throw new InvalidCategoryName();
     }
 
+    public void setCategory(Category category){
+        this.category = category;
+        //neededFields.addAll(category.getAllFields());
+    }
+
     public ArrayList<Field> getNeededFields(){
         return neededFields;
     }
@@ -52,14 +64,22 @@ public class NewProductController {
             if(value.matches("\\d+\\.?\\d+")){
                 IntegerField newField = new IntegerField(field.getName());
                 newField.setValue(value);
-                fieldsOfCategory.add(newField);
+                if(fieldsOfCategory.containsKey(field.getName())){
+                    fieldsOfCategory.replace(field.getName(),newField);
+                } else {
+                    fieldsOfCategory.put(field.getName(), newField);
+                }
             } else {
                 throw new InvalidFieldValue();
             }
         } else if (field instanceof OptionalField){
             OptionalField newField = new OptionalField(field.getName());
             newField.setValue(value);
-            fieldsOfCategory.add(newField);
+            if(fieldsOfCategory.containsKey(field.getName())){
+                fieldsOfCategory.replace(field.getName(),newField);
+            } else {
+                fieldsOfCategory.put(field.getName(), newField);
+            }
         }
 
     }
@@ -69,6 +89,10 @@ public class NewProductController {
     }
 
     public void setProductField(long price, int supply) {
+        this.productField = new ProductField(price,seller,supply,0);
+    }
+
+    public void setProductField(long price, int supply, Seller seller) {
         this.productField = new ProductField(price,seller,supply,0);
     }
 
@@ -84,9 +108,17 @@ public class NewProductController {
 
     public void sendNewProductRequest(){
         setProductionDate();
-        Product product = new Product(name,company,category,fieldsOfCategory,information,productField,productionDate);
+        ArrayList<Field> fields = new ArrayList<>();
+        for (String field : fieldsOfCategory.keySet()) {
+            fields.add(fieldsOfCategory.get(field));
+        }
+        Product product = new Product(name,company,category,fields,information,productField,productionDate, imagePath);
         productField.setMainProductId(product.getProductId());
         new Request(product,Status.TO_BE_ADDED);
+    }
+
+    public void setImage(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public static class InvalidCategoryName extends Exception{

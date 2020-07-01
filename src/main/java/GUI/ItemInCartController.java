@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class ItemInCartController {
     @FXML
@@ -32,7 +33,7 @@ public class ItemInCartController {
     private Product product;
     private ProductField productField;
 
-    public void fill(Product product, ProductField productField, int count) {
+    public void fill(Product product, ProductField productField, int count) throws MalformedURLException {
         image.setImage(product.getProductImage(150,125).getImage());
         this.product = product;
         this.productField = productField;

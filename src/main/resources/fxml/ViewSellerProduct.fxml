@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ViewOffsController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ViewSellerProductController">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -30,6 +31,16 @@
             <children>
                 <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
                     <children>
+                        <Button alignment="BASELINE_LEFT" layoutX="836.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #556B2F;" text="Edit Info" textFill="#ebe29d">
+                            <graphic>
+                                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/edit.png" />
+                                    </image></ImageView>
+                            </graphic>
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font></Button>
                         <Label fx:id="usernameLabel" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
                             <font>
                                 <Font name="Times New Roman" size="30.0" />
@@ -53,20 +64,39 @@
                 <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
-                            <TableView fx:id="allOffsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
-                                <columns>
-                                    <TableColumn fx:id="offIdColumn" prefWidth="200.0" sortable="false" text="Off Id" />
-                                    <TableColumn fx:id="percentColumn" minWidth="0.0" prefWidth="200.0" text="Off Percent" />
-                                    <TableColumn fx:id="viewColumn" minWidth="0.0" prefWidth="200.0" text="view" />
-                                    <TableColumn fx:id="editColumn" prefWidth="200.0" text="edit" />
-                                </columns>
-                            </TableView>
-                            <Button layoutX="78.0" layoutY="37.0" mnemonicParsing="false" onAction="#openCreateOff" prefHeight="25.0" prefWidth="212.0" text="+ create a new Off">
-                                <font>
-                                    <Font name="System Bold" size="12.0" />
-                                </font>
-                            </Button>
-                     <Button layoutX="307.0" layoutY="37.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
+                            <children>
+                                <Label layoutX="87.0" layoutY="33.0" text="Name:" />
+                                <Label layoutX="86.0" layoutY="77.0" text="Company:" />
+                                <Label layoutX="90.0" layoutY="198.0" text="Information:" />
+                                <TextField fx:id="productName" editable="false" layoutX="193.0" layoutY="29.0" />
+                                <TextField fx:id="productCompany" editable="false" layoutX="193.0" layoutY="73.0" />
+                                <TextField fx:id="productInfo" editable="false" layoutX="192.0" layoutY="186.0" prefHeight="41.0" prefWidth="252.0">
+                                    <cursor>
+                                        <Cursor fx:constant="TEXT" />
+                                    </cursor>
+                                </TextField>
+                                <TreeTableView fx:id="categoryTable" layoutX="192.0" layoutY="261.0" prefHeight="138.0" prefWidth="150.0">
+                                    <columns>
+                                        <TreeTableColumn fx:id="categoriesColumn" prefWidth="149.0" text="Categories" />
+                                    </columns>
+                                </TreeTableView>
+                                <Label layoutX="87.0" layoutY="273.0" text="Category:" />
+                                <VBox fx:id="fieldNameVBox" layoutX="657.0" layoutY="208.0" prefHeight="193.0" prefWidth="121.0" />
+                                <VBox fx:id="fieldValueVBox" layoutX="800.0" layoutY="208.0" prefHeight="193.0" prefWidth="150.0" />
+                                <HBox layoutX="573.0" layoutY="41.0" prefHeight="109.0" prefWidth="305.0">
+                                    <children>
+                                        <AnchorPane prefHeight="109.0" prefWidth="323.0">
+                                            <children>
+                                                <ImageView fx:id="image" fitHeight="100.0" fitWidth="100.0" layoutX="172.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+                                                 </children>
+                                        </AnchorPane>
+                                    </children>
+                                </HBox>
+                                <TextField fx:id="price" editable="false" layoutX="193.0" layoutY="113.0" />
+                                <TextField fx:id="supply" editable="false" layoutX="193.0" layoutY="150.0" />
+                                <Label layoutX="90.0" layoutY="117.0" text="Price:" />
+                                <Label layoutX="91.0" layoutY="154.0" text="Supply:" />
+                            </children>
                         </AnchorPane>
                     </content>
                 </ScrollPane>

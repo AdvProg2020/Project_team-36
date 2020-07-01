@@ -104,12 +104,12 @@ public class AddOffController extends SellerPersonalInfoController implements In
 
     private void addTextFieldListener() {
         startDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (startDate.getEditor().getText().contains("[^\\d]"))
+            if (newValue.matches("[^\\d]+"))
                 startDate.getEditor().setText(startDate.getEditor().getText().replaceAll("[^\\d]", ""));
         });
 
         endDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (endDate.getEditor().getText().contains("[^\\d]"))
+            if (newValue.matches("[^\\d]+"))
                 endDate.getEditor().setText(endDate.getEditor().getText().replaceAll("[^\\d]", ""));
         });
     }

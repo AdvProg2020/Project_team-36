@@ -36,6 +36,8 @@ public class CustomerTemplateController implements Initializable{
 
         username.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+
+        showPersonalInfo();
     }
 
     public void logout() throws EntryController.NotLoggedInException, IOException {

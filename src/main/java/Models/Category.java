@@ -27,19 +27,24 @@ public class Category {
     public static void addTest(){
         Category sublessRoot = new Category("sublessRoot",90,null,mainCategory);
         sublessRoot.addCategory();
+        sublessRoot.allFields = new HashSet<>();
         Category root = new Category("root",100,null,mainCategory);
         root.addCategory();
+        root.allFields = new HashSet<>();
         root.setField(new IntegerField("integer1root"));
         root.setField(new OptionalField("iO2root"));
         Category rootSub1 = new Category("rootSub1",101,null,root);
         rootSub1.addCategory();
+        rootSub1.allFields = new HashSet<>();
         rootSub1.setField(new IntegerField("integer1rootSub1"));
         rootSub1.setField(new IntegerField("integer2rootsub1"));
         Category rootSub2 = new Category("rootSub2",102,null,root);
+        rootSub2.allFields = new HashSet<>();
         rootSub2.setField(new IntegerField("integerROotSub2"));
         rootSub2.setField(new OptionalField("optionalRootSub2"));
         rootSub2.addCategory();
         Category sub2Sub = new Category("sub2Sub",1021,null,rootSub2);
+        sub2Sub.allFields = new HashSet<>();
         sub2Sub.setField(new IntegerField("integerSub2Sub"));
         sub2Sub.setField(new OptionalField("optionalSub2Sub"));
         sub2Sub.addCategory();
@@ -111,6 +116,7 @@ public class Category {
     }
 
     public void setField(Field field) {
+
         this.allFields.add(field);
     }
 
@@ -322,15 +328,6 @@ public class Category {
         subCategories.remove(category);
     }
 
-    public Hyperlink getViewHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("view");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            manageCategoriesController.viewAction(this);
-        });
-        return remove;
-    }
 
     public Hyperlink getEditHyperlink(){
         Hyperlink remove = new Hyperlink();
