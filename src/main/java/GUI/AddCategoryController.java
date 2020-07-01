@@ -99,7 +99,7 @@ public class AddCategoryController extends ManagerProfileController implements I
     }
 
     private boolean setParentCategory() {
-        if (!parentCategory.getSelectionModel().isEmpty()) {
+        if (parentCategory.getSelectionModel().isEmpty()) {
             setLabelStyle();
             notifLabel.setText("you have to choose a category or select none!");
             return false;

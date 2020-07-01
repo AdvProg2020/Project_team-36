@@ -21,8 +21,6 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     @FXML
     private TreeTableColumn<? extends Object, ? extends Object> nameColumn;
     @FXML
-    private TreeTableColumn<? extends Object, ? extends Object> viewColumn;
-    @FXML
     private TreeTableColumn<? extends Object, ? extends Object> editColumn;
     @FXML
     private TreeTableView<Category> allCategoriesTable;
@@ -47,7 +45,6 @@ public class ManageCategoriesController extends ManagerProfileController impleme
 
         Category.setManageCategoriesController(this);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
-        viewColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("viewHyperlink"));
         editColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("editHyperlink"));
         CategoryController categoryController = new CategoryController();
         Category mainCategoryRoot = categoryController.getMainCategory();
@@ -105,9 +102,6 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         }
     }
 
-    public void viewAction(Category category) {
-
-    }
 
     public void editAction(Category category) throws IOException {
         Constants.getGuiManager().open("EditCategory", category.getCategoryId());

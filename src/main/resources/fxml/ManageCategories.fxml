@@ -77,7 +77,7 @@
                 </ScrollPane>
             </children>
         </AnchorPane>
-        <Button alignment="BASELINE_LEFT" layoutX="1252.0" layoutY="6.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="logout" textFill="#ebe29d">
+        <Button alignment="BASELINE_LEFT" layoutX="1252.0" layoutY="6.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="logout" textFill="#ebe29d">
             <graphic>
                 <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -85,6 +85,11 @@
                     </image>
                 </ImageView>
             </graphic>
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+        <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>

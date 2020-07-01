@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
 <AnchorPane prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManageProductsController">
     <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
         <Pane prefHeight="149.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
@@ -66,7 +66,7 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <ComboBox fx:id="sortName" layoutX="611.0" layoutY="48.0" onAction="#sort" prefWidth="150.0" promptText="none" >
+            <ComboBox fx:id="sortName" layoutX="611.0" layoutY="48.0" onAction="#sort" prefWidth="150.0" promptText="none">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="name" />
@@ -83,12 +83,17 @@
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>
-    <Button alignment="BASELINE_LEFT" layoutX="1252.0" layoutY="6.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="logout" textFill="#ebe29d">
+    <Button alignment="BASELINE_LEFT" layoutX="1252.0" layoutY="6.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="logout" textFill="#ebe29d">
         <graphic>
             <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../images/logout.png" />
             </ImageView>
         </graphic>
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Button>
+    <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
         <font>
             <Font name="System Bold" size="14.0" />
         </font>

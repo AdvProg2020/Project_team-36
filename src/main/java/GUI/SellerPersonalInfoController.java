@@ -31,6 +31,7 @@ public class SellerPersonalInfoController extends SellerProfileController implem
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
 
+        showPersonalInfo();
     }
 
 

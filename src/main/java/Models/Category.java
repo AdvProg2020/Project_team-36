@@ -328,15 +328,6 @@ public class Category {
         subCategories.remove(category);
     }
 
-    public Hyperlink getViewHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("view");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            manageCategoriesController.viewAction(this);
-        });
-        return remove;
-    }
 
     public Hyperlink getEditHyperlink(){
         Hyperlink remove = new Hyperlink();

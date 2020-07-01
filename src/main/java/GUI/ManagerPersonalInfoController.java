@@ -35,6 +35,7 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
         }
         username.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+        showPersonalInfo();
     }
 
     public void showPersonalInfo() throws IOException {
