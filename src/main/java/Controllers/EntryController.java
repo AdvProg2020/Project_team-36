@@ -26,11 +26,12 @@ public class EntryController extends UserController  {
 
 
     public void setUserNameLogin(String username) throws InvalidUsernameException{
-        if(!User.isThereUsername(username)){
+        if(!User.isThereUsername(username)||User.getUserByUsername(username)==null){
             throw new InvalidUsernameException("There is no user with this username");
         }
         else{
             userVariables.setLoggedInUser(User.getUserByUsername(username));
+
         }
     }
 
@@ -69,7 +70,7 @@ public class EntryController extends UserController  {
 
     public void logout() throws NotLoggedInException {
         if(this.userVariables.getLoggedInUser()!= null)
-        this.userVariables.setLoggedInUser(null);
+            this.userVariables.setLoggedInUser(null);
         else
             throw new  NotLoggedInException();
 

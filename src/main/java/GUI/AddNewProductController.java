@@ -204,6 +204,7 @@ public class AddNewProductController extends SellerProductsController implements
 
         if(fieldsValue.size() != fields.size()){
             System.out.println("field");
+            System.out.println(fieldsValue.size()+"  "+fields.size());
             emptyFieldsError.setVisible(true);
             return;
         }

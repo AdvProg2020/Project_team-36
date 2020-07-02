@@ -25,11 +25,16 @@ public class AddCategoryController extends ManagerProfileController implements I
 
     @Override
     public void initialize(int id) throws IOException {
+        if (Constants.globalVariables.getLoggedInUser() == null) {
+            Constants.getGuiManager().back();
+            return;
+        }
         this.categoryController = new CategoryController();
         setParentCategories();
     }
 
     private void setParentCategories() {
+        parentCategory.getItems().clear();
         ArrayList<Category> allCategories = categoryController.getAllCategories();
         parentCategory.getItems().add("none");
         for (Category category : allCategories) {
@@ -78,6 +83,12 @@ public class AddCategoryController extends ManagerProfileController implements I
             categoryController.acceptCategory();
             notifLabel.setStyle("-fx-text-fill: darkgreen");
             notifLabel.setText("category successfully added!");
+            optionalChosen.getChildren().clear();
+            integerChosen.getChildren().clear();
+            name.setText("");
+            optionalField.setText("");
+            integerFieldName.setText("");
+            setParentCategories();
         }
 
     }
@@ -138,4 +149,5 @@ public class AddCategoryController extends ManagerProfileController implements I
     private void setLabelStyle(){
         notifLabel.setStyle("-fx-text-fill: red");
     }
+
 }
