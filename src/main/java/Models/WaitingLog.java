@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class WaitingLog {
     private long totalPrice;
     private ArrayList<Gift> gifts;
-    private Long giftDiscount;
+    private long giftDiscount;
     private long discountAmount;
     private ArrayList<SelectedItem> allSelectedItems;
     private Customer customer;
@@ -16,11 +16,14 @@ public class WaitingLog {
     private String customerAddress;
     private String customerPhoneNumber;
 
-    public WaitingLog(Customer customer, String customerAddress) {
+    public WaitingLog(Customer customer) {
         this.allSelectedItems = new ArrayList<>();
         this.gifts = new ArrayList<>();
         this.customer = customer;
-        this.customerAddress = customerAddress;
+    }
+
+    public void setCustomerAddress(String address){
+        this.customerAddress  =address;
     }
 
 
@@ -50,8 +53,9 @@ public class WaitingLog {
 
     public long getPayablePrice() {
         long payable;
-        if (discount == null)
+        if (this.discount == null) {
             payable = totalPrice - giftDiscount;
+        }
         else {
             payable = this.discount.getPayableAfterDiscount(totalPrice) - giftDiscount;
         }
@@ -118,6 +122,7 @@ public class WaitingLog {
 
     public void removeDiscount() {
         this.customer.increaseDiscountCode(this.discount, 1);
+        this.discount=null;
     }
 
     public void addCustomerToBuyers(){

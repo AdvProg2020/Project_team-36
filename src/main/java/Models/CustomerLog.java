@@ -96,8 +96,14 @@ public class  CustomerLog {
         }
         long payable = waitingLog.getPayablePrice();
         Discount discount = waitingLog.getDiscount();
-        CustomerLog customerLog = new CustomerLog(discount.getDiscountPercent(),waitingLog.getDiscountAmount(),
+        CustomerLog customerLog;
+        if(discount!=null)
+         customerLog = new CustomerLog(discount.getDiscountPercent(),waitingLog.getDiscountAmount(),
                 waitingLog.getGiftDiscount(),waitingLog.getCustomerAddress(),waitingLog.getCustomerPhoneNumber(),itemsInLog,payable,totalPrice);
+        else{
+            customerLog = new CustomerLog(0,0,
+                    waitingLog.getGiftDiscount(),waitingLog.getCustomerAddress(),waitingLog.getCustomerPhoneNumber(),itemsInLog,payable,totalPrice);
+        }
         waitingLog.getCustomer().addNewLog(customerLog);
         return customerLog;
     }

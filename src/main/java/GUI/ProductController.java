@@ -169,7 +169,11 @@ public class ProductController implements Initializable {
 
     private void enableVote(Product product) {
         if (!Constants.productsController.canRate(product, Constants.globalVariables.getLoggedInUser())) {
-            Label label = new Label("Login to vote!");
+            Label label = new Label();
+            if(Constants.globalVariables.getLoggedInUser()==null)
+                label.setText("Login to vote!");
+            else
+                label.setText("Buy to vote");
             label.setStyle("-fx-font-weight: bold;-fx-font-size: 30;-fx-text-fill: mediumseagreen");
             vote.getChildren().add(label);
             return;

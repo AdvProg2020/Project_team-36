@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Customer extends User {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
-    private long credit;
+    private long credit=500_000;
     private ArrayList<CustomerLog> allLogs;
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
@@ -195,7 +195,7 @@ public class Customer extends User {
         for (SelectedItem item : cart) {
             if (item.getProduct().equals(selectedItem.getProduct())) {
                 for (Seller seller : item.getSellers()) {
-                    if (seller.equals(selectedItem.getSellers())) {
+                    if (selectedItem.getSellers().contains(seller)) {
                         item.increaseAmountFromSeller(seller, 1);
                         return;
                     }
@@ -211,12 +211,14 @@ public class Customer extends User {
     public void updateCart() {
         ArrayList<SelectedItem> temp = new ArrayList<>();
         for (SelectedItem item : cart) {
-            if (!Product.isThereProductWithId(item.getProduct().getProductId()))
+            if (!Product.isThereProductWithId(item.getProduct().getProductId())) {
                 temp.add(item);
+            }
             else {
                 item.updateSelectedItem();
-                if (item.getSellers().size() == 0)
+                if (item.getSellers().size() == 0) {
                     temp.add(item);
+                }
             }
         }
         cart.removeAll(temp);

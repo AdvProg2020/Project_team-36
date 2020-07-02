@@ -390,7 +390,7 @@ public class Product implements Pendable {
     public ArrayList<Seller> getAllSellers() {
         ArrayList<Seller> result = new ArrayList<>();
         for (ProductField productField : productFields) {
-            if (productField.getSeller().getStatus().equals(Status.DELETED))
+            if (!productField.getSeller().getStatus().equals(Status.DELETED))
                 result.add(productField.getSeller());
         }
         return result;

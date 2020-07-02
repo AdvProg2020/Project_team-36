@@ -62,7 +62,7 @@ public class SalesHistoryController extends SellerProfileController implements I
 
         productName.setCellValueFactory(new PropertyValueFactory<>("productName"));
         initialPrice.setCellValueFactory(new PropertyValueFactory<>("initialPrice"));
-        count.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        count.setCellValueFactory(new PropertyValueFactory<>("count"));
         offPercent.setCellValueFactory(new PropertyValueFactory<>("salePercentForTable"));
 
         sellerLog.getItems().addAll(((Seller)user).getAllLogs());

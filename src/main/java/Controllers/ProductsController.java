@@ -253,8 +253,9 @@ public class ProductsController implements ObjectController {
     public void addSellerForBuy(String username) throws NotEnoughSupply, NoSellerWithUsername {
         for (ProductField field : userVariables.getProduct().getProductFields()) {
             if (field.getSeller().getUsername().equalsIgnoreCase(username) && !field.getSeller().getStatus().equals(Status.DELETED)) {
-                if (field.getSupply() > 0)
+                if (field.getSupply() > 0) {
                     userVariables.setPendingSellerOfProduct(field.getSeller());
+                }
                 else {
                     userVariables.setPendingSellerOfProduct(null);
                     throw new NotEnoughSupply();

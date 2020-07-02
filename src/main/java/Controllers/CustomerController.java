@@ -7,8 +7,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static Models.CartTag.*;
-
 public class CustomerController extends UserController {
     private HashMap<String, Method> sortCartMethods;
     private HashMap<String, Method> sortDiscountMethods;
@@ -187,12 +185,15 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void setAddressForPurchase(String address) {
-
+    public void addNewWaitingLog(){
         Customer customer = ((Customer) userVariables.getLoggedInUser());
-        customer.updateCart();
-        customer.setWaitingLog(new WaitingLog(customer, address));
+        customer.setWaitingLog(new WaitingLog(customer));
         customer.getWaitingLog().setAllItems(customer.getCart());
+    }
+
+    public void setAddressForPurchase(String address) {
+        Customer customer = ((Customer) userVariables.getLoggedInUser());
+        customer.getWaitingLog().setCustomerAddress(address);
     }
 
     public void setPhoneNumberForPurchase(String phoneNumber) {
@@ -209,8 +210,7 @@ public class CustomerController extends UserController {
     public void cancelPurchase() {
         WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
         if (waitingLog.getDiscount() != null) {
-            waitingLog.getCustomer().increaseDiscountCode(waitingLog.getDiscount(), 1);
-            waitingLog.setDiscount(null);
+            waitingLog.removeDiscount();
         }
     }
 

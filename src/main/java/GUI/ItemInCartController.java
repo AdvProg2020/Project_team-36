@@ -39,7 +39,10 @@ public class ItemInCartController {
         this.productField = productField;
         productName.setText(product.getName());
         sellerUserName.setText(productField.getSeller().getUsername());
-        double price = (1 - productField.getSale().getSalePercent()) * productField.getPrice();
+        double price =productField.getPrice();
+        if(productField.getSale()!=null){
+             price = (1 - productField.getSale().getSalePercent()) * productField.getPrice();
+        }
         this.price.setText("" + price);
         this.count.setEditable(false);
         this.count.setText("" + count);

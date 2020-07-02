@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.Image?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="GUI.EditSellerProductController"
-            prefHeight="705.0" prefWidth="1360.0">
+<AnchorPane prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.EditSellerProductController">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -30,7 +23,6 @@
                 <Button layoutX="1.0" layoutY="312.0" mnemonicParsing="false" onAction="#openManageProducts" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Manage Products" textFill="#d7d4d4" />
                 <Button layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#openShowCategories" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Show Categories" textFill="#d7d4d4" />
                 <Button layoutX="1.0" layoutY="430.0" mnemonicParsing="false" onAction="#openViewOffs" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Offs" textFill="#d7d4d4" />
-                <Button layoutX="1.0" layoutY="489.0" mnemonicParsing="false" onAction="#openViewBalance" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Balance" textFill="#d7d4d4" />
             </children>
         </AnchorPane>
         <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">

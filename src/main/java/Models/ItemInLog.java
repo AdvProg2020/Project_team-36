@@ -18,7 +18,7 @@ public class ItemInLog {
         this.sellerUsername = seller.getUsername();
         this.productId = product.getProductId();
         this.productName = product.getName();
-        if (product.getProductFieldBySeller(seller).getSale().isSaleAvailable())
+        if (product.getProductFieldBySeller(seller).getSale()!=null&&product.getProductFieldBySeller(seller).getSale().isSaleAvailable())
             this.salePercent = product.getProductFieldBySeller(seller).getSale().getSalePercent();
         this.initialPrice = product.getProductFieldBySeller(seller).getPrice();
         this.currentPrice = product.getProductFieldBySeller(seller).getCurrentPrice();

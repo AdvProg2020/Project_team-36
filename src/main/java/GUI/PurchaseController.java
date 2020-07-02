@@ -38,6 +38,7 @@ public class PurchaseController implements Initializable {
 
         totalPrice.setText("" + customer.getCartPrice());
         totalPayable.setText("" + customer.getCartPriceConsideringSale());
+        Constants.customerController.addNewWaitingLog();
     }
 
     public void apply() {
@@ -50,7 +51,7 @@ public class PurchaseController implements Initializable {
                 totalPayable.setText("" + customer.getWaitingLog().getPayablePrice());
             } catch (CustomerController.NoDiscountAvailableWithId noDiscountAvailableWithId) {
                 AlertBox.display("Error","You do not have this discount!!");
-            } catch (Exception e){
+            } catch (NumberFormatException e){
                 AlertBox.display("Error","Your discount code needs to be an integer!!");
             }
         }
@@ -85,6 +86,7 @@ public class PurchaseController implements Initializable {
     }
 
     public void back() throws IOException {
+        Constants.customerController.cancelPurchase();
         Constants.getGuiManager().back();
     }
 }

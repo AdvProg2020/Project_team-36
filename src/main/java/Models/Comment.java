@@ -61,9 +61,18 @@ public class Comment implements Pendable {
     @Override
     public void acceptAddRequest() {
         product.addComment(this);
+        this.ConfirmationStatus = Status.CONFIRMED;
     }
 
     @Override
     public void acceptEditRequest() {
+    }
+
+    @Override
+    public String toString() {
+        return "User : "+user.getUsername()+'\n'+
+                "title: "+title+'\n'+
+                "comment: "+comment+'\n'+
+                "has bought: "+ (hasBought?"yes":"no");
     }
 }

@@ -101,7 +101,7 @@ public class SelectedItem {
             if(seller.getStatus().equals(Status.DELETED)||!User.isThereUsername(seller.getUsername())||!product.getAllSellers().contains(seller)){
                 temp.add(seller);
                 index.add(sellers.indexOf(seller));
-            }else if(countFromEachSeller.get(this.sellers.indexOf(seller))<product.getProductFieldBySeller(seller).getSupply()){
+            }else if(countFromEachSeller.get(this.sellers.indexOf(seller))>product.getProductFieldBySeller(seller).getSupply()){
                     if(product.getProductFieldBySeller(seller).getSupply()==0){
                         temp.add(seller);
                         index.add(sellers.indexOf(seller));

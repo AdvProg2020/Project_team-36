@@ -187,6 +187,8 @@ public class ProductField implements Pendable {
     }
 
     public long getProductFieldPriceOnSale() {
+        if(sale!=null)
         return (long) ((1 - sale.getSalePercent()) * price);
+        return price;
     }
 }
