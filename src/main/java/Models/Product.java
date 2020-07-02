@@ -464,7 +464,7 @@ public class Product implements Pendable {
                 "    company: " + company + '\n' +
                 "    category: " + category.getName() + '\n' +
                 "    information: " + information + '\n' +
-                "    lowest price: " + this.getLowestCurrentPrice() + '\n'
+                "    price: " + this.getLowestCurrentPrice() + '\n'
                 ;
     }
 

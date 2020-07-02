@@ -54,6 +54,7 @@ public class ManageRequestsController extends ManagerProfileController implement
         acceptColumn.setCellValueFactory(new PropertyValueFactory<>("acceptHyperlink"));
         declineColumn.setCellValueFactory(new PropertyValueFactory<>("declineHyperlink"));
         allRequestsTable.getItems().addAll(allRequests);
+
     }
 
 
@@ -61,8 +62,12 @@ public class ManageRequestsController extends ManagerProfileController implement
         allRequestsTable.getItems().remove(request);
     }
 
-    public void viewAction(Request request) {
-
+    public void viewAction(Request request)  {
+        try {
+            Constants.getGuiManager().open("RequestDetailsController", request.getRequestId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
