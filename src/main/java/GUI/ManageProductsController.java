@@ -45,6 +45,7 @@ public class ManageProductsController extends ManagerProfileController implement
     }
 
     private void setTheTable(ArrayList<Product> allProducts){
+        allProductsTable.getItems().clear();
         Product.setManageProductsController(this);
         allProductsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));

@@ -481,7 +481,7 @@ public class ProductsMenuController implements Initializable {
 
     private void addSpecialOptionalFilter() {
         for (String option : controller.getAllOptionalChoices().keySet()) {
-            getEachOptionalFilter(option, controller.getAllOptionalChoices().get(option));
+            optionalFields.getChildren().add(getEachOptionalFilter(option, controller.getAllOptionalChoices().get(option)));
         }
     }
 
@@ -525,6 +525,8 @@ public class ProductsMenuController implements Initializable {
             CheckBox optionCheckBox = getOptionCheckBox(option, checkBox);
             innerVBox.getChildren().add(optionCheckBox);
         }
+        if(options.isEmpty())
+            innerVBox.getChildren().add(new Label("No option available"));
         return menuButton;
     }
 
@@ -550,11 +552,15 @@ public class ProductsMenuController implements Initializable {
             header.getChildren().remove(logout);
             header.getChildren().remove(account);
             header.getChildren().remove(cart);
-        }else if(!(Constants.globalVariables.getLoggedInUser() instanceof Customer)){
+        } else if(!(Constants.globalVariables.getLoggedInUser() instanceof Customer)){
             header.getChildren().remove(cart);
-        } else {
+        }else {
+            if (!(Constants.globalVariables.getLoggedInUser() instanceof Customer)){
+                header.getChildren().remove(cart);
+            }
             header.getChildren().remove(login);
         }
+
     }
 
     public void goToAccount(ActionEvent actionEvent) throws IOException {

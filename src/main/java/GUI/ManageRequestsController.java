@@ -25,6 +25,7 @@ public class ManageRequestsController extends ManagerProfileController implement
     public CheckBox isAscending;
     public ComboBox sortName;
     private User user;
+    private static Request chosenRequest;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -64,7 +65,8 @@ public class ManageRequestsController extends ManagerProfileController implement
 
     public void viewAction(Request request)  {
         try {
-            Constants.getGuiManager().open("RequestDetailsController", request.getRequestId());
+            chosenRequest = request;
+            Constants.getGuiManager().open("RequestDetailsMenu", user.getUserId());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,5 +77,9 @@ public class ManageRequestsController extends ManagerProfileController implement
             isAscending.setDisable(false);
         ArrayList<Request> requests = Constants.managerController.sortRequests(sortName.getValue().toString(), isAscending.isSelected() ? "ascending" : "descending");
         setTheTable(requests);
+    }
+
+    public static Request getChosenRequest() {
+        return chosenRequest;
     }
 }

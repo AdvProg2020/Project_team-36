@@ -22,7 +22,7 @@ public class RequestDetailsController extends ManagerProfileController implement
             Constants.getGuiManager().back();
             return;
         }
-        this.request = Request.getRequestWithId(id);
+        this.request = ManageRequestsController.getChosenRequest();
         status.setText(request.getStatus().toString());
         information.setText(request.getPendableRequest().toString());
         requestType.setText(request.getType());
