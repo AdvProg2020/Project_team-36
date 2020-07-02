@@ -23,6 +23,7 @@ public class Category {
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private static Category mainCategory = new Category("General Category");
     private static ManageCategoriesController manageCategoriesController;
+    private static Category categoryToEdit;
 
     public static void addTest(){
         Category sublessRoot = new Category("sublessRoot",90,null,mainCategory);
@@ -335,7 +336,8 @@ public class Category {
         remove.setStyle("");
         remove.setOnAction(e->{
             try {
-                manageCategoriesController.editAction(this);
+                categoryToEdit = this;
+                manageCategoriesController.editAction();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -366,4 +368,7 @@ public class Category {
         Category.manageCategoriesController = manageCategoriesController;
     }
 
+    public static Category getCategoryToEdit() {
+        return categoryToEdit;
+    }
 }

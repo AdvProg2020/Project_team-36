@@ -97,6 +97,8 @@ public class ViewSellerProductController extends SellerProfileController impleme
             HBox hBox = new HBox();
             Label name = new Label(field.getName());
             name.setPrefHeight(25);
+            name.setPrefWidth(100);
+            name.setMinWidth(100);
             hBox.getChildren().add(name);
             TextField value = new TextField();
             value.setPrefHeight(25);

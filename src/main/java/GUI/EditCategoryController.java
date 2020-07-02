@@ -3,11 +3,13 @@ package GUI;
 import Controllers.CategoryController;
 import Models.Category;
 import Models.Field;
+import Models.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,12 +28,28 @@ public class EditCategoryController extends ManagerProfileController implements 
     public TextField newIntegerField;
     public Label integerAlertLabel;
     public Label optionalAlertLabel;
+    public Label usernameLabel;
+    public ImageView profilePicture;
+    private User user;
     Category category ;
     CategoryController categoryController;
     @Override
     public void initialize(int id) throws IOException {
+
+        if (Constants.globalVariables.getLoggedInUser() == null) {
+            Constants.getGuiManager().back();
+            return;
+        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
+            Constants.getGuiManager().back();
+            return;
+        } else {
+            this.user = Constants.globalVariables.getLoggedInUser();
+        }
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
+
         this.categoryController = new CategoryController();
-        this.category = Category.getCategoryById(id);
+        this.category = Category.getCategoryToEdit();
         welcomeLabel.setText("category "+category.getName()+" editing!");
         try {
             categoryController.editCategory(category.getName());

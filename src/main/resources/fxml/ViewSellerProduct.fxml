@@ -69,7 +69,7 @@
                                 <Label layoutX="90.0" layoutY="198.0" text="Information:" />
                                 <TextField fx:id="productName" editable="false" layoutX="193.0" layoutY="29.0" />
                                 <TextField fx:id="productCompany" editable="false" layoutX="193.0" layoutY="73.0" />
-                                <TextField fx:id="productInfo" editable="false" layoutX="192.0" layoutY="186.0" prefHeight="41.0" prefWidth="252.0">
+                                <TextField fx:id="productInfo" accessibleRole="TEXT_AREA" editable="false" layoutX="192.0" layoutY="186.0" prefHeight="65.0" prefWidth="252.0">
                                     <cursor>
                                         <Cursor fx:constant="TEXT" />
                                     </cursor>
@@ -95,11 +95,7 @@
                                 <Label layoutX="91.0" layoutY="154.0" text="Supply:" />
                                 <ScrollPane layoutX="650.0" layoutY="222.0" prefHeight="222.0" prefWidth="307.0">
                                     <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="289.0">
-                                            <children>
-                                                <VBox fx:id="fieldsVBox" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="194.0" prefWidth="289.0" />
-                                            </children>
-                                        </AnchorPane>
+                                                <VBox fx:id="fieldsVBox" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="220.0" prefWidth="305.0" spacing="8.0" />
                                     </content>
                                 </ScrollPane>
                             </children>

@@ -60,7 +60,7 @@
                                 <Label layoutX="90.0" layoutY="198.0" text="Information:" />
                                 <TextField fx:id="productName" layoutX="193.0" layoutY="29.0" />
                                 <TextField fx:id="productCompany" layoutX="193.0" layoutY="73.0" />
-                                <TextField fx:id="productInfo" layoutX="192.0" layoutY="186.0" prefHeight="41.0" prefWidth="252.0">
+                                <TextField fx:id="productInfo" accessibleRole="TEXT_AREA" layoutX="192.0" layoutY="186.0" prefHeight="67.0" prefWidth="252.0">
                                     <cursor>
                                         <Cursor fx:constant="TEXT" />
                                     </cursor>
@@ -90,15 +90,12 @@
                                 <Label fx:id="emptyFieldsError" layoutX="35.0" layoutY="431.0" text="You Must Fill All The Wanted Fields!" textFill="#fa120c" visible="false" />
                                 <Label fx:id="priceError" layoutX="347.0" layoutY="117.0" text="You can only enter numbers!" textFill="RED" visible="false" />
                                 <Label fx:id="supplyError" layoutX="347.0" layoutY="154.0" text="You can only enter numbers!" textFill="RED" visible="false" />
-                        <ScrollPane fx:id="fieldsScrollPane" layoutX="650.0" layoutY="222.0" prefHeight="222.0" prefWidth="307.0" visible="false">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="289.0">
-                                 <children>
-                                            <VBox fx:id="fieldsVBox" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="194.0" prefWidth="289.0" />
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </ScrollPane>
+                                <ScrollPane fx:id="fieldsScrollPane" layoutX="650.0" layoutY="222.0" prefHeight="222.0" prefWidth="307.0" visible="false">
+                                    <content>
+                                                <VBox fx:id="fieldsVBox" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="218.0" prefWidth="305.0" spacing="8.0" />
+                                        
+                                    </content>
+                                </ScrollPane>
                             </children>
                         </AnchorPane>
                     </content>

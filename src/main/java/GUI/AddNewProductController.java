@@ -78,6 +78,7 @@ public class AddNewProductController extends SellerProductsController implements
         }
 
         categoryTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) ->{
+            fields.clear();
             category = newValue.getValue();
             newProduct.setCategory(category);
             for (Field field : category.getAllFields()) {
@@ -124,8 +125,10 @@ public class AddNewProductController extends SellerProductsController implements
         fieldsVBox.getChildren().clear();
         fieldsScrollPane.setVisible(true);
         for (Field field : fields) {
-            HBox hBox = new HBox();
+            HBox hBox = new HBox(5);
             Label name = new Label(field.getName());
+            name.setPrefWidth(100);
+            name.setMinWidth(100);
             name.setPrefHeight(25);
             hBox.getChildren().add(name);
             TextField value = new TextField();

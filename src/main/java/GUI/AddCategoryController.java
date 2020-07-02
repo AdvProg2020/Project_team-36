@@ -2,11 +2,13 @@ package GUI;
 
 import Controllers.CategoryController;
 import Models.Category;
+import Models.User;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -21,14 +23,26 @@ public class AddCategoryController extends ManagerProfileController implements I
     public Label notifLabel;
     public VBox integerChosen;
     public VBox optionalChosen;
+    public ImageView profilePicture;
+    public Label usernameLabel;
+    private User user;
     private CategoryController categoryController;
 
     @Override
     public void initialize(int id) throws IOException {
+
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
+        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
+            Constants.getGuiManager().back();
+            return;
+        } else {
+            this.user = Constants.globalVariables.getLoggedInUser();
         }
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
+
         this.categoryController = new CategoryController();
         setParentCategories();
     }

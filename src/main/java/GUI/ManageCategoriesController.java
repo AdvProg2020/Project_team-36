@@ -81,7 +81,7 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     }
 
     public void openAddNewCategory(ActionEvent actionEvent) throws IOException {
-        Constants.getGuiManager().open("AddCategory", 1);
+        Constants.getGuiManager().open("AddCategory", user.getUserId());
     }
 
     public void removeAction() {
@@ -103,8 +103,8 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     }
 
 
-    public void editAction(Category category) throws IOException {
-        Constants.getGuiManager().open("EditCategory", category.getCategoryId());
+    public void editAction() throws IOException {
+        Constants.getGuiManager().open("EditCategory", user.getUserId());
     }
 }
 
