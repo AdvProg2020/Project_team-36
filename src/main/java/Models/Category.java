@@ -25,6 +25,10 @@ public class Category {
     private static ManageCategoriesController manageCategoriesController;
     private static Category categoryToEdit;
 
+    public static void setMainCategory(Category mainCategory) {
+        Category.mainCategory = mainCategory;
+    }
+
     public static void addTest(){
         Category sublessRoot = new Category("sublessRoot",90,null,mainCategory);
         sublessRoot.addCategory();
@@ -77,6 +81,9 @@ public class Category {
 
 
     public static Category getCategoryById(int id){
+        if (mainCategory.categoryId == id){
+            return mainCategory;
+        }
         for (Category category : allCategories) {
             if (category.categoryId == id){
                 return category;

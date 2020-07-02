@@ -5,9 +5,12 @@ import Models.*;
 import Models.Gifts.Gift;
 
 import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 
 public class RepositoryManager {
-    public static void saveData(){
+    public static void saveData() {
         Product.updateAllProducts();
         Customer.updateAllCustomers();
         Discount.updateDiscounts();
@@ -17,6 +20,22 @@ public class RepositoryManager {
         Seller.updateSellers();
         User.updateAllUsers();
 
+        try {
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Category.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Customer.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Discount.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Gift.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Manager.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Product.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Request.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Sale.class.getName()));
+            FileUtils.cleanDirectory(new File("./src/main/resources/" + Seller.class.getName()));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        SaveCategory.save(Category.getMainCategory());
         Category.getAllCategories().forEach(category -> SaveCategory.save(category));
         Customer.getAllCustomers().forEach(customer -> SaveCustomer.save(customer));
         Discount.getAllDiscounts().forEach(discount -> SaveDiscount.save(discount));

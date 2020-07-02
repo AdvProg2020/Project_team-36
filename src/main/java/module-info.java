@@ -4,4 +4,5 @@ open module project {
     requires javafx.fxml;
     requires javafx.graphics;
     requires com.google.gson;
+    requires commons.io;
 }

@@ -44,7 +44,9 @@ public class SaveCategory {
         SaveCategory saveCategory = new SaveCategory();
         saveCategory.name = category.getName();
         saveCategory.categoryId = category.getCategoryId();
-        saveCategory.parentCategoryId = category.getParentCategory().getCategoryId();
+        if (category.getParentCategory() != null){
+            saveCategory.parentCategoryId = category.getParentCategory().getCategoryId();
+        }
         for (Field field : category.getAllFields()) {
             if (field instanceof IntegerField){
                 saveCategory.allIntegerFields.add((IntegerField) field);
@@ -72,14 +74,22 @@ public class SaveCategory {
             return null;
         }
         SaveCategory saveCategory = gson.fromJson(data, SaveCategory.class);
-        Category parentCategory = load(saveCategory.parentCategoryId);
-        HashSet<Field> allFields = new HashSet<>();
-        saveCategory.allIntegerFields.forEach(field -> allFields.add(field));
-        saveCategory.allOptionalFields.forEach(field -> allFields.add(field));
-        Category category = new Category(saveCategory.name, saveCategory.categoryId, allFields, parentCategory);
-        Category.addToAllCategories(category);
-        saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.load(productId)));
-        saveCategory.subCategoriesIds.forEach(subCategoryId -> category.getAllSubCategories().add(load(subCategoryId)));
+
+        Category category;
+        if (saveCategory.name.equals("General Category")){
+             category = new Category(saveCategory.name, saveCategory.categoryId, new HashSet<>(), null);
+             Category.setMainCategory(category);
+        }else {
+            Category parentCategory = load(saveCategory.parentCategoryId);
+            HashSet<Field> allFields = new HashSet<>();
+            saveCategory.allIntegerFields.forEach(field -> allFields.add(field));
+            saveCategory.allOptionalFields.forEach(field -> allFields.add(field));
+            category = new Category(saveCategory.name, saveCategory.categoryId, allFields, parentCategory);
+            Category.addToAllCategories(category);
+            saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.load(productId)));
+            saveCategory.subCategoriesIds.forEach(subCategoryId -> category.getAllSubCategories().add(load(subCategoryId)));
+        }
+
         return category;
     }
 
