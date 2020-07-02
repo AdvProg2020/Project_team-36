@@ -95,6 +95,7 @@ public class Request {
         } else if (status.equals(TO_BE_ADDED)){
             pendableRequest.acceptAddRequest();
         }
+       allRequests.remove(this);
     }
 
     public static Request getRequestById(int id){
@@ -132,7 +133,7 @@ public class Request {
 
     public Hyperlink getViewHyperlink(){
         Hyperlink remove = new Hyperlink();
-        remove.setText("remove");
+        remove.setText("view");
         remove.setStyle("");
         remove.setOnAction(e->{
             manageRequestsController.viewAction(this);
@@ -142,7 +143,7 @@ public class Request {
 
     public Hyperlink getDeclineHyperlink(){
         Hyperlink remove = new Hyperlink();
-        remove.setText("view");
+        remove.setText("decline");
         remove.setStyle("");
         remove.setOnAction(e->{
             denyRequest(this.getRequestId());
@@ -153,7 +154,7 @@ public class Request {
 
     public Hyperlink getAcceptHyperlink(){
         Hyperlink remove = new Hyperlink();
-        remove.setText("edit");
+        remove.setText("accept");
         remove.setStyle("");
         remove.setOnAction(e->{
             this.acceptRequest();

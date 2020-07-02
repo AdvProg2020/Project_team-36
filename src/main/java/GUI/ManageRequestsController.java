@@ -49,7 +49,7 @@ public class ManageRequestsController extends ManagerProfileController implement
         Request.setManageRequestsController(this);
         allRequestsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestId"));
-        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperLink"));
+        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperlink"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("requestType"));
         acceptColumn.setCellValueFactory(new PropertyValueFactory<>("acceptHyperlink"));
         declineColumn.setCellValueFactory(new PropertyValueFactory<>("declineHyperlink"));
