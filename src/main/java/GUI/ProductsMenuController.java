@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -242,32 +243,33 @@ public class ProductsMenuController implements Initializable {
         vBox.setOnMouseClicked(mouseEvent -> {
             int productId = Integer.parseInt(((Label) vBox.getChildren().get(4)).getText().substring(4));
             try {
-                Constants.getGuiManager().open("Product",productId);
+                Constants.getGuiManager().open("Product", productId);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         vBox.setPrefSize(265, 265);
         vBox.setAlignment(Pos.CENTER);
-        ImageView imageView = product.getProductImage();
-        if (pageId == 1) {
-            imageView.setFitHeight(180);
-            imageView.setFitWidth(180);
-        } else {
-            imageView.setFitHeight(160);
-            imageView.setFitWidth(180);
+        ImageView imageView = null;
+        try {
+            if (pageId == 1)
+                imageView = product.getProductImage(180, 180);
+            else
+                imageView = product.getProductImage(160, 180);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
         Label sale = new Label();
         Label name = new Label(product.getName());
         Label price = new Label("lowest price: " + Double.toString(product.getLowestPrice()));
         Label id = new Label("id: " + product.getProductId());
         id.setOpacity(0.3);
-        Label startDate=null;
-        Label endDate=null;
-        if(this.pageId ==2){
+        Label startDate = null;
+        Label endDate = null;
+        if (this.pageId == 2) {
             try {
-                 startDate = new Label("start date:"+product.getBestSale().getSale().getStartTime().toLocaleString());
-                 endDate = new Label("end date:"+product.getBestSale().getSale().getEndTime().toLocaleString());
+                startDate = new Label("start date:" + product.getBestSale().getSale().getStartTime().toLocaleString());
+                endDate = new Label("end date:" + product.getBestSale().getSale().getEndTime().toLocaleString());
                 startDate.setStyle("-fx-text-fill: darkgreen;-fx-font-style: italic;");
                 endDate.setStyle("-fx-text-fill: darkgreen;-fx-font-style: italic;");
 
@@ -278,8 +280,8 @@ public class ProductsMenuController implements Initializable {
         HBox score = createProductScore(product.getScore());
         setProductImageEffect(product, imageView, sale);
         vBox.getChildren().addAll(sale, imageView, name, price, id);
-        if(this.pageId ==2)
-            vBox.getChildren().addAll(startDate,endDate,score);
+        if (this.pageId == 2)
+            vBox.getChildren().addAll(startDate, endDate, score);
         else
             vBox.getChildren().add(score);
         return vBox;
@@ -543,24 +545,26 @@ public class ProductsMenuController implements Initializable {
         Constants.getGuiManager().logout();
     }
 
-    private void reloadHeader(){
-        if(Constants.globalVariables.getLoggedInUser() == null){
+    private void reloadHeader() {
+        if (Constants.globalVariables.getLoggedInUser() == null) {
             header.getChildren().remove(logout);
             header.getChildren().remove(account);
             header.getChildren().remove(cart);
-        }else {
+        }else if(!(Constants.globalVariables.getLoggedInUser() instanceof Customer)){
+            header.getChildren().remove(cart);
+        } else {
             header.getChildren().remove(login);
         }
     }
 
     public void goToAccount(ActionEvent actionEvent) throws IOException {
         User user = Constants.globalVariables.getLoggedInUser();
-        if ( user instanceof Manager){
-            Constants.getGuiManager().open("ManagerTemplate",user.getUserId());
-        }else if (user instanceof Seller){
-            Constants.getGuiManager().open("SellerTemplate",user.getUserId());
-        }else if (user instanceof Customer){
-            Constants.getGuiManager().open("CustomerTemplate",user.getUserId());
+        if (user instanceof Manager) {
+            Constants.getGuiManager().open("ManagerTemplate", user.getUserId());
+        } else if (user instanceof Seller) {
+            Constants.getGuiManager().open("SellerTemplate", user.getUserId());
+        } else if (user instanceof Customer) {
+            Constants.getGuiManager().open("CustomerTemplate", user.getUserId());
         }
     }
 
@@ -569,7 +573,7 @@ public class ProductsMenuController implements Initializable {
     }
 
     public void goToCart(ActionEvent actionEvent) throws IOException {
-        Constants.getGuiManager().open("Cart",1);
+        Constants.getGuiManager().open("Cart", 1);
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
