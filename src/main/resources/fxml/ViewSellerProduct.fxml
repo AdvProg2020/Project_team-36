@@ -80,8 +80,6 @@
                                     </columns>
                                 </TreeTableView>
                                 <Label layoutX="87.0" layoutY="273.0" text="Category:" />
-                                <VBox fx:id="fieldNameVBox" layoutX="657.0" layoutY="208.0" prefHeight="193.0" prefWidth="121.0" />
-                                <VBox fx:id="fieldValueVBox" layoutX="800.0" layoutY="208.0" prefHeight="193.0" prefWidth="150.0" />
                                 <HBox layoutX="573.0" layoutY="41.0" prefHeight="109.0" prefWidth="305.0">
                                     <children>
                                         <AnchorPane prefHeight="109.0" prefWidth="323.0">
@@ -95,6 +93,15 @@
                                 <TextField fx:id="supply" editable="false" layoutX="193.0" layoutY="150.0" />
                                 <Label layoutX="90.0" layoutY="117.0" text="Price:" />
                                 <Label layoutX="91.0" layoutY="154.0" text="Supply:" />
+                                <ScrollPane layoutX="650.0" layoutY="222.0" prefHeight="222.0" prefWidth="307.0">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="289.0">
+                                            <children>
+                                                <VBox fx:id="fieldsVBox" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="194.0" prefWidth="289.0" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </ScrollPane>
                             </children>
                         </AnchorPane>
                     </content>

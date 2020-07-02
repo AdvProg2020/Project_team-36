@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
@@ -23,11 +24,10 @@ public class ViewSellerProductController extends SellerProfileController impleme
     public TextField productInfo;
     public TreeTableView<Category> categoryTable;
     public TreeTableColumn<Category, String> categoriesColumn;
-    public VBox fieldNameVBox;
-    public VBox fieldValueVBox;
     public ImageView image;
     public TextField price;
     public TextField supply;
+    public VBox fieldsVBox;
     private User user;
     private ArrayList<Field> fields;
     private Category category;
@@ -92,16 +92,19 @@ public class ViewSellerProductController extends SellerProfileController impleme
     }
 
     private void setFields() {
+        fieldsVBox.setVisible(true);
         for (Field field : fields) {
+            HBox hBox = new HBox();
             Label name = new Label(field.getName());
             name.setPrefHeight(25);
-            fieldNameVBox.getChildren().add(name);
+            hBox.getChildren().add(name);
             TextField value = new TextField();
             value.setPrefHeight(25);
             value.setText(field.getQuantityString());
             value.setId(field.getName());
             value.setEditable(false);
-            fieldValueVBox.getChildren().add(value);
+            hBox.getChildren().add(value);
+            fieldsVBox.getChildren().add(hBox);
         }
     }
 

@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
@@ -25,8 +26,6 @@ public class AddNewProductController extends SellerProductsController implements
 
 
     public TreeTableColumn<Category,String> categoriesColumn;
-    public VBox fieldNameVBox;
-    public VBox fieldValueVBox;
     public ImageView image;
     public TextField productInfo;
     public TextField productCompany;
@@ -38,6 +37,8 @@ public class AddNewProductController extends SellerProductsController implements
     public Label profilePicError;
     public Label supplyError;
     public Label priceError;
+    public VBox fieldsVBox;
+    public ScrollPane fieldsScrollPane;
     private User user;
     private String imagePath = "";
     private ArrayList<Field> fields = new ArrayList<>();
@@ -120,13 +121,13 @@ public class AddNewProductController extends SellerProductsController implements
 
     private void setFields(){
         fieldsValue.clear();
-        fieldValueVBox.getChildren().clear();
-        fieldNameVBox.getChildren().clear();
-
+        fieldsVBox.getChildren().clear();
+        fieldsScrollPane.setVisible(true);
         for (Field field : fields) {
+            HBox hBox = new HBox();
             Label name = new Label(field.getName());
             name.setPrefHeight(25);
-            fieldNameVBox.getChildren().add(name);
+            hBox.getChildren().add(name);
             TextField value = new TextField();
             value.setPrefHeight(25);
             if (field instanceof IntegerField){
@@ -153,7 +154,8 @@ public class AddNewProductController extends SellerProductsController implements
                 });
             }
             value.setId(field.getName());
-            fieldValueVBox.getChildren().add(value);
+            hBox.getChildren().add(value);
+            fieldsVBox.getChildren().add(hBox);
         }
 
     }
