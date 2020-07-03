@@ -61,7 +61,7 @@ public class NewProductController {
 
     public void setEachCategoryField(String value, Field field) throws InvalidFieldValue{
         if(field instanceof IntegerField){
-            if(value.matches("\\d+\\.?\\d+")){
+            if(value.matches("\\d+\\.?\\d*")){
                 IntegerField newField = new IntegerField(field.getName());
                 newField.setValue(value);
                 if(fieldsOfCategory.containsKey(field.getName())){

@@ -12,14 +12,14 @@ public class EditProductController {
     private static HashMap<String, String> productFieldsSetters = new HashMap<>();
     private Seller seller;
     private ArrayList<Field> neededFields;
-    private ArrayList<Field> fieldsOfCategory;
+    private HashMap<String,Field> fieldsOfCategory;
 
 
     public EditProductController(Seller seller) {
         this.seller = seller;
         writeProductFieldsSetters();
         neededFields = new ArrayList<>();
-        fieldsOfCategory = new ArrayList<>();
+        fieldsOfCategory = new HashMap<>();
     }
 
     public Product getProductCopy(Product product){
@@ -71,22 +71,34 @@ public class EditProductController {
 
     public void setEachCategoryField(String value, Field field) throws InvalidFieldValue {
         if(field instanceof IntegerField){
-            if(value.matches("\\d+\\.?\\d+")){
+            if(value.matches("\\d+\\.?\\d*")){
                 IntegerField newField = new IntegerField(field.getName());
                 newField.setValue(value);
-                fieldsOfCategory.add(newField);
+                if(fieldsOfCategory.containsKey(field.getName())){
+                    fieldsOfCategory.replace(field.getName(),newField);
+                } else {
+                    fieldsOfCategory.put(field.getName(), newField);
+                }
             } else {
                 throw new InvalidFieldValue();
             }
         } else if (field instanceof OptionalField){
             OptionalField newField = new OptionalField(field.getName());
             newField.setValue(value);
-            fieldsOfCategory.add(newField);
+            if(fieldsOfCategory.containsKey(field.getName())){
+                fieldsOfCategory.replace(field.getName(),newField);
+            } else {
+                fieldsOfCategory.put(field.getName(), newField);
+            }
         }
     }
 
     public void setFieldsOfCategory(Product product){
-        product.setFieldsOfCategory(fieldsOfCategory);
+        ArrayList<Field> fields = new ArrayList<>();
+        for (String field : fieldsOfCategory.keySet()) {
+            fields.add(fieldsOfCategory.get(field));
+        }
+        product.setFieldsOfCategory(fields);
     }
 
     public ArrayList<Field> getCategoryFieldsToEdit(Product product){

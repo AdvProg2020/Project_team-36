@@ -143,19 +143,14 @@ public class ProductField implements Pendable {
     @Override
     public void acceptEditRequest() {
         Product.updateAllProducts();
-        if ((!Product.isThereProductWithId(mainProductId)) || (seller.getStatus().equals(Status.DELETED))) {
+        User.updateAllUsers();
+        if ((!Product.isThereProductWithId(mainProductId)) || !User.isThereUsername(seller.getUsername())||seller.getStatus().equals(Status.DELETED)) {
             return;
         }
         Product mainProduct = Product.getProductWithId(this.mainProductId);
         ProductField mainProductField = mainProduct.getProductFieldBySeller(this.seller);
-        switch (this.editedField) {
-            case "supply":
-                mainProductField.setSupply(this.supply);
-                break;
-            case "price":
-                mainProductField.setPrice(this.price);
-                break;
-        }
+        mainProductField.setPrice(this.price);
+        mainProductField.setSupply(this.supply);
     }
 
     @Override

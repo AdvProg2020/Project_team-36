@@ -84,7 +84,7 @@ public class EntryController extends UserController  {
             newUser = new Seller(username);
 
         } else {
-            if (!Manager.canManagerRegister()) {
+            if (!Manager.canManagerRegister() && !(getLoggedInUser()instanceof Manager) ){
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {
                 newUser = new Manager(username);

@@ -10,11 +10,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+
 
 
 public class Main extends Application {
+
+
+
     public static void main(String[] args) {
     //    User.addTest();
     //    Product.addTest();
@@ -29,6 +39,7 @@ public class Main extends Application {
 
     }
 
+
     @Override
     public void start(Stage stage) throws Exception {
         Constants.getGuiManager().setStage(stage);
@@ -40,6 +51,9 @@ public class Main extends Application {
         if (!Manager.canManagerRegister())
             firstPage = "MainMenu";
 
+        File file = new File ("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\customerBackground.jpg");
+        String path = file.toURI().toURL().toString();
+        stage.getIcons().add(new Image(path,50,50,false,false));
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + firstPage + ".fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));

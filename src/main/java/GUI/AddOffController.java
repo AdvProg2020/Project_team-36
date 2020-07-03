@@ -63,7 +63,6 @@ public class AddOffController extends SellerPersonalInfoController implements In
             }
         });
 
-        addTextFieldListener();
         setAvailableProducts();
     }
 
@@ -100,18 +99,6 @@ public class AddOffController extends SellerPersonalInfoController implements In
         selectedProducts.add(toBeAdded);
         availableProductsTable.getItems().remove(toBeAdded);
         productsIncludedTable.getItems().add(toBeAdded);
-    }
-
-    private void addTextFieldListener() {
-        startDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.matches("[^\\d]+"))
-                startDate.getEditor().setText(startDate.getEditor().getText().replaceAll("[^\\d]", ""));
-        });
-
-        endDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.matches("[^\\d]+"))
-                endDate.getEditor().setText(endDate.getEditor().getText().replaceAll("[^\\d]", ""));
-        });
     }
 
 

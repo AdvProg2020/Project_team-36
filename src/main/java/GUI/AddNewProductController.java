@@ -5,6 +5,7 @@ import Controllers.NewProductController;
 import Models.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
@@ -39,6 +40,7 @@ public class AddNewProductController extends SellerProductsController implements
     public Label priceError;
     public VBox fieldsVBox;
     public ScrollPane fieldsScrollPane;
+    public Label fieldError;
     private User user;
     private String imagePath = "";
     private ArrayList<Field> fields = new ArrayList<>();
@@ -126,6 +128,7 @@ public class AddNewProductController extends SellerProductsController implements
         fieldsScrollPane.setVisible(true);
         for (Field field : fields) {
             HBox hBox = new HBox(5);
+            HBox.setMargin(hBox,new Insets(0,0,0,8));
             Label name = new Label(field.getName());
             name.setPrefWidth(100);
             name.setMinWidth(100);
@@ -135,12 +138,13 @@ public class AddNewProductController extends SellerProductsController implements
             value.setPrefHeight(25);
             if (field instanceof IntegerField){
                 value.textProperty().addListener((observableValue, oldValue, newValue) -> {
-                    if (newValue.matches(".*[^\\d].*"))
+                    if (newValue.matches(".*[^(\\d|\\.)].*"))
                         value.setText(value.getText().replaceAll("[^\\d]", ""));
                     try {
                         newProduct.setEachCategoryField(value.getText(),field);
                     } catch (NewProductController.InvalidFieldValue invalidFieldValue) {
-                        //
+                        value.setStyle("-fx-border-color: red");
+                        fieldError.setVisible(true);
                     }
                     fieldsValue.remove(oldValue);
                     fieldsValue.add(value.getText());

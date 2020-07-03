@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SellerProductsController extends SellerProfileController implements Initializable {
+public class  SellerProductsController extends SellerProfileController implements Initializable {
 
 
     public ImageView profilePicture;
@@ -83,5 +83,9 @@ public class SellerProductsController extends SellerProfileController implements
 
     public void addNewProductAction() throws IOException {
         Constants.getGuiManager().open("AddNewProduct",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
+
+    public void addExistingProduct() throws IOException {
+        Constants.getGuiManager().open("AddExistingProduct",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 }

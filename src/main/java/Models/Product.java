@@ -31,7 +31,7 @@ public class Product implements Pendable {
     private static int allProductsMade = random.nextInt(4988 - 1000) + 1000;
     private int seenNumber;
     private ImageView productImage;
-    private String productImageUrl;
+    private String productImageUrl = "";
     private String editedField;
     private static Product productToEdit;
     private static Product productToView;
@@ -258,7 +258,8 @@ public class Product implements Pendable {
     }
 
     public void setFieldsOfCategory(ArrayList<Field> fieldsOfCategory) {
-        this.fieldsOfCategory = fieldsOfCategory;
+        fieldsOfCategory.clear();
+        this.fieldsOfCategory.addAll(fieldsOfCategory);
     }
 
     public void setInformation(String information) {
@@ -590,24 +591,12 @@ public class Product implements Pendable {
             return;
         }
         Product mainProduct = Product.getProductWithId(this.getProductId());
-        switch (this.editedField) {
-            case "name":
-                mainProduct.setName(this.getName());
-                break;
-            case "company":
-                mainProduct.setCompany(this.getCompany());
-                break;
-            case "category":
-                mainProduct.setCategory(this.getCategory());
-                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
-                break;
-            case "fieldsOfCategory":
-                mainProduct.setFieldsOfCategory(this.getFieldsOfCategory());
-                break;
-            case "information":
-                mainProduct.setInformation(this.getInformation());
-                break;
-        }
+        mainProduct.setProductImageUrl(this.productImageUrl);
+        mainProduct.setName(this.name);
+        mainProduct.setCompany(this.company);
+        mainProduct.setInformation(this.information);
+        mainProduct.setCategory(this.category);
+        mainProduct.setFieldsOfCategory(this.fieldsOfCategory);
     }
 
     @Override
@@ -684,6 +673,10 @@ public class Product implements Pendable {
 
     public ImageView getProductImage() {
         return productImage;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        this.productImageUrl = productImageUrl;
     }
 
     public ImageView getSmallProductImage() throws MalformedURLException {
