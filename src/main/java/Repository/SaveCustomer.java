@@ -46,7 +46,9 @@ public class SaveCustomer {
         saveCustomer.credit = customer.getCredit();
         customer.getAllLogs().forEach(customerLog -> saveCustomer.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
         customer.getCart().forEach(selectedItem -> saveCustomer.cart.add(new SaveSelectedItem(selectedItem)));
-        customer.getAllDiscountsForCustomer().forEach((key,value) -> saveCustomer.allDiscountsForCustomer.put(key.getId(),value));
+        if (customer.getAllDiscountsForCustomer() != null){
+            customer.getAllDiscountsForCustomer().forEach((key,value) -> saveCustomer.allDiscountsForCustomer.put(key.getId(),value));
+        }
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveCustomerGson = gson.toJson(saveCustomer);
         FileUtil.write(FileUtil.generateAddress(Customer.class.getName(),saveCustomer.userId),saveCustomerGson);
