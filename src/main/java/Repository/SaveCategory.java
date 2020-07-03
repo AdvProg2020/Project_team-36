@@ -55,7 +55,7 @@ public class SaveCategory {
                 saveCategory.allOptionalFields.add((OptionalField) field);
             }
         }
-        category.getAllSubCategories().forEach(subCategory -> saveCategory.addSubCategory(subCategory));
+        category.getSubCategories().forEach(subCategory -> saveCategory.addSubCategory(subCategory));
         category.getProducts().forEach(product -> saveCategory.addProduct(product));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveCategoryGson = gson.toJson(saveCategory);
@@ -87,7 +87,7 @@ public class SaveCategory {
             category = new Category(saveCategory.name, saveCategory.categoryId, allFields, parentCategory);
             Category.addToAllCategories(category);
             saveCategory.productsIds.forEach(productId -> category.getProducts().add(SaveProduct.load(productId)));
-            saveCategory.subCategoriesIds.forEach(subCategoryId -> category.getAllSubCategories().add(load(subCategoryId)));
+            saveCategory.subCategoriesIds.forEach(subCategoryId -> category.getSubCategories().add(load(subCategoryId)));
         }
 
         return category;

@@ -10,7 +10,7 @@ public class SaveComment {
     private int productId;
     private String title;
     private String comment;
-    private Enum<Status> ConfirmationStatus;
+    private Status ConfirmationStatus;
     private boolean hasBought;
 
     public SaveComment(Comment comment) {
@@ -18,7 +18,7 @@ public class SaveComment {
         this.productId = comment.getProduct().getProductId();
         this.title = comment.getTitle();
         this.comment = comment.getComment();
-        this.ConfirmationStatus = comment.getConfirmationStatus();
+        this.ConfirmationStatus = (Status) comment.getConfirmationStatus();
         this.hasBought = comment.isHasBought();
     }
 
