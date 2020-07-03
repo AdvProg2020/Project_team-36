@@ -209,6 +209,7 @@ public class ProductsMenuController implements Initializable {
             }
         }
         gridPane.setGridLinesVisible(true);
+        gridPane.setStyle("-fx-background-color: #FFFACD;");
         productsScrollPane.setContent(gridPane);
     }
 

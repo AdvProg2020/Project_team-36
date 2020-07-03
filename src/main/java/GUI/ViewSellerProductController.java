@@ -55,6 +55,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
         Category mainCategoryRoot = categoryController.getMainCategory();
         TreeItem<Category> tableMainRoot = new TreeItem<>(mainCategoryRoot);
         expandAllParents(tableMainRoot);
+        tableMainRoot.setExpanded(true);
         categoryTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         categoryTable.setRoot(tableMainRoot);
 

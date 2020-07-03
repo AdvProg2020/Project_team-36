@@ -56,10 +56,10 @@
                 <TableView fx:id="allRequestsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
                     <columns>
                         <TableColumn fx:id="idColumn" prefWidth="160.0" sortable="false" text="request id" />
-                        <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="160.0" text="request type" />
-                        <TableColumn fx:id="viewColumn" minWidth="0.0" prefWidth="160.0" text="view" />
-                        <TableColumn fx:id="acceptColumn" prefWidth="160.0" text="accept" />
-                  <TableColumn fx:id="declineColumn" prefWidth="160.0" text="decline" />
+                        <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="181.0" text="request type" />
+                        <TableColumn fx:id="viewColumn" minWidth="0.0" prefWidth="150.0" text="view" />
+                        <TableColumn fx:id="acceptColumn" prefWidth="155.0" text="accept" />
+                  <TableColumn fx:id="declineColumn" prefWidth="154.0" text="decline" />
                     </columns>
                 </TableView>
             <ComboBox fx:id="sortName" layoutX="612.0" layoutY="44.0" onAction="#sort" prefWidth="150.0" promptText="none">

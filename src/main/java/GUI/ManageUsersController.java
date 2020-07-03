@@ -82,8 +82,8 @@ public class ManageUsersController extends ManagerProfileController implements I
         Constants.getGuiManager().open("ViewUser",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
-    public void openCreateNewManager(ActionEvent actionEvent) {
-
+    public void openCreateNewManager() throws IOException {
+        Constants.getGuiManager().open("CreateNewManager",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
 
