@@ -48,6 +48,7 @@ public class SaveProduct {
         saveProduct.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
         saveProduct.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
         saveProduct.productFields.forEach(saveProductField -> product.getProductFields().add(saveProductField.generateProductField()));
+        saveProduct.allBuyers.forEach(buyyerId ->  product.getAllBuyers().add((Customer) SaveUser.load(buyyerId)));
         return product;
     }
 
