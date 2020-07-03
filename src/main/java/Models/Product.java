@@ -205,6 +205,7 @@ public class Product implements Pendable {
         this.name = name;
         this.company = company;
         this.category = category;
+        this.fieldsOfCategory = new ArrayList<>();
         optionalFieldsOfCategory.forEach(fieldsOfCategory -> this.fieldsOfCategory.add(fieldsOfCategory));
         integerFieldsOfCategory.forEach(fieldsOfCategory -> this.fieldsOfCategory.add(fieldsOfCategory));
         this.information = information;
@@ -213,6 +214,7 @@ public class Product implements Pendable {
         this.productFields = new ArrayList<>();
         this.allComments = new ArrayList<>();
         this.allScore = new ArrayList<>();
+        this.allBuyers = new HashSet<>();
     }
 
     public int getProductId() {

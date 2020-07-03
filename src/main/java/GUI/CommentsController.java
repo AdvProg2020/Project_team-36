@@ -48,6 +48,7 @@ public class CommentsController {
     public void submit(){
         try {
             Constants.productsController.addComment(title.getText(),comment.getText());
+            AlertBox.display("Comment","Your comment will be reviewed by the manager :)))");
         } catch (EntryController.NotLoggedInException e) {
             AlertBox.display("Error","You have to login in order to add comment!");
         }

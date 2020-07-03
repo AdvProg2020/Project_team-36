@@ -37,7 +37,10 @@ public class SaveProductField {
             productField = new ProductField(status,price,SaveSale.load(offId),
                     SaveSeller.load(sellerId),supply,mainProductId);
         }
-        customerIds.forEach(customerId -> productField.getAllBuyers().add(SaveCustomer.load(customerId)));
+        if (customerIds != null){
+            customerIds.forEach(customerId -> productField.getAllBuyers().add(SaveCustomer.load(customerId)));
+        }
+
         return productField;
     }
 }
