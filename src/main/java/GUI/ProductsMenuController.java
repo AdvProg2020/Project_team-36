@@ -291,7 +291,7 @@ public class ProductsMenuController implements Initializable {
     private void setProductImageEffect(Product product, ImageView imageView, Label sale) {
         if (product.getTotalSupply() <= 0) {
             ColorAdjust monochrome = new ColorAdjust();
-            monochrome.setSaturation(-0.7);
+            monochrome.setSaturation(-1);
             imageView.setEffect(monochrome);
             return;
         }

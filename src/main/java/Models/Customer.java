@@ -98,8 +98,10 @@ public class Customer extends User {
     }
 
     public void increaseDiscountCode(Discount discount, int count) {
-        Integer oldValue = allDiscountsForCustomer.get(discount);
-        allDiscountsForCustomer.replace(discount, oldValue + count);
+       if(discount!=null) {
+            Integer oldValue = allDiscountsForCustomer.get(discount);
+            allDiscountsForCustomer.replace(discount, oldValue + count);
+        }
     }
 
     public CustomerLog getLog(int logId) {
