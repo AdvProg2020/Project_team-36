@@ -21,15 +21,50 @@ public class RepositoryManager {
         User.updateAllUsers();
 
         try {
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Category.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Customer.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Discount.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Gift.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Manager.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Product.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Request.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Sale.class.getName()));
-            FileUtils.cleanDirectory(new File("./src/main/resources/" + Seller.class.getName()));
+            File categoryFile = new File("./src/main/resources/" + Category.class.getName());
+            if (categoryFile.exists()){
+                FileUtils.cleanDirectory(categoryFile);
+            }
+
+            File customerFile = new File("./src/main/resources/" + Customer.class.getName());
+            if (customerFile.exists()){
+                FileUtils.cleanDirectory(customerFile);
+            }
+
+            File discountFile = new File("./src/main/resources/" + Discount.class.getName());
+            if (discountFile.exists()){
+                FileUtils.cleanDirectory(discountFile);
+            }
+
+            File giftFile = new File("./src/main/resources/" + Gift.class.getName());
+            if (giftFile.exists()){
+                FileUtils.cleanDirectory(giftFile);
+            }
+
+            File managerFile = new File("./src/main/resources/" + Manager.class.getName());
+            if (managerFile.exists()){
+                FileUtils.cleanDirectory(managerFile);
+            }
+
+            File productFile = new File("./src/main/resources/" + Product.class.getName());
+            if (productFile.exists()){
+                FileUtils.cleanDirectory(productFile);
+            }
+
+            File requestFile = new File("./src/main/resources/" + Request.class.getName());
+            if (requestFile.exists()){
+                FileUtils.cleanDirectory(requestFile);
+            }
+
+            File saleFile = new File("./src/main/resources/" + Sale.class.getName());
+            if (saleFile.exists()){
+                FileUtils.cleanDirectory(saleFile);
+            }
+
+            File sellerFile = new File("./src/main/resources/" + Seller.class.getName());
+            if (sellerFile.exists()){
+                FileUtils.cleanDirectory(sellerFile);
+            }
         }catch (IOException e){
             e.printStackTrace();
         }

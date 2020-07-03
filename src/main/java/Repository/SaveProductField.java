@@ -18,15 +18,25 @@ public class SaveProductField {
         this.mainProductId = productField.getMainProductId();
         this.status = productField.getStatus();
         this.price = productField.getPrice();
-        this.offId = productField.getSale().getOffId();
+        if (productField.getSale() != null){
+            this.offId = productField.getSale().getOffId();
+        }else {
+            this.offId = -100000000;
+        }
         this.sellerId = productField.getSeller().getUserId();
         this.supply = productField.getSupply();
         productField.getAllBuyers().forEach(buyer -> customerIds.add(buyer.getUserId()));
     }
 
     public ProductField generateProductField(){
-        ProductField productField = new ProductField(status,price,SaveSale.load(offId),
-                SaveSeller.load(sellerId),supply,mainProductId);
+        ProductField productField;
+        if (offId == -100000000){
+            productField = new ProductField(status,price,null,
+                    SaveSeller.load(sellerId),supply,mainProductId);
+        }else {
+            productField = new ProductField(status,price,SaveSale.load(offId),
+                    SaveSeller.load(sellerId),supply,mainProductId);
+        }
         customerIds.forEach(customerId -> productField.getAllBuyers().add(SaveCustomer.load(customerId)));
         return productField;
     }

@@ -1,0 +1,25 @@
+{
+  "name": "dsd",
+  "categoryId": 1,
+  "allIntegerFields": [
+    {
+      "name": "wqwqqq"
+    },
+    {
+      "name": "wqw"
+    }
+  ],
+  "allOptionalFields": [
+    {
+      "name": "qeqwe"
+    },
+    {
+      "name": "qe"
+    }
+  ],
+  "parentCategoryId": 4789,
+  "subCategoriesIds": [
+    2
+  ],
+  "productsIds": []
+}

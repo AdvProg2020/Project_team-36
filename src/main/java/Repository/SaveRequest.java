@@ -8,11 +8,11 @@ import com.google.gson.GsonBuilder;
 public class SaveRequest {
     private int requestId;
     private Status status;
-    private SaveProduct saveProduct;
-    private SaveProductField saveProductField;
-    private SaveComment saveComment;
-    private SaveSeller saveSeller;
-    private SaveSale saveSale;
+//    private SaveProduct saveProduct;
+//    private SaveProductField saveProductField;
+//    private SaveComment saveComment;
+//    private SaveSeller saveSeller;
+//    private SaveSale saveSale;
 
     private static int lastId;
 
@@ -24,17 +24,17 @@ public class SaveRequest {
         saveRequest.requestId = request.getRequestId();
         saveRequest.status = request.getStatus();
 
-        if (request.getPendableRequest() instanceof Product) {
-            saveRequest.saveProduct = new SaveProduct((Product) request.getPendableRequest());
-        } else if (request.getPendableRequest() instanceof ProductField) {
-            saveRequest.saveProductField = new SaveProductField((ProductField) request.getPendableRequest());
-        } else if (request.getPendableRequest() instanceof Comment) {
-            saveRequest.saveComment = new SaveComment((Comment) request.getPendableRequest());
-        } else if (request.getPendableRequest() instanceof Seller) {
-            saveRequest.saveSeller = new SaveSeller((Seller) request.getPendableRequest());
-        } else if (request.getPendableRequest() instanceof Sale) {
-            saveRequest.saveSale = new SaveSale((Sale) request.getPendableRequest());
-        }
+//        if (request.getPendableRequest() instanceof Product) {
+//            saveRequest.saveProduct = new SaveProduct((Product) request.getPendableRequest());
+//        } else if (request.getPendableRequest() instanceof ProductField) {
+//            saveRequest.saveProductField = new SaveProductField((ProductField) request.getPendableRequest());
+//        } else if (request.getPendableRequest() instanceof Comment) {
+//            saveRequest.saveComment = new SaveComment((Comment) request.getPendableRequest());
+//        } else if (request.getPendableRequest() instanceof Seller) {
+//            saveRequest.saveSeller = new SaveSeller((Seller) request.getPendableRequest());
+//        } else if (request.getPendableRequest() instanceof Sale) {
+//            saveRequest.saveSale = new SaveSale((Sale) request.getPendableRequest());
+//        }
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveRequestGson = gson.toJson(saveRequest);
@@ -56,17 +56,17 @@ public class SaveRequest {
         SaveRequest saveRequest = gson.fromJson(data, SaveRequest.class);
 
         Pendable pendable = null;
-        if (saveRequest.saveSale != null) {
-            pendable = saveRequest.saveSale.generateSale();
-        } else if (saveRequest.saveComment != null) {
-            pendable = saveRequest.saveComment.generateComment();
-        } else if (saveRequest.saveProductField != null) {
-            pendable = saveRequest.saveProductField.generateProductField();
-        } else if (saveRequest.saveProduct != null) {
-            pendable = saveRequest.saveProduct.generateProduct();
-        } else if (saveRequest.saveSeller != null) {
-            pendable = saveRequest.saveSeller.generateSeller();
-        }
+//        if (saveRequest.saveSale != null) {
+//            pendable = saveRequest.saveSale.generateSale();
+//        } else if (saveRequest.saveComment != null) {
+//            pendable = saveRequest.saveComment.generateComment();
+//        } else if (saveRequest.saveProductField != null) {
+//            pendable = saveRequest.saveProductField.generateProductField();
+//        } else if (saveRequest.saveProduct != null) {
+//            pendable = saveRequest.saveProduct.generateProduct();
+//        } else if (saveRequest.saveSeller != null) {
+//            pendable = saveRequest.saveSeller.generateSeller();
+//        }
 
         Request request = new Request(pendable,id,saveRequest.status);
         Request.addToAllRequests(request);
