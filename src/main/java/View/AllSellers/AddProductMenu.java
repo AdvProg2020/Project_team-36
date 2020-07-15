@@ -6,9 +6,6 @@ import Models.*;
 import View.ManageCategoriesMenu;
 import View.Menu;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 public class AddProductMenu extends Menu {
 
 

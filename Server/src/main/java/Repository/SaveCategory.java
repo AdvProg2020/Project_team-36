@@ -40,23 +40,30 @@ public class SaveCategory {
         productsIds.add(productId);
     }
 
-    public static void save(Category category) {
-        SaveCategory saveCategory = new SaveCategory();
-        saveCategory.name = category.getName();
-        saveCategory.categoryId = category.getCategoryId();
+    public SaveCategory(Category category){
+        subCategoriesIds = new ArrayList<>();
+        productsIds = new ArrayList<>();
+        allOptionalFields = new HashSet<>();
+        allIntegerFields = new HashSet<>();
+        this.name = category.getName();
+        this.categoryId = category.getCategoryId();
         if (category.getParentCategory() != null){
-            saveCategory.parentCategoryId = category.getParentCategory().getCategoryId();
+            this.parentCategoryId = category.getParentCategory().getCategoryId();
         }
         for (Field field : category.getAllFields()) {
             if (field instanceof IntegerField){
-                saveCategory.allIntegerFields.add((IntegerField) field);
+                this.allIntegerFields.add((IntegerField) field);
             }
             if (field instanceof OptionalField){
-                saveCategory.allOptionalFields.add((OptionalField) field);
+                this.allOptionalFields.add((OptionalField) field);
             }
         }
-        category.getSubCategories().forEach(subCategory -> saveCategory.addSubCategory(subCategory));
-        category.getProducts().forEach(product -> saveCategory.addProduct(product));
+        category.getSubCategories().forEach(subCategory -> this.addSubCategory(subCategory));
+        category.getProducts().forEach(product -> this.addProduct(product));
+    }
+
+    public static void save(Category category) {
+        SaveCategory saveCategory = new SaveCategory(category);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveCategoryGson = gson.toJson(saveCategory);
         FileUtil.write(FileUtil.generateAddress(Category.class.getName(), saveCategory.categoryId), saveCategoryGson);

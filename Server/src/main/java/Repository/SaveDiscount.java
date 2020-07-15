@@ -1,11 +1,9 @@
 package Repository;
 
-import Models.Customer;
 import Models.Discount;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +20,10 @@ public class SaveDiscount {
 
     private SaveDiscount() {
         this.customersIncludedIds = new ArrayList<>();
+    }
+
+    public SaveDiscount(Discount discount){
+        //todo
     }
 
     public static void save(Discount discount){

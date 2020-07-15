@@ -6,7 +6,6 @@ import View.Products.OffsMenu;
 import View.Products.ProductsMenu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class CustomerMenu extends Menu {

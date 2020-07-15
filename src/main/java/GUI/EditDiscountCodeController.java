@@ -4,7 +4,6 @@ import Controllers.ManagerController;
 import Models.Customer;
 import Models.Discount;
 import Models.User;
-import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;

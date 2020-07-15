@@ -21,6 +21,9 @@ public class SaveManager {
     private SaveManager() {
     }
 
+    public SaveManager(Manager manager){
+        //todo
+    }
     public static void save(Manager manager){
         SaveManager saveManager = new SaveManager();
         saveManager.profilePictureURL = manager.getProfilePictureUrl();

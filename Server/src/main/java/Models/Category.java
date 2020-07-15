@@ -2,12 +2,9 @@ package Models;
 
 import GUI.ManageCategoriesController;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.image.ImageView;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 

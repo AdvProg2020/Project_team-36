@@ -1,7 +1,6 @@
 package View;
 
 import Controllers.ManagerController;
-import Models.Discount;
 import Models.Request;
 
 import java.util.ArrayList;

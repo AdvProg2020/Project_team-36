@@ -1,6 +1,5 @@
 package Controllers;
 
-import Models.Customer;
 import Models.Seller;
 import Models.User;
 

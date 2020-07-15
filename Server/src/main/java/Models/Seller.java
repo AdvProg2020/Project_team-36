@@ -160,7 +160,7 @@ public class Seller extends User implements Pendable {
 
     @Override
     public void acceptAddRequest() {
-        User.addNewUser(this);
+        addNewUser(this);
         allSellers.add(this);
     }
 

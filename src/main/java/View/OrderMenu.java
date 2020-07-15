@@ -2,7 +2,6 @@ package View;
 
 import Controllers.CustomerController;
 import Controllers.ProductsController;
-import Models.Customer;
 import Models.CustomerLog;
 
 import java.util.ArrayList;

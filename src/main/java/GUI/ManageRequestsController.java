@@ -1,7 +1,6 @@
 package GUI;
 
 import Controllers.ProductsController;
-import Models.Discount;
 import Models.Request;
 import Models.User;
 import javafx.event.ActionEvent;

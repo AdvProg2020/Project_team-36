@@ -1,7 +1,6 @@
 package Repository;
 
 import Models.*;
-import View.ManageAllProductsMenu;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,6 +18,9 @@ public class SaveRequest {
     private SaveRequest() {
     }
 
+    public SaveRequest(Request request){
+
+    }
     public static void save(Request request) {
         SaveRequest saveRequest = new SaveRequest();
         saveRequest.requestId = request.getRequestId();

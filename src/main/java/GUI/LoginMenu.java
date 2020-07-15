@@ -2,10 +2,8 @@ package GUI;
 
 import Controllers.EntryController;
 import Controllers.GlobalVariables;
-import Models.User;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 public class LoginMenu {
 private EntryController entryController;

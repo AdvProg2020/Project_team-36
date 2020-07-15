@@ -1,9 +1,7 @@
 package Repository;
 
 import Models.Comment;
-import Models.Product;
 import Models.Status;
-import Models.User;
 
 public class SaveComment {
     private int userId;

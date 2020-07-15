@@ -23,6 +23,10 @@ public class SaveGift {
     private SaveGift() {
     }
 
+    public SaveGift(Gift gift){
+        //todo
+    }
+
     public static void save(Gift gift) {
         SaveGift saveGift = new SaveGift();
         saveGift.name = gift.getName();

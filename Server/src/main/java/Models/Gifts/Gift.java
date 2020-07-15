@@ -6,7 +6,6 @@ import Models.Gifts.Events.Event;
 import Models.WaitingLog;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 
 public class Gift {

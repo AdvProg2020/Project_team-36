@@ -3,7 +3,6 @@ package GUI;
 import Controllers.CategoryController;
 import Controllers.NewProductController;
 import Models.*;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -17,11 +16,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.UnknownServiceException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AddNewProductController extends SellerProductsController implements Initializable {
 

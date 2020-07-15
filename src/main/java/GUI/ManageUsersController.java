@@ -1,11 +1,8 @@
 package GUI;
 
 import Controllers.ProductsController;
-import Models.Category;
 import Models.User;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;

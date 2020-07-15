@@ -4,11 +4,8 @@ import Controllers.CategoryController;
 import Controllers.ProductsController;
 import Models.Category;
 import Models.Field;
-import Models.IntegerField;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class ManageCategoriesMenu extends Menu {

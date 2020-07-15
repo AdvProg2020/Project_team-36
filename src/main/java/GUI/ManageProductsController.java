@@ -2,7 +2,6 @@ package GUI;
 
 import Controllers.ProductsController;
 import Models.Product;
-import Models.Request;
 import Models.User;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;

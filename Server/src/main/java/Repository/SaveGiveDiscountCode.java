@@ -1,6 +1,5 @@
 package Repository;
 
-import Models.Discount;
 import Models.Gifts.Actions.GiveDiscountCode;
 
 public class SaveGiveDiscountCode {

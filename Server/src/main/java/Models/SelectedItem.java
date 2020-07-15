@@ -2,8 +2,6 @@ package Models;
 
 import java.util.ArrayList;
 
-import static Models.CartTag.*;
-
 public class SelectedItem {
     private Product product;
     private ArrayList<Seller> sellers;

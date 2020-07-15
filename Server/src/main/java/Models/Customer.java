@@ -1,13 +1,7 @@
 package Models;
 
-import GUI.ItemInCartController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Customer extends User {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();

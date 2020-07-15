@@ -22,6 +22,10 @@ public class SaveUser {
         return null;
     }
 
+    public SaveUser(User user){
+        //todo
+    }
+
     public static int getLastId() {
         return lastId;
     }

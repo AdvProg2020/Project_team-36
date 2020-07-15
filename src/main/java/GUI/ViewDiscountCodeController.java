@@ -4,16 +4,13 @@ package GUI;
 import Models.Customer;
 import Models.Discount;
 import Models.User;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.io.DataInput;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class ViewDiscountCodeController extends ManagerProfileController implements Initializable {
 

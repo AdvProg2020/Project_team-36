@@ -1,9 +1,7 @@
 package Repository;
 
 import Models.CartTag;
-import Models.Product;
 import Models.SelectedItem;
-import Models.Seller;
 
 import java.util.ArrayList;
 import java.util.List;

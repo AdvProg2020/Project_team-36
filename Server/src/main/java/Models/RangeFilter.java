@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
 public class RangeFilter implements Filter {
     private BigDecimal min;

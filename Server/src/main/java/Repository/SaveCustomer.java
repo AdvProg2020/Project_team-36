@@ -32,6 +32,10 @@ public class SaveCustomer {
         this.cart = new ArrayList<>();
     }
 
+    public SaveCustomer(Customer customer){
+        //todo
+    }
+
     public static void save(Customer customer){
         SaveCustomer saveCustomer = new SaveCustomer();
         saveCustomer.profilePictureURL = customer.getProfilePictureUrl();

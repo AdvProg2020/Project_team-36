@@ -1,8 +1,6 @@
 package Repository;
 
-import Models.Customer;
 import Models.Score;
-import Models.User;
 
 public class SaveScore {
     private int customerId;

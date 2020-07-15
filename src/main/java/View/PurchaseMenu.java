@@ -2,7 +2,6 @@ package View;
 
 import Controllers.CustomerController;
 import Models.Gifts.Gift;
-import Models.SelectedItem;
 
 import java.util.ArrayList;
 

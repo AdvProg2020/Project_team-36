@@ -2,7 +2,6 @@ package View;
 
 import Controllers.EntryController;
 import Controllers.ProductsController;
-import Models.Field;
 import Models.Product;
 import Models.ProductField;
 

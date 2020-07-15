@@ -3,7 +3,6 @@ package GUI;
 import Models.Product;
 import Models.Seller;
 import Models.User;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
