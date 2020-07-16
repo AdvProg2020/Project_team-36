@@ -1,12 +1,13 @@
 package Controllers;
 
 import Models.*;
+import Repository.SaveCategory;
+import Repository.SaveProduct;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class OffController implements ObjectController {
     GlobalVariables userVariables;
@@ -56,7 +57,6 @@ public class OffController implements ObjectController {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public String getProductCurrentSortName() {
@@ -287,7 +287,7 @@ public class OffController implements ObjectController {
 
     public void removeNameFilter(String name) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if (filter.getName().equals("name")&& filter instanceof OptionalFilter) {
+            if (filter.getName().equals("name") && filter instanceof OptionalFilter) {
                 ((OptionalFilter) filter).removeOption(name);
                 if (((OptionalFilter) filter).getOptions().isEmpty()) {
                     userVariables.getAllFiltersOffs().remove(filter);
@@ -341,25 +341,25 @@ public class OffController implements ObjectController {
         }
     }
 
-    public HashMap<String,HashSet<String>> getAllOptionalChoices(){
+    public HashMap<String, HashSet<String>> getAllOptionalChoices() {
         ArrayList<Product> allProducts = userVariables.getFilterOffsCategory().getAllSubProducts();
-        HashMap<String,HashSet<String>> options = new HashMap<>();
+        HashMap<String, HashSet<String>> options = new HashMap<>();
         for (Field field : userVariables.getFilterOffsCategory().getAllFields()) {
-            if(field instanceof OptionalField)
+            if (field instanceof OptionalField)
                 options.put(field.getName(), new HashSet<>());
         }
         for (Product product : allProducts) {
             for (Field field : product.getFieldsOfCategory()) {
-                if(options.keySet().contains(field.getName())&& field instanceof OptionalField)
+                if (options.keySet().contains(field.getName()) && field instanceof OptionalField)
                     options.get(field.getName()).add(((OptionalField) field).getQuality());
             }
         }
         return options;
     }
 
-    public void addOptionalFilter(String filterName,String option){
+    public void addOptionalFilter(String filterName, String option) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter.getName().equalsIgnoreCase(filterName)&&filter instanceof OptionalFilter){
+            if (filter.getName().equalsIgnoreCase(filterName) && filter instanceof OptionalFilter) {
                 ((OptionalFilter) filter).addOption(option);
                 return;
             }
@@ -369,11 +369,11 @@ public class OffController implements ObjectController {
         userVariables.addFilterOffs(optionalFilter);
     }
 
-    public void removeOptionalFilter(String filterName,String option){
+    public void removeOptionalFilter(String filterName, String option) {
         for (Filter filter : userVariables.getAllFiltersOffs()) {
-            if(filter.getName().equalsIgnoreCase(filterName)&&filter instanceof OptionalFilter){
+            if (filter.getName().equalsIgnoreCase(filterName) && filter instanceof OptionalFilter) {
                 ((OptionalFilter) filter).removeOption(option);
-                if(((OptionalFilter)filter).getOptions().size()==0)
+                if (((OptionalFilter) filter).getOptions().size() == 0)
                     userVariables.getAllFiltersOffs().remove(filter);
                 return;
             }
@@ -381,12 +381,205 @@ public class OffController implements ObjectController {
     }
 
     @Override
-    public ArrayList<String> getCategoryNames(){
+    public ArrayList<String> getCategoryNames() {
         ArrayList<String> categoryNames = new ArrayList<>();
         for (Category category : Category.getAllCategories()) {
             categoryNames.add(category.getName());
         }
         return categoryNames;
+    }
+
+    public Response processQuery(Query query) {
+        return switch (query.getMethodName()) {
+            case "removeSortProduct" -> processRemoveSortProduct(query);
+            case "setSort" -> processSetSort(query);
+            case "getAvailableFilters" -> processGetAvailableFilters(query);
+            case "setNewFilter" -> processSetNewFilter(query);
+            case "setFilterRange" -> processSetFilterRange(query);
+            case "setFilterOptions" -> processSetFilterOptions(query);
+            case "removeFilter" -> processRemoveFilter(query);
+            case "getCompanyNamesForFilter" -> processGetCompanyNamesForFilter(query);
+            case "getSpecialIntegerFilter" -> processGetSpecialIntegerFilter(query);
+            case "getFinalProductsList" -> processGetFinalProductsList(query);
+            case "setCategoryFilter" -> processSetCategoryFilter(query);
+            case "setCompanyFilter" -> processSetCompanyFilter(query);
+            case "addNameFilter" -> processAddNameFilter(query);
+            case "removeNameFilter" -> processRemoveNameFilter(query);
+            case "availabilityFilter" -> processAvailabilityFilter(query);
+            case "removeAvailabilityFilter" -> processRemoveAvailabilityFilter(query);
+            case "addSellerFilter" -> processAddSellerFilter(query);
+            case "removeSellerFilter" -> processRemoveSellerFilter(query);
+            case "getAllOptionalChoices" -> processGetAllOptionalChoices(query);
+            case "addOptionalFilter" -> processAddOptionalFilter(query);
+            case "removeOptionalFilter" -> processRemoveOptionalFilter(query);
+            case "getCategoryNames" -> processGetCategoryNames(query);
+            default -> new Response("Error", "");
+        };
+    }
+
+    private Response processGetCategoryNames(Query query) {
+        Gson gson = new GsonBuilder().create();
+        List<String> names = new ArrayList<>();
+        names.addAll(getCategoryNames());
+        String categoryNames = gson.toJson(names);
+        return new Response("List<String>", categoryNames);
+    }
+
+    private Response processRemoveOptionalFilter(Query query) {
+        String filterName = query.getMethodInputs().get("filterName");
+        String option = query.getMethodInputs().get("option");
+        removeOptionalFilter(filterName, option);
+        return new Response("void", "");
+    }
+
+    private Response processAddOptionalFilter(Query query) {
+        String filterName = query.getMethodInputs().get("filterName");
+        String option = query.getMethodInputs().get("option");
+        addOptionalFilter(filterName, option);
+        return new Response("void", "");
+    }
+
+    private Response processGetAllOptionalChoices(Query query) {
+        Gson gson = new GsonBuilder().create();
+        Map<String, Set<String>> toBeReturned = new HashMap<>(getAllOptionalChoices());
+        String choices = gson.toJson(toBeReturned);
+        return new Response("Map<String,Set<String>>", choices);
+    }
+
+    private Response processRemoveSellerFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        removeSellerFilter(name);
+        return new Response("void", "");
+    }
+
+    private Response processAddSellerFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        addSellerFilter(name);
+        return new Response("void", "");
+    }
+
+    private Response processRemoveAvailabilityFilter(Query query) {
+        removeAvailabilityFilter();
+        return new Response("void", "");
+    }
+
+    private Response processAvailabilityFilter(Query query) {
+        availabilityFilter();
+        return new Response("void", "");
+    }
+
+    private Response processRemoveNameFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        removeNameFilter(name);
+        return new Response("void", "");
+    }
+
+    private Response processAddNameFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        addNameFilter(name);
+        return new Response("void", "");
+    }
+
+    private Response processSetCompanyFilter(Query query) {
+       //TODO ask
+        return null;
+    }
+
+    private Response processSetCategoryFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        try {
+            setCategoryFilter(name);
+            return new Response("void", "");
+        } catch (ProductsController.NoCategoryWithName noCategoryWithName) {
+            return new Response("NoCategoryWithName","");
+        }
+    }
+
+    private Response processGetFinalProductsList(Query query) {
+        List<SaveProduct> allSavedProducts = new ArrayList<>();
+        getFinalProductsList().forEach(c -> allSavedProducts.add(new SaveProduct(c)));
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(allSavedProducts);
+        return new Response("List<Product>", stringGson);
+    }
+
+    private Response processGetSpecialIntegerFilter(Query query) {
+        List<String> toBeRetuned = new ArrayList<>();
+        toBeRetuned.addAll(getSpecialIntegerFilter());
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(toBeRetuned);
+        return new Response("List<String>",stringGson);
+    }
+
+    private Response processGetCompanyNamesForFilter(Query query) {
+        Set<String> toBeRetuned = new HashSet<>();
+        toBeRetuned.addAll(getCompanyNamesForFilter());
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(toBeRetuned);
+        return new Response("Set<String>", stringGson);
+    }
+
+    private Response processRemoveFilter(Query query) {
+        String name  = query.getMethodInputs().get("name");
+        try {
+            removeFilter(name);
+            return new Response("void","");
+        } catch (ProductsController.NoFilterWithNameException e) {
+            return new Response("NoFilterWithNameException","");
+        }
+
+    }
+
+    private Response processSetFilterOptions(Query query) {
+        //TODO ask
+return null;
+    }
+
+    private Response processSetFilterRange(Query query) {
+        String min = query.getMethodInputs().get("min");
+        String max = query.getMethodInputs().get("max");
+        setFilterRange(min,max);
+        return new Response("void","");
+    }
+
+    private Response processSetNewFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        try {
+            setNewFilter(name);
+            return new Response("void","");
+        } catch (ProductsController.IntegerFieldException e) {
+            return new Response("IntegerFieldException","");
+        } catch (ProductsController.OptionalFieldException e) {
+            return new Response("OptionalFieldException","");
+        } catch (ProductsController.NoFilterWithNameException e) {
+            return new Response("NoFilterWithNameException","");
+        }
+
+    }
+
+    private Response processGetAvailableFilters(Query query) {
+        Set<String> toBeReturned = new HashSet<>();
+        toBeReturned.addAll(getAvailableFilters());
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(toBeReturned);
+        return new Response("Set<String>", stringGson);
+
+    }
+
+    private Response processSetSort(Query query) {
+        String name = query.getMethodInputs().get("name");
+        String type = query.getMethodInputs().get("type");
+        try {
+            setSort(name,type);
+            return new Response("void", "");
+        } catch (ProductsController.NoSortException e) {
+            return new Response("NoSortException", "");
+        }
+    }
+
+    private Response processRemoveSortProduct(Query query) {
+        removeSortProduct();
+        return new Response("void", "");
     }
 
 
