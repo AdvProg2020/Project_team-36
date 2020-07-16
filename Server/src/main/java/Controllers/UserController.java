@@ -1,5 +1,7 @@
 package Controllers;
 
+import Models.Query;
+import Models.Response;
 import Models.Seller;
 import Models.User;
 
@@ -70,6 +72,7 @@ public class UserController {
         }
         throw new NoFieldWithThisType();
     }
+
     public void setPassword(String password){
         this.userVariables.getLoggedInUser().setPassword(password);
     }
@@ -88,6 +91,65 @@ public class UserController {
 
     public void setPhoneNumber(String phoneNumber){
         this.userVariables.getLoggedInUser().setPhoneNumber(phoneNumber);
+    }
+
+    public Response processQuery(Query query) {
+        return switch (query.getMethodName()) {
+            case "getLoggedInUser" -> processGetLoggedInUser(query);
+            case "editInfo" -> processEditInfo(query);
+            case "setPassword" -> processSetPassword(query);
+            case "setEmail" -> processSetEmail(query);
+            case "setFirstname" -> processSetFirstname(query);
+            case "setLastname" -> processSetLastname(query);
+            case "setPhoneNumber" -> processSetPhoneNumber(query);
+            default -> new Response("Error", "");
+        };
+    }
+
+    private Response processSetPhoneNumber(Query query) {
+        String phoneNumber = query.getMethodInputs().get("phoneNumber");
+        setPhoneNumber(phoneNumber);
+        return new Response("void","");
+    }
+
+    private Response processSetLastname(Query query) {
+        String lastname = query.getMethodInputs().get("lastname");
+        setLastname(lastname);
+        return new Response("void","");
+    }
+
+    private Response processSetFirstname(Query query) {
+        String firstname = query.getMethodInputs().get("firstname");
+        setFirstname(firstname);
+        return new Response("void","");
+    }
+
+    private Response processSetEmail(Query query) {
+        String email = query.getMethodInputs().get("email");
+        setEmail(email);
+        return new Response("void","");
+    }
+
+    private Response processSetPassword(Query query) {
+        String password = query.getMethodInputs().get("password");
+        setPassword(password);
+        return new Response("void","");
+    }
+
+    private Response processEditInfo(Query query) {
+        String type = query.getMethodInputs().get("type");
+        String newQuality = query.getMethodInputs().get("newQuality");
+        try {
+            editInfo(type,newQuality);
+            return new Response("void","");
+        } catch (NoFieldWithThisType noFieldWithThisType) {
+            return new Response("NoFieldWithThisType","");
+        }
+    }
+
+    private Response processGetLoggedInUser(Query query) {
+        //TODO ask
+        return null;
     }
 
 
