@@ -515,7 +515,14 @@ public class ProductsController implements ObjectController {
 
     private Response processGetAllOptionalChoices(Query query) {
         Gson gson = new GsonBuilder().create();
-        Map<String, Set<String>> toBeReturned = new HashMap<>(getAllOptionalChoices());
+        Map<String, Set<String>> toBeReturned = new HashMap<>();
+        for (String key : getAllOptionalChoices().keySet()) {
+            Set<String> value = new HashSet<>();
+            for (String s : getAllOptionalChoices().get(key)) {
+                value.add(s);
+            }
+            toBeReturned.put(key,value);
+        }
         String choices = gson.toJson(toBeReturned);
         return new Response("Map<String,Set<String>>", choices);
     }
