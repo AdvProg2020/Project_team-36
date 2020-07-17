@@ -33,26 +33,28 @@ public class SaveCustomer {
     }
 
     public SaveCustomer(Customer customer){
-        //todo
+        this.allCustomerLogs = new ArrayList<>();
+        this.allDiscountsForCustomer = new HashMap<>();
+        this.cart = new ArrayList<>();
+        this.profilePictureURL = customer.getProfilePictureUrl();
+        this.userId = customer.getUserId();
+        this.username = customer.getUsername();
+        this.firstname = customer.getFirstname();
+        this.lastname = customer.getLastname();
+        this.email = customer.getEmail();
+        this.phoneNumber = customer.getPhoneNumber();
+        this.password = customer.getPassword();
+        this.status = customer.getStatus();
+        this.credit = customer.getCredit();
+        customer.getAllLogs().forEach(customerLog -> this.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
+        customer.getCart().forEach(selectedItem -> this.cart.add(new SaveSelectedItem(selectedItem)));
+        if (customer.getAllDiscountsForCustomer() != null){
+            customer.getAllDiscountsForCustomer().forEach((key,value) -> this.allDiscountsForCustomer.put(key.getId(),value));
+        }
     }
 
     public static void save(Customer customer){
-        SaveCustomer saveCustomer = new SaveCustomer();
-        saveCustomer.profilePictureURL = customer.getProfilePictureUrl();
-        saveCustomer.userId = customer.getUserId();
-        saveCustomer.username = customer.getUsername();
-        saveCustomer.firstname = customer.getFirstname();
-        saveCustomer.lastname = customer.getLastname();
-        saveCustomer.email = customer.getEmail();
-        saveCustomer.phoneNumber = customer.getPhoneNumber();
-        saveCustomer.password = customer.getPassword();
-        saveCustomer.status = customer.getStatus();
-        saveCustomer.credit = customer.getCredit();
-        customer.getAllLogs().forEach(customerLog -> saveCustomer.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
-        customer.getCart().forEach(selectedItem -> saveCustomer.cart.add(new SaveSelectedItem(selectedItem)));
-        if (customer.getAllDiscountsForCustomer() != null){
-            customer.getAllDiscountsForCustomer().forEach((key,value) -> saveCustomer.allDiscountsForCustomer.put(key.getId(),value));
-        }
+        SaveCustomer saveCustomer = new SaveCustomer(customer);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveCustomerGson = gson.toJson(saveCustomer);
         FileUtil.write(FileUtil.generateAddress(Customer.class.getName(),saveCustomer.userId),saveCustomerGson);

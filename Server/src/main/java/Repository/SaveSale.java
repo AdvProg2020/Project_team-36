@@ -14,8 +14,8 @@ public class SaveSale {
     private int offId;
     private List<Integer> productsInSaleIds;
     private ProductionStatus status;
-    private Date startTime;
-    private Date endTime;
+    private long startTime;
+    private long endTime;
     private Double salePercent;//be darsad nist
 
     public static void save(Sale sale){
@@ -38,7 +38,7 @@ public class SaveSale {
         }
         SaveSale saveSale = gson.fromJson(data,SaveSale.class);
         Sale sale = new Sale(SaveSeller.load(saveSale.sellerId),saveSale.offId,
-                saveSale.status,saveSale.startTime,saveSale.endTime,saveSale.salePercent);
+                saveSale.status,new Date(saveSale.startTime),new Date(saveSale.endTime),saveSale.salePercent);
         Sale.addToAllSales(sale);
         saveSale.productsInSaleIds.forEach(productInSaleId -> sale.getProductsInSale().add(SaveProduct.load(productInSaleId)));
         return sale;
@@ -50,14 +50,14 @@ public class SaveSale {
         this.productsInSaleIds = new ArrayList<>();
         sale.getProductsInSale().forEach(product -> this.productsInSaleIds.add(product.getProductId()));
         this.status = sale.getStatus();
-        this.startTime = sale.getStartTime();
-        this.endTime = sale.getEndTime();
+        this.startTime = sale.getStartTime().getTime();
+        this.endTime = sale.getEndTime().getTime();
         this.salePercent = sale.getSalePercent();
     }
 
     public Sale generateSale(){
         Sale sale = new Sale(SaveSeller.load(this.sellerId),this.offId,
-                this.status,this.startTime,this.endTime,this.salePercent);
+                this.status,new Date(this.startTime),new Date(this.endTime),this.salePercent);
         this.productsInSaleIds.forEach(productInSaleId -> sale.getProductsInSale().add(SaveProduct.load(productInSaleId)));
         return sale;
     }

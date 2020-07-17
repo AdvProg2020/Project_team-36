@@ -16,7 +16,7 @@ public class SaveProduct {
     private String information;
     private List<SaveProductField> productFields;
     private List<SaveScore> allScore;
-    private Date productionDate;
+    private long productionDate;
     private List<SaveComment> allComments;
     private String productImageURL;
     private Set<Integer> allBuyers;
@@ -43,7 +43,7 @@ public class SaveProduct {
         Product product = new Product(saveProduct.productId,saveProduct.name,
                 saveProduct.company,SaveCategory.load(saveProduct.categoryId),
                 new ArrayList<>(saveProduct.integerFieldsOfCategory),new ArrayList<>(saveProduct.optionalFieldsOfCategory),saveProduct.information,
-                saveProduct.productionDate,saveProduct.seenNumber,saveProduct.productImageURL);
+                new Date(saveProduct.productionDate),saveProduct.seenNumber,saveProduct.productImageURL);
         Product.addToAllProducts(product);
         saveProduct.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
         saveProduct.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
@@ -65,7 +65,7 @@ public class SaveProduct {
         this.company = product.getCompany();
         this.categoryId = product.getCategory().getCategoryId();
         this.information = product.getInformation();
-        this.productionDate = product.getProductionDate();
+        this.productionDate = product.getProductionDate().getTime();
         this.seenNumber = product.getSeenNumber();
         for (Field field : product.getFieldsOfCategory()) {
             if (field instanceof IntegerField){
@@ -85,7 +85,7 @@ public class SaveProduct {
         Product product = new Product(this.productId,this.name,
                 this.company,SaveCategory.load(this.categoryId),
                 new ArrayList<>(this.integerFieldsOfCategory),new ArrayList<>(this.optionalFieldsOfCategory),this.information,
-                this.productionDate,this.seenNumber,this.productImageURL);
+                new Date(this.productionDate),this.seenNumber,this.productImageURL);
         this.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
         this.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
         this.productFields.forEach(saveProductField -> product.getProductFields().add(saveProductField.generateProductField()));

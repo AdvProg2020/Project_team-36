@@ -19,25 +19,24 @@ public class SaveRequest {
     }
 
     public SaveRequest(Request request){
-
-    }
-    public static void save(Request request) {
-        SaveRequest saveRequest = new SaveRequest();
-        saveRequest.requestId = request.getRequestId();
-        saveRequest.status = request.getStatus();
+        this.requestId = request.getRequestId();
+        this.status = request.getStatus();
 
         if (request.getPendableRequest() instanceof Product) {
-            saveRequest.saveProduct = new SaveProduct((Product) request.getPendableRequest());
+            this.saveProduct = new SaveProduct((Product) request.getPendableRequest());
         } else if (request.getPendableRequest() instanceof ProductField) {
-            saveRequest.saveProductField = new SaveProductField((ProductField) request.getPendableRequest());
+            this.saveProductField = new SaveProductField((ProductField) request.getPendableRequest());
         } else if (request.getPendableRequest() instanceof Comment) {
-            saveRequest.saveComment = new SaveComment((Comment) request.getPendableRequest());
+            this.saveComment = new SaveComment((Comment) request.getPendableRequest());
         } else if (request.getPendableRequest() instanceof Seller) {
-            saveRequest.saveSeller = new SaveSeller((Seller) request.getPendableRequest());
+            this.saveSeller = new SaveSeller((Seller) request.getPendableRequest());
         } else if (request.getPendableRequest() instanceof Sale) {
-            saveRequest.saveSale = new SaveSale((Sale) request.getPendableRequest());
+            this.saveSale = new SaveSale((Sale) request.getPendableRequest());
         }
+    }
 
+    public static void save(Request request) {
+        SaveRequest saveRequest = new SaveRequest(request);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveRequestGson = gson.toJson(saveRequest);
         FileUtil.write(FileUtil.generateAddress(Request.class.getName(), saveRequest.requestId), saveRequestGson);

@@ -1,9 +1,16 @@
 package Repository;
 
+import Models.Customer;
+import Models.Manager;
+import Models.Seller;
 import Models.User;
 
 public class SaveUser {
     private static int lastId;
+    private SaveManager saveManager;
+    private SaveCustomer saveCustomer;
+    private SaveSeller saveSeller;
+
     public static User load(int id){
         lastId = Math.max(lastId,id);
         User potentialUser = User.getUserById(id);
@@ -23,7 +30,15 @@ public class SaveUser {
     }
 
     public SaveUser(User user){
-        //todo
+        if (user != null){
+            if (user instanceof Manager){
+                this.saveManager = new SaveManager((Manager) user);
+            }else if (user instanceof Customer){
+                this.saveCustomer = new SaveCustomer((Customer) user);
+            }else if (user instanceof Seller){
+                this.saveSeller = new SaveSeller((Seller) user);
+            }
+        }
     }
 
     public static int getLastId() {

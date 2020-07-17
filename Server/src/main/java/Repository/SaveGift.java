@@ -24,28 +24,26 @@ public class SaveGift {
     }
 
     public SaveGift(Gift gift){
-        //todo
-    }
-
-    public static void save(Gift gift) {
-        SaveGift saveGift = new SaveGift();
-        saveGift.name = gift.getName();
+        this.name = gift.getName();
         Action action = gift.getAction();
         if (action instanceof DiscountInCurrentLog) {
-            saveGift.discountInCurrentLog = (DiscountInCurrentLog) action;
+            this.discountInCurrentLog = (DiscountInCurrentLog) action;
         } else if (action instanceof GiveDiscountCode) {
-            saveGift.saveGiveDiscountCode = new SaveGiveDiscountCode((GiveDiscountCode) action);
+            this.saveGiveDiscountCode = new SaveGiveDiscountCode((GiveDiscountCode) action);
         }
 
         Event event = gift.getEvent();
         if (event instanceof FirstBuyEvent) {
-            saveGift.firstBuyEvent = (FirstBuyEvent) event;
+            this.firstBuyEvent = (FirstBuyEvent) event;
         } else if (event instanceof HighPriceEvent) {
-            saveGift.highPriceEvent = (HighPriceEvent) event;
+            this.highPriceEvent = (HighPriceEvent) event;
         } else if (event instanceof PeriodicEvent) {
-            saveGift.periodicEvent = (PeriodicEvent) event;
+            this.periodicEvent = (PeriodicEvent) event;
         }
+    }
 
+    public static void save(Gift gift) {
+        SaveGift saveGift = new SaveGift(gift);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveGiftGson = gson.toJson(saveGift);
         id++;

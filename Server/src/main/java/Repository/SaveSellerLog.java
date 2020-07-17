@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SaveSellerLog {
     private static int lastId = 0;
-    private Date date;
+    private long date;
     private int id;
     private int customerId;
     private long sale;
@@ -22,7 +22,7 @@ public class SaveSellerLog {
     private List<ItemInLog> allItems;
 
     public SaveSellerLog(SellerLog sellerLog) {
-        this.date = sellerLog.getDate();
+        this.date = sellerLog.getDate().getTime();
         this.id = sellerLog.getId();
         lastId = Math.max(lastId,this.id);
         this.customerId = sellerLog.getCustomer().getUserId();
@@ -36,7 +36,7 @@ public class SaveSellerLog {
 
     public SellerLog generateSellerLog(){
         ArrayList<ItemInLog> allItems = new ArrayList<>(this.allItems);
-        return new SellerLog(this.date,this.id,Customer.getCustomerById(this.customerId),
+        return new SellerLog(new Date(this.date),this.id,Customer.getCustomerById(this.customerId),
                 this.sale,this.customerAddress,this.customerPhoneNumber,this.logStatus,this.totalPrice,allItems);
     }
 }

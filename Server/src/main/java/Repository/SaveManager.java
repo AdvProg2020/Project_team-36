@@ -22,20 +22,19 @@ public class SaveManager {
     }
 
     public SaveManager(Manager manager){
-        //todo
+        this.profilePictureURL = manager.getProfilePictureUrl();
+        this.userId = manager.getUserId();
+        this.username = manager.getUsername();
+        this.firstname = manager.getFirstname();
+        this.lastname = manager.getLastname();
+        this.email = manager.getEmail();
+        this.phoneNumber = manager.getPhoneNumber();
+        this.password = manager.getPassword();
+        this.status = manager.getStatus();
     }
-    public static void save(Manager manager){
-        SaveManager saveManager = new SaveManager();
-        saveManager.profilePictureURL = manager.getProfilePictureUrl();
-        saveManager.userId = manager.getUserId();
-        saveManager.username = manager.getUsername();
-        saveManager.firstname = manager.getFirstname();
-        saveManager.lastname = manager.getLastname();
-        saveManager.email = manager.getEmail();
-        saveManager.phoneNumber = manager.getPhoneNumber();
-        saveManager.password = manager.getPassword();
-        saveManager.status = manager.getStatus();
 
+    public static void save(Manager manager){
+        SaveManager saveManager = new SaveManager(manager);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveManagerGson = gson.toJson(saveManager);
         FileUtil.write(FileUtil.generateAddress(Manager.class.getName(),saveManager.userId),saveManagerGson);
