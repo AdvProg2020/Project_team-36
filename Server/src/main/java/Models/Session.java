@@ -10,7 +10,13 @@ public class Session {
     private ProductsController productsController;
     private OffController offController;
     private UserController userController;
+
     private CategoryController categoryController;
+    private DiscountController discountController;
+    private EditProductController editProductController;
+    private NewManagerController newManagerController;
+    private NewOffController newOffController;
+    private NewProductController newProductController;
 
     private GlobalVariables globalVariables;
 
@@ -24,7 +30,40 @@ public class Session {
         this.productsController = new ProductsController(globalVariables);
         this.offController = new OffController(globalVariables);
         this.userController = new UserController(globalVariables);
+    }
+
+    public void setCategoryController(){
         this.categoryController = new CategoryController();
+    }
+
+    public void setDiscountController(){
+        this.discountController = new DiscountController();
+    }
+
+    public void setEditProductController(){
+        this.editProductController = null;
+        if (globalVariables.getLoggedInUser() instanceof Seller){
+            this.editProductController = new EditProductController((Seller) globalVariables.getLoggedInUser());
+        }
+    }
+
+    public void setNewManagerController(){
+        this.newManagerController = new NewManagerController();
+    }
+
+    public void setNewOffController(){
+        this.editProductController = null;
+        if (globalVariables.getLoggedInUser() instanceof Seller){
+            this.newOffController = new NewOffController((Seller) globalVariables.getLoggedInUser());
+        }
+    }
+
+    public void setNewProductController(){
+        this.newProductController = new NewProductController();
+    }
+
+    public DiscountController getDiscountController() {
+        return discountController;
     }
 
     public ManagerController getManagerController() {
@@ -61,5 +100,21 @@ public class Session {
 
     public CategoryController getCategoryController() {
         return categoryController;
+    }
+
+    public EditProductController getEditProductController() {
+        return editProductController;
+    }
+
+    public NewManagerController getNewManagerController() {
+        return newManagerController;
+    }
+
+    public NewOffController getNewOffController() {
+        return newOffController;
+    }
+
+    public NewProductController getNewProductController() {
+        return newProductController;
     }
 }

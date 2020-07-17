@@ -482,8 +482,10 @@ public class CustomerController extends UserController {
     }
 
     private Response processGetWaitingLog(Query query) {
-       return null;
-       //TODO nazanin
+        SaveWaitingLog saveWaitingLog = new SaveWaitingLog(((Customer) userVariables.getLoggedInUser()).getWaitingLog());
+        Gson gson = new GsonBuilder().create();
+        String saveWaitingLogGson = gson.toJson(saveWaitingLog);
+       return new Response("WaitingLog",saveWaitingLogGson);
     }
 
     private Response processStartPurchase(Query query) {

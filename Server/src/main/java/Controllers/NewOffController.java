@@ -15,9 +15,9 @@ public class NewOffController {
     private Date endTime;
     private Double salePercent;
 
-    public NewOffController(SellerController sellerController) {
+    public NewOffController(Seller seller) {
         productsInSale = new ArrayList<>();
-        seller = (Seller)sellerController.userVariables.getLoggedInUser();
+        this.seller = seller;
     }
 
     public void setProductsInSale(int productId) throws InvalidProductIdException{
