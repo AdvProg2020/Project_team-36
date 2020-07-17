@@ -1,11 +1,18 @@
 package Controllers;
 
 import Models.*;
+import Repository.SaveProduct;
+import Repository.SaveRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.$Gson$Preconditions;
 
+import javax.print.DocFlavor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class EditProductController {
 
@@ -13,7 +20,8 @@ public class EditProductController {
     private Seller seller;
     private ArrayList<Field> neededFields;
     private HashMap<String,Field> fieldsOfCategory;
-
+    private Product editingProduct;
+    //todo: beja id iebar editingProduct set mishe o ba un kar mishe
 
     public EditProductController(Seller seller) {
         this.seller = seller;
@@ -23,43 +31,41 @@ public class EditProductController {
     }
 
     public Product getProductCopy(Product product){
-        return new Product(product,product.getProductFieldBySeller(seller));
+        ProductField productField = new ProductField(product.getProductFieldBySeller(seller));
+        editingProduct = new Product(product, productField);
+        return editingProduct;
     }
 
-    public Method getProductFieldEditor(String chosenField, EditProductController editProductController) throws NoSuchMethodException{
-        for (String regex : productFieldsSetters.keySet()) {
-            if (chosenField.matches(regex)) {
-                return editProductController.getClass().getMethod(productFieldsSetters.get(regex),String.class,Product.class);
-            }
-        }
-        throw new NoSuchMethodException();
+//    public Method getProductFieldEditor(String chosenField, EditProductController editProductController) throws NoSuchMethodException{
+//        for (String regex : productFieldsSetters.keySet()) {
+//            if (chosenField.matches(regex)) {
+//                return editProductController.getClass().getMethod(productFieldsSetters.get(regex),String.class,Product.class);
+//            }
+//        }
+//        throw new NoSuchMethodException();
+//    }
+
+//    public void invokeProductEditor(String newValue,Product product, Method editor) throws IllegalAccessException, InvocationTargetException {
+//        editor.invoke(this,newValue,product);
+//    }
+
+    public void editProductName(String newName){
+        editingProduct.setName(newName);
+        editingProduct.setEditedField("name");
     }
 
-    public void invokeProductEditor(String newValue,Product product, Method editor) throws IllegalAccessException, InvocationTargetException {
-        editor.invoke(this,newValue,product);
+    public void editProductCompany(String newCompany){
+        editingProduct.setCompany(newCompany);
+        editingProduct.setEditedField("company");
     }
 
-    public void editProductName(String newName, Product product){
-        product.setName(newName);
-        product.setEditedField("name");
-    }
-
-    public void editProductCompany(String newCompany, Product product){
-        product.setCompany(newCompany);
-        product.setEditedField("company");
-    }
-
-    public void editProductCategory(String newCategory, Product product)throws SameCategoryException,InvalidCategoryException{
+    public void editProductCategory(String newCategory)throws InvalidCategoryException{
         for (Category category : Category.getAllCategories()) {
             if(category.getName().equals(newCategory)){
-                if(category.equals(product.getCategory())){
-                    throw new SameCategoryException();
-                }else{
-                    product.setCategory(category);
+                    editingProduct.setCategory(category);
                     neededFields.addAll(category.getAllFields());
-                    product.setEditedField("category");
+                    editingProduct.setEditedField("category");
                     return;
-                }
             }
         }
         throw new InvalidCategoryException();
@@ -93,22 +99,22 @@ public class EditProductController {
         }
     }
 
-    public void setFieldsOfCategory(Product product){
+    public void setFieldsOfCategory(){
         ArrayList<Field> fields = new ArrayList<>();
         for (String field : fieldsOfCategory.keySet()) {
             fields.add(fieldsOfCategory.get(field));
         }
-        product.setFieldsOfCategory(fields);
+        editingProduct.setFieldsOfCategory(fields);
     }
 
-    public ArrayList<Field> getCategoryFieldsToEdit(Product product){
-        product.setEditedField("fieldsOfCategory");
-        return product.getFieldsOfCategory();
+    public ArrayList<Field> getCategoryFieldsToEdit(){
+        editingProduct.setEditedField("fieldsOfCategory");
+        return editingProduct.getFieldsOfCategory();
     }
 
-    public Field getFieldToEdit(String fieldName, Product product)throws InvalidFieldException{
-        if(product.isThereField(fieldName)){
-            return product.getField(fieldName);
+    private Field getFieldToEdit(String fieldName)throws InvalidFieldException{
+        if(editingProduct.isThereField(fieldName)){
+            return editingProduct.getField(fieldName);
         } else {
             throw new InvalidFieldException();
         }
@@ -126,38 +132,37 @@ public class EditProductController {
         }
     }
 
-    public void editProductInformation(String newInformation, Product product){
-        product.setInformation(newInformation);
-        product.setEditedField("information");
+    public void editProductInformation(String newInformation){
+        editingProduct.setInformation(newInformation);
+        editingProduct.setEditedField("information");
     }
 
-
-    public void editProductPrice(String newPrice, Product product)throws NumberFormatException{
+    public void editProductPrice(String newPrice)throws NumberFormatException{
         try{
             long price = Long.parseLong(newPrice);
-            product.getProductFieldBySeller(seller).setPrice(price);
-            product.getProductFieldBySeller(seller).setEditedField("price");
+            editingProduct.getProductFieldBySeller(seller).setPrice(price);
+            editingProduct.getProductFieldBySeller(seller).setEditedField("price");
         }catch (NumberFormatException e){
             throw new NumberFormatException ();
         }
     }
 
-    public void editProductSupply(String newSupply, Product product)throws NumberFormatException{
+    public void editProductSupply(String newSupply)throws NumberFormatException{
         try{
             int supply = Integer.parseInt(newSupply);
-            product.getProductFieldBySeller(seller).setSupply(supply);
-            product.getProductFieldBySeller(seller).setEditedField("supply");
+            editingProduct.getProductFieldBySeller(seller).setSupply(supply);
+            editingProduct.getProductFieldBySeller(seller).setEditedField("supply");
         }catch (NumberFormatException e){
             throw new NumberFormatException ();
         }
     }
 
-    public void sendEditProductRequest(Product product){
-        new Request(product,Status.TO_BE_EDITED);
+    public void sendEditProductRequest(){
+        new Request(editingProduct,Status.TO_BE_EDITED);
     }
 
-    public void sendEditProductFieldRequest(Product product){
-        new Request(product.getProductFieldBySeller(seller),Status.TO_BE_EDITED);
+    public void sendEditProductFieldRequest(){
+        new Request(editingProduct.getProductFieldBySeller(seller),Status.TO_BE_EDITED);
     }
 
     private void writeProductFieldsSetters() {
@@ -170,8 +175,156 @@ public class EditProductController {
         productFieldsSetters.put("supply", "editProductSupply");
     }
 
-    public static class SameCategoryException extends Exception{
+    public Response processQuery(Query query) {
+        switch (query.getMethodName()) {
+            case "getProductCopy":
+                return processGetProductCopy(query);
 
+            case "editProductName":
+                return processEditProductName(query);
+
+            case "editProductCompany":
+                return processEditProductCompany(query);
+
+            case "editProductCategory":
+                return processEditProductCategory(query);
+
+            case "getNeededFields":
+                return processGetNeededFields();
+
+            case "setEachCategoryField":
+                return processSetEachCategoryField(query);
+
+            case "setFieldsOfCategory":
+                return processSetFieldsOfCategory();
+
+            case "getCategoryFieldsToEdit":
+                return processGetCategoryFieldsToEdit(query);
+
+            case "setEditedField":
+                return processSetEditedField(query);
+
+            case "editProductInformation":
+                return processEditProductInformation(query);
+
+            case "editProductPrice":
+                return processEditProductPrice(query);
+
+            case "editProductSupply":
+                return processEditProductSupply(query);
+
+            case "sendEditProductRequest":
+                return processSendEditProductRequest();
+
+            case "sendEditProductFieldRequest":
+                return processSendEditProductFieldRequest();
+
+            default:
+                return new Response("Error", "");
+        }
+    }
+
+    private Response processGetProductCopy(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        SaveProduct saveProduct = new SaveProduct(getProductCopy(Product.getProductById(id)));
+        Gson gson = new GsonBuilder().create();
+        String saveProductGson = gson.toJson(saveProduct);
+        return new Response("Product", saveProductGson);
+    }
+
+    private Response processEditProductName(Query query){
+        editProductName(query.getMethodInputs().get("newName"));
+        return new Response("void", "");
+    }
+
+    private Response processEditProductCompany(Query query){
+        editProductCompany(query.getMethodInputs().get("newCompany"));
+        return new Response("void", "");
+    }
+
+    private Response processEditProductCategory(Query query){
+        try {
+            editProductCategory(query.getMethodInputs().get("newCategory"));
+            return new Response("void", "");
+        } catch (InvalidCategoryException e) {
+            return new Response("InvalidCategoryException", "");
+        }
+    }
+
+    //todo saveField?
+    private Response processGetNeededFields(){
+        List<SaveField> allSaveFields = new ArrayList<>();
+        getNeededFields().forEach(c -> allSaveFields.add(new SaveField(c)));
+        Gson gson = new GsonBuilder().create();
+        String saveFieldListGson = gson.toJson(allSaveFields);
+        return new Response("List<Field>", saveFieldListGson);
+    }
+
+    private Response processSetEachCategoryField(Query query){
+        String fieldName = query.getMethodInputs().get("fieldName");
+        Field field = neededFields.get(0);
+        for (Field neededField : neededFields) {
+            if(neededField.getName().equals(fieldName)){
+                field = neededField;
+            }
+        }
+        try {
+            setEachCategoryField(query.getMethodInputs().get("value"), field);
+            return new Response("void", "");
+        } catch (InvalidFieldValue invalidFieldValue) {
+            return new Response("InvalidFieldValue", "");
+        }
+    }
+
+    private Response processSetFieldsOfCategory(){
+        setFieldsOfCategory();
+        return new Response("void", "");
+    }
+
+    //todo saveField?
+    private Response processGetCategoryFieldsToEdit(Query query){
+        List<SaveField> allSaveFields = new ArrayList<>();
+        getCategoryFieldsToEdit().forEach(c -> allSaveFields.add(new SaveField(c)));
+        Gson gson = new GsonBuilder().create();
+        String saveFieldListGson = gson.toJson(allSaveFields);
+        return new Response("List<Field>", saveFieldListGson);
+    }
+
+    private Response processSetEditedField(Query query){
+        try {
+            Field field = getFieldToEdit(query.getMethodInputs().get("fieldName"));
+            setEditedField(query.getMethodInputs().get("value"), field);
+            return new Response("void", "");
+        } catch (InvalidFieldException e) {
+            return new Response("InvalidFieldException", "");
+        } catch (InvalidFieldValue invalidFieldValue) {
+            return new Response("InvalidFieldValue", "");
+        }
+    }
+
+    private Response processEditProductInformation(Query query){
+        editProductInformation(query.getMethodInputs().get("newInformation"));
+        return new Response("void", "");
+    }
+
+    private Response processEditProductPrice(Query query){
+        editProductPrice(query.getMethodInputs().get("newPrice"));
+        return new Response("void", "");
+    }
+
+    private Response processEditProductSupply(Query query){
+        editProductSupply(query.getMethodInputs().get("newSupply"));
+        return new Response("void", "");
+    }
+
+    private Response processSendEditProductRequest(){
+        sendEditProductRequest();
+        return new Response("void", "");
+    }
+
+    private Response processSendEditProductFieldRequest(){
+        sendEditProductFieldRequest();
+        return new Response("void", "");
     }
 
     public static class InvalidCategoryException extends Exception{
