@@ -5,6 +5,7 @@ import Models.Response;
 
 public class Client {
     public static Response process (Query query){
-
+        //todo
+        return null;
     }
 }
