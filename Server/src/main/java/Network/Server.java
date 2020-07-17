@@ -39,12 +39,12 @@ public class Server {
         Gson gson = new Gson();
         Query query = gson.fromJson(data, Query.class);
 
-        if (query.getControllerName().equals("SessionController")){
-            return new Response("String",addSession());
+        if (query.getControllerName().equals("SessionController")) {
+            return new Response("String", addSession());
         }
 
-        if (!clients.containsKey(query.getToken())){
-            return new Response("Error","TokenError");
+        if (!clients.containsKey(query.getToken())) {
+            return new Response("Error", "TokenError");
         }
 
         Session currentSession = clients.get(query.getToken());
@@ -52,8 +52,21 @@ public class Server {
         switch (query.getControllerName()) {
             case "CategoryController":
                 return currentSession.getCategoryController().processQuery(query);
+
+            case "ProductController":
+                return currentSession.getProductsController().processQuery(query);
+
+            case "OffController":
+                return currentSession.getOffController().processQuery(query);
+
+            case "EntryController":
+                return currentSession.getEntryController().processQuery(query);
+
+            case "SellerController":
+                return currentSession.getSellerController().processQuery(query);
+                
             default:
-                return new Response("Error","");
+                return new Response("Error", "");
         }
     }
 
