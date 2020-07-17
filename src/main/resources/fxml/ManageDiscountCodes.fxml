@@ -55,11 +55,8 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
                 <TableView fx:id="allDiscountCodesTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
                     <columns>
-                        <TableColumn fx:id="discountCodeColumn" prefWidth="160.0" sortable="false" text="discount code" />
-                        <TableColumn fx:id="percentColumn" minWidth="0.0" prefWidth="160.0" text="discount percent" />
-                        <TableColumn fx:id="viewColumn" minWidth="0.0" prefWidth="160.0" text="view" />
-                        <TableColumn fx:id="editColumn" prefWidth="160.0" text="edit" />
-                  <TableColumn fx:id="removeColumn" prefWidth="160.0" text="remove" />
+                        <TableColumn fx:id="discountCodeColumn" prefWidth="405.0" sortable="false" text="discount code" />
+                        <TableColumn fx:id="percentColumn" minWidth="0.0" prefWidth="394.0" text="discount percent" />
                     </columns>
                 </TableView>
                 <Button layoutX="78.0" layoutY="37.0" mnemonicParsing="false" onAction="#openCreateDiscountCode" prefHeight="25.0" prefWidth="212.0" text="+ create a new discount code">
@@ -83,6 +80,9 @@
                 </items>
             </ComboBox>
             <CheckBox fx:id="isAscending" disable="true" layoutX="790.0" layoutY="32.0" mnemonicParsing="false" onAction="#sort" prefHeight="34.0" prefWidth="88.0" text="isAscending" />
+            <Button layoutX="302.0" layoutY="37.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
+            <Button layoutX="368.0" layoutY="37.0" mnemonicParsing="false" onAction="#editAction" text="edit" />
+            <Button layoutX="415.0" layoutY="37.0" mnemonicParsing="false" onAction="#viewAction" text="view" />
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>

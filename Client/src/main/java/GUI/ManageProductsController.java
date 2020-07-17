@@ -1,6 +1,7 @@
 package GUI;
 
 import Controllers.ProductsController;
+import Models.Discount;
 import Models.Product;
 import Models.User;
 import javafx.event.ActionEvent;
@@ -19,7 +20,6 @@ public class ManageProductsController extends ManagerProfileController implement
     public TableColumn<?, ?> productPictureColumn;
     public TableColumn<?, ?> productNameColumn;
     public TableColumn<?, ?> productIdColumn;
-    public TableColumn<?, ?> removeColumn;
     public ComboBox sortName;
     public CheckBox isAscending;
     private User user;
@@ -50,12 +50,19 @@ public class ManageProductsController extends ManagerProfileController implement
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        removeColumn.setCellValueFactory(new PropertyValueFactory<>("removeHyperlink"));
         allProductsTable.getItems().addAll(allProducts);
     }
 
-    public void removeAction(Product product){
-        allProductsTable.getItems().remove(product);
+    public void removeAction(){
+        TableView.TableViewSelectionModel<Product> selectedProduct = allProductsTable.getSelectionModel();
+
+        if (selectedProduct.isEmpty()) {
+            return;
+        }
+
+        Product toBeRemoved = selectedProduct.getSelectedItem();
+        managerController.removeProduct(toBeRemoved);
+        allProductsTable.getItems().remove(toBeRemoved);
     }
 
     public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {

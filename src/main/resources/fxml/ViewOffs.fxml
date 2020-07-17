@@ -54,10 +54,8 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
                             <TableView fx:id="allOffsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
                                 <columns>
-                                    <TableColumn fx:id="offIdColumn" prefWidth="200.0" sortable="false" text="Off Id" />
-                                    <TableColumn fx:id="percentColumn" minWidth="0.0" prefWidth="200.0" text="Off Percent" />
-                                    <TableColumn fx:id="viewColumn" minWidth="0.0" prefWidth="200.0" text="view" />
-                                    <TableColumn fx:id="editColumn" prefWidth="200.0" text="edit" />
+                                    <TableColumn fx:id="offIdColumn" prefWidth="395.0" sortable="false" text="Off Id" />
+                                    <TableColumn fx:id="percentColumn" minWidth="0.0" prefWidth="403.0" text="Off Percent" />
                                 </columns>
                             </TableView>
                             <Button layoutX="78.0" layoutY="37.0" mnemonicParsing="false" onAction="#openCreateOff" prefHeight="25.0" prefWidth="212.0" text="+ create a new Off">
@@ -66,6 +64,8 @@
                                 </font>
                             </Button>
                      <Button layoutX="307.0" layoutY="37.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
+                     <Button layoutX="379.0" layoutY="37.0" mnemonicParsing="false" onAction="#editAction" text="edit" />
+                     <Button layoutX="441.0" layoutY="37.0" mnemonicParsing="false" onAction="#viewAction" text="view" />
                         </AnchorPane>
                     </content>
                 </ScrollPane>

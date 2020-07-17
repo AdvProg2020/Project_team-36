@@ -28,7 +28,7 @@ public class EditOffController extends SellerProfileController implements Initia
     public Label idLabel;
     private User user;
     private ArrayList<Product> selectedProducts = new ArrayList<>();
-    private Sale offToEdit = Sale.getOffToEdit();
+    private Sale offToEdit = sellerController.getOffToEdit();
 
     @Override
     public void initialize(int id) throws IOException {

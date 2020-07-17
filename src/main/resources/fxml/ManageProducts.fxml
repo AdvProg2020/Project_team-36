@@ -55,10 +55,9 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
                 <TableView fx:id="allProductsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
                     <columns>
-                        <TableColumn fx:id="productPictureColumn" prefWidth="200.0" sortable="false" text="product picture" />
-                        <TableColumn fx:id="productNameColumn" minWidth="0.0" prefWidth="200.0" text="product name" />
-                        <TableColumn fx:id="productIdColumn" minWidth="0.0" prefWidth="200.0" text="product id" />
-                        <TableColumn fx:id="removeColumn" prefWidth="200.0" text="remove product" />
+                        <TableColumn fx:id="productPictureColumn" prefWidth="266.0" sortable="false" text="product picture" />
+                        <TableColumn fx:id="productNameColumn" minWidth="0.0" prefWidth="341.0" text="product name" />
+                        <TableColumn fx:id="productIdColumn" minWidth="0.0" prefWidth="192.0" text="product id" />
                     </columns>
                 </TableView>
             <Label layoutX="583.0" layoutY="52.0" text="Sort">
@@ -80,6 +79,7 @@
                 </items>
             </ComboBox>
             <CheckBox fx:id="isAscending" disable="true" layoutX="775.0" layoutY="52.0" mnemonicParsing="false" onAction="#sort" text="is Ascending" />
+            <Button layoutX="78.0" layoutY="48.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>

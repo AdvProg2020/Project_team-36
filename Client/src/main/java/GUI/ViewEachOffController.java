@@ -53,7 +53,7 @@ public class ViewEachOffController extends SellerProfileController implements In
     }
 
     private void setValues(){
-        Sale offToView = Sale.getOffToView();
+        Sale offToView = sellerController.getOffToView();;
 
         codeLabel.setText("Off: " + offToView.getOffId());
         startDate.setValue(new Date(offToView.getStartTime().getTime()).toLocalDate());

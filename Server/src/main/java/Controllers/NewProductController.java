@@ -208,7 +208,7 @@ public class NewProductController {
         setImage(query.getMethodInputs().get("imagePath"));
         return new Response("void", "");
     }
-    
+
     public static class InvalidCategoryName extends Exception{
 
     }

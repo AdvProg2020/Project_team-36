@@ -1,6 +1,5 @@
 package Models;
 
-import GUI.ManageDiscountCodesController;
 import javafx.scene.control.Hyperlink;
 
 import java.io.IOException;
@@ -20,7 +19,6 @@ public class Discount {
     static Random random = new Random();
     private static int totalCodesMade = random.nextInt(4988 - 1000) + 1000;
     private ArrayList<Customer> customersIncluded;
-    private static ManageDiscountCodesController manageDiscountCodesController;
     private static Discount discountToView;
     private static Discount discountToEdit;
 
@@ -197,53 +195,6 @@ public class Discount {
         }
     }
 
-    public static void setManageDiscountCodesController(ManageDiscountCodesController manageDiscountCodesController) {
-        Discount.manageDiscountCodesController = manageDiscountCodesController;
-    }
-
-    public Hyperlink getRemoveHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("remove");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-
-            manageDiscountCodesController.removeAction(this);
-            this.removeDiscount();
-
-        });
-        return remove;
-    }
-
-    public Hyperlink getViewHyperlink(){
-        Hyperlink view = new Hyperlink();
-        view.setText("view");
-        view.setStyle("");
-        view.setOnAction(e->{
-            discountToView = this;
-            try {
-                manageDiscountCodesController.viewAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return view;
-    }
-
-    public Hyperlink getEditHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("edit");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            discountToEdit = this;
-            try {
-                manageDiscountCodesController.editAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return remove;
-    }
-
     public void giveDiscountCodeToCustomers(){
         for (Customer customer : customersIncluded) {
             customer.setDiscountForCustomer(this);
@@ -258,4 +209,11 @@ public class Discount {
         return discountToEdit;
     }
 
+    public static void setDiscountToView(Discount discountToView) {
+        Discount.discountToView = discountToView;
+    }
+
+    public static void setDiscountToEdit(Discount discountToEdit) {
+        Discount.discountToEdit = discountToEdit;
+    }
 }

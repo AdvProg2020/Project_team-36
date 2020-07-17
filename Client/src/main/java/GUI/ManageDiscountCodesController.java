@@ -17,10 +17,7 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
     public ImageView profilePicture;
     public TableView<Discount> allDiscountCodesTable;
     public TableColumn<? , ?> percentColumn;
-    public TableColumn<? , ?> viewColumn;
     public TableColumn<?, ?> discountCodeColumn;
-    public TableColumn<?, ?> editColumn;
-    public TableColumn<?, ?> removeColumn;
     public ComboBox sortName;
     public CheckBox isAscending;
     private User user;
@@ -54,23 +51,43 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         Discount.setManageDiscountCodesController(this);
         allDiscountCodesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         percentColumn.setCellValueFactory(new PropertyValueFactory<>("discountPercentForTable"));
-        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperlink"));
         discountCodeColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        editColumn.setCellValueFactory(new PropertyValueFactory<>("editHyperlink"));
-        removeColumn.setCellValueFactory(new PropertyValueFactory<>("removeHyperlink"));
         allDiscountCodesTable.getItems().addAll(allDiscountCodes);
-
     }
 
-    public void removeAction(Discount discount){
+    public void removeAction(){
+        TableView.TableViewSelectionModel<Discount> selectedDiscount = allDiscountCodesTable.getSelectionModel();
+
+        if (selectedDiscount.isEmpty()) {
+            return;
+        }
+
+        Discount toBeRemoved = selectedDiscount.getSelectedItem();
+        managerController.removeDiscount(toBeRemoved.getId);
         allDiscountCodesTable.getItems().remove(discount);
     }
 
     public void viewAction() throws IOException {
+        TableView.TableViewSelectionModel<Discount> selectedDiscount = allDiscountCodesTable.getSelectionModel();
+
+        if (selectedDiscount.isEmpty()) {
+            return;
+        }
+
+        Discount toBeViewed = selectedDiscount.getSelectedItem();
+        managerController.setDiscountToView(toBeViewed);
         Constants.getGuiManager().open("ViewDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void editAction() throws IOException {
+        TableView.TableViewSelectionModel<Discount> selectedDiscount = allDiscountCodesTable.getSelectionModel();
+
+        if (selectedDiscount.isEmpty()) {
+            return;
+        }
+
+        Discount toBeEdited = selectedDiscount.getSelectedItem();
+        managerController.setDiscountToEdit(toBeEdited);
         Constants.getGuiManager().open("EditDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 

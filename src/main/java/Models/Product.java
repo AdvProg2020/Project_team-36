@@ -1,7 +1,5 @@
 package Models;
 
-import GUI.ManageProductsController;
-import GUI.SellerProductsController;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -35,8 +33,6 @@ public class Product implements Pendable {
     private String editedField;
     private static Product productToEdit;
     private static Product productToView;
-    private static ManageProductsController manageProductsController;
-    private static SellerProductsController sellerProductsController;
 
     public String getProductImageUrl() {
         return productImageUrl;
@@ -694,56 +690,6 @@ public class Product implements Pendable {
         return new ImageView(image);
     }
 
-    public Hyperlink getRemoveHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("remove");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            removeProduct(this);
-            updateAllProducts();
-            manageProductsController.removeAction(this);
-        });
-        return remove;
-    }
-
-    public Hyperlink getViewHyperlink(){
-        Hyperlink view = new Hyperlink();
-        view.setText("view");
-        view.setStyle("");
-        view.setOnAction(e->{
-            productToView = this;
-            try {
-                sellerProductsController.viewAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return view;
-    }
-
-    public Hyperlink getEditHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("edit");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            productToEdit = this;
-            try {
-                sellerProductsController.editAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return remove;
-    }
-
-    public static void setManageProductsController(ManageProductsController manageProductsController){
-        Product.manageProductsController = manageProductsController;
-    }
-
-    public static void setSellerProductsController(SellerProductsController sellerProductsController) {
-        Product.sellerProductsController = sellerProductsController;
-    }
-
     public ComboBox<String> getBuyersDropDown(){
 
         ArrayList<String> usernames = new ArrayList<>();
@@ -771,5 +717,13 @@ public class Product implements Pendable {
 
     public static Product getProductToView() {
         return productToView;
+    }
+
+    public static void setProductToEdit(Product productToEdit) {
+        Product.productToEdit = productToEdit;
+    }
+
+    public static void setProductToView(Product productToView) {
+        Product.productToView = productToView;
     }
 }

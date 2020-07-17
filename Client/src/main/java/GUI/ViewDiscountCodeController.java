@@ -60,7 +60,7 @@ public class ViewDiscountCodeController extends ManagerProfileController impleme
     }
 
     private void setValues(){
-        Discount discount = Discount.getDiscountToView();
+        Discount discount = managerController.getDiscountToView();
 
         codeLabel.setText("Discount Code: " + discount.getId());
         startDate.setValue(new Date(discount.getStartTime().getTime()).toLocalDate());
