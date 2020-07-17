@@ -161,7 +161,6 @@ public class CategoryController {
         }
     }
 
-
     public Response processQuery(Query query) {
         switch (query.getMethodName()) {
             case "setCategoriesName":

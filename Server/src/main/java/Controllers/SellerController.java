@@ -1,6 +1,9 @@
 package Controllers;
 
 import Models.*;
+import Repository.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -226,7 +229,6 @@ public class SellerController extends UserController{
         return availableProducts;
     }
 
-
     public ArrayList<Product> getProductsInOff(Sale off){
         productsToBeEditedForOff.clear();
         ArrayList<Product> availableProducts = new ArrayList<>();
@@ -259,7 +261,272 @@ public class SellerController extends UserController{
         OffFieldsSetters.put("products\\s+included", "editOffProductsIncluded");
     }
 
+    public Response processQuery(Query query) {
+        return switch (query.getMethodName()) {
+            case "getLoggedInSeller" -> processGetLoggedInSeller(query);
+            case "getLoggedInSellerBalance" -> processGetLoggedInSellerBalance(query);
+            case "getLoggedInSellerCompanyInformation" -> processGetLoggedInSellerCompanyInformation(query);
+            case "removeSellerProduct" -> processRemoveSellerProduct(query);
+            case "getMainCategory" -> processGetMainCategory(query);
+            case "getSellerProducts" -> processGetSellerProducts(query);
+            case "getSellerProductWithId" -> processGetSellerProductWithId(query);
+            case "getAllProducts" -> processGetAllProducts(query);
+            case "getProductWithId" -> processGetProductWithId(query);
+            case "getSellerProductDetail" -> processGetSellerProductDetail(query);
+            case "getAllBuyers" -> processGetAllBuyers(query);
+            case "sendAddSellerToProductRequest" -> processSendAddSellerToProductRequest(query);
+            case "getAllCategories" -> processGetAllCategories(query);
+            case "getAllSellerLogs" -> processGetAllSellerLogs(query);
+            case "getAllSellerSales" -> processGetAllSellerSales(query);
+            case "getSaleWithId" -> processGetSaleWithId(query);
+            case "getOffCopy" -> processGetOffCopy(query);
+            case "getOffFieldEditor" -> processGetOffFieldEditor(query);
+            case "invokeOffEditor" -> processInvokeOffEditor(query);
+            case "editOffStartDate" -> processEditOffStartDate(query);
+            case "editOffEndDate" -> processEditOffEndDate(query);
+            case "editOffPercent" -> processEditOffPercent(query);
+            case "setProductsToBeRemovedFromOff" -> processSetProductsToBeRemovedFromOff(query);
+            case "setProductsToBeAddedToOff" -> processSetProductsToBeAddedToOff(query);
+            case "getProductsNotInOff" -> processGetProductsNotInOff(query);
+            case "getProductsInOff" -> processGetProductsInOff(query);
+            case "addProductsToOff" -> processAddProductsToOff(query);
+            case "removeProductsFromOff" -> processRemoveProductsFromOff(query);
+            case "sendEditOffRequest" -> processSendEditOffRequest(query);
+            default -> new Response("Error", "");
+        };
+    }
 
+    private Response processSendEditOffRequest(Query query) {
+        //TODO karaneh
+    }
+
+    private Response processRemoveProductsFromOff(Query query) {
+        Sale off = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        removeProductsFromOff(off);
+        return new Response("void","");
+    }
+
+    private Response processAddProductsToOff(Query query) {
+        Sale off = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        addProductsToOff(off);
+        return new Response("void","");
+    }
+
+    private Response processGetProductsInOff(Query query) {
+        Sale off = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        List<SaveProduct> products = new ArrayList<>();
+        getProductsInOff(off).forEach(product -> products.add(new SaveProduct(product)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<Product>",gson.toJson(products));
+    }
+
+    private Response processGetProductsNotInOff(Query query) {
+        Sale off = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        List<SaveProduct> products = new ArrayList<>();
+        getProductsNotInOff(off).forEach(product -> products.add(new SaveProduct(product)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<Product>",gson.toJson(products));
+    }
+
+    private Response processSetProductsToBeAddedToOff(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        Sale off = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        try {
+            setProductsToBeAddedToOff(productId,off);
+            return new Response("void","");
+        } catch (InvalidProductIdException e) {
+            e.printStackTrace();
+            return new Response("InvalidProductIdException","");
+        } catch (ProductAlreadyAddedException e) {
+            e.printStackTrace();
+            return new Response("ProductAlreadyAddedException","");
+        }
+    }
+
+    private Response processSetProductsToBeRemovedFromOff(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        Sale off = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        try {
+            setProductsToBeRemovedFromOff(productId,off);
+            return new Response("void","");
+        } catch (InvalidProductIdException e) {
+            return new Response("InvalidProductIdException","");
+        } catch (ProductAlreadyAddedException e) {
+            e.printStackTrace();
+            return new Response("ProductAlreadyAddedException","");
+        }
+    }
+
+    private Response processEditOffPercent(Query query) {
+        String newPercentage = query.getMethodInputs().get("newPercentage");
+        Sale off = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        try {
+            editOffPercent(newPercentage,off);
+            return new Response("void","");
+        } catch (InvalidRangeException e) {
+            return new Response("InvalidRangeException","");
+        }
+    }
+
+    private Response processEditOffEndDate(Query query) {
+        String newEndDate = query.getMethodInputs().get("newEndDate");
+        Sale sale = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        try {
+            editOffEndDate(newEndDate,sale);
+            return new Response("void","");
+        } catch (EndDateBeforeStartDateException e) {
+            return new Response("EndDateBeforeStartDateException","");
+        } catch (InvalidDateFormatException e) {
+            return new Response("InvalidDateFormatException","");
+        }
+    }
+
+    private Response processEditOffStartDate(Query query) {
+        String newStartDate = query.getMethodInputs().get("newEndDate");
+        Sale sale = Sale.getSaleWithId(Integer.parseInt(query.getMethodInputs().get("off")));
+        try {
+            editOffStartDate(newStartDate,sale);
+            return new Response("void","");
+        } catch (InvalidDateFormatException e) {
+            return new Response("InvalidDateFormatException","");
+        } catch (StartDateAfterEndDateException e) {
+            return new Response("StartDateAfterEndDateException","");
+        }
+    }
+
+    private Response processInvokeOffEditor(Query query) {
+       //TODO karaneh
+    }
+
+    private Response processGetOffFieldEditor(Query query) {
+        //TODO karaneh
+    }
+
+    private Response processGetOffCopy(Query query) {
+        //TODO karaneh getCopy
+    }
+
+    private Response processGetSaleWithId(Query query) {
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        try {
+            SaveSale saveSale = new SaveSale(getSaleWithId(id));
+            Gson gson = new GsonBuilder().create();
+            return new Response("Sale",gson.toJson(saveSale));
+        } catch (InvalidOffIdException e) {
+            return new Response("InvalidOffIdException","");
+        }
+    }
+
+    private Response processGetAllSellerSales(Query query) {
+        List<SaveSale> allSales = new ArrayList<>();
+        getAllSellerSales().forEach(sale -> allSales.add(new SaveSale(sale)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<Sale>",gson.toJson(allSales));
+    }
+
+    private Response processGetAllSellerLogs(Query query) {
+        List<SaveSellerLog> logs = new ArrayList<>();
+        getAllSellerLogs().forEach(sellerLog -> logs.add(new SaveSellerLog(sellerLog)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<SellerLog>",gson.toJson(logs));
+    }
+
+    private Response processGetAllCategories(Query query) {
+        List<SaveCategory> allCategories = new ArrayList<>();
+        getAllCategories().forEach(category -> allCategories.add(new SaveCategory(category)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<Category>",gson.toJson(allCategories));
+    }
+
+    private Response processSendAddSellerToProductRequest(Query query) {
+        //TODO ask karaneh
+        return null;
+    }
+
+    private Response processGetAllBuyers(Query query) {
+        int productId =Integer.parseInt (query.getMethodInputs().get("product"));
+        Set<SaveCustomer> customers = new HashSet<>();
+        getAllBuyers(Product.getProduct(productId)).forEach(customer -> customers.add(new SaveCustomer(customer)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("Set<Customer>",gson.toJson(customers));
+    }
+
+    private Response processGetSellerProductDetail(Query query) {
+        //TODO ask karaneh
+        return null;
+    }
+
+    private Response processGetProductWithId(Query query) {
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        try {
+            Product product = getProductWithId(id);
+            SaveProduct saveProduct = new SaveProduct(product);
+            Gson gson = new GsonBuilder().create();
+            return new Response("Product",gson.toJson(saveProduct));
+        } catch (InvalidProductIdException e) {
+            return new Response("InvalidProductIdException","");
+        }
+
+    }
+
+    private Response processGetAllProducts(Query query) {
+        List<SaveProduct> products = new ArrayList<>();
+        getAllProducts().forEach(product -> products.add(new SaveProduct(product)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<Product>",gson.toJson(products));
+    }
+
+    private Response processGetSellerProductWithId(Query query) {
+        int id =Integer.parseInt (query.getMethodInputs().get("id"));
+        try {
+            Product product = getSellerProductWithId(id);
+            SaveProduct saveProduct = new SaveProduct(product);
+            Gson gson = new GsonBuilder().create();
+            return new Response("Product",gson.toJson(saveProduct));
+        } catch (NoProductForSeller noProductForSeller) {
+            return new Response("NoProductForSeller","");
+        }
+    }
+
+    private Response processGetSellerProducts(Query query) {
+        List<SaveProduct> products = new ArrayList<>();
+        getSellerProducts().forEach(product -> products.add(new SaveProduct(product)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<Product>",gson.toJson(products));
+    }
+
+    private Response processGetMainCategory(Query query) {
+        SaveCategory saveCategory = new SaveCategory(getMainCategory());
+        Gson gson = new GsonBuilder().create();
+        return new Response("Category",gson.toJson(saveCategory));
+    }
+
+    private Response processRemoveSellerProduct(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        try {
+            removeSellerProduct(productId);
+            return new Response("void","");
+        } catch (NoProductForSeller noProductForSeller) {
+            return new Response("NoProductForSeller","");
+        }
+    }
+
+    private Response processGetLoggedInSellerCompanyInformation(Query query) {
+        return new Response("String",getLoggedInSellerCompanyInformation());
+    }
+
+    private Response processGetLoggedInSellerBalance(Query query) {
+        long credit = getLoggedInSellerBalance();
+        return new Response("long",Long.toString(credit));
+    }
+
+    private Response processGetLoggedInSeller(Query query) {
+        Seller seller = getLoggedInSeller();
+        SaveSeller saveSeller = new SaveSeller(seller);
+        Gson gson = new GsonBuilder().create();
+        String toBeReturned = gson.toJson(saveSeller);
+        return new Response("Seller",toBeReturned);
+    }
 
     public static class InvalidDateFormatException extends Exception{
     }

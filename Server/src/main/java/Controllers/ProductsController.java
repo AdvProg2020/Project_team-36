@@ -1,12 +1,14 @@
 package Controllers;
 
 import Models.*;
+import Repository.SaveCategory;
+import Repository.SaveComment;
+import Repository.SaveProduct;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ProductsController implements ObjectController {
     private final GlobalVariables userVariables;
@@ -255,8 +257,7 @@ public class ProductsController implements ObjectController {
             if (field.getSeller().getUsername().equalsIgnoreCase(username) && !field.getSeller().getStatus().equals(Status.DELETED)) {
                 if (field.getSupply() > 0) {
                     userVariables.setPendingSellerOfProduct(field.getSeller());
-                }
-                else {
+                } else {
                     userVariables.setPendingSellerOfProduct(null);
                     throw new NotEnoughSupply();
                 }
@@ -415,7 +416,7 @@ public class ProductsController implements ObjectController {
         }
         for (Product product : allProducts) {
             for (Field field : product.getFieldsOfCategory()) {
-                if (options.keySet().contains(field.getName()) && field instanceof OptionalField)
+                if (options.containsKey(field.getName()) && field instanceof OptionalField)
                     options.get(field.getName()).add(((OptionalField) field).getQuality());
             }
         }
@@ -438,18 +439,331 @@ public class ProductsController implements ObjectController {
         for (Filter filter : userVariables.getAllFiltersProducts()) {
             if (filter.getName().equalsIgnoreCase(filterName) && filter instanceof OptionalFilter) {
                 ((OptionalFilter) filter).removeOption(option);
-                if(((OptionalFilter)filter).getOptions().size()==0)
+                if (((OptionalFilter) filter).getOptions().size() == 0)
                     userVariables.getAllFiltersProducts().remove(filter);
                 return;
             }
         }
     }
 
-    public boolean canRate(Product product,User user){
-        if(!(user instanceof Customer))
+    public boolean canRate(Product product, User user) {
+        if (!(user instanceof Customer))
             return false;
-        return product.isThereBuyer((Customer)user);
+        return product.isThereBuyer((Customer) user);
     }
+
+    public Response processQuery(Query query) {
+        return switch (query.getMethodName()) {
+            case "getProduct" -> processGetProduct(query);
+            case "getMainCategory" -> processGetMainCategory(query);
+            case "setSort" -> processSetSort(query);
+            case "getAvailableFilters" -> processGetAvailableFilters(query);
+            case "getCompanyNamesForFilter" -> processGetCompanyNamesForFilter(query);
+            case "removeSortProduct" -> processRemoveSortProduct(query);
+            case "removeFilter" -> processRemoveFilter(query);
+            case "setNewFilter" -> processSetNewFilter(query);
+            case "setCategoryFilter" -> processSetCategoryFilter(query);
+            case "setFilterOptions" -> processSetFilterOptions(query);
+            case "setFilterRange" -> processSetFilterRange(query);
+            case "getFinalProductsList" -> processGetFinalProductsList(query);
+            case "setChosenProduct" -> processSetChosenProduct(query);
+            case "getChosenProduct" -> processGetChosenProduct(query);
+            case "resetDigest" -> processResetDigest(query);
+            case "addSellerForBuy" -> processAddSellerForBuy(query);
+            case "addToCart" -> processAddToCart(query);
+            case "compare" -> processCompare(query);
+            case "getProductComments" -> processGetProductComments(query);
+            case "addComment" -> processAddComment(query);
+            case "setCompanyFilter" -> processSetCompanyFilter(query);
+            case "addNameFilter" -> processAddNameFilter(query);
+            case "removeNameFilter" -> processRemoveNameFilter(query);
+            case "availabilityFilter" -> processAvailabilityFilter(query);
+            case "removeAvailabilityFilter" -> processRemoveAvailabilityFilter(query);
+            case "addSellerFilter" -> processAddSellerFilter(query);
+            case "removeSellerFilter" -> processRemoveSellerFilter(query);
+            case "getCategoryNames" -> processGetCategoryNames(query);
+            case "getSpecialIntegerFilter" -> processGetSpecialIntegerFilter(query);
+            case "getAllOptionalChoices" -> processGetAllOptionalChoices(query);
+            case "addOptionalFilter" -> processAddOptionalFilter(query);
+            case "removeOptionalFilter" -> processRemoveOptionalFilter(query);
+            case "canRate" -> processCanRate(query);
+            default -> new Response("Error", "");
+        };
+    }
+
+    private Response processCanRate(Query query) {
+        String userId = query.getMethodInputs().get("user");
+        String productId = query.getMethodInputs().get("product");
+        boolean result = canRate(Product.getProduct(Integer.parseInt(productId)), User.getUserById(Integer.parseInt(userId)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("boolean", gson.toJson(result));
+    }
+
+    private Response processRemoveOptionalFilter(Query query) {
+        String filterName = query.getMethodInputs().get("filterName");
+        String option = query.getMethodInputs().get("option");
+        removeOptionalFilter(filterName, option);
+        return new Response("void", "");
+    }
+
+    private Response processAddOptionalFilter(Query query) {
+        String filterName = query.getMethodInputs().get("filterName");
+        String option = query.getMethodInputs().get("option");
+        addOptionalFilter(filterName, option);
+        return new Response("void", "");
+    }
+
+    private Response processGetAllOptionalChoices(Query query) {
+        Gson gson = new GsonBuilder().create();
+        Map<String, Set<String>> toBeReturned = new HashMap<>();
+        for (String key : getAllOptionalChoices().keySet()) {
+            Set<String> value = new HashSet<>();
+            for (String s : getAllOptionalChoices().get(key)) {
+                value.add(s);
+            }
+            toBeReturned.put(key,value);
+        }
+        String choices = gson.toJson(toBeReturned);
+        return new Response("Map<String,Set<String>>", choices);
+    }
+
+    private Response processGetSpecialIntegerFilter(Query query) {
+        List<String> toBeRetuned = new ArrayList<>(getSpecialIntegerFilter());
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(toBeRetuned);
+        return new Response("List<String>", stringGson);
+    }
+
+    private Response processGetCategoryNames(Query query) {
+        Gson gson = new GsonBuilder().create();
+        List<String> names = new ArrayList<>(getCategoryNames());
+        String categoryNames = gson.toJson(names);
+        return new Response("List<String>", categoryNames);
+    }
+
+    private Response processRemoveSellerFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        removeSellerFilter(name);
+        return new Response("void", "");
+    }
+
+    private Response processAddSellerFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        addSellerFilter(name);
+        return new Response("void", "");
+
+    }
+
+    private Response processRemoveAvailabilityFilter(Query query) {
+        removeAvailabilityFilter();
+        return new Response("void", "");
+    }
+
+    private Response processAvailabilityFilter(Query query) {
+        availabilityFilter();
+        return new Response("void", "");
+    }
+
+    private Response processRemoveNameFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        removeNameFilter(name);
+        return new Response("void", "");
+    }
+
+    private Response processAddNameFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        addNameFilter(name);
+        return new Response("void", "");
+    }
+
+    private Response processSetCompanyFilter(Query query) {
+        //TODO ask
+        return null;
+    }
+
+    private Response processAddComment(Query query) {
+        String title = query.getMethodInputs().get("title");
+        String content = query.getMethodInputs().get("content");
+        try {
+            addComment(title, content);
+            return new Response("void", "");
+        } catch (EntryController.NotLoggedInException e) {
+            return new Response("NotLoggedInException", "");
+        }
+    }
+
+    private Response processGetProductComments(Query query) {
+        List<SaveComment> comments = new ArrayList<>();
+        getProductComments().forEach(c -> comments.add(new SaveComment(c)));
+        Gson gson = new GsonBuilder().create();
+        String saveComments = gson.toJson(comments);
+        return new Response("List<Comment>", saveComments);
+    }
+
+    private Response processCompare(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        try {
+            Product product = compare(productId);
+            SaveProduct savedProduct = new SaveProduct(product);
+            Gson gson = new GsonBuilder().create();
+            String toBeReturned = gson.toJson(savedProduct);
+            return new Response("Product", toBeReturned);
+        } catch (NoProductWithId noProductWithId) {
+            return new Response("NoProductWithId", "");
+        } catch (NotInTheSameCategory notInTheSameCategory) {
+            return new Response("NotInTheSameCategory", "");
+        }
+    }
+
+    private Response processAddToCart(Query query) {
+        try {
+            addToCart();
+            return new Response("void", "");
+        } catch (NoSellerIsChosen noSellerIsChosen) {
+            return new Response("NoSellerIsChosen", "");
+        } catch (EntryController.NotLoggedInException e) {
+            return new Response("NotLoggedInException", "");
+        } catch (UserCantBuy userCantBuy) {
+            return new Response("UserCantBuy", "");
+        }
+    }
+
+    private Response processAddSellerForBuy(Query query) {
+        String username = query.getMethodInputs().get("username");
+        try {
+            addSellerForBuy(username);
+            return new Response("void", "");
+        } catch (NotEnoughSupply notEnoughSupply) {
+            return new Response("NotEnoughSupply", "");
+        } catch (NoSellerWithUsername noSellerWithUsername) {
+            return new Response("NoSellerWithUsername", "");
+        }
+    }
+
+    private Response processResetDigest(Query query) {
+        resetDigest();
+        return new Response("void", "");
+    }
+
+    private Response processGetChosenProduct(Query query) {
+        SaveProduct product = new SaveProduct(getChosenProduct());
+        Gson gson = new GsonBuilder().create();
+        String saveProduct = gson.toJson(product);
+        return new Response("Product", saveProduct);
+    }
+
+    private Response processSetChosenProduct(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        try {
+            setChosenProduct(productId);
+            return new Response("void", "");
+        } catch (NoProductWithId noProductWithId) {
+            return new Response("NoProductWithId", "");
+        }
+    }
+
+    private Response processGetFinalProductsList(Query query) {
+        List<SaveProduct> allSavedProducts = new ArrayList<>();
+        getFinalProductsList().forEach(c -> allSavedProducts.add(new SaveProduct(c)));
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(allSavedProducts);
+        return new Response("List<Product>", stringGson);
+    }
+
+    private Response processSetFilterRange(Query query) {
+        String min = query.getMethodInputs().get("min");
+        String max = query.getMethodInputs().get("max");
+        setFilterRange(min, max);
+        return new Response("void", "");
+    }
+
+    private Response processSetFilterOptions(Query query) {
+        //TODO ask
+        return null;
+    }
+
+    private Response processSetCategoryFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        try {
+            setCategoryFilter(name);
+            return new Response("void", "");
+        } catch (ProductsController.NoCategoryWithName noCategoryWithName) {
+            return new Response("NoCategoryWithName", "");
+        }
+    }
+
+    private Response processSetNewFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        try {
+            setNewFilter(name);
+            return new Response("void", "");
+        } catch (ProductsController.IntegerFieldException e) {
+            return new Response("IntegerFieldException", "");
+        } catch (ProductsController.OptionalFieldException e) {
+            return new Response("OptionalFieldException", "");
+        } catch (ProductsController.NoFilterWithNameException e) {
+            return new Response("NoFilterWithNameException", "");
+        }
+    }
+
+    private Response processRemoveFilter(Query query) {
+        String name = query.getMethodInputs().get("name");
+        try {
+            removeFilter(name);
+            return new Response("void", "");
+        } catch (ProductsController.NoFilterWithNameException e) {
+            return new Response("NoFilterWithNameException", "");
+        }
+    }
+
+    private Response processRemoveSortProduct(Query query) {
+        removeSortProduct();
+        return new Response("void", "");
+    }
+
+    private Response processGetCompanyNamesForFilter(Query query) {
+        Set<String> toBeRetuned = new HashSet<>(getCompanyNamesForFilter());
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(toBeRetuned);
+        return new Response("Set<String>", stringGson);
+    }
+
+    private Response processGetAvailableFilters(Query query) {
+        Set<String> toBeReturned = new HashSet<>(getAvailableFilters());
+        Gson gson = new GsonBuilder().create();
+        String stringGson = gson.toJson(toBeReturned);
+        return new Response("Set<String>", stringGson);
+    }
+
+    private Response processSetSort(Query query) {
+        String name = query.getMethodInputs().get("name");
+        String type = query.getMethodInputs().get("type");
+        try {
+            setSort(name, type);
+            return new Response("void", "");
+        } catch (ProductsController.NoSortException e) {
+            return new Response("NoSortException", "");
+        }
+    }
+
+    private Response processGetMainCategory(Query query) {
+        SaveCategory category = new SaveCategory(getMainCategory());
+        Gson gson = new GsonBuilder().create();
+        return new Response("Category", gson.toJson(category));
+    }
+
+    private Response processGetProduct(Query query) {
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        try {
+            Product product = getProduct(id);
+            SaveProduct saveProduct = new SaveProduct(product);
+            Gson gson = new GsonBuilder().create();
+            return new Response("Product", gson.toJson(saveProduct));
+        } catch (NoProductWithId noProductWithId) {
+            return new Response("NoProductWithId", "");
+        }
+    }
+
 
     public static class NoProductWithId extends Exception {
     }
