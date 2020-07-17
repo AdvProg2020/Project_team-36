@@ -47,6 +47,7 @@ public class Sale implements Pendable {
         this.productsInSale = new ArrayList<>();
         this.seller = sale.seller;
         this.offId = sale.offId;
+        
         this.productsInSale = new ArrayList<>(sale.productsInSale);
         this.status = sale.status;
         this.startTime = sale.startTime;
@@ -143,6 +144,7 @@ public class Sale implements Pendable {
     @Override
     public void acceptAddRequest() {
         seller.addSale(this);
+        allSales.add(this);
         for (Product product : productsInSale) {
             if(Product.isThereProductWithId(product.getProductId())) {
                 if(!(product.getProductFieldBySeller(seller).getSale()==null)){
@@ -158,12 +160,10 @@ public class Sale implements Pendable {
         if(!isThereSaleWithId(this.offId)){
             return;
         }
-        Sale mainSale = getSaleWithId(this.offId);
-
-        mainSale.setEndTime(this.endTime);
-        mainSale.setStartTime(this.startTime);
-        mainSale.setSalePercent(this.salePercent);
-        mainSale.setProductsInSale(this.productsInSale);
+        getSaleWithId(this.offId).setSalePercent(this.salePercent);
+        getSaleWithId(this.offId).setEndTime(this.endTime);
+        getSaleWithId(this.offId).setStartTime(this.startTime);
+        getSaleWithId(this.offId).setProductsInSale(this.productsInSale);
     }
 
     @Override
