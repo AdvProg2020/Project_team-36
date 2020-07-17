@@ -27,4 +27,20 @@ public class SaveSelectedItem {
         this.sellerIds.forEach(sellerId -> selectedItem.getSellers().add(SaveSeller.load(sellerId)));
         return selectedItem;
     }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public List<Integer> getSellerIds() {
+        return sellerIds;
+    }
+
+    public List<Integer> getCountFromEachSeller() {
+        return countFromEachSeller;
+    }
+
+    public CartTag getTag() {
+        return tag;
+    }
 }

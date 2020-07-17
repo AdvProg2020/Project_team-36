@@ -99,4 +99,32 @@ public class SaveCategory {
 
         return category;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public Set<IntegerField> getAllIntegerFields() {
+        return allIntegerFields;
+    }
+
+    public Set<OptionalField> getAllOptionalFields() {
+        return allOptionalFields;
+    }
+
+    public int getParentCategoryId() {
+        return parentCategoryId;
+    }
+
+    public List<Integer> getSubCategoriesIds() {
+        return subCategoriesIds;
+    }
+
+    public List<Integer> getProductsIds() {
+        return productsIds;
+    }
 }

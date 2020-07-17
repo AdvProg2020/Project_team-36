@@ -64,4 +64,40 @@ public class SaveManager {
     public static int getLastId() {
         return lastId;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getProfilePictureURL() {
+        return profilePictureURL;
+    }
 }

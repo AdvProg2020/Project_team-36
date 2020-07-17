@@ -1,6 +1,7 @@
 package GUI;
 
 import Controllers.*;
+import Models.GlobalVariables;
 
 public class  Constants {
 

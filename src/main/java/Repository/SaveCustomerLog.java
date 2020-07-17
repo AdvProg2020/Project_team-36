@@ -42,4 +42,52 @@ public class SaveCustomerLog {
         return new CustomerLog(new Date(this.date),this.id,this.discountPercent,this.discountAmount,this.giftDiscount,
                 this.address,this.phoneNumber,this.logStatus,this.totalPrice,this.totalPayable,allItems);
     }
+
+    public static int getLastId() {
+        return lastId;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public double getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public long getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public long getGiftDiscount() {
+        return giftDiscount;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public LogStatus getLogStatus() {
+        return logStatus;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public long getTotalPayable() {
+        return totalPayable;
+    }
+
+    public List<ItemInLog> getAllItems() {
+        return allItems;
+    }
 }

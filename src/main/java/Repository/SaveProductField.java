@@ -43,4 +43,32 @@ public class SaveProductField {
 
         return productField;
     }
+
+    public int getMainProductId() {
+        return mainProductId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public int getOffId() {
+        return offId;
+    }
+
+    public int getSellerId() {
+        return sellerId;
+    }
+
+    public int getSupply() {
+        return supply;
+    }
+
+    public Set<Integer> getCustomerIds() {
+        return customerIds;
+    }
 }

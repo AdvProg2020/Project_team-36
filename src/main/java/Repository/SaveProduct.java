@@ -92,4 +92,60 @@ public class SaveProduct {
         this.allBuyers.forEach(buyer -> product.getAllBuyers().add(SaveCustomer.load(buyer)));
         return product;
     }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public List<IntegerField> getIntegerFieldsOfCategory() {
+        return integerFieldsOfCategory;
+    }
+
+    public List<OptionalField> getOptionalFieldsOfCategory() {
+        return optionalFieldsOfCategory;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public List<SaveProductField> getProductFields() {
+        return productFields;
+    }
+
+    public List<SaveScore> getAllScore() {
+        return allScore;
+    }
+
+    public long getProductionDate() {
+        return productionDate;
+    }
+
+    public List<SaveComment> getAllComments() {
+        return allComments;
+    }
+
+    public String getProductImageURL() {
+        return productImageURL;
+    }
+
+    public Set<Integer> getAllBuyers() {
+        return allBuyers;
+    }
+
+    public int getSeenNumber() {
+        return seenNumber;
+    }
 }

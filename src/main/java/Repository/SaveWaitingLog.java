@@ -29,4 +29,40 @@ public class SaveWaitingLog {
         this.customerAddress = waitingLog.getCustomerAddress();
         this.customerPhoneNumber = waitingLog.getCustomerPhoneNumber();
     }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public List<SaveGift> getGifts() {
+        return gifts;
+    }
+
+    public long getGiftDiscount() {
+        return giftDiscount;
+    }
+
+    public long getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public List<SaveSelectedItem> getAllSelectedItems() {
+        return allSelectedItems;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
 }

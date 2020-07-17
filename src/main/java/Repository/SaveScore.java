@@ -14,4 +14,12 @@ public class SaveScore {
     public Score generateScore(){
         return new Score(SaveCustomer.load(customerId),score);
     }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }

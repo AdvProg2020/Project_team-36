@@ -76,4 +76,32 @@ public class SaveGift {
 
         return new Gift(saveGift.name,action,event);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public DiscountInCurrentLog getDiscountInCurrentLog() {
+        return discountInCurrentLog;
+    }
+
+    public SaveGiveDiscountCode getSaveGiveDiscountCode() {
+        return saveGiveDiscountCode;
+    }
+
+    public FirstBuyEvent getFirstBuyEvent() {
+        return firstBuyEvent;
+    }
+
+    public HighPriceEvent getHighPriceEvent() {
+        return highPriceEvent;
+    }
+
+    public PeriodicEvent getPeriodicEvent() {
+        return periodicEvent;
+    }
+
+    public static int getId() {
+        return id;
+    }
 }

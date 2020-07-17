@@ -12,4 +12,8 @@ public class SaveGiveDiscountCode {
     public GiveDiscountCode generateGiveDiscountCode(){
         return new GiveDiscountCode(SaveDiscount.load(this.discountId));
     }
+
+    public int getDiscountId() {
+        return discountId;
+    }
 }

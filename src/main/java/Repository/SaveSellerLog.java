@@ -39,4 +39,44 @@ public class SaveSellerLog {
         return new SellerLog(new Date(this.date),this.id,Customer.getCustomerById(this.customerId),
                 this.sale,this.customerAddress,this.customerPhoneNumber,this.logStatus,this.totalPrice,allItems);
     }
+
+    public static int getLastId() {
+        return lastId;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public long getSale() {
+        return sale;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
+
+    public LogStatus getLogStatus() {
+        return logStatus;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public List<ItemInLog> getAllItems() {
+        return allItems;
+    }
 }

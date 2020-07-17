@@ -48,4 +48,16 @@ public class SaveUser {
     public static void setLastId(int lastId) {
         SaveUser.lastId = lastId;
     }
+
+    public SaveManager getSaveManager() {
+        return saveManager;
+    }
+
+    public SaveCustomer getSaveCustomer() {
+        return saveCustomer;
+    }
+
+    public SaveSeller getSaveSeller() {
+        return saveSeller;
+    }
 }
