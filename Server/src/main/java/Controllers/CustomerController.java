@@ -2,10 +2,13 @@ package Controllers;
 
 import Models.*;
 import Models.Gifts.Gift;
+import Repository.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class CustomerController extends UserController {
     private HashMap<String, Method> sortCartMethods;
@@ -20,6 +23,7 @@ public class CustomerController extends UserController {
         setSortLogsMethods();
     }
 
+
     private void setSortCartMethods() {
         sortCartMethods = new HashMap<>();
         try {
@@ -29,7 +33,7 @@ public class CustomerController extends UserController {
             sortCartMethods.put("count", method);
             method = SelectedItem.class.getDeclaredMethod("getItemTotalPrice");
             sortCartMethods.put("total price", method);
-        } catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException ignored) {
         }
     }
 
@@ -185,7 +189,7 @@ public class CustomerController extends UserController {
         }
     }
 
-    public void addNewWaitingLog(){
+    public void addNewWaitingLog() {
         Customer customer = ((Customer) userVariables.getLoggedInUser());
         customer.setWaitingLog(new WaitingLog(customer));
         customer.getWaitingLog().setAllItems(customer.getCart());
@@ -283,6 +287,234 @@ public class CustomerController extends UserController {
         return logs;
     }
 
+    public Response processQuery(Query query) {
+        return switch (query.getMethodName()) {
+            case "isThereProductInCart" -> processIsThereProductInCart(query);
+            case "getCart" -> processGetCart(query);
+            case "isThereMultipleSellers" -> processIsThereMultipleSellers(query);
+            case "startPurchase" -> processStartPurchase(query);
+            case "getWaitingLog" -> processGetWaitingLog(query);
+            case "increaseProductInCart" -> processIncreaseProductInCart(query);
+            case "decreaseProductInCart" -> processDecreaseProductInCart(query);
+            case "getTotalCartPrice" -> processGetTotalCartPrice(query);
+            case "getDiscountCodes" -> processGetDiscountCodes(query);
+            case "getBalance" -> processGetBalance(query);
+            case "getOrder" -> processGetOrder(query);
+            case "rateProduct" -> processRateProduct(query);
+            case "addNewWaitingLog" -> processAddNewWaitingLog(query);
+            case "setAddressForPurchase" -> processSetAddressForPurchase(query);
+            case "setPhoneNumberForPurchase" -> processSetPhoneNumberForPurchase(query);
+            case "setDiscountCodeForPurchase" -> processSetDiscountCodeForPurchase(query);
+            case "cancelPurchase" -> processCancelPurchase(query);
+            case "purchase" -> processPurchase(query);
+            case "getAllLogs" -> processGetAllLogs(query);
+            case "sortDiscounts" -> processSortDiscounts(query);
+            case "sortLogs" -> processSortLogs(query);
+            default -> new Response("Error", "");
+        };
+    }
+
+    private Response processSortLogs(Query query) {
+        String name = query.getMethodInputs().get("name");
+        String type = query.getMethodInputs().get("type");
+
+        try {
+            List<SaveCustomerLog> logs = new ArrayList<>();
+            sortLogs(name, type).forEach(customerLog -> logs.add(new SaveCustomerLog(customerLog)));
+            Gson gson = new GsonBuilder().create();
+            return new Response("List<CustomerLog>", gson.toJson(logs));
+        } catch (ProductsController.NoSortException e) {
+            return new Response("NoSortException", "");
+        }
+    }
+
+    private Response processSortDiscounts(Query query) {
+        String name = query.getMethodInputs().get("name");
+        String type = query.getMethodInputs().get("type");
+        try {
+            List<SaveDiscount> discounts = new ArrayList<>();
+            sortDiscounts(name, type).forEach(discount -> discounts.add(new SaveDiscount(discount)));
+            Gson gson = new GsonBuilder().create();
+            return new Response("List<Discount>", gson.toJson(discounts));
+        } catch (ProductsController.NoSortException e) {
+            return new Response("NoSortException", "");
+        }
+    }
+
+    private Response processGetAllLogs(Query query) {
+        List<SaveCustomerLog> allLogs = new ArrayList<>();
+        getAllLogs().forEach(customerLog -> allLogs.add(new SaveCustomerLog(customerLog)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<CustomerLog>", gson.toJson(allLogs));
+    }
+
+    private Response processPurchase(Query query) {
+        try {
+            SaveCustomerLog log = new SaveCustomerLog(purchase());
+            Gson gson = new GsonBuilder().create();
+            return new Response("CustomerLog", gson.toJson(log));
+        } catch (NotEnoughMoney notEnoughMoney) {
+            Gson gson = new GsonBuilder().create();
+            return new Response("NotEnoughMoney", gson.toJson(notEnoughMoney));
+        }
+    }
+
+    private Response processCancelPurchase(Query query) {
+        cancelPurchase();
+        return new Response("void", "");
+    }
+
+    private Response processSetDiscountCodeForPurchase(Query query) {
+        int discountCode = Integer.parseInt(query.getMethodInputs().get("discountCode"));
+        try {
+            setDiscountCodeForPurchase(discountCode);
+            return new Response("void", "");
+        } catch (NoDiscountAvailableWithId noDiscountAvailableWithId) {
+            Gson gson = new GsonBuilder().create();
+            return new Response("NoDiscountAvailableWithId", gson.toJson(noDiscountAvailableWithId));
+        }
+    }
+
+    private Response processSetPhoneNumberForPurchase(Query query) {
+        String phoneNumber = query.getMethodInputs().get("phoneNumber");
+        setPhoneNumberForPurchase(phoneNumber);
+        return new Response("void", "");
+    }
+
+    private Response processSetAddressForPurchase(Query query) {
+        String address = query.getMethodInputs().get("address");
+        setAddressForPurchase(address);
+        return new Response("void", "");
+    }
+
+    private Response processAddNewWaitingLog(Query query) {
+        addNewWaitingLog();
+        return new Response("void", "");
+    }
+
+    private Response processRateProduct(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        int rate = Integer.parseInt(query.getMethodInputs().get("rate"));
+        try {
+            rateProduct(productId, rate);
+            return new Response("void", "");
+        } catch (NoProductWithIdInLog noProductWithIdInLog) {
+            Gson gson = new GsonBuilder().create();
+            return new Response("NoProductWithIdInLog", gson.toJson(noProductWithIdInLog));
+        }
+
+    }
+
+    private Response processGetOrder(Query query) {
+        int orderId = Integer.parseInt(query.getMethodInputs().get("orderId"));
+        try {
+            SaveCustomerLog customerLog = new SaveCustomerLog(getOrder(orderId));
+            Gson gson = new GsonBuilder().create();
+            return new Response("CustomerLog", gson.toJson(customerLog));
+        } catch (NoLogWithId noLogWithId) {
+            Gson gson = new GsonBuilder().create();
+            return new Response("NoLogWithId", gson.toJson(noLogWithId));
+        }
+    }
+
+    private Response processGetBalance(Query query) {
+        long balance  = getBalance();
+        return new Response("long",Long.toString(balance));
+    }
+
+    private Response processGetDiscountCodes(Query query) {
+        List<SaveDiscount> allDiscounts  = new ArrayList<>();
+        getDiscountCodes().forEach(discount -> allDiscounts.add(new SaveDiscount(discount)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<Discount>",gson.toJson(allDiscounts));
+    }
+
+    private Response processGetTotalCartPrice(Query query) {
+        long total  =getTotalCartPrice();
+        return new Response("long",Long.toString(total));
+    }
+
+    private Response processDecreaseProductInCart(Query query) {
+        Gson gson = new GsonBuilder().create();
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        if(query.getMethodInputs().containsKey("seller")){
+            Seller seller = Seller.getSellerById(Integer.parseInt(query.getMethodInputs().get("seller")));
+            decreaseProductInCart(seller,productId);
+            return new Response("void","");
+        }else{
+            try {
+                decreaseProductInCart(productId);
+                return new Response("void","");
+            } catch (NoProductWithIdInCart noProductWithIdInCart) {
+                return new Response("NoProductWithIdInCart",gson.toJson(noProductWithIdInCart));
+            } catch (MoreThanOneSellerForItem moreThanOneSellerForItem) {
+                String toJson =gson.toJson( moreThanOneSellerForItem.saveSellers);
+                return new Response("MoreThanOneSellerForItem",toJson);
+            }
+        }
+    }
+
+    private Response processIncreaseProductInCart(Query query) {
+        Gson gson = new GsonBuilder().create();
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        if(query.getMethodInputs().containsKey("sellerId")){
+            int sellerId = Integer.parseInt(query.getMethodInputs().get("sellerId"));
+            try {
+                increaseProductInCart(sellerId,productId);
+                return new Response("void","");
+            } catch (NotEnoughSupply notEnoughSupply) {
+                return new Response("NotEnoughSupply","");
+            }
+        }else{
+            try {
+                increaseProductInCart(productId);
+                return new Response("void","");
+            } catch (NoProductWithIdInCart noProductWithIdInCart) {
+                return new Response("NoProductWithIdInCart",gson.toJson(noProductWithIdInCart));
+            } catch (MoreThanOneSellerForItem moreThanOneSellerForItem) {
+                String toJson = gson.toJson(moreThanOneSellerForItem.getSaveSellers());
+               return new Response("MoreThanOneSellerForItem",toJson);
+            } catch (NotEnoughSupply notEnoughSupply) {
+                return new Response("NotEnoughSupply","");
+            }
+
+        }
+    }
+
+    private Response processGetWaitingLog(Query query) {
+       return null;
+       //TODO nazanin
+    }
+
+    private Response processStartPurchase(Query query) {
+        try {
+            startPurchase();
+            return new Response("void","");
+        } catch (EmptyCart emptyCart) {
+            return new Response("EmptyCart","");
+        } catch (NotEnoughSupplyInCart notEnoughSupplyInCart) {
+            Gson gson = new GsonBuilder().create();
+            return new Response("NotEnoughSupplyInCart",gson.toJson(notEnoughSupplyInCart.getSaveItems()));
+        }
+    }
+
+    private Response processIsThereMultipleSellers(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        return new Response("boolean",Boolean.toString(isThereMultipleSellers(productId)));
+    }
+
+    private Response processGetCart(Query query) {
+        List<SaveSelectedItem> cart = new ArrayList<>();
+        getCart().forEach(selectedItem -> cart.add(new SaveSelectedItem(selectedItem)));
+        Gson gson = new GsonBuilder().create();
+        return new Response("List<SelectedItem>",gson.toJson(cart));
+    }
+
+    private Response processIsThereProductInCart(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        return new Response("boolean",Boolean.toString(isThereProductInCart(productId)));
+    }
+
 
     public static class NoProductWithIdInCart extends Exception {
         public NoProductWithIdInCart(String message) {
@@ -297,27 +529,36 @@ public class CustomerController extends UserController {
 
     public static class NotEnoughSupplyInCart extends Exception {
         private ArrayList<SelectedItem> items;
-
+        private List<SaveSelectedItem> saveItems = new ArrayList<>();
         public NotEnoughSupplyInCart(ArrayList<SelectedItem> items) {
             this.items = new ArrayList<>();
             this.items = items;
+            items.forEach(selectedItem -> saveItems.add(new SaveSelectedItem(selectedItem)));
         }
 
         public ArrayList<SelectedItem> getItems() {
             return items;
         }
 
+        public List<SaveSelectedItem> getSaveItems() {
+            return saveItems;
+        }
     }
 
     public static class MoreThanOneSellerForItem extends Exception {
         ArrayList<Seller> sellers = new ArrayList<>();
-
+        List<SaveSeller> saveSellers = new ArrayList<>();
         public MoreThanOneSellerForItem(ArrayList<Seller> sellers) {
             this.sellers.addAll(sellers);
+            sellers.forEach(seller -> saveSellers.add(new SaveSeller(seller)));
         }
 
         public ArrayList<Seller> getSellers() {
             return sellers;
+        }
+
+        public List<SaveSeller> getSaveSellers(){
+            return this.saveSellers;
         }
     }
 
@@ -345,13 +586,13 @@ public class CustomerController extends UserController {
     }
 
     public static class NotEnoughMoney extends Exception {
-        Long amount;//amount of money that is needed!
+        long amount;//amount of money that is needed!
 
         public NotEnoughMoney(long amount) {
             this.amount = amount;
         }
 
-        public Long getAmount() {
+        public long getAmount() {
             return amount;
         }
     }
