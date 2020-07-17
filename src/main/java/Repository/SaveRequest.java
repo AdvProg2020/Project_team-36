@@ -73,4 +73,36 @@ public class SaveRequest {
         Request.addToAllRequests(request);
         return request;
     }
+
+    public int getRequestId() {
+        return requestId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public SaveProduct getSaveProduct() {
+        return saveProduct;
+    }
+
+    public SaveProductField getSaveProductField() {
+        return saveProductField;
+    }
+
+    public SaveComment getSaveComment() {
+        return saveComment;
+    }
+
+    public SaveSeller getSaveSeller() {
+        return saveSeller;
+    }
+
+    public SaveSale getSaveSale() {
+        return saveSale;
+    }
+
+    public static int getLastId() {
+        return lastId;
+    }
 }

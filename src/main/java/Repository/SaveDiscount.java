@@ -62,4 +62,32 @@ public class SaveDiscount {
     public static int getLastId() {
         return lastId;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public double getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public long getDiscountLimit() {
+        return discountLimit;
+    }
+
+    public int getRepetitionForEachUser() {
+        return repetitionForEachUser;
+    }
+
+    public List<Integer> getCustomersIncludedIds() {
+        return customersIncludedIds;
+    }
 }

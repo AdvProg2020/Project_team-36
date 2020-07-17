@@ -61,4 +61,32 @@ public class SaveSale {
         this.productsInSaleIds.forEach(productInSaleId -> sale.getProductsInSale().add(SaveProduct.load(productInSaleId)));
         return sale;
     }
+
+    public int getSellerId() {
+        return sellerId;
+    }
+
+    public int getOffId() {
+        return offId;
+    }
+
+    public List<Integer> getProductsInSaleIds() {
+        return productsInSaleIds;
+    }
+
+    public ProductionStatus getStatus() {
+        return status;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public Double getSalePercent() {
+        return salePercent;
+    }
 }

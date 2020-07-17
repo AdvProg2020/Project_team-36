@@ -93,4 +93,64 @@ public class SaveSeller {
     public static int getLastId() {
         return lastId;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getProfilePictureURL() {
+        return profilePictureURL;
+    }
+
+    public long getCredit() {
+        return credit;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getCompanyInfo() {
+        return companyInfo;
+    }
+
+    public List<SaveSellerLog> getAllSellerLogs() {
+        return allSellerLogs;
+    }
+
+    public List<Integer> getAllProductIds() {
+        return allProductIds;
+    }
+
+    public List<Integer> getAllOffIds() {
+        return allOffIds;
+    }
 }

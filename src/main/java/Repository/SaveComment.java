@@ -23,4 +23,28 @@ public class SaveComment {
     public Comment generateComment(){
         return new Comment(SaveUser.load(userId),SaveProduct.load(productId),title,comment,ConfirmationStatus,hasBought);
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public Status getConfirmationStatus() {
+        return ConfirmationStatus;
+    }
+
+    public boolean isHasBought() {
+        return hasBought;
+    }
 }
