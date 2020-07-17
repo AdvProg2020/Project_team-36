@@ -16,7 +16,7 @@ public class EditOffController extends SellerProfileController implements Initia
 
     public Label usernameLabel;
     public ImageView profilePicture;
-    public Spinner percentSpinner;
+    public Spinner<Integer> percentSpinner;
     public DatePicker startDate;
     public DatePicker endDate;
     public Button createButton;
@@ -67,7 +67,6 @@ public class EditOffController extends SellerProfileController implements Initia
             }
         });
 
-        addTextFieldListener();
         setAvailableProducts();
         setValues();
     }
@@ -120,18 +119,6 @@ public class EditOffController extends SellerProfileController implements Initia
         productsIncludedTable.getItems().add(toBeAdded);
     }
 
-    private void addTextFieldListener() {
-        startDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.matches("[^\\d]+"))
-                startDate.getEditor().setText(startDate.getEditor().getText().replaceAll("[^\\d]", ""));
-        });
-
-        endDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.matches("[^\\d]+"))
-                endDate.getEditor().setText(endDate.getEditor().getText().replaceAll("[^\\d]", ""));
-        });
-    }
-
     public void editOff(ActionEvent actionEvent) {
         Sale copiedOff = new Sale(offToEdit);
 
@@ -141,7 +128,7 @@ public class EditOffController extends SellerProfileController implements Initia
             dateError.setVisible(true);
             return;
         }
-        int percent = (int) percentSpinner.getValue();
+        int percent = percentSpinner.getValue();
         Date startDate = java.sql.Date.valueOf(start);
         Date endDate = java.sql.Date.valueOf(end);
 

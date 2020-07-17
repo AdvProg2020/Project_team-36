@@ -1,6 +1,8 @@
 package Controllers;
 
 import Models.Manager;
+import Models.Query;
+import Models.Response;
 import Models.User;
 
 public class NewManagerController {
@@ -58,11 +60,84 @@ public class NewManagerController {
         User.addNewUser(newManager);
     }
 
+    public Response processQuery(Query query) {
+        switch (query.getMethodName()) {
+            case "setUsername":
+                return processSetUsername(query);
+
+            case "setFirstname":
+                return processSetFirstname(query);
+
+            case "setLastname":
+                return processSetLastname(query);
+
+            case "setEmail":
+                return processSetEmail(query);
+
+            case "setPhoneNumber":
+                return processSetPhoneNumber(query);
+
+            case "setPassword":
+                return processSetPassword(query);
+
+            case "finalizeMakingNewManagerProfile":
+                return processFinalizeMakingNewManagerProfile();
+
+            default:
+                return new Response("Error", "");
+        }
+    }
+
+    private Response processSetUsername(Query query){
+        try {
+            setUsername(query.getMethodInputs().get("username"));
+            return new Response("void", "");
+        } catch (InvalidInputException e) {
+            return new Response("InvalidInputException", "");
+        }
+    }
+
+    private Response processSetFirstname(Query query){
+        setFirstname(query.getMethodInputs().get("firstname"));
+        return new Response("void", "");
+    }
+
+    private Response processSetLastname(Query query){
+        setLastname(query.getMethodInputs().get("lastname"));
+        return new Response("void", "");
+    }
+
+    private Response processSetPassword(Query query){
+        setPassword(query.getMethodInputs().get("password"));
+        return new Response("void", "");
+    }
+
+    private Response processSetEmail(Query query){
+        try {
+            setEmail(query.getMethodInputs().get("email"));
+            return new Response("void", "");
+        } catch (InvalidInputException e) {
+            return new Response("InvalidInputException", "");
+        }
+    }
+
+    private Response processSetPhoneNumber(Query query){
+        try {
+            setPhoneNumber(query.getMethodInputs().get("phoneNumber"));
+            return new Response("void", "");
+        } catch (InvalidInputException e) {
+            return new Response("InvalidInputException", "");
+        }
+    }
+
+    private Response processFinalizeMakingNewManagerProfile(){
+        finalizeMakingNewManagerProfile();
+        return new Response("void", "");
+    }
+
     public static class InvalidInputException extends Exception {
         public InvalidInputException(String message) {
             super(message);
         }
     }
-
-    //-..-
 }
