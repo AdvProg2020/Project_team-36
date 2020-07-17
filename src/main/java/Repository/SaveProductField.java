@@ -1,6 +1,7 @@
 package Repository;
 
-import Models.*;
+import Models.ProductField;
+import Models.Status;
 
 import java.util.Set;
 

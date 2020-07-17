@@ -1,6 +1,6 @@
 package Repository;
 
-import GUI.AlertBox;
+
 import Models.*;
 import Models.Gifts.Gift;
 
@@ -80,8 +80,6 @@ public class RepositoryManager {
         Request.getAllRequests().forEach(request -> SaveRequest.save(request));
         Sale.getAllSales().forEach(sale -> SaveSale.save(sale));
         Seller.getAllSellers().forEach(seller -> SaveSeller.save(seller));
-
-        AlertBox.display("SaveData","All data is saved successfully");
     }
 
     public static void loadData(){
@@ -99,8 +97,6 @@ public class RepositoryManager {
         User.getAllUsers().forEach(user -> SaveUser.load(user.getUserId()));
         User.getAllUsers().forEach(user -> User.addUsername(user.getUsername()));
         User.setTotalUsersMade(SaveUser.getLastId());
-
-        AlertBox.display("LoadData","All data is loaded successfully");
     }
 
     private static void loadSellers() {

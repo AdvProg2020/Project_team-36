@@ -1,6 +1,8 @@
 package Repository;
 
-import Models.*;
+import Models.Customer;
+import Models.Status;
+import Models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

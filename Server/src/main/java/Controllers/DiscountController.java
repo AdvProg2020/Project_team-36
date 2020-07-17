@@ -6,11 +6,9 @@ import Models.Query;
 import Models.Response;
 import Repository.SaveCustomer;
 import Repository.SaveDiscount;
-import Repository.SaveProduct;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

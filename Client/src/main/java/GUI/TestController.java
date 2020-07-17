@@ -1,7 +1,5 @@
 package GUI;
 
-import javafx.fxml.FXMLLoader;
-
 import java.io.IOException;
 
 public class TestController implements Initializable {
