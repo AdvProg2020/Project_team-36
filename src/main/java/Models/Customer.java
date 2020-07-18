@@ -175,12 +175,14 @@ public class Customer extends User {
     }
 
     public Customer(int userId, String username, String firstname, String lastname,
-                    String email, String phoneNumber, String password, Status status, long credit, String profilePictureURL) {
+                    String email, String phoneNumber, String password, Status status,
+                    long credit, String profilePictureURL,WaitingLog waitingLog) {
         super(userId, username, firstname, lastname, email, phoneNumber, password, status, profilePictureURL);
         this.credit = credit;
         this.allLogs = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
         this.cart = new ArrayList<>();
+        this.waitingLog = waitingLog;
     }
 
     public static void addToAllCustomers(Customer customer) {

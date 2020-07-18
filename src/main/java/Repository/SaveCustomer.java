@@ -3,6 +3,7 @@ package Repository;
 import Models.Customer;
 import Models.Status;
 import Models.User;
+import Models.WaitingLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -27,8 +28,7 @@ public class SaveCustomer {
     private List<SaveCustomerLog> allCustomerLogs;
     private List<SaveSelectedItem> cart;
     private Map<Integer, Integer> allDiscountsForCustomer;
-
-    //todo waiting log
+    private SaveWaitingLog waitingLog;
 
     private SaveCustomer() {
         this.allCustomerLogs = new ArrayList<>();
@@ -50,6 +50,7 @@ public class SaveCustomer {
         this.password = customer.getPassword();
         this.status = customer.getStatus();
         this.credit = customer.getCredit();
+        this.waitingLog = new SaveWaitingLog(customer.getWaitingLog());
         customer.getAllLogs().forEach(customerLog -> this.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
         customer.getCart().forEach(selectedItem -> this.cart.add(new SaveSelectedItem(selectedItem)));
         if (customer.getAllDiscountsForCustomer() != null){
@@ -78,7 +79,7 @@ public class SaveCustomer {
         SaveCustomer saveCustomer = gson.fromJson(data,SaveCustomer.class);
         Customer customer = new Customer(saveCustomer.userId,saveCustomer.username,saveCustomer.firstname,
                 saveCustomer.lastname,saveCustomer.email,saveCustomer.phoneNumber,saveCustomer.password,
-                saveCustomer.status,saveCustomer.credit,saveCustomer.profilePictureURL);
+                saveCustomer.status,saveCustomer.credit,saveCustomer.profilePictureURL,saveCustomer.waitingLog.generateWaitingLog());
         Customer.addToAllCustomers(customer);
         User.addToAllUsers(customer);
         saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));
@@ -141,5 +142,9 @@ public class SaveCustomer {
 
     public Map<Integer, Integer> getAllDiscountsForCustomer() {
         return allDiscountsForCustomer;
+    }
+
+    public SaveWaitingLog getWaitingLog() {
+        return waitingLog;
     }
 }

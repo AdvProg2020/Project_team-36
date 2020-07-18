@@ -30,6 +30,14 @@ public class SaveWaitingLog {
         this.customerPhoneNumber = waitingLog.getCustomerPhoneNumber();
     }
 
+    public WaitingLog generateWaitingLog(){
+        WaitingLog waitingLog = new WaitingLog(this.totalPrice,this.giftDiscount,this.discountAmount
+                ,this.customerAddress,this.customerPhoneNumber);
+        this.gifts.forEach(saveGift -> waitingLog.getGifts().add(saveGift.generateGift()));
+        this.allSelectedItems.forEach(saveSelectedItem -> waitingLog.getAllItems().add(saveSelectedItem.generateSelectedItem()));
+        return waitingLog;
+    }
+
     public long getTotalPrice() {
         return totalPrice;
     }

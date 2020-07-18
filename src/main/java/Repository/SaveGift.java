@@ -42,6 +42,26 @@ public class SaveGift {
         }
     }
 
+    public Gift generateGift(){
+        Action action = null;
+        if (this.discountInCurrentLog != null){
+            action = this.discountInCurrentLog;
+        }else if (this.saveGiveDiscountCode != null){
+            action = this.saveGiveDiscountCode.generateGiveDiscountCode();
+        }
+
+        Event event = null;
+        if (this.firstBuyEvent != null){
+            event = this.firstBuyEvent;
+        }else if (this.highPriceEvent != null){
+            event = this.highPriceEvent;
+        }else if (this.periodicEvent != null){
+            event = this.periodicEvent;
+        }
+
+        return new Gift(this.name,action,event);
+    }
+
     public static void save(Gift gift) {
         SaveGift saveGift = new SaveGift(gift);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

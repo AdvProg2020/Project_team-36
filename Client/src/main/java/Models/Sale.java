@@ -82,16 +82,4 @@ public class Sale implements Pendable {
     public Double getSalePercent() {
         return salePercent;
     }
-
-    @Override
-    public String getPendingRequestType() {
-        return "sale";
-    }
-
-    @Override
-    public void acceptAddRequest() {}
-
-    @Override
-    public void acceptEditRequest() {
-    }
 }

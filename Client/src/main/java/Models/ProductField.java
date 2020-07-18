@@ -93,15 +93,4 @@ public class ProductField implements Pendable{
             return null;
         }
     }
-
-    @Override
-    public String getPendingRequestType() {
-        return "product field";
-    }
-
-    @Override
-    public void acceptAddRequest() {}
-
-    @Override
-    public void acceptEditRequest() {}
 }

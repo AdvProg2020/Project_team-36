@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class Product implements Pendable {
+public class Product implements Pendable{
     private SaveProduct saveProduct;
     private int productId;
     private String name;
@@ -26,7 +26,6 @@ public class Product implements Pendable {
     private int seenNumber;
     private ImageView productImage;
     private String productImageUrl = "";
-    private String editedField;
 
     public Product(SaveProduct saveProduct) {
         this.saveProduct = saveProduct;
@@ -45,7 +44,6 @@ public class Product implements Pendable {
         saveProduct.getAllScore().forEach(saveScore -> allScore.add(new Score(saveScore)));
         this.allComments = new ArrayList<>();
         saveProduct.getAllComments().forEach(saveComment -> allComments.add(new Comment(saveComment)));
-        //todo sayee karanee editedfield tu saveProduct nabud vaghti mn repositorio zdm,aln mikhaymesh ya what??
     }
 
     public SaveProduct getSaveProduct() {
@@ -129,24 +127,5 @@ public class Product implements Pendable {
 
     public String getProductImageUrl() {
         return productImageUrl;
-    }
-
-    public String getEditedField() {
-        return editedField;
-    }
-
-    @Override
-    public String getPendingRequestType() {
-        return "product";
-    }
-
-    @Override
-    public void acceptAddRequest() {
-
-    }
-
-    @Override
-    public void acceptEditRequest() {
-
     }
 }

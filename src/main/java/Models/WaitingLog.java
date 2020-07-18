@@ -139,5 +139,13 @@ public class WaitingLog {
         return allSelectedItems;
     }
 
-
+    public WaitingLog(long totalPrice, long giftDiscount, long discountAmount, String customerAddress, String customerPhoneNumber) {
+        this.totalPrice = totalPrice;
+        this.giftDiscount = giftDiscount;
+        this.discountAmount = discountAmount;
+        this.customerAddress = customerAddress;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.gifts = new ArrayList<>();
+        this.allSelectedItems = new ArrayList<>();
+    }
 }

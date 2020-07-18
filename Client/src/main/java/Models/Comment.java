@@ -7,7 +7,7 @@ import Repository.SaveProduct;
 import Repository.SaveUser;
 import com.google.gson.Gson;
 
-public class Comment implements Pendable {
+public class Comment implements Pendable{
     private SaveComment saveComment;
     private String title;
     private String comment;
@@ -34,7 +34,7 @@ public class Comment implements Pendable {
         if (response.getReturnType().equals("User")) {
             Gson gson = new Gson();
             SaveUser saveUser = gson.fromJson(response.getData(), SaveUser.class);
-            return new User(saveUser);
+            return User.generateUser(saveUser);
         } else {
             System.out.println(response);
             return null;
@@ -71,19 +71,4 @@ public class Comment implements Pendable {
         return hasBought;
     }
 
-
-    @Override
-    public String getPendingRequestType() {
-        return "comment";
-    }
-
-    @Override
-    public void acceptAddRequest() {
-        //todo
-    }
-
-    @Override
-    public void acceptEditRequest() {
-        //todo
-    }
 }
