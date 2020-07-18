@@ -152,4 +152,13 @@ public class SellerLog {
         return customer.getUsername();
     }
 
+    public static SellerLog getSellerLogById(int id){
+        for (SellerLog log : allLogs) {
+            if (log.id == id){
+                return log;
+            }
+        }
+        return  null;
+    }
+
 }

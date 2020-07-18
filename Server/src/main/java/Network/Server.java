@@ -1,9 +1,8 @@
 package Network;
 
 import Controllers.GlobalVariables;
-import Models.Query;
-import Models.Response;
-import Models.Session;
+import Models.*;
+import Repository.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Server {
@@ -96,9 +96,140 @@ public class Server {
             case "NewProductController":
                 return processNewProductController(query, currentSession);
 
+            case "GetById":
+                return processGetById(query);
+
+            case "GetAllById":
+                return processGetAllById(query);
+
             default:
                 return new Response("Error", "");
         }
+    }
+
+//    private Response processGetAllById(Query query) {
+//        String returnType;
+//        Gson gson1 = new GsonBuilder().create();
+//        String output;
+//        switch (query.getMethodName()) {
+//            case "Category":
+//                returnType = "Category";
+//                output = gson1.toJson(Category.getCategoryById(id));
+//                break;
+//
+//            case "Customer":
+//                returnType = "Customer";
+//                output = gson1.toJson(Customer.getCustomerById(id));
+//                break;
+//
+//            case "Discount":
+//                returnType = "Discount";
+//                output = gson1.toJson(Discount.getDiscountById(id));
+//                break;
+//
+//            case "Manager":
+//                returnType = "Manager";
+//                output = gson1.toJson(Manager.getManagerById(id));
+//                break;
+//
+//            case "Product":
+//                returnType = "Product";
+//                output = gson1.toJson(Product.getProductById(id));
+//                break;
+//
+//            case "Request":
+//                returnType = "Request";
+//                output = gson1.toJson(Request.getRequestById(id));
+//                break;
+//
+//            case "Sale":
+//                returnType = "Sale";
+//                output = gson1.toJson(Sale.getSaleById(id));
+//                break;
+//
+//            case "Seller":
+//                returnType = "Seller";
+//                output = gson1.toJson(Seller.getSellerById(id));
+//                break;
+//
+//            case "SellerLog":
+//                returnType = "SellerLog";
+//                output = gson1.toJson(SellerLog.getSellerLogById(id));
+//                break;
+//
+//            case "User":
+//                returnType = "User";
+//                output = gson1.toJson(User.getUserById(id));
+//                break;
+//
+//            default:
+//                returnType = "Error";
+//                output = "";
+//        }
+//        return new Response(returnType,output);
+//    }
+
+    private Response processGetById(Query query) {
+        String returnType;
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Gson gson1 = new GsonBuilder().create();
+        String output;
+        switch (query.getMethodName()) {
+            case "Category":
+                returnType = "Category";
+                output = gson1.toJson(new SaveCategory(Category.getCategoryById(id)));
+                break;
+
+            case "Customer":
+                returnType = "Customer";
+                output = gson1.toJson(new SaveCustomer(Customer.getCustomerById(id)));
+                break;
+
+            case "Discount":
+                returnType = "Discount";
+                output = gson1.toJson(new SaveDiscount(Discount.getDiscountById(id)));
+                break;
+
+            case "Manager":
+                returnType = "Manager";
+                output = gson1.toJson(new SaveManager(Manager.getManagerById(id)));
+                break;
+
+            case "Product":
+                returnType = "Product";
+                output = gson1.toJson(new SaveProduct(Product.getProductById(id)));
+                break;
+
+            case "Request":
+                returnType = "Request";
+                output = gson1.toJson(new SaveRequest(Request.getRequestById(id)));
+                break;
+
+            case "Sale":
+                returnType = "Sale";
+                output = gson1.toJson(new SaveSale(Sale.getSaleById(id)));
+                break;
+
+            case "Seller":
+                returnType = "Seller";
+                output = gson1.toJson(new SaveSeller(Seller.getSellerById(id)));
+                break;
+
+            case "SellerLog":
+                returnType = "SellerLog";
+                output = gson1.toJson(new SaveSellerLog(SellerLog.getSellerLogById(id)));
+                break;
+
+            case "User":
+                returnType = "User";
+                output = gson1.toJson(new SaveUser(User.getUserById(id)));
+                break;
+
+            default:
+                returnType = "Error";
+                output = "";
+        }
+        return new Response(returnType,output);
     }
 
     private Response processNewProductController(Query query, Session currentSession) {
