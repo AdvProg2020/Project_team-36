@@ -16,7 +16,7 @@ public class Sale implements Pendable {
     private ProductionStatus status;
     private Date startTime;
     private Date endTime;
-    private Double salePercent;//be darsad nist
+    private double salePercent;//be darsad nist
     static Random random = new Random();
     private static int totalOffsMade = random.nextInt(4988 - 1000) + 1000;
     private String editedField;
@@ -83,7 +83,7 @@ public class Sale implements Pendable {
         return endTime;
     }
 
-    public Double getSalePercent() {
+    public double getSalePercent() {
         return salePercent;
     }
 

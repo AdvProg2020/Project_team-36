@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class Product {
+public class Product implements Pendable {
     private SaveProduct saveProduct;
     private int productId;
     private String name;
@@ -133,5 +133,20 @@ public class Product {
 
     public String getEditedField() {
         return editedField;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "product";
+    }
+
+    @Override
+    public void acceptAddRequest() {
+
+    }
+
+    @Override
+    public void acceptEditRequest() {
+
     }
 }
