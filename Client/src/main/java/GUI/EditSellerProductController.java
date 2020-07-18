@@ -39,7 +39,7 @@ public class EditSellerProductController extends SellerProfileController impleme
     public Label fieldError;
     private User user;
     private Category category;
-    private final Product productToEdit = Product.getProductToEdit();
+    private final Product productToEdit = productController.getProductToEdit();
     private String imagePath = "";
     private ArrayList<Field> fields;
     private EditProductController editProductController;

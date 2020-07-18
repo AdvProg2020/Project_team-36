@@ -18,8 +18,6 @@ public class  SellerProductsController extends SellerProfileController implement
     public ImageView profilePicture;
     public Label usernameLabel;
     public TableColumn<?, ?> buyersColumn;
-    public TableColumn<?, ?> editColumn;
-    public TableColumn<?, ?> viewColumn;
     public TableColumn<?, ?> productIdColumn;
     public TableColumn<?, ?> productNameColumn;
     public TableColumn<?, ?> productPictureColumn;
@@ -52,23 +50,36 @@ public class  SellerProductsController extends SellerProfileController implement
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
-        editColumn.setCellValueFactory(new PropertyValueFactory<>("editHyperlink"));
-        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperlink"));
         buyersColumn.setCellValueFactory(new PropertyValueFactory<>("buyersDropDown"));
         allProductsTable.getItems().addAll(allProducts);
     }
 
     public void viewAction() throws IOException {
+        TableView.TableViewSelectionModel<Product> selectedProduct = allProductsTable.getSelectionModel();
+
+        if (selectedProduct.isEmpty()) {
+            return;
+        }
+
+        Product toBeViewed = selectedProduct.getSelectedItem();
+        productController.setProductToView(toBeViewed);
         Constants.getGuiManager().open("ViewSellerProduct",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void editAction() throws IOException {
+        TableView.TableViewSelectionModel<Product> selectedProduct = allProductsTable.getSelectionModel();
+
+        if (selectedProduct.isEmpty()) {
+            return;
+        }
+
+        Product toBeEdited = selectedProduct.getSelectedItem();
+        productController.setProductToEdit(toBeEdited);
         Constants.getGuiManager().open("EditSellerProduct",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
 
     public void removeAction() {
-
         TableView.TableViewSelectionModel<Product> selectedProduct = allProductsTable.getSelectionModel();
 
         if (selectedProduct.isEmpty()) {
@@ -76,7 +87,7 @@ public class  SellerProductsController extends SellerProfileController implement
         }
 
         Product toBeRemoved = selectedProduct.getSelectedItem();
-        Product.removeProduct(toBeRemoved);
+        managerController.removeProduct(toBeRemoved);
         allProductsTable.getItems().remove(toBeRemoved);
     }
 

@@ -428,6 +428,22 @@ public class ManagerController extends UserController {
         throw new ProductsController.NoSortException();
     }
 
+    public Discount getDiscountToView() {
+        return Discount.getDiscountToView();
+    }
+
+    public Discount getDiscountToEdit() {
+        return Discount.getDiscountToEdit();
+    }
+
+    public void setDiscountToView(Discount discountToView) {
+        Discount.setDiscountToView(discountToView);
+    }
+
+    public void setDiscountToEdit(Discount discountToEdit) {
+        Discount.setDiscountToEdit(discountToEdit);
+    }
+
     //todo: fekr naknm bekhaim bezanimesh
     public HashMap<Integer, String> getGiftEventsName() {
         return this.giftEvents;
@@ -525,8 +541,8 @@ public class ManagerController extends UserController {
             case "sortDiscountCodes":
                 return processSortDiscountCodes(query);
 
-            case "filterRequests":
-                return processFilterRequests(query);
+            case "getDiscountToEdit":
+                return processGetDiscountToEdit();
 
             case "sortRequests":
                 return processSortRequests(query);
@@ -534,6 +550,17 @@ public class ManagerController extends UserController {
             case "sortProducts":
                 return processSortProducts(query);
 
+            case "getDiscountToView":
+                return processGetDiscountToView();
+
+            case "filterRequests":
+                return processFilterRequests(query);
+
+            case "setDiscountToView":
+                return processSetDiscountToView(query);
+
+            case "setDiscountToEdit":
+                return processSetDiscountToEdit(query);
             default:
                 return new Response("Error", "");
         }
@@ -864,6 +891,34 @@ public class ManagerController extends UserController {
         } catch (ProductsController.NoSortException e) {
             return new Response("ProductsController.NoSortException", "");
         }
+    }
+
+    private Response processGetDiscountToEdit(){
+        SaveDiscount saveDiscount = new SaveDiscount(getDiscountToEdit());
+        Gson gson = new GsonBuilder().create();
+        String saveDiscountGson = gson.toJson(saveDiscount);
+        return new Response("Discount", saveDiscountGson);
+    }
+
+    private Response processGetDiscountToView(){
+        SaveDiscount saveDiscount = new SaveDiscount(getDiscountToView());
+        Gson gson = new GsonBuilder().create();
+        String saveDiscountGson = gson.toJson(saveDiscount);
+        return new Response("Discount", saveDiscountGson);
+    }
+
+    private Response processSetDiscountToView(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Discount discountToView = Discount.getDiscountById(id);
+        setDiscountToView(discountToView);
+        return new Response("void", "");
+    }
+
+    private Response processSetDiscountToEdit(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Discount discountToEdit = Discount.getDiscountById(id);
+        setDiscountToEdit(discountToEdit);
+        return new Response("void", "");
     }
 
     public static class InvalidDiscountIdException extends Exception {

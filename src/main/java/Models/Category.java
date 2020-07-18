@@ -1,8 +1,5 @@
 package Models;
 
-import GUI.ManageCategoriesController;
-import javafx.scene.control.Hyperlink;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +16,6 @@ public class Category {
     private ArrayList<Product> products;
     private static ArrayList<Category> allCategories = new ArrayList<>();
     private static Category mainCategory = new Category("General Category");
-    private static ManageCategoriesController manageCategoriesController;
     private static Category categoryToEdit;
 
     public static void setMainCategory(Category mainCategory) {
@@ -333,22 +329,6 @@ public class Category {
         subCategories.remove(category);
     }
 
-
-    public Hyperlink getEditHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("edit");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            try {
-                categoryToEdit = this;
-                manageCategoriesController.editAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return remove;
-    }
-
     public HashSet<Field> getCategoryOwnFields(){
      HashSet<Field> parentFields = this.parentCategory.getAllFields();
      HashSet<Field> toBeReturned = new HashSet<>();
@@ -368,11 +348,11 @@ public class Category {
      return toBeReturned;
     }
 
-    public static void setManageCategoriesController(ManageCategoriesController manageCategoriesController) {
-        Category.manageCategoriesController = manageCategoriesController;
-    }
-
     public static Category getCategoryToEdit() {
         return categoryToEdit;
+    }
+
+    public static void setCategoryToEdit(Category categoryToEdit) {
+        Category.categoryToEdit = categoryToEdit;
     }
 }

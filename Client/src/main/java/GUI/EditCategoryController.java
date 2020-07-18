@@ -30,6 +30,7 @@ public class EditCategoryController extends ManagerProfileController implements 
     private User user;
     Category category ;
     CategoryController categoryController;
+
     @Override
     public void initialize(int id) throws IOException {
 
@@ -46,7 +47,7 @@ public class EditCategoryController extends ManagerProfileController implements 
         profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
 
         this.categoryController = new CategoryController();
-        this.category = Category.getCategoryToEdit();
+        this.category = categoryController.getCategoryToEdit();
         welcomeLabel.setText("category "+category.getName()+" editing!");
         try {
             categoryController.editCategory(category.getName());

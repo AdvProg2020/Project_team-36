@@ -261,6 +261,26 @@ public class SellerController extends UserController{
         OffFieldsSetters.put("products\\s+included", "editOffProductsIncluded");
     }
 
+    public Sale getOffToView() {
+        return Sale.getOffToView();
+    }
+
+    public Sale getOffToEdit() {
+        return Sale.getOffToEdit();
+    }
+
+    public void setOffToView(Sale offToView) {
+        Sale.setOffToView(offToView);
+    }
+
+    public void setOffToEdit(Sale offToEdit) {
+        Sale.setOffToEdit(offToEdit);
+    }
+
+    public void removeSale(Sale sale){
+        Sale.removeSale(sale);
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getLoggedInSeller" -> processGetLoggedInSeller(query);
@@ -292,9 +312,15 @@ public class SellerController extends UserController{
             case "addProductsToOff" -> processAddProductsToOff(query);
             case "removeProductsFromOff" -> processRemoveProductsFromOff(query);
             case "sendEditOffRequest" -> processSendEditOffRequest(query);
+            case "getOffToView" -> processGetOffToView();
+            case "getOffToEdit" -> processGetOffToEdit();
+            case "setOffToView" -> processSetOffToView(query);
+            case "setOffToEdit" -> processSetOffToEdit(query);
+            case "removeSale" -> processRemoveSale(query);
             default -> new Response("Error", "");
         };
     }
+
 
     private Response processSendEditOffRequest(Query query) {
         //TODO karaneh
@@ -526,6 +552,41 @@ public class SellerController extends UserController{
         Gson gson = new GsonBuilder().create();
         String toBeReturned = gson.toJson(saveSeller);
         return new Response("Seller",toBeReturned);
+    }
+
+    private Response processGetOffToView(){
+        SaveSale saveSale = new SaveSale(getOffToView());
+        Gson gson = new GsonBuilder().create();
+        String toBeReturned = gson.toJson(saveSale);
+        return new Response("Sale",toBeReturned);
+    }
+
+    private Response processGetOffToEdit(){
+        SaveSale saveSale = new SaveSale(getOffToEdit());
+        Gson gson = new GsonBuilder().create();
+        String toBeReturned = gson.toJson(saveSale);
+        return new Response("Sale",toBeReturned);
+    }
+
+    private Response processSetOffToView(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Sale offToView = Sale.getSaleById(id);
+        setOffToView(offToView);
+        return new Response("void", "");
+    }
+
+    private Response processSetOffToEdit(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Sale offToEdit = Sale.getSaleById(id);
+        setOffToEdit(offToEdit);
+        return new Response("void", "");
+    }
+
+    private Response processRemoveSale(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Sale offToRemove = Sale.getSaleById(id);
+        removeSale(offToRemove);
+        return new Response("void", "");
     }
 
     public static class InvalidDateFormatException extends Exception{

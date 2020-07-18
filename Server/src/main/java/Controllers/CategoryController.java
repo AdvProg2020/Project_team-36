@@ -136,6 +136,13 @@ public class CategoryController {
         Category.getCategory(name).removeCategory();
     }
 
+    public Category getCategoryToEdit(){
+        return Category.getCategoryToEdit();
+    }
+
+    public void setCategoryToEdit(int id){
+        Category.setCategoryToEdit(Category.getCategoryById(id));
+    }
 
     public static class InvalidCategoryName extends Exception {
 
@@ -207,6 +214,12 @@ public class CategoryController {
 
             case "removeCategory":
                 return processRemoveCategory(query);
+
+            case "getCategoryToEdit":
+                return processGetCategoryToEdit();
+
+            case "setCategoryToEdit":
+                return processSetCategoryToEdit(query);
 
             default:
                 return new Response("Error", "");
@@ -355,4 +368,18 @@ public class CategoryController {
             return new Response("InvalidCategoryName", "");
         }
     }
+
+    private Response processGetCategoryToEdit(){
+        Category category = getCategoryToEdit();
+        Gson gson = new GsonBuilder().create();
+        String saveCategoryGson = gson.toJson(new SaveCategory(category));
+        return new Response("Category", saveCategoryGson);
+    }
+
+    private Response processSetCategoryToEdit(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        setCategoryToEdit(id);
+        return new Response("void", "");
+    }
+
 }

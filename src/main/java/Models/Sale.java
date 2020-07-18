@@ -1,7 +1,5 @@
 package Models;
 
-import GUI.ViewOffsController;
-import javafx.scene.control.Hyperlink;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,8 +22,6 @@ public class Sale implements Pendable {
     private String editedField;
     private static Sale offToView;
     private static Sale offToEdit;
-    private static ViewOffsController viewOffsController;
-
 
     public static ArrayList<Sale> getAllSales() {
         return allSales;
@@ -263,45 +259,19 @@ public class Sale implements Pendable {
         return (int) (salePercent*100);
     }
 
-    public Hyperlink getViewHyperlink(){
-        Hyperlink view = new Hyperlink();
-        view.setText("view");
-        view.setStyle("");
-        view.setOnAction(e->{
-            offToView = this;
-            try {
-                viewOffsController.viewAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return view;
-    }
-
-    public Hyperlink getEditHyperlink(){
-        Hyperlink remove = new Hyperlink();
-        remove.setText("edit");
-        remove.setStyle("");
-        remove.setOnAction(e->{
-            offToEdit = this;
-            try {
-                viewOffsController.editAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return remove;
-    }
-
-    public static void setViewOffsController(ViewOffsController viewOffsController) {
-        Sale.viewOffsController = viewOffsController;
-    }
-
     public static Sale getOffToView() {
         return offToView;
     }
 
     public static Sale getOffToEdit() {
         return offToEdit;
+    }
+
+    public static void setOffToView(Sale offToView) {
+        Sale.offToView = offToView;
+    }
+
+    public static void setOffToEdit(Sale offToEdit) {
+        Sale.offToEdit = offToEdit;
     }
 }

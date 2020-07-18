@@ -34,7 +34,7 @@ public class EditDiscountCodeController extends ManagerProfileController impleme
     public TableView<Customer> availableCustomersTable;
     public TableView<Customer> customersIncludedTable;
     private User user;
-    private Discount discountToEdit = Discount.getDiscountToEdit();
+    private Discount discountToEdit = managerController.getDiscountToEdit();
     private ArrayList<Customer> selectedCustomers = new ArrayList<>();
 
     @Override

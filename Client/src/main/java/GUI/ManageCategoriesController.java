@@ -5,10 +5,7 @@ import Models.Category;
 import Models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
 
@@ -21,12 +18,11 @@ public class ManageCategoriesController extends ManagerProfileController impleme
     @FXML
     private TreeTableColumn<? extends Object, ? extends Object> nameColumn;
     @FXML
-    private TreeTableColumn<? extends Object, ? extends Object> editColumn;
-    @FXML
     private TreeTableView<Category> allCategoriesTable;
     @FXML
     private Label usernameLabel;
     private User user;
+    private CategoryController categoryController = new CategoryController();
 
     @Override
     public void initialize(int id) throws IOException {
@@ -45,8 +41,6 @@ public class ManageCategoriesController extends ManagerProfileController impleme
 
         Category.setManageCategoriesController(this);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
-        editColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("editHyperlink"));
-        CategoryController categoryController = new CategoryController();
         Category mainCategoryRoot = categoryController.getMainCategory();
         TreeItem<Category> tableMainRoot = new TreeItem<>(mainCategoryRoot);
         allCategoriesTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
@@ -104,6 +98,15 @@ public class ManageCategoriesController extends ManagerProfileController impleme
 
 
     public void editAction() throws IOException {
+        TreeTableView.TreeTableViewSelectionModel<Category> selectedCategory = allCategoriesTable.getSelectionModel();
+        if (selectedCategory.isEmpty()) {
+            return;
+        }
+        int rowIndex = selectedCategory.getSelectedIndex();
+        TreeItem<Category> selectedItem = selectedCategory.getModelItem(rowIndex);
+        Category categoryToEdit = selectedItem.getValue();
+
+        categoryController.setCategoryToEdit(categoryToEdit.getId);
         Constants.getGuiManager().open("EditCategory", user.getUserId());
     }
 }

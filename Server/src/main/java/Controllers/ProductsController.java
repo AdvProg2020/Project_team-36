@@ -452,6 +452,22 @@ public class ProductsController implements ObjectController {
         return product.isThereBuyer((Customer) user);
     }
 
+    public Product getProductToEdit() {
+        return Product.getProductToEdit();
+    }
+
+    public Product getProductToView() {
+        return Product.getProductToView();
+    }
+
+    public void setProductToEdit(Product productToEdit) {
+        Product.setProductToEdit(productToEdit);
+    }
+
+    public void setProductToView(Product productToView) {
+        Product.setProductToView(productToView);
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getProduct" -> processGetProduct(query);
@@ -487,9 +503,16 @@ public class ProductsController implements ObjectController {
             case "addOptionalFilter" -> processAddOptionalFilter(query);
             case "removeOptionalFilter" -> processRemoveOptionalFilter(query);
             case "canRate" -> processCanRate(query);
+            case "getProductToEdit" -> processGetProductToEdit();
+            case "getProductToView" -> processGetProductToView();
+            case "setProductToEdit" -> processSetProductToEdit(query);
+            case "setProductToView" -> processSetProductToView(query);
             default -> new Response("Error", "");
         };
     }
+
+
+
 
     private Response processCanRate(Query query) {
         String userId = query.getMethodInputs().get("user");
@@ -764,6 +787,31 @@ public class ProductsController implements ObjectController {
         }
     }
 
+    private Response processGetProductToEdit(){
+        SaveProduct saveProduct = new SaveProduct(getProductToEdit());
+        Gson gson = new GsonBuilder().create();
+        return new Response("Product", gson.toJson(saveProduct));
+    }
+
+    private Response processGetProductToView(){
+        SaveProduct saveProduct = new SaveProduct(getProductToView());
+        Gson gson = new GsonBuilder().create();
+        return new Response("Product", gson.toJson(saveProduct));
+    }
+
+    private Response processSetProductToEdit(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Product productToEdit = Product.getProductById(id);
+        setProductToEdit(productToEdit);
+        return new Response("void", "");
+    }
+
+    private Response processSetProductToView(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Product productToView = Product.getProductById(id);
+        setProductToView(productToView);
+        return new Response("void", "");
+    }
 
     public static class NoProductWithId extends Exception {
     }

@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class ViewOffsController extends SellerProfileController implements Initializable {
 
-    public TableColumn<? extends Object, ? extends Object> editColumn;
-    public TableColumn<? extends Object, ? extends Object> viewColumn;
     public TableColumn<? extends Object, ? extends Object> percentColumn;
     public TableColumn<? extends Object, ? extends Object> offIdColumn;
     public TableView<Sale> allOffsTable;
@@ -46,18 +44,32 @@ public class ViewOffsController extends SellerProfileController implements Initi
         Sale.setViewOffsController(this);
         allOffsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         percentColumn.setCellValueFactory(new PropertyValueFactory<>("salePercentForTable"));
-        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperlink"));
         offIdColumn.setCellValueFactory(new PropertyValueFactory<>("offId"));
-        editColumn.setCellValueFactory(new PropertyValueFactory<>("editHyperlink"));
         allOffsTable.getItems().addAll(allOffs);
 
     }
 
     public void viewAction() throws IOException {
+        TableView.TableViewSelectionModel<Sale> selectedOff = allOffsTable.getSelectionModel();
+
+        if (selectedOff.isEmpty()) {
+            return;
+        }
+
+        Sale toBeViewed = selectedOff.getSelectedItem();
+        sellerController.setOffToView(toBeViewed);
         Constants.getGuiManager().open("ViewEachOff",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void editAction() throws IOException {
+        TableView.TableViewSelectionModel<Sale> selectedOff = allOffsTable.getSelectionModel();
+
+        if (selectedOff.isEmpty()) {
+            return;
+        }
+
+        Sale toBeEdited = selectedOff.getSelectedItem();
+        sellerController.setOffToEdit(toBeEdited);
         Constants.getGuiManager().open("EditOff",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
@@ -69,7 +81,7 @@ public class ViewOffsController extends SellerProfileController implements Initi
         }
 
         Sale toBeRemoved = selectedOff.getSelectedItem();
-        Sale.removeSale(toBeRemoved);
+        sellerController.removeSale(toBeRemoved);
         allOffsTable.getItems().remove(toBeRemoved);
     }
 

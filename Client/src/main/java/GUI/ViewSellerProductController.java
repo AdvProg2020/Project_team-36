@@ -31,7 +31,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
     private User user;
     private ArrayList<Field> fields;
     private Category category;
-    private final Product productToView = Product.getProductToView();
+    private final Product productToView = productController.getProductToView();
 
     @Override
     public void initialize(int id) throws IOException {
