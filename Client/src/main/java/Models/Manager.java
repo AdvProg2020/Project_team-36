@@ -1,5 +1,5 @@
 package Models;
 
-public class Manager {
-    //todo
+public class Manager extends User {
+
 }

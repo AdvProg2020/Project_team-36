@@ -28,6 +28,8 @@ public class SaveCustomer {
     private List<SaveSelectedItem> cart;
     private Map<Integer, Integer> allDiscountsForCustomer;
 
+    //todo waiting log
+
     private SaveCustomer() {
         this.allCustomerLogs = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
