@@ -9,10 +9,7 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Server {
     private Map<String, Session> clients;
@@ -107,67 +104,88 @@ public class Server {
         }
     }
 
-//    private Response processGetAllById(Query query) {
-//        String returnType;
-//        Gson gson1 = new GsonBuilder().create();
-//        String output;
-//        switch (query.getMethodName()) {
-//            case "Category":
-//                returnType = "Category";
-//                output = gson1.toJson(Category.getCategoryById(id));
-//                break;
-//
-//            case "Customer":
-//                returnType = "Customer";
-//                output = gson1.toJson(Customer.getCustomerById(id));
-//                break;
-//
-//            case "Discount":
-//                returnType = "Discount";
-//                output = gson1.toJson(Discount.getDiscountById(id));
-//                break;
-//
-//            case "Manager":
-//                returnType = "Manager";
-//                output = gson1.toJson(Manager.getManagerById(id));
-//                break;
-//
-//            case "Product":
-//                returnType = "Product";
-//                output = gson1.toJson(Product.getProductById(id));
-//                break;
-//
-//            case "Request":
-//                returnType = "Request";
-//                output = gson1.toJson(Request.getRequestById(id));
-//                break;
-//
-//            case "Sale":
-//                returnType = "Sale";
-//                output = gson1.toJson(Sale.getSaleById(id));
-//                break;
-//
-//            case "Seller":
-//                returnType = "Seller";
-//                output = gson1.toJson(Seller.getSellerById(id));
-//                break;
-//
-//            case "SellerLog":
-//                returnType = "SellerLog";
-//                output = gson1.toJson(SellerLog.getSellerLogById(id));
-//                break;
-//
-//            case "User":
-//                returnType = "User";
-//                output = gson1.toJson(User.getUserById(id));
-//                break;
-//
-//            default:
-//                returnType = "Error";
-//                output = "";
-//        }
-//        return new Response(returnType,output);
-//    }
+    private Response processGetAllById(Query query) {
+        String returnType;
+        Gson gson1 = new GsonBuilder().create();
+        String output;
+        switch (query.getMethodName()) {
+            case "Category":
+                returnType = "List<Category>";
+                List<SaveCategory> allCategories = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allCategories.add(new SaveCategory(Category.getCategoryById(Integer.parseInt(id)))));
+                output = gson1.toJson(allCategories);
+                break;
+
+
+            case "Customer":
+                returnType = "List<Customer>";
+                List<SaveCustomer> allCustomers = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allCustomers.add(new SaveCustomer(Customer.getCustomerById(Integer.parseInt(id)))));
+                output = gson1.toJson(allCustomers);
+                break;
+
+            case "Discount":
+                returnType = "List<Discount>";
+                List<SaveDiscount> allDiscounts = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allDiscounts.add(new SaveDiscount(Discount.getDiscountById(Integer.parseInt(id)))));
+                output = gson1.toJson(allDiscounts);
+                break;
+
+            case "Manager":
+                returnType = "List<Manager>";
+                List<SaveManager> allManagers = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allManagers.add(new SaveManager(Manager.getManagerById(Integer.parseInt(id)))));
+                output = gson1.toJson(allManagers);
+                break;
+
+            case "Product":
+                returnType = "List<Product>";
+                List<SaveProduct> allProducts = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allProducts.add(new SaveProduct(Product.getProductById(Integer.parseInt(id)))));
+                output = gson1.toJson(allProducts);
+                break;
+
+            case "Request":
+                returnType = "List<Request>";
+                List<SaveRequest> allRequests = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allRequests.add(new SaveRequest(Request.getRequestById(Integer.parseInt(id)))));
+                output = gson1.toJson(allRequests);
+                break;
+
+            case "Sale":
+                returnType = "List<Sale>";
+                List<SaveSale> allSales = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allSales.add(new SaveSale(Sale.getSaleById(Integer.parseInt(id)))));
+                output = gson1.toJson(allSales);
+                break;
+
+            case "Seller":
+                returnType = "List<Seller>";
+                List<SaveSeller> allSellers = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allSellers.add(new SaveSeller(Seller.getSellerById(Integer.parseInt(id)))));
+                output = gson1.toJson(allSellers);
+                break;
+
+            case "SellerLog":
+                returnType = "List<SellerLog>";
+                List<SaveSellerLog> allSellerLogs = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allSellerLogs.add(new SaveSellerLog(SellerLog.getSellerLogById(Integer.parseInt(id)))));
+                output = gson1.toJson(allSellerLogs);
+                break;
+
+            case "User":
+                returnType = "List<User>";
+                List<SaveUser> allUsers = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id ->allUsers.add(new SaveUser(User.getUserById(Integer.parseInt(id)))));
+                output = gson1.toJson(allUsers);
+                break;
+
+            default:
+                returnType = "Error";
+                output = "";
+        }
+        return new Response(returnType,output);
+    }
 
     private Response processGetById(Query query) {
         String returnType;
