@@ -19,7 +19,7 @@ public class Customer extends User {
         this.saveCustomer = saveCustomer;
         this.credit = saveCustomer.getCredit();
         this.cart = new ArrayList<>();
-        saveCustomer.getCart().forEach(saveSelectedItem -> cart.add(new SelectedItem(SaveSelectedItem)));
+        saveCustomer.getCart().forEach(saveSelectedItem -> cart.add(new SelectedItem(saveSelectedItem)));
         this.allLogs = new ArrayList<>();
         saveCustomer.getAllCustomerLogs().forEach(saveCustomerLog -> allLogs.add(new CustomerLog(saveCustomerLog)));
         //todo waiting log
