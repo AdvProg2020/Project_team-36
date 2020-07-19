@@ -4,12 +4,15 @@ import Models.Query;
 import Models.Response;
 import Models.Seller;
 import Models.User;
+import Repository.SaveUser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-public class UserController {
+public class  UserController {
     private HashMap<String, Method> generalInfoMethods;
     private HashMap<String, Method> sellerInfoMethods;
    protected GlobalVariables userVariables;
@@ -148,8 +151,10 @@ public class UserController {
     }
 
     private Response processGetLoggedInUser(Query query) {
-        //TODO ask
-        return null;
+        SaveUser saveUser = new SaveUser(getLoggedInUser());
+        Gson gson = new GsonBuilder().create();
+        String saveSaleGson = gson.toJson(saveUser);
+        return new Response("User", saveSaleGson);
     }
 
 
