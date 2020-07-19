@@ -1,7 +1,6 @@
 package GUI;
 
 import Controllers.EntryController;
-import Controllers.GlobalVariables;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;

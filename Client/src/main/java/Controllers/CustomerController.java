@@ -265,6 +265,24 @@ public class CustomerController {
         return allCustomerLogs;
     }
 
+    public long getCartPrice(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCartPrice");
+        Response response = Client.process(query);
+        return Long.getLong(response.getData());
+    }
+
+    public long getCartPriceConsideringSale(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCartPriceConsideringSale");
+        Response response = Client.process(query);
+        return Long.getLong(response.getData());
+    }
+
+    public long getWaitingLogPayable(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getWaitingLogPayable");
+        Response response = Client.process(query);
+        return Long.getLong(response.getData());
+    }
+
 
     public static class NoProductWithIdInCart extends Exception {
         public NoProductWithIdInCart(String message) {

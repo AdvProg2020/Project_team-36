@@ -45,7 +45,7 @@ public class CartController implements Initializable {
             this.customer = (Customer) Constants.globalVariables.getLoggedInUser();
         }
 
-        if (customer.isCartEmpty()){
+        if (customer.getCart().isEmpty()){
             purchase.setVisible(false);
         }
         else {
@@ -56,7 +56,7 @@ public class CartController implements Initializable {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ItemInCart.fxml"));
                     Parent parent = fxmlLoader.load();
                     ((ItemInCartController) fxmlLoader.getController()).fill(selectedItem.getProduct(),
-                            selectedItem.getProduct().getProductFieldBySeller(seller),
+                            selectedItem.getProduct().getProductFieldBySeller(seller.getUserId()),
                             selectedItem.getCountFromEachSeller().get(counter));
                     vBox.getChildren().add(parent);
                     counter++;
