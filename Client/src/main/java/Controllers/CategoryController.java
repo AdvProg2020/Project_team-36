@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryController {
-    private String controllerName = "CategoryController";
+    private final String controllerName = "CategoryController";
 
     public Category getMainCategory() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMainCategory");
@@ -33,7 +33,6 @@ public class CategoryController {
         if (response.getReturnType().equals("InvalidCategoryName")) {
             throw new InvalidCategoryName();
         }
-
     }
 
     public ArrayList<Category> getAllCategories() {

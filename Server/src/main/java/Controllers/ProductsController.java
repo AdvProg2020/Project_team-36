@@ -83,7 +83,6 @@ public class ProductsController implements ObjectController {
         throw new NoSortException();
     }
 
-
     public Set<String> getAvailableSorts() {
         return sortMethods.keySet();
     }
@@ -243,7 +242,9 @@ public class ProductsController implements ObjectController {
         Product.getProduct(productId).seen();
     }
 
-    public Product getChosenProduct() {
+    public Product getChosenProduct() throws NoProductWithId {
+        if(userVariables.getProduct().isProductDeleted())
+            throw new NoProductWithId();
         return userVariables.getProduct();
     }
 
@@ -669,7 +670,12 @@ public class ProductsController implements ObjectController {
     }
 
     private Response processGetChosenProduct(Query query) {
-        SaveProduct product = new SaveProduct(getChosenProduct());
+        SaveProduct product = null;
+        try {
+            product = new SaveProduct(getChosenProduct());
+        } catch (NoProductWithId noProductWithId) {
+            return new Response("NoProductWithId", "");
+        }
         Gson gson = new GsonBuilder().create();
         String saveProduct = gson.toJson(product);
         return new Response("Product", saveProduct);
