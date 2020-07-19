@@ -4,6 +4,7 @@ import GUI.Constants;
 import Models.*;
 import Network.Client;
 import Repository.SaveCategory;
+import Repository.SaveField;
 import Repository.SaveProduct;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -55,10 +56,12 @@ public class EditProductController {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getNeededFields");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Field>>() {
+        Type type = new TypeToken<ArrayList<SaveField>>() {
         }.getType();
-        List<Field> allFieldsList = gson.fromJson(response.getData(), type);
-        return new ArrayList<>(allFieldsList);
+        List<SaveField> allFieldsList = gson.fromJson(response.getData(), type);
+        ArrayList<Field> allFields = new ArrayList<>();
+        allFieldsList.forEach(saveField -> allFields.add(saveField.generateField()));
+        return allFields;
     }
 
     public void setEachCategoryField(String value, Field field) throws InvalidFieldValue {
@@ -80,10 +83,12 @@ public class EditProductController {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCategoryFieldsToEdit");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Field>>() {
+        Type type = new TypeToken<ArrayList<SaveField>>() {
         }.getType();
-        List<Field> allFieldsList = gson.fromJson(response.getData(), type);
-        return new ArrayList<>(allFieldsList);
+        List<SaveField> allFieldsList = gson.fromJson(response.getData(), type);
+        ArrayList<Field> allFields = new ArrayList<>();
+        allFieldsList.forEach(saveField -> allFields.add(saveField.generateField()));
+        return allFields;
     }
 
     public void setEditedField(String value, Field field) throws InvalidFieldValue, InvalidFieldException {

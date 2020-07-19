@@ -6,8 +6,10 @@ import Repository.SaveComment;
 import Repository.SaveProduct;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class ProductsController implements ObjectController {
@@ -610,8 +612,12 @@ public class ProductsController implements ObjectController {
     }
 
     private Response processSetCompanyFilter(Query query) {
-        //TODO ask
-        return null;
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        List<String> options = gson.fromJson(query.getMethodInputs().get("options"), type);
+        ArrayList<String> allOptions = new ArrayList<>(options);
+        setCompanyFilter(allOptions);
+        return new Response("void", "");
     }
 
     private Response processAddComment(Query query) {
@@ -716,8 +722,12 @@ public class ProductsController implements ObjectController {
     }
 
     private Response processSetFilterOptions(Query query) {
-        //TODO ask
-        return null;
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        List<String> options = gson.fromJson(query.getMethodInputs().get("options"), type);
+        ArrayList<String> allOptions = new ArrayList<>(options);
+        setFilterOptions(allOptions);
+        return new Response("void", "");
     }
 
     private Response processSetCategoryFilter(Query query) {

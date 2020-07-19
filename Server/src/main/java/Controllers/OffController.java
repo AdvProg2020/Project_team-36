@@ -547,7 +547,7 @@ public class OffController implements ObjectController {
         Type type = new TypeToken<ArrayList<String>>() {}.getType();
         List<String> options = gson.fromJson(query.getMethodInputs().get("options"), type);
         ArrayList<String> allOptions = new ArrayList<>(options);
-        setCompanyFilter(allOptions);
+        setFilterOptions(allOptions);
         return new Response("void", "");
     }
 
