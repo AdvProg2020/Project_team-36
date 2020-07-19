@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewSellerProductController extends SellerProfileController implements Initializable {
 
@@ -59,7 +60,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
         categoryTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         categoryTable.setRoot(tableMainRoot);
 
-        ArrayList<Category> mainCategories = mainCategoryRoot.getSubCategories();
+        List<Category> mainCategories = mainCategoryRoot.getSubCategories();
         for (Category category : mainCategories) {
             TreeItem<Category> categoryItem = new TreeItem<>(category);
             setTheSubcategories(category, categoryItem, 0);
@@ -73,7 +74,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
     }
 
     private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent) throws MalformedURLException {
-        ArrayList<Category> subcategories = mainCategory.getSubCategories();
+        List<Category> subcategories = mainCategory.getSubCategories();
         if (subcategories.isEmpty() && indent != 0) {
             TreeItem<Category> subcategory = new TreeItem<>(mainCategory);
             categoryItem.getChildren().add(subcategory);
@@ -113,6 +114,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
 
     private void expandAllParents(TreeItem<Category> productCategory) throws MalformedURLException {
         if (productCategory.getValue().equals(category)) {
+            //todo change address karaneh
             File file = new File ("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\happy.png");
             String path = file.toURI().toURL().toString();
             Node rootIcon = new ImageView(new Image(path,10,10,false,false));
@@ -130,9 +132,8 @@ public class ViewSellerProductController extends SellerProfileController impleme
         productName.setText(productToView.getName());
         productCompany.setText(productToView.getCompany());
         productInfo.setText(productToView.getInformation());
-        price.setText(Long.toString(productToView.getProductFieldBySeller((Seller)user).getPrice()));
-        supply.setText(Integer.toString(productToView.getProductFieldBySeller((Seller)user).getSupply()));
-
+        price.setText(Long.toString(productToView.getProductFieldBySeller(user.getUserId()).getPrice()));
+        supply.setText(Integer.toString(productToView.getProductFieldBySeller(user.getUserId()).getSupply()));
     }
 
 }

@@ -128,4 +128,36 @@ public class Product implements Pendable{
     public String getProductImageUrl() {
         return productImageUrl;
     }
+
+    public long getScore(){
+        if(allScore.size() == 0)
+            return 0;
+        int sum =0;
+        for (Score score : allScore) {
+            sum+=score.getScore();
+
+        }
+        return (long)sum/allScore.size();
+    }
+
+    public int getTotalSupply(){
+        int sum=0;
+        for (ProductField field : productFields) {
+            sum+=field.getSupply();
+        }
+        return sum;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "product";
+    }
+
+    public ProductField getProductFieldBySeller(int sellerId){
+        for (ProductField productField : productFields) {
+            if(productField.getSeller().getUserId()==sellerId)
+                return productField;
+        }
+        return null;
+    }
 }

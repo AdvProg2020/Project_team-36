@@ -93,4 +93,9 @@ public class ProductField implements Pendable{
             return null;
         }
     }
+
+    @Override
+    public String getPendingRequestType() {
+        return "seller for a product";
+    }
 }

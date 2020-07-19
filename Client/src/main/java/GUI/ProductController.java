@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.CustomerController;
 import Controllers.EntryController;
+import Controllers.ProductsController;
 import Models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProductController implements Initializable {
@@ -66,10 +68,15 @@ public class ProductController implements Initializable {
 
     @Override
     public void initialize(int id) throws IOException {
-        Product product = Product.getProduct(id);
+        Product product = null;
+        try {
+            product = Constants.productsController.getProduct(id);
+        } catch (ProductsController.NoProductWithId noProductWithId) {
+            back();
+        }
         this.product = product;
         Constants.globalVariables.setProduct(product);
-        product.seen();
+        Constants.productsController.seenProduct(product.getProductId());
         reloadHeader();
         imageView.setImage(product.getProductImage(250,300).getImage());
         setImageViewEffect(imageView);
@@ -92,7 +99,7 @@ public class ProductController implements Initializable {
         }
     }
 
-    private void fillProductFields(ArrayList<ProductField> productFields, VBox vBox) throws IOException {
+    private void fillProductFields(List<ProductField> productFields, VBox vBox) throws IOException {
         for (ProductField productField : productFields) {
             if (productField.getSupply() > 0) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ProductField.fxml"));
@@ -103,7 +110,7 @@ public class ProductController implements Initializable {
         }
     }
 
-    private void fillFieldsOfCategory(ArrayList<Field> fields, VBox vBox) {
+    private void fillFieldsOfCategory(List<Field> fields, VBox vBox) {
         for (Field field : fields) {
             HBox hBox = new HBox();
             Label name = new Label();

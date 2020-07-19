@@ -286,6 +286,18 @@ public class CustomerController extends UserController {
         return logs;
     }
 
+    public long getCartPrice(){
+        return ((Customer)userVariables.getLoggedInUser()).getCartPrice();
+    }
+
+    public long getCartPriceConsideringSale(){
+        return ((Customer)userVariables.getLoggedInUser()).getCartPriceConsideringSale();
+    }
+
+    public long getWaitingLogPayable(){
+        return ((Customer)userVariables.getLoggedInUser()).getWaitingLog().getPayablePrice();
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "isThereProductInCart" -> processIsThereProductInCart(query);
@@ -309,8 +321,23 @@ public class CustomerController extends UserController {
             case "getAllLogs" -> processGetAllLogs(query);
             case "sortDiscounts" -> processSortDiscounts(query);
             case "sortLogs" -> processSortLogs(query);
+            case "getCartPrice" -> processGetCartPrice(query);
+            case "getCartPriceConsideringSale" -> processGetCartPriceConsideringSale(query);
+            case "getWaitingLogPayable" -> processGetWaitingLogPayable(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processGetWaitingLogPayable(Query query) {
+        return new Response("long", Long.toString(getWaitingLogPayable()));
+    }
+
+    private Response processGetCartPriceConsideringSale(Query query) {
+        return new Response("long", Long.toString(getCartPriceConsideringSale()));
+    }
+
+    private Response processGetCartPrice(Query query) {
+        return new Response("long", Long.toString(getCartPrice()));
     }
 
     private Response processSortLogs(Query query) {
@@ -353,8 +380,7 @@ public class CustomerController extends UserController {
             Gson gson = new GsonBuilder().create();
             return new Response("CustomerLog", gson.toJson(log));
         } catch (NotEnoughMoney notEnoughMoney) {
-            Gson gson = new GsonBuilder().create();
-            return new Response("NotEnoughMoney", gson.toJson(notEnoughMoney));
+            return new Response("NotEnoughMoney",Long.toString(notEnoughMoney.getAmount()));
         }
     }
 
@@ -587,7 +613,7 @@ public class CustomerController extends UserController {
     }
 
     public static class NotEnoughMoney extends Exception {
-        long amount;//amount of money that is needed!
+        private long amount;//amount of money that is needed!
 
         public NotEnoughMoney(long amount) {
             this.amount = amount;

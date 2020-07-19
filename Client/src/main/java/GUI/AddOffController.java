@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class AddOffController extends SellerPersonalInfoController implements Initializable {
@@ -67,7 +68,7 @@ public class AddOffController extends SellerPersonalInfoController implements In
     }
 
     private void setAvailableProducts(){
-        ArrayList<Product> availableProducts = ((Seller)user).getAllProducts();
+        List<Product> availableProducts = ((Seller)user).getAllProducts();
 
         availableProductsColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productsIncludedColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

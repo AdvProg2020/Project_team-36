@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddExistingProductController extends SellerProfileController implements Initializable {
 
@@ -61,7 +62,7 @@ public class AddExistingProductController extends SellerProfileController implem
         });
 
         ArrayList<Product> allProducts = Constants.managerController.getAllProducts();
-        ArrayList<Product> sellerAllProducts = ((Seller)user).getAllProducts();
+        List<Product> sellerAllProducts = ((Seller)user).getAllProducts();
         for (Product product : sellerAllProducts) {
             allProducts.remove(product);
         }

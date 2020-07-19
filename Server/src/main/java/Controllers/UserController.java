@@ -4,12 +4,15 @@ import Models.Query;
 import Models.Response;
 import Models.Seller;
 import Models.User;
+import Repository.SaveUser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-public class UserController {
+public class  UserController {
     private HashMap<String, Method> generalInfoMethods;
     private HashMap<String, Method> sellerInfoMethods;
    protected GlobalVariables userVariables;
@@ -93,6 +96,10 @@ public class UserController {
         this.userVariables.getLoggedInUser().setPhoneNumber(phoneNumber);
     }
 
+    public User getUserById(int id){
+        return User.getUserById(id);
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getLoggedInUser" -> processGetLoggedInUser(query);
@@ -102,6 +109,7 @@ public class UserController {
             case "setFirstname" -> processSetFirstname(query);
             case "setLastname" -> processSetLastname(query);
             case "setPhoneNumber" -> processSetPhoneNumber(query);
+            case "getUserById" -> processGetUserById(query);
             default -> new Response("Error", "");
         };
     }
@@ -148,10 +156,18 @@ public class UserController {
     }
 
     private Response processGetLoggedInUser(Query query) {
-        //TODO ask
-        return null;
+        SaveUser saveUser = new SaveUser(getLoggedInUser());
+        Gson gson = new GsonBuilder().create();
+        String saveSaleGson = gson.toJson(saveUser);
+        return new Response("User", saveSaleGson);
     }
 
+    private Response processGetUserById(Query query){
+        SaveUser saveUser = new SaveUser(getUserById(Integer.parseInt(query.getMethodInputs().get("id"))));
+        Gson gson = new GsonBuilder().create();
+        String saveSaleGson = gson.toJson(saveUser);
+        return new Response("User", saveSaleGson);
+    }
 
     public static class NoFieldWithThisType extends Exception{}
 
