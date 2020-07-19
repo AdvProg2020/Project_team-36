@@ -90,8 +90,7 @@ public class DiscountController {
         query.getMethodInputs().put("username", username);
         Response response = Client.process(query);
         Gson gson = new Gson();
-        boolean thereIsCustomer = gson.fromJson(response.getData(), Boolean.class);
-        return thereIsCustomer;
+        return gson.fromJson(response.getData(), Boolean.class);
     }
 
     public void finalizeTheNewDiscountCode() {
