@@ -248,10 +248,8 @@ public class EditProductController {
 
     //todo saveField?
     private Response processGetNeededFields(){
-        List<SaveField> allSaveFields = new ArrayList<>();
-        getNeededFields().forEach(c -> allSaveFields.add(new SaveField(c)));
         Gson gson = new GsonBuilder().create();
-        String saveFieldListGson = gson.toJson(allSaveFields);
+        String saveFieldListGson = gson.toJson(getNeededFields());
         return new Response("List<Field>", saveFieldListGson);
     }
 
@@ -278,10 +276,8 @@ public class EditProductController {
 
     //todo saveField?
     private Response processGetCategoryFieldsToEdit(Query query){
-        List<SaveField> allSaveFields = new ArrayList<>();
-        getCategoryFieldsToEdit().forEach(c -> allSaveFields.add(new SaveField(c)));
         Gson gson = new GsonBuilder().create();
-        String saveFieldListGson = gson.toJson(allSaveFields);
+        String saveFieldListGson = gson.toJson(getCategoryFieldsToEdit());
         return new Response("List<Field>", saveFieldListGson);
     }
 

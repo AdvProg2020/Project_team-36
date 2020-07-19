@@ -69,7 +69,6 @@ public class DiscountController {
         }
     }
 
-    //todo nazashtm(nabaiad estefade dashte abshe)
     public boolean isThereCustomerWithUsername(String username) {
         for (Customer customer : customersForDiscountCode) {
             if (customer.getUsername().equals(username)) {
@@ -123,7 +122,8 @@ public class DiscountController {
 
             case "getDiscount":
                 return processGetDiscount();
-
+            case "isThereCustomerWithUsername":
+                return processIsThereCustomerWithUsername(query);
             default:
                 return new Response("Error", "");
         }
@@ -204,6 +204,13 @@ public class DiscountController {
         Gson gson = new GsonBuilder().create();
         String saveDiscountGson = gson.toJson(saveDiscount);
         return new Response("Discount", saveDiscountGson);
+    }
+
+    private Response processIsThereCustomerWithUsername(Query query){
+        boolean thereIsCustomer = isThereCustomerWithUsername(query.getMethodInputs().get("username"));
+        Gson gson = new GsonBuilder().create();
+        String thereIsCustomerGson = gson.toJson(thereIsCustomer);
+        return new Response("Boolean", thereIsCustomerGson);
     }
 
     public static class InvalidUsernameException extends Exception {
