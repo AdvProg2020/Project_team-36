@@ -469,6 +469,10 @@ public class ProductsController implements ObjectController {
         Product.setProductToView(productToView);
     }
 
+    public void seenProduct(int productId){
+        Product.getProduct(productId).seen();
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getProduct" -> processGetProduct(query);
@@ -508,11 +512,16 @@ public class ProductsController implements ObjectController {
             case "getProductToView" -> processGetProductToView();
             case "setProductToEdit" -> processSetProductToEdit(query);
             case "setProductToView" -> processSetProductToView(query);
+            case"seenProduct" -> processSeenProduct(query);
             default -> new Response("Error", "");
         };
     }
 
-
+    private Response processSeenProduct(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        seenProduct(productId);
+        return new Response("void", "");
+    }
 
 
     private Response processCanRate(Query query) {

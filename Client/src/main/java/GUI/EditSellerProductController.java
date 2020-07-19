@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EditSellerProductController extends SellerProfileController implements Initializable {
 
@@ -179,7 +180,7 @@ public class EditSellerProductController extends SellerProfileController impleme
     }
 
     private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent) throws MalformedURLException {
-        ArrayList<Category> subcategories = mainCategory.getSubCategories();
+        List<Category> subcategories = mainCategory.getSubCategories();
         if (subcategories.isEmpty() && indent != 0) {
             TreeItem<Category> subcategory = new TreeItem<>(mainCategory);
             categoryItem.getChildren().add(subcategory);

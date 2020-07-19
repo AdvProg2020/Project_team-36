@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentsController {
     @FXML
@@ -33,7 +34,7 @@ public class CommentsController {
             comment.setEditable(false);
             submitBox.getChildren().remove(submitBar);
         }
-        ArrayList<Comment> comments = product.getAllComments();
+        List<Comment> comments = product.getAllComments();
         vBox.getChildren().clear();
         for (Comment comment : comments) {
             if (comment.getConfirmationStatus() == Status.CONFIRMED){

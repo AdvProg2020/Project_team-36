@@ -386,6 +386,12 @@ public class ProductsController implements ObjectController {
         Client.process(query);
     }
 
+    public void seenProduct(int productId){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "seenProduct");
+        query.getMethodInputs().put("productId",Integer.toString(productId));
+        Client.process(query);
+    }
+
 
 
 

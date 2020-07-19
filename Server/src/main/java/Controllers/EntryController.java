@@ -134,9 +134,16 @@ public class EntryController extends UserController {
             case "setLastname" -> processSetLastname(query);
             case "setFirstname" -> processSetFirstname(query);
             case"setPhoneNumber" -> processSetPhoneNumber(query);
+            case "setPassword" -> processSetPassword(query);
             case "setEmail" -> processSetEmail(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processSetPassword(Query query){
+        String email = query.getMethodInputs().get("password");
+        this.setPassword(email);
+        return new Response("void", "");
     }
 
     private Response processSetEmail(Query query){

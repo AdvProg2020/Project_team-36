@@ -73,6 +73,12 @@ public class EntryController {
         Client.process(query);
     }
 
+    public void setPassword(String password){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setPassword");
+        query.getMethodInputs().put("password",password);
+        Client.process(query);
+    }
+
     public void register() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "register");
         Client.process(query);
