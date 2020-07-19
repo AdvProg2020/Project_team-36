@@ -1,6 +1,7 @@
 package GUI;
 
 import Controllers.ProductsController;
+import Models.Discount;
 import Models.User;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -19,7 +20,6 @@ public class ManageUsersController extends ManagerProfileController implements I
     public TableColumn<?, ?> usernameColumn;
     public TableColumn<?, ?> roleColumn;
     public Label usernameLabel;
-    public TableColumn<?, ?> viewColumn;
     public ComboBox sortName;
     public CheckBox isAscending;
     private User user;
@@ -45,12 +45,10 @@ public class ManageUsersController extends ManagerProfileController implements I
 
     private void setTheTable(ArrayList<User> allUsers){
         allUsersTable.getItems().clear();
-        User.setManageUsersController(this);
         allUsersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        viewColumn.setCellValueFactory(new PropertyValueFactory<>("viewHyperlink"));
         allUsersTable.getItems().addAll(allUsers);
 
     }
@@ -76,6 +74,14 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
     public void viewUserAction() throws IOException {
+        TableView.TableViewSelectionModel<User> selectedUser = allUsersTable.getSelectionModel();
+
+        if (selectedUser.isEmpty()) {
+            return;
+        }
+
+        User toBeViewed = selectedUser.getSelectedItem();
+        Constants.userController.setUserToView(toBeViewed);
         Constants.getGuiManager().open("ViewUser",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 

@@ -100,6 +100,15 @@ public class  UserController {
         return User.getUserById(id);
     }
 
+    public User getUserToView() {
+        return User.getUserToView();
+    }
+
+
+    public void setUserToView(User userToView) {
+        User.setUserToView(userToView);
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getLoggedInUser" -> processGetLoggedInUser(query);
@@ -110,6 +119,8 @@ public class  UserController {
             case "setLastname" -> processSetLastname(query);
             case "setPhoneNumber" -> processSetPhoneNumber(query);
             case "getUserById" -> processGetUserById(query);
+            case "getUserToView" -> processGetUserToView();
+            case "setUserToView" -> processSetUserToView(query);
             default -> new Response("Error", "");
         };
     }
@@ -167,6 +178,19 @@ public class  UserController {
         Gson gson = new GsonBuilder().create();
         String saveSaleGson = gson.toJson(saveUser);
         return new Response("User", saveSaleGson);
+    }
+
+    private Response processGetUserToView(){
+        SaveUser saveUser = new SaveUser(getUserToView());
+        Gson gson = new GsonBuilder().create();
+        String saveSaleGson = gson.toJson(saveUser);
+        return new Response("User", saveSaleGson);
+    }
+
+    private Response processSetUserToView(Query query){
+        User user = getUserById(Integer.parseInt(query.getMethodInputs().get("id")));
+        setUserToView(user);
+        return new Response("void", "");
     }
 
     public static class NoFieldWithThisType extends Exception{}

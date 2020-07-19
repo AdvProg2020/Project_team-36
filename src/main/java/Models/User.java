@@ -1,7 +1,6 @@
 package Models;
 
 
-import GUI.ManageUsersController;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,7 +28,6 @@ public abstract class User{
     private Status status;
     private ImageView profilePicture;
     private String profilePictureUrl;
-    private static ManageUsersController manageUsersController;
     private static User userToView;
 
     public User(String username){
@@ -209,21 +207,6 @@ public abstract class User{
         return profilePicture;
     }
 
-    public Hyperlink getViewHyperlink(){
-        Hyperlink view = new Hyperlink();
-        view.setText("view");
-        view.setStyle("");
-        view.setOnAction(e->{
-            userToView = this;
-            try {
-                manageUsersController.viewUserAction();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        });
-        return view;
-    }
-
     public ImageView getProfilePicture(int height,int width) throws MalformedURLException {
         File file = new File (this.profilePictureUrl);
         String path = file.toURI().toURL().toString();
@@ -245,10 +228,6 @@ public abstract class User{
         return profilePictureUrl;
     }
 
-    public static void setManageUsersController(ManageUsersController manageUsersController) {
-        User.manageUsersController = manageUsersController;
-    }
-
     public static void setTotalUsersMade(int totalUsersMade) {
         User.totalUsersMade = totalUsersMade;
     }
@@ -265,5 +244,7 @@ public abstract class User{
         allUsernames.add(username);
     }
 
-
+    public static void setUserToView(User userToView) {
+        User.userToView = userToView;
+    }
 }

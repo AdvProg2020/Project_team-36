@@ -55,10 +55,9 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
                 <TableView fx:id="allUsersTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
                     <columns>
-                        <TableColumn fx:id="profilePictureColumn" prefWidth="200.0" sortable="false" text="Profile Picture" />
-                        <TableColumn fx:id="usernameColumn" minWidth="0.0" prefWidth="200.0" text="User" />
-                        <TableColumn fx:id="roleColumn" minWidth="0.0" prefWidth="200.0" text="Role" />
-                        <TableColumn fx:id="viewColumn" prefWidth="200.0" text="View User" />
+                        <TableColumn fx:id="profilePictureColumn" prefWidth="301.0" sortable="false" text="Profile Picture" />
+                        <TableColumn fx:id="usernameColumn" minWidth="0.0" prefWidth="303.0" text="User" />
+                        <TableColumn fx:id="roleColumn" minWidth="0.0" prefWidth="195.0" text="Role" />
                     </columns>
                 </TableView>
                 <Button layoutX="78.0" layoutY="37.0" mnemonicParsing="false" onAction="#openCreateNewManager" prefHeight="25.0" prefWidth="212.0" text="+ Create a New Manager Profile">
@@ -87,6 +86,7 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </CheckBox>
+            <Button layoutX="377.0" layoutY="37.0" mnemonicParsing="false" onAction="#viewAction" text="view" />
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>
