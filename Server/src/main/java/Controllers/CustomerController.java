@@ -286,6 +286,18 @@ public class CustomerController extends UserController {
         return logs;
     }
 
+    public long getCartPrice(){
+        return ((Customer)userVariables.getLoggedInUser()).getCartPrice();
+    }
+
+    public long getCartPriceConsideringSale(){
+        return ((Customer)userVariables.getLoggedInUser()).getCartPriceConsideringSale();
+    }
+
+    public long getWaitingLogPayable(){
+        return ((Customer)userVariables.getLoggedInUser()).getWaitingLog().getPayablePrice();
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "isThereProductInCart" -> processIsThereProductInCart(query);
@@ -309,8 +321,23 @@ public class CustomerController extends UserController {
             case "getAllLogs" -> processGetAllLogs(query);
             case "sortDiscounts" -> processSortDiscounts(query);
             case "sortLogs" -> processSortLogs(query);
+            case "getCartPrice" -> processGetCartPrice(query);
+            case "getCartPriceConsideringSale" -> processGetCartPriceConsideringSale(query);
+            case "getWaitingLogPayable" -> processGetWaitingLogPayable(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processGetWaitingLogPayable(Query query) {
+        return new Response("long", Long.toString(getWaitingLogPayable()));
+    }
+
+    private Response processGetCartPriceConsideringSale(Query query) {
+        return new Response("long", Long.toString(getCartPriceConsideringSale()));
+    }
+
+    private Response processGetCartPrice(Query query) {
+        return new Response("long", Long.toString(getCartPrice()));
     }
 
     private Response processSortLogs(Query query) {

@@ -58,6 +58,7 @@ public class SelectedItem {
         return countFromEachSeller;
     }
 
+
     public CartTag getTag() {
         return tag;
     }

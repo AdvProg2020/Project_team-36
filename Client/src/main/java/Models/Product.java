@@ -152,4 +152,12 @@ public class Product implements Pendable{
     public String getPendingRequestType() {
         return "product";
     }
+
+    public ProductField getProductFieldBySeller(int sellerId){
+        for (ProductField productField : productFields) {
+            if(productField.getSeller().getUserId()==sellerId)
+                return productField;
+        }
+        return null;
+    }
 }

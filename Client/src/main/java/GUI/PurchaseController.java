@@ -36,8 +36,8 @@ public class PurchaseController implements Initializable {
             this.customer = (Customer) Constants.globalVariables.getLoggedInUser();
         }
 
-        totalPrice.setText("" + customer.getCartPrice());
-        totalPayable.setText("" + customer.getCartPriceConsideringSale());
+        totalPrice.setText("" + Constants.customerController.getCartPrice());
+        totalPayable.setText("" + Constants.customerController.getCartPriceConsideringSale());
         Constants.customerController.addNewWaitingLog();
     }
 
@@ -48,7 +48,7 @@ public class PurchaseController implements Initializable {
             try {
                 discountCodeInteger = Integer.parseInt(discountCodeString);
                 Constants.customerController.setDiscountCodeForPurchase(discountCodeInteger);
-                totalPayable.setText("" + customer.getWaitingLog().getPayablePrice());
+                totalPayable.setText("" + Constants.customerController.getWaitingLogPayable());
             } catch (CustomerController.NoDiscountAvailableWithId noDiscountAvailableWithId) {
                 AlertBox.display("Error","You do not have this discount!!");
             } catch (NumberFormatException e){
