@@ -53,6 +53,22 @@ public class EntryController extends UserController {
         ((Seller) userVariables.getLoggedInUser()).setCompanyInfo(info);
     }
 
+    public void setEmail(String email){
+        userVariables.getLoggedInUser().setEmail(email);
+    }
+
+    public void setPhoneNumber(String phoneNumber){
+        userVariables.getLoggedInUser().setPhoneNumber(phoneNumber);
+    }
+
+    public void setFirstname(String firstname){
+        userVariables.getLoggedInUser().setFirstname(firstname);
+    }
+
+    public void setLastname(String lastname){
+        userVariables.getLoggedInUser().setLastname(lastname);
+    }
+
     public void register() {
         User user = userVariables.getLoggedInUser();
         User.addUsername(user.getUsername());
@@ -113,11 +129,45 @@ public class EntryController extends UserController {
             case "setCompanyInfo" -> processSetCompanyInfo(query);
             case "register" -> processRegister(query);
             case "logout" -> processLogout(query);
-            case "createNewAccount" -> processCreateNewAccount(query);
             case "isUserLoggedIn" -> processIsUserLoggedIn(query);
             case "setImage" -> processSetImage(query);
+            case "setLastname" -> processSetLastname(query);
+            case "setFirstname" -> processSetFirstname(query);
+            case"setPhoneNumber" -> processSetPhoneNumber(query);
+            case "setPassword" -> processSetPassword(query);
+            case "setEmail" -> processSetEmail(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processSetPassword(Query query){
+        String email = query.getMethodInputs().get("password");
+        this.setPassword(email);
+        return new Response("void", "");
+    }
+
+    private Response processSetEmail(Query query){
+        String email = query.getMethodInputs().get("email");
+        setEmail(email);
+        return new Response("void", "");
+    }
+
+    private Response processSetLastname(Query query){
+        String lastname = query.getMethodInputs().get("lastname");
+        setLastname(lastname);
+        return new Response("void", "");
+    }
+
+    private Response processSetFirstname(Query query){
+        String firstname = query.getMethodInputs().get("firstname");
+        setLastname(firstname);
+        return new Response("void", "");
+    }
+
+    private Response processSetPhoneNumber(Query query){
+        String phoneNumber = query.getMethodInputs().get("phoneNumber");
+        setPhoneNumber(phoneNumber);
+        return new Response("void", "");
     }
 
     private Response processSetImage(Query query) {
@@ -130,17 +180,6 @@ public class EntryController extends UserController {
         boolean result = isUserLoggedIn();
         Gson gson = new GsonBuilder().create();
         return new Response("boolean", gson.toJson(result));
-    }
-
-    private Response processCreateNewAccount(Query query) {
-        String username = query.getMethodInputs().get("username");
-        String type = query.getMethodInputs().get("type");
-        try {
-            createNewAccount(username, type);
-            return new Response("void", "");
-        } catch (ManagerExistsException e) {
-            return new Response("ManagerExistsException", "");
-        }
     }
 
     private Response processLogout(Query query) {

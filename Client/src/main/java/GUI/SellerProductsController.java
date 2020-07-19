@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class  SellerProductsController extends SellerProfileController implements Initializable {
 
@@ -39,12 +40,12 @@ public class  SellerProductsController extends SellerProfileController implement
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
 
-        ArrayList<Product> allProducts = ((Seller)user).getAllProducts();
+        List<Product> allProducts = ((Seller)user).getAllProducts();
         setTheTable(allProducts);
     }
 
 
-    private void setTheTable(ArrayList<Product> allProducts){
+    private void setTheTable(List<Product> allProducts){
         Product.setSellerProductsController(this);
         allProductsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));

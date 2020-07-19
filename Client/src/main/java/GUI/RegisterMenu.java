@@ -40,7 +40,7 @@ public class RegisterMenu {
     private String customerProfilePath="";
 
     public RegisterMenu() {
-        this.entryController = new EntryController(new GlobalVariables());
+        this.entryController = Constants.entryController;
 
     }
 
@@ -132,7 +132,7 @@ public class RegisterMenu {
         } else if (!password.getText().equals(rePassword.getText())) {
             password.setStyle("-fx-border-color: red");
             rePassword.setStyle("-fx-border-color: red");
-            label.setText("Diffrent password boxes");
+            label.setText("Different password boxes");
             return false;
         }
         entryController.setPassword(password.getText());

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class EditDiscountCodeController extends ManagerProfileController implements Initializable {
@@ -84,7 +85,7 @@ public class EditDiscountCodeController extends ManagerProfileController impleme
     private void setAvailableCustomers() {
 
         ArrayList<Customer> availableCustomers = Constants.managerController.getCustomersWithoutThisCode(discountToEdit.getId());
-        ArrayList<Customer> includedCustomers = discountToEdit.getCustomersIncluded();
+        List<Customer> includedCustomers = discountToEdit.getCustomersIncluded();
 
         availableCustomersColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         customersIncludedColumn.setCellValueFactory(new PropertyValueFactory<>("username"));

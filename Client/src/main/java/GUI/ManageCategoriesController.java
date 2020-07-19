@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ManageCategoriesController extends ManagerProfileController implements Initializable {
     @FXML
@@ -46,7 +47,7 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         allCategoriesTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         allCategoriesTable.setRoot(tableMainRoot);
 
-        ArrayList<Category> mainCategories = mainCategoryRoot.getSubCategories();
+        List<Category> mainCategories = mainCategoryRoot.getSubCategories();
         for (Category category : mainCategories) {
             TreeItem<Category> categoryItem = new TreeItem<>(category);
             setTheSubcategories(category, categoryItem, 0);
@@ -57,7 +58,7 @@ public class ManageCategoriesController extends ManagerProfileController impleme
 
     private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent) {
 
-        ArrayList<Category> subcategories = mainCategory.getSubCategories();
+        List<Category> subcategories = mainCategory.getSubCategories();
         if (subcategories.isEmpty() && indent != 0) {
             TreeItem<Category> subcategory = new TreeItem<>(mainCategory);
             categoryItem.getChildren().add(subcategory);

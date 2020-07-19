@@ -37,4 +37,8 @@ public class Request {
     public Status getStatus() {
         return status;
     }
+
+    public String getType(){
+        return pendableRequest.getPendingRequestType();
+    }
 }

@@ -103,4 +103,16 @@ public abstract class User {
     public String getPassword() {
         return password;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public ImageView getProfilePicture() {
+        return profilePicture;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
 }
