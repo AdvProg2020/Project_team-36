@@ -353,8 +353,7 @@ public class CustomerController extends UserController {
             Gson gson = new GsonBuilder().create();
             return new Response("CustomerLog", gson.toJson(log));
         } catch (NotEnoughMoney notEnoughMoney) {
-            Gson gson = new GsonBuilder().create();
-            return new Response("NotEnoughMoney", gson.toJson(notEnoughMoney));
+            return new Response("NotEnoughMoney",Long.toString(notEnoughMoney.getAmount()));
         }
     }
 
@@ -587,7 +586,7 @@ public class CustomerController extends UserController {
     }
 
     public static class NotEnoughMoney extends Exception {
-        long amount;//amount of money that is needed!
+        private long amount;//amount of money that is needed!
 
         public NotEnoughMoney(long amount) {
             this.amount = amount;

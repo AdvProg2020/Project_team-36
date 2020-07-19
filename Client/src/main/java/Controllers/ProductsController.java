@@ -99,7 +99,7 @@ public class ProductsController implements ObjectController {
           throw new NoSortException();
     }
 
-
+    @Override
     public Set<String> getAvailableFilters() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAvailableFilters");
         Response response = Client.process(query);
@@ -126,6 +126,7 @@ public class ProductsController implements ObjectController {
         Client.process(query);
     }
 
+    @Override
     public void removeFilter(String name) throws NoFilterWithNameException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeFilter");
         query.getMethodInputs().put("name",name);
@@ -134,7 +135,7 @@ public class ProductsController implements ObjectController {
             throw new NoFilterWithNameException();
         }
     }
-
+    @Override
     public void setNewFilter(String name) throws IntegerFieldException, OptionalFieldException, NoFilterWithNameException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setNewFilter");
         query.getMethodInputs().put("name",name);
@@ -269,6 +270,7 @@ public class ProductsController implements ObjectController {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setCompanyFilter");
         query.getMethodInputs().put("options",gson.toJson(temp));
         Client.process(query);
+
     }
 
     public void addNameFilter(String name) {
@@ -307,6 +309,7 @@ public class ProductsController implements ObjectController {
         Client.process(query);
     }
 
+    @Override
     public ArrayList<String> getCategoryNames() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCategoryNames");
         Response response = Client.process(query);
@@ -330,6 +333,7 @@ public class ProductsController implements ObjectController {
 
     public HashMap<String, HashSet<String>> getAllOptionalChoices() {
        //TODO nazanin man vaghan nemidunam chjuri ino dorost konam =))))
+        return null;
     }
 
     public void addOptionalFilter(String filterName, String option) {
@@ -369,11 +373,17 @@ public class ProductsController implements ObjectController {
     }
 
     public void setProductToEdit(Product productToEdit) {
-        //TODO karaneh nazanin in hast idsh tu un arrayliste?
+        String productId = Integer.toString(productToEdit.getProductId());
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setProductToEdit");
+        query.getMethodInputs().put("productToEdit",productId);
+      Client.process(query);
     }
 
     public void setProductToView(Product productToView) {
-        //TODO karaneh nazanin in hast idsh tu un arrayliste?
+        String productId = Integer.toString(productToView.getProductId());
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setProductToView");
+        query.getMethodInputs().put("productToView",productId);
+        Client.process(query);
     }
 
 

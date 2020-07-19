@@ -113,7 +113,6 @@ public class EntryController extends UserController {
             case "setCompanyInfo" -> processSetCompanyInfo(query);
             case "register" -> processRegister(query);
             case "logout" -> processLogout(query);
-            case "createNewAccount" -> processCreateNewAccount(query);
             case "isUserLoggedIn" -> processIsUserLoggedIn(query);
             case "setImage" -> processSetImage(query);
             default -> new Response("Error", "");
@@ -130,17 +129,6 @@ public class EntryController extends UserController {
         boolean result = isUserLoggedIn();
         Gson gson = new GsonBuilder().create();
         return new Response("boolean", gson.toJson(result));
-    }
-
-    private Response processCreateNewAccount(Query query) {
-        String username = query.getMethodInputs().get("username");
-        String type = query.getMethodInputs().get("type");
-        try {
-            createNewAccount(username, type);
-            return new Response("void", "");
-        } catch (ManagerExistsException e) {
-            return new Response("ManagerExistsException", "");
-        }
     }
 
     private Response processLogout(Query query) {

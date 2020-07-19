@@ -806,14 +806,14 @@ public class ProductsController implements ObjectController {
     }
 
     private Response processSetProductToEdit(Query query){
-        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        int id = Integer.parseInt(query.getMethodInputs().get("productToEdit"));
         Product productToEdit = Product.getProductById(id);
         setProductToEdit(productToEdit);
         return new Response("void", "");
     }
 
     private Response processSetProductToView(Query query){
-        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        int id = Integer.parseInt(query.getMethodInputs().get("productToView"));
         Product productToView = Product.getProductById(id);
         setProductToView(productToView);
         return new Response("void", "");
