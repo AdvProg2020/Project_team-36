@@ -96,6 +96,10 @@ public class  UserController {
         this.userVariables.getLoggedInUser().setPhoneNumber(phoneNumber);
     }
 
+    public User getUserById(int id){
+        return User.getUserById(id);
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getLoggedInUser" -> processGetLoggedInUser(query);
@@ -105,6 +109,7 @@ public class  UserController {
             case "setFirstname" -> processSetFirstname(query);
             case "setLastname" -> processSetLastname(query);
             case "setPhoneNumber" -> processSetPhoneNumber(query);
+            case "getUserById" -> processGetUserById(query);
             default -> new Response("Error", "");
         };
     }
@@ -157,6 +162,12 @@ public class  UserController {
         return new Response("User", saveSaleGson);
     }
 
+    private Response processGetUserById(Query query){
+        SaveUser saveUser = new SaveUser(getUserById(Integer.parseInt(query.getMethodInputs().get("id"))));
+        Gson gson = new GsonBuilder().create();
+        String saveSaleGson = gson.toJson(saveUser);
+        return new Response("User", saveSaleGson);
+    }
 
     public static class NoFieldWithThisType extends Exception{}
 

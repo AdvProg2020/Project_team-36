@@ -21,6 +21,18 @@ public class UserController {
         }
     }
 
+    public User getUserById(int id){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getUserById");
+        query.getMethodInputs().put("id", Integer.toString(id));
+        Response response = Client.process(query);
+        if (response.getReturnType().equals("User")) {
+            Gson gson = new Gson();
+            SaveUser saveUser = gson.fromJson(response.getData(), SaveUser.class);
+            return User.generateUser(saveUser);
+        } else {
+            return null;
+        }    }
+
     public void editInfo(String type,String newQuality) throws NoFieldWithThisType {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "editInfo");
         query.getMethodInputs().put("type", type);
