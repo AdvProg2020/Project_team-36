@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.*;
+import Repository.SaveField;
 import Repository.SaveProduct;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -246,7 +247,7 @@ public class EditProductController {
         }
     }
 
-    //todo saveField?
+
     private Response processGetNeededFields(){
         List<SaveField> allSaveFields = new ArrayList<>();
         getNeededFields().forEach(c -> allSaveFields.add(new SaveField(c)));
@@ -276,7 +277,6 @@ public class EditProductController {
         return new Response("void", "");
     }
 
-    //todo saveField?
     private Response processGetCategoryFieldsToEdit(Query query){
         List<SaveField> allSaveFields = new ArrayList<>();
         getCategoryFieldsToEdit().forEach(c -> allSaveFields.add(new SaveField(c)));

@@ -69,8 +69,7 @@ public class DiscountController {
         }
     }
 
-    //todo nazashtm(nabaiad estefade dashte abshe)
-    public boolean isThereCustomerWithUsername(String username) {
+    private boolean isThereCustomerWithUsername(String username) {
         for (Customer customer : customersForDiscountCode) {
             if (customer.getUsername().equals(username)) {
                 return true;

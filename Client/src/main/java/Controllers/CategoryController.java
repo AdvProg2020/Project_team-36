@@ -33,7 +33,6 @@ public class CategoryController {
         if (response.getReturnType().equals("InvalidCategoryName")) {
             throw new InvalidCategoryName();
         }
-
     }
 
     public ArrayList<Category> getAllCategories() {

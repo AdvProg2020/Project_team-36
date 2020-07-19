@@ -4,8 +4,10 @@ import Models.*;
 import Repository.SaveProduct;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class OffController implements ObjectController {
@@ -446,7 +448,7 @@ public class OffController implements ObjectController {
             for (String s : getAllOptionalChoices().get(key)) {
                 value.add(s);
             }
-            toBeReturned.put(key,value);
+            toBeReturned.put(key, value);
         }
         String choices = gson.toJson(toBeReturned);
         return new Response("Map<String,Set<String>>", choices);
@@ -487,8 +489,12 @@ public class OffController implements ObjectController {
     }
 
     private Response processSetCompanyFilter(Query query) {
-       //TODO ask
-        return null;
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        List<String> options = gson.fromJson(query.getMethodInputs().get("options"), type);
+        ArrayList<String> allOptions = new ArrayList<>(options);
+        setCompanyFilter(allOptions);
+        return new Response("void", "");
     }
 
     private Response processSetCategoryFilter(Query query) {
@@ -497,7 +503,7 @@ public class OffController implements ObjectController {
             setCategoryFilter(name);
             return new Response("void", "");
         } catch (ProductsController.NoCategoryWithName noCategoryWithName) {
-            return new Response("NoCategoryWithName","");
+            return new Response("NoCategoryWithName", "");
         }
     }
 
@@ -514,7 +520,7 @@ public class OffController implements ObjectController {
         toBeRetuned.addAll(getSpecialIntegerFilter());
         Gson gson = new GsonBuilder().create();
         String stringGson = gson.toJson(toBeRetuned);
-        return new Response("List<String>",stringGson);
+        return new Response("List<String>", stringGson);
     }
 
     private Response processGetCompanyNamesForFilter(Query query) {
@@ -526,39 +532,43 @@ public class OffController implements ObjectController {
     }
 
     private Response processRemoveFilter(Query query) {
-        String name  = query.getMethodInputs().get("name");
+        String name = query.getMethodInputs().get("name");
         try {
             removeFilter(name);
-            return new Response("void","");
+            return new Response("void", "");
         } catch (ProductsController.NoFilterWithNameException e) {
-            return new Response("NoFilterWithNameException","");
+            return new Response("NoFilterWithNameException", "");
         }
 
     }
 
     private Response processSetFilterOptions(Query query) {
-        //TODO ask
-return null;
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        List<String> options = gson.fromJson(query.getMethodInputs().get("options"), type);
+        ArrayList<String> allOptions = new ArrayList<>(options);
+        setCompanyFilter(allOptions);
+        return new Response("void", "");
     }
 
     private Response processSetFilterRange(Query query) {
         String min = query.getMethodInputs().get("min");
         String max = query.getMethodInputs().get("max");
-        setFilterRange(min,max);
-        return new Response("void","");
+        setFilterRange(min, max);
+        return new Response("void", "");
     }
 
     private Response processSetNewFilter(Query query) {
         String name = query.getMethodInputs().get("name");
         try {
             setNewFilter(name);
-            return new Response("void","");
+            return new Response("void", "");
         } catch (ProductsController.IntegerFieldException e) {
-            return new Response("IntegerFieldException","");
+            return new Response("IntegerFieldException", "");
         } catch (ProductsController.OptionalFieldException e) {
-            return new Response("OptionalFieldException","");
+            return new Response("OptionalFieldException", "");
         } catch (ProductsController.NoFilterWithNameException e) {
-            return new Response("NoFilterWithNameException","");
+            return new Response("NoFilterWithNameException", "");
         }
 
     }
@@ -576,7 +586,7 @@ return null;
         String name = query.getMethodInputs().get("name");
         String type = query.getMethodInputs().get("type");
         try {
-            setSort(name,type);
+            setSort(name, type);
             return new Response("void", "");
         } catch (ProductsController.NoSortException e) {
             return new Response("NoSortException", "");
