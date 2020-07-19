@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewOffsController extends SellerProfileController implements Initializable {
 
@@ -36,11 +37,11 @@ public class ViewOffsController extends SellerProfileController implements Initi
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
 
-        ArrayList<Sale> allOffs = ((Seller)user).getAllSales();
+        List<Sale> allOffs = ((Seller)user).getAllSales();
         setTheTable(allOffs);
     }
 
-    private void setTheTable(ArrayList<Sale> allOffs){
+    private void setTheTable(List<Sale> allOffs){
         Sale.setViewOffsController(this);
         allOffsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         percentColumn.setCellValueFactory(new PropertyValueFactory<>("salePercentForTable"));

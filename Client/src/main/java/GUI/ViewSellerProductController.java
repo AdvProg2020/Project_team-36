@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViewSellerProductController extends SellerProfileController implements Initializable {
 
@@ -59,7 +60,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
         categoryTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         categoryTable.setRoot(tableMainRoot);
 
-        ArrayList<Category> mainCategories = mainCategoryRoot.getSubCategories();
+        List<Category> mainCategories = mainCategoryRoot.getSubCategories();
         for (Category category : mainCategories) {
             TreeItem<Category> categoryItem = new TreeItem<>(category);
             setTheSubcategories(category, categoryItem, 0);
@@ -73,7 +74,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
     }
 
     private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent) throws MalformedURLException {
-        ArrayList<Category> subcategories = mainCategory.getSubCategories();
+        List<Category> subcategories = mainCategory.getSubCategories();
         if (subcategories.isEmpty() && indent != 0) {
             TreeItem<Category> subcategory = new TreeItem<>(mainCategory);
             categoryItem.getChildren().add(subcategory);

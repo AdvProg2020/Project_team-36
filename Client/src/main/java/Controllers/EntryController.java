@@ -49,6 +49,30 @@ public class EntryController {
         Client.process(query);
     }
 
+    public void setEmail(String email){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setEmail");
+        query.getMethodInputs().put("email",email);
+        Client.process(query);
+    }
+
+    public void setLastname(String lastname){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setLastname");
+        query.getMethodInputs().put("lastname",lastname);
+        Client.process(query);
+    }
+
+    public void setFirstname(String firstname){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setFirstname");
+        query.getMethodInputs().put("firstname",firstname);
+        Client.process(query);
+    }
+
+    public void setPhoneNumber(String phoneNumber){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setPhoneNumber");
+        query.getMethodInputs().put("phoneNumber",phoneNumber);
+        Client.process(query);
+    }
+
     public void register() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "register");
         Client.process(query);
