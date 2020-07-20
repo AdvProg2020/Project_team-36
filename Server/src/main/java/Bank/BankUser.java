@@ -86,8 +86,19 @@ public class BankUser {
 
     }
 
+    public void addMoney(long amount){
+        balance +=amount;
+    }
+
+    public void withdrawMoney(long amount) throws NotEnoughMoney {
+        if(amount<balance)
+        balance -= amount;
+        else throw new NotEnoughMoney();
+    }
+
     public static class InvalidReceiptId extends Exception{}
 
+    public static class NotEnoughMoney extends Exception{}
 
 
 }

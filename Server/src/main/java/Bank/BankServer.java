@@ -240,7 +240,7 @@ class ClientHandler extends Thread {
         Token validateToken;
         BankUser bankUser;
         try {
-            validateToken = gson.fromJson(token,Token.class);
+            validateToken = gson.fromJson(token, Token.class);
             bankUser = bankDatabase.validateToken(validateToken);
         } catch (BankDatabase.TokenExpired tokenExpired) {
             sendResponse("token expired");
@@ -250,23 +250,65 @@ class ClientHandler extends Thread {
             return;
         }
         Gson gsonBuilder = new GsonBuilder().create();
-       if(type.equals("+")){
-           sendResponse(gsonBuilder.toJson(bankUser.getDeposits()));
-       }else if(type.equals("-")){
-           sendResponse(gsonBuilder.toJson(bankUser.getWithdrawals()));
-       }else if(type.equals("*")){
-           sendResponse(gsonBuilder.toJson(bankUser.getAllTransactions()));
-       }else{
-           try {
-               sendResponse(gsonBuilder.toJson(bankUser.getTransaction(type)));
-           } catch (BankUser.InvalidReceiptId invalidReceiptId) {
-               sendResponse("invalid receipt id");
-           }
-       }
+        if (type.equals("+")) {
+            sendResponse(gsonBuilder.toJson(bankUser.getDeposits()));
+        } else if (type.equals("-")) {
+            sendResponse(gsonBuilder.toJson(bankUser.getWithdrawals()));
+        } else if (type.equals("*")) {
+            sendResponse(gsonBuilder.toJson(bankUser.getAllTransactions()));
+        } else {
+            try {
+                sendResponse(gsonBuilder.toJson(bankUser.getTransaction(type)));
+            } catch (BankUser.InvalidReceiptId invalidReceiptId) {
+                sendResponse("invalid receipt id");
+            }
+        }
     }
 
     private void pay(String receiptId) {
-        //TODO
+        int id;
+        Transaction transaction;
+        try {
+            id = Integer.parseInt(receiptId);
+            transaction = bankDatabase.getTransaction(id);
+        } catch (NumberFormatException | BankDatabase.NoTransaction numberFormatException) {
+            sendResponse("invalid receipt id");
+            return;
+        }
+        if(transaction.isPaid()){
+            sendResponse("receipt is paid before");
+            return;
+        }
+        int sourceId = transaction.getSourceAccountId();
+        int destId = transaction.getDestAccountId();
+        BankUser sourceUser = null;
+        BankUser destUser =null;
+        try {
+            if (sourceId != -1)
+                sourceUser = bankDatabase.getUser(sourceId);
+            if (destId != -1)
+                destUser = bankDatabase.getUser(destId);
+        } catch (BankDatabase.NoUserWithID noUserWithID) {
+            sendResponse("invalid account id");
+            return;
+        }
+        synchronized (bankDatabase){
+            if(sourceId==-1){
+                destUser.addMoney(transaction.getMoney());
+            }else {
+                try {
+                    sourceUser.withdrawMoney(transaction.getMoney());
+                    if(destId!=-1)
+                        destUser.addMoney(transaction.getMoney());
+                } catch (BankUser.NotEnoughMoney notEnoughMoney) {
+                    sendResponse("source account doesnot have enough money");
+                    return;
+                }
+            }
+        }
+        transaction.paid();
+        sendResponse("done successfully");
+
     }
 
     private void getBalance(String token) {

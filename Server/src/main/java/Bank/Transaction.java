@@ -39,6 +39,18 @@ public class Transaction {
         return sourceAccountId;
     }
 
+    public void paid(){
+        this.paid = 1;
+    }
+
+    public long getMoney() {
+        return money;
+    }
+
+    public boolean isPaid(){
+        return paid == 1;
+    }
+
     public static class NotEnoughMoney extends Exception{
 
     }

@@ -71,6 +71,14 @@ public class BankDatabase {
         return false;
     }
 
+    public Transaction getTransaction(int id) throws NoTransaction {
+        for (Transaction transaction : allTransactions) {
+            if(transaction.getTransactionId() ==id)
+                return transaction;
+        }
+        throw new NoTransaction();
+    }
+
     public void addTransaction(Transaction transaction){
         allTransactions.add(transaction);
     }
@@ -84,4 +92,6 @@ public class BankDatabase {
     public static class TokenExpired extends Exception{}
 
     public static class InvalidToken extends Exception{}
+
+    public static class NoTransaction extends Exception{}
 }
