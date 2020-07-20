@@ -2,39 +2,39 @@ package GUI;
 
 import Controllers.EntryController;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.FileInputStream;
 
 public class RegisterMenu {
-    public Label customerLabel;
-    public Label sellerLabel;
-    public ImageView profileSeller;
-    public ImageView customerImage;
+    @FXML private Label customerLabel;
+    @FXML private Label sellerLabel;
+    @FXML private ImageView profileSeller;
+    @FXML private ImageView customerImage;
+    @FXML private Tab seller;
+    @FXML private Tab customer;
+    @FXML private TextArea companyInfo;
+    @FXML private TextField companyName;
+    @FXML private PasswordField sellerRePassword;
+    @FXML private PasswordField sellerPassword;
+    @FXML private TextField sellerPhone;
+    @FXML private TextField sellerEmail;
+    @FXML private TextField sellerLastname;
+    @FXML private TextField sellerFirstname;
+    @FXML private TextField sellerUsername;
+    @FXML private PasswordField customerRePassword;
+    @FXML private PasswordField customerPassword;
+    @FXML private TextField customerPhone;
+    @FXML private TextField customerEmail;
+    @FXML private TextField customerLastname;
+    @FXML private TextField customerFirstname;
+    @FXML private TextField customerUsername;
     EntryController entryController;
-    public Tab seller;
-    public Tab customer;
-    public TextArea companyInfo;
-    public TextField companyName;
-    public PasswordField sellerRePassword;
-    public PasswordField sellerPassword;
-    public TextField sellerPhone;
-    public TextField sellerEmail;
-    public TextField sellerLastname;
-    public TextField sellerFirstname;
-    public TextField sellerUsername;
-    public PasswordField customerRePassword;
-    public PasswordField customerPassword;
-    public TextField customerPhone;
-    public TextField customerEmail;
-    public TextField customerLastname;
-    public TextField customerFirstname;
-    public TextField customerUsername;
     private String sellerProfilePath="";
     private String customerProfilePath="";
 
@@ -242,7 +242,7 @@ public class RegisterMenu {
         }
     }
 
-    public void addCustomerImage(ActionEvent actionEvent) {
+    public void addCustomerImage() {
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(imageFilter);
@@ -255,7 +255,7 @@ public class RegisterMenu {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        };
+        }
     }
 
     private boolean setImage(boolean isSeller){
@@ -276,7 +276,7 @@ public class RegisterMenu {
         }
     }
 
-    public void login(ActionEvent actionEvent) {
+    public void login() {
         Constants.globalVariables.setLoggedInUser(null);
         Constants.getGuiManager().openLogin();
     }

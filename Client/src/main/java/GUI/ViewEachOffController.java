@@ -1,6 +1,7 @@
 package GUI;
 
 import Models.*;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -11,18 +12,18 @@ import java.time.LocalDate;
 
 public class ViewEachOffController extends SellerProfileController implements Initializable {
 
-    public Label codeLabel;
-    public TextField percent;
-    public ScrollPane productIncluded;
-    public DatePicker endDate;
-    public DatePicker startDate;
-    public Label usernameLabel;
-    public ImageView profilePicture;
-    private User user;
+    @FXML private Label codeLabel;
+    @FXML private TextField percent;
+    @FXML private ScrollPane productIncluded;
+    @FXML private DatePicker endDate;
+    @FXML private DatePicker startDate;
+    @FXML private Label usernameLabel;
+    @FXML private ImageView profilePicture;
 
     @Override
     public void initialize(int id) throws IOException {
 
+        User user;
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
@@ -30,7 +31,7 @@ public class ViewEachOffController extends SellerProfileController implements In
             Constants.getGuiManager().back();
             return;
         } else {
-            this.user = Constants.globalVariables.getLoggedInUser();
+            user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
@@ -53,7 +54,7 @@ public class ViewEachOffController extends SellerProfileController implements In
     }
 
     private void setValues(){
-        Sale offToView = sellerController.getOffToView();;
+        Sale offToView = Constants.sellerController.getOffToView();
 
         codeLabel.setText("Off: " + offToView.getOffId());
         startDate.setValue(new Date(offToView.getStartTime().getTime()).toLocalDate());

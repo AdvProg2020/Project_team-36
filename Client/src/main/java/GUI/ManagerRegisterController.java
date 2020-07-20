@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.EntryController;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,24 +16,25 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class ManagerRegisterController implements Initializable {
-    public TextField username;
-    public TextField firstname;
-    public TextField lastname;
-    public TextField email;
-    public TextField phone;
-    public PasswordField password;
-    public PasswordField rePassword;
-    public ImageView image;
-    public Label alertLabel;
+
+    @FXML private TextField username;
+    @FXML private TextField firstname;
+    @FXML private TextField lastname;
+    @FXML private TextField email;
+    @FXML private TextField phone;
+    @FXML private PasswordField password;
+    @FXML private PasswordField rePassword;
+    @FXML private ImageView image;
+    @FXML private Label alertLabel;
     private String imagePath = "";
-    private EntryController entryController = Constants.entryController;
+    private final EntryController entryController = Constants.entryController;
 
     @Override
     public void initialize(int id) throws IOException {
 
     }
 
-    public void addImage(ActionEvent actionEvent) {
+    public void addImage() {
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(imageFilter);
@@ -46,10 +48,10 @@ public class ManagerRegisterController implements Initializable {
                 e.printStackTrace();
             }
         }
-        ;
+
     }
 
-    public void register(MouseEvent mouseEvent) throws IOException {
+    public void register() throws IOException {
         alertLabel.setStyle("-fx-text-fill: red");
         setTextFieldBorders();
         if (setUserName() && setPassword() && setName() && setPersonalInfo() && setImage()) {
@@ -59,7 +61,6 @@ public class ManagerRegisterController implements Initializable {
             Constants.getGuiManager().open("MainMenu",1);
         }
     }
-
 
     private void setTextFieldBorders() {
         email.setStyle("-fx-border-color: WHITE");

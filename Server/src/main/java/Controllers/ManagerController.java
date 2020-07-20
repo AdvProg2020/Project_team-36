@@ -303,6 +303,7 @@ public class ManagerController extends UserController {
     public void deleteUser(User user) {
         user.setUserDeleted();
         User.removeUsername(user.getUsername());
+        User.updateAllUsers();
     }
 
     public ArrayList<Request> getAllRequests() {
@@ -323,6 +324,10 @@ public class ManagerController extends UserController {
         } else {
             throw new InvalidRequestIdException("there's no request with this id");
         }
+    }
+
+    public void acceptRequest(int id) {
+        Request.getRequestById(id).acceptRequest();
     }
 
     public ArrayList<Product> getAllProducts() {
@@ -450,120 +455,47 @@ public class ManagerController extends UserController {
     }
 
     public Response processQuery(Query query) {
-        switch (query.getMethodName()) {
-            case "getAllUsers":
-                return processGetAllUsers();
-
-            case "setSortDiscountMethods":
-                return processSetSortDiscountMethods();
-
-            case "setSortMethodsProducts":
-                return processSetSortMethodsProducts();
-
-            case "setSortRequestsMethods":
-                return processSetSortRequestsMethods();
-
-            case "setSortUsersMethods":
-                return processSetSortUsersMethods();
-
-            case "getAllDiscountCodes":
-                return processGetAllDiscountCodes();
-
-            case "getDiscountWithId":
-                return processGetDiscountWithId(query);
-
-            case "removeDiscount":
-                return processRemoveDiscount(query);
-
-            case "editDiscountStartTime":
-                return processEditDiscountStartTime(query);
-
-            case "editDiscountEndTime":
-                return processEditDiscountEndTime(query);
-
-            case "editDiscountPercent":
-                return processEditDiscountPercent(query);
-
-            case "editDiscountLimit":
-                return processEditDiscountLimit(query);
-
-            case "editDiscountRepetitionForEachUser":
-                return processEditDiscountRepetitionForEachUser(query);
-
-            case "getCustomersWithoutThisCode":
-                return processGetCustomersWithoutThisCode(query);
-
-            case "giveCodeToSelectedCustomers":
-                return processGiveCodeToSelectedCustomers(query);
-
-            case "removeCodeFromSelectedCustomers":
-                return processRemoveCodeFromSelectedCustomers(query);
-
-            case "getCustomersWithThisCode":
-                return processGetCustomersWithThisCode(query);
-
-            case "setCustomersForAddingDiscountCode":
-                return processSetCustomersForAddingDiscountCode(query);
-
-            case "setCustomersForRemovingDiscountCode":
-                return processSetCustomersForRemovingDiscountCode(query);
-
-            case "isThereCustomerWithUsername":
-                return processIsThereCustomerWithUsername(query);
-
-            case "getUserWithUsername":
-                return processGetUserWithUsername(query);
-
-            case "deleteUser":
-                return processDeleteUser(query);
-
-            case "getAllRequests":
-                return processGetAllRequests();
-
-            case "getRequestWithId":
-                return processGetRequestWithId(query);
-
-            case "declineRequest":
-                return processDeclineRequest(query);
-
-            case "getAllProducts":
-                return processGetAllProducts();
-
-            case "getProductWithId":
-                return processGetProductWithId(query);
-
-            case "removeProduct":
-                return processRemoveProduct(query);
-
-            case "sortUsers":
-                return processSortUsers(query);
-
-            case "sortDiscountCodes":
-                return processSortDiscountCodes(query);
-
-            case "getDiscountToEdit":
-                return processGetDiscountToEdit();
-
-            case "sortRequests":
-                return processSortRequests(query);
-
-            case "sortProducts":
-                return processSortProducts(query);
-
-            case "getDiscountToView":
-                return processGetDiscountToView();
-
-            case "filterRequests":
-                return processFilterRequests(query);
-
-            case "setDiscountToView":
-                return processSetDiscountToView(query);
-
-            case "setDiscountToEdit":
-                return processSetDiscountToEdit(query);
-            default:
-                return new Response("Error", "");
-        }
+        return switch (query.getMethodName()) {
+            case "getAllUsers" -> processGetAllUsers();
+            case "setSortDiscountMethods" -> processSetSortDiscountMethods();
+            case "setSortMethodsProducts" -> processSetSortMethodsProducts();
+            case "setSortRequestsMethods" -> processSetSortRequestsMethods();
+            case "setSortUsersMethods" -> processSetSortUsersMethods();
+            case "getAllDiscountCodes" -> processGetAllDiscountCodes();
+            case "getDiscountWithId" -> processGetDiscountWithId(query);
+            case "removeDiscount" -> processRemoveDiscount(query);
+            case "editDiscountStartTime" -> processEditDiscountStartTime(query);
+            case "editDiscountEndTime" -> processEditDiscountEndTime(query);
+            case "editDiscountPercent" -> processEditDiscountPercent(query);
+            case "editDiscountLimit" -> processEditDiscountLimit(query);
+            case "editDiscountRepetitionForEachUser" -> processEditDiscountRepetitionForEachUser(query);
+            case "getCustomersWithoutThisCode" -> processGetCustomersWithoutThisCode(query);
+            case "giveCodeToSelectedCustomers" -> processGiveCodeToSelectedCustomers(query);
+            case "removeCodeFromSelectedCustomers" -> processRemoveCodeFromSelectedCustomers(query);
+            case "getCustomersWithThisCode" -> processGetCustomersWithThisCode(query);
+            case "setCustomersForAddingDiscountCode" -> processSetCustomersForAddingDiscountCode(query);
+            case "setCustomersForRemovingDiscountCode" -> processSetCustomersForRemovingDiscountCode(query);
+            case "isThereCustomerWithUsername" -> processIsThereCustomerWithUsername(query);
+            case "getUserWithUsername" -> processGetUserWithUsername(query);
+            case "deleteUser" -> processDeleteUser(query);
+            case "getAllRequests" -> processGetAllRequests();
+            case "getRequestWithId" -> processGetRequestWithId(query);
+            case "declineRequest" -> processDeclineRequest(query);
+            case "getAllProducts" -> processGetAllProducts();
+            case "getProductWithId" -> processGetProductWithId(query);
+            case "removeProduct" -> processRemoveProduct(query);
+            case "sortUsers" -> processSortUsers(query);
+            case "sortDiscountCodes" -> processSortDiscountCodes(query);
+            case "getDiscountToEdit" -> processGetDiscountToEdit();
+            case "sortRequests" -> processSortRequests(query);
+            case "sortProducts" -> processSortProducts(query);
+            case "getDiscountToView" -> processGetDiscountToView();
+            case "filterRequests" -> processFilterRequests(query);
+            case "setDiscountToView" -> processSetDiscountToView(query);
+            case "setDiscountToEdit" -> processSetDiscountToEdit(query);
+            case "acceptRequest" -> processAcceptRequest(query);
+            default -> new Response("Error", "");
+        };
     }
 
     private Response processGetAllUsers() {
@@ -918,6 +850,11 @@ public class ManagerController extends UserController {
         int id = Integer.parseInt(query.getMethodInputs().get("id"));
         Discount discountToEdit = Discount.getDiscountById(id);
         setDiscountToEdit(discountToEdit);
+        return new Response("void", "");
+    }
+
+    private Response processAcceptRequest(Query query){
+        acceptRequest(Integer.parseInt(query.getMethodInputs().get("id")));
         return new Response("void", "");
     }
 

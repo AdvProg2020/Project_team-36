@@ -4,6 +4,7 @@ package GUI;
 import Models.Customer;
 import Models.Discount;
 import Models.User;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -15,20 +16,20 @@ import java.time.LocalDate;
 public class ViewDiscountCodeController extends ManagerProfileController implements Initializable {
 
 
-    public Label usernameLabel;
-    public ImageView profilePicture;
-    public DatePicker startDate;
-    public DatePicker endDate;
-    public TextField limit;
-    public ScrollPane customersIncluded;
-    public Label codeLabel;
-    public TextField repetition;
-    public TextField percent;
-    private User user;
+    @FXML private Label usernameLabel;
+    @FXML private ImageView profilePicture;
+    @FXML private DatePicker startDate;
+    @FXML private DatePicker endDate;
+    @FXML private TextField limit;
+    @FXML private ScrollPane customersIncluded;
+    @FXML private Label codeLabel;
+    @FXML private TextField repetition;
+    @FXML private TextField percent;
 
     @Override
     public void initialize(int id) throws IOException {
 
+        User user;
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
@@ -36,7 +37,7 @@ public class ViewDiscountCodeController extends ManagerProfileController impleme
             Constants.getGuiManager().back();
             return;
         } else {
-            this.user = Constants.globalVariables.getLoggedInUser();
+            user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
@@ -60,7 +61,7 @@ public class ViewDiscountCodeController extends ManagerProfileController impleme
     }
 
     private void setValues(){
-        Discount discount = managerController.getDiscountToView();
+        Discount discount = Constants.managerController.getDiscountToView();
 
         codeLabel.setText("Discount Code: " + discount.getId());
         startDate.setValue(new Date(discount.getStartTime().getTime()).toLocalDate());

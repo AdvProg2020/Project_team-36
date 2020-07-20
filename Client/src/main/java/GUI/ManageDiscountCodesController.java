@@ -1,30 +1,30 @@
 package GUI;
 
+import Controllers.ManagerController;
 import Controllers.ProductsController;
 import Models.Discount;
 import Models.User;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ManageDiscountCodesController extends ManagerProfileController implements Initializable{
 
-    public Label usernameLabel;
-    public ImageView profilePicture;
-    public TableView<Discount> allDiscountCodesTable;
-    public TableColumn<? , ?> percentColumn;
-    public TableColumn<?, ?> discountCodeColumn;
-    public ComboBox sortName;
-    public CheckBox isAscending;
-    private User user;
+    @FXML private Label usernameLabel;
+    @FXML private ImageView profilePicture;
+    @FXML private TableView<Discount> allDiscountCodesTable;
+    @FXML private TableColumn<? , ?> percentColumn;
+    @FXML private TableColumn<?, ?> discountCodeColumn;
+    @FXML private ComboBox sortName;
+    @FXML private CheckBox isAscending;
 
 
     @Override
     public void initialize(int id) throws IOException {
+        User user;
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
@@ -32,7 +32,7 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
             Constants.getGuiManager().back();
             return;
         } else {
-            this.user = Constants.globalVariables.getLoggedInUser();
+            user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
@@ -41,14 +41,13 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         setTheTable(allDiscountCodes);
     }
 
-    public void openCreateDiscountCode(ActionEvent actionEvent) throws IOException {
+    public void openCreateDiscountCode() throws IOException {
         Constants.getGuiManager().open("CreateDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
 
     }
 
     private void setTheTable(ArrayList<Discount> allDiscountCodes){
         allDiscountCodesTable.getItems().clear();
-        Discount.setManageDiscountCodesController(this);
         allDiscountCodesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         percentColumn.setCellValueFactory(new PropertyValueFactory<>("discountPercentForTable"));
         discountCodeColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -63,8 +62,12 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         }
 
         Discount toBeRemoved = selectedDiscount.getSelectedItem();
-        managerController.removeDiscount(toBeRemoved.getId);
-        allDiscountCodesTable.getItems().remove(discount);
+        try {
+            Constants.managerController.removeDiscount(Integer.toString(toBeRemoved.getId()));
+        } catch (ManagerController.InvalidDiscountIdException e) {
+            e.printStackTrace();
+        }
+        allDiscountCodesTable.getItems().remove(toBeRemoved);
     }
 
     public void viewAction() throws IOException {
@@ -75,7 +78,7 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         }
 
         Discount toBeViewed = selectedDiscount.getSelectedItem();
-        managerController.setDiscountToView(toBeViewed);
+        Constants.managerController.setDiscountToView(toBeViewed);
         Constants.getGuiManager().open("ViewDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
@@ -87,12 +90,12 @@ public class ManageDiscountCodesController extends ManagerProfileController impl
         }
 
         Discount toBeEdited = selectedDiscount.getSelectedItem();
-        managerController.setDiscountToEdit(toBeEdited);
+        Constants.managerController.setDiscountToEdit(toBeEdited);
         Constants.getGuiManager().open("EditDiscountCode",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
 
-    public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
+    public void sort() throws ProductsController.NoSortException {
         if(isAscending.isDisable())
          isAscending.setDisable(false);
 

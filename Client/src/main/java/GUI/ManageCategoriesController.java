@@ -1,29 +1,27 @@
 package GUI;
 
 import Controllers.CategoryController;
+import Controllers.ProductsController;
 import Models.Category;
 import Models.User;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ManageCategoriesController extends ManagerProfileController implements Initializable {
     @FXML
     private ImageView profilePicture;
     @FXML
-    private TreeTableColumn<? extends Object, ? extends Object> nameColumn;
+    private TreeTableColumn<?, ?> nameColumn;
     @FXML
     private TreeTableView<Category> allCategoriesTable;
     @FXML
     private Label usernameLabel;
     private User user;
-    private CategoryController categoryController = new CategoryController();
+    private final CategoryController categoryController = new CategoryController();
 
     @Override
     public void initialize(int id) throws IOException {
@@ -39,8 +37,6 @@ public class ManageCategoriesController extends ManagerProfileController impleme
 
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
-
-        Category.setManageCategoriesController(this);
         nameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
         Category mainCategoryRoot = categoryController.getMainCategory();
         TreeItem<Category> tableMainRoot = new TreeItem<>(mainCategoryRoot);
@@ -75,7 +71,7 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         }
     }
 
-    public void openAddNewCategory(ActionEvent actionEvent) throws IOException {
+    public void openAddNewCategory() throws IOException {
         Constants.getGuiManager().open("AddCategory", user.getUserId());
     }
 
@@ -89,7 +85,11 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         int rowIndex = selectedCategory.getSelectedIndex();
         TreeItem<Category> selectedItem = selectedCategory.getModelItem(rowIndex);
         TreeItem<Category> parent = selectedItem.getParent();
-        selectedItem.getValue().removeCategory();
+        try {
+            categoryController.removeCategory(selectedItem.getValue().getName());
+        } catch (ProductsController.NoCategoryWithName noCategoryWithName) {
+            noCategoryWithName.printStackTrace();
+        }
         if (parent != null) {
             parent.getChildren().remove(selectedItem);
         } else {
@@ -107,7 +107,7 @@ public class ManageCategoriesController extends ManagerProfileController impleme
         TreeItem<Category> selectedItem = selectedCategory.getModelItem(rowIndex);
         Category categoryToEdit = selectedItem.getValue();
 
-        categoryController.setCategoryToEdit(categoryToEdit.getId);
+        categoryController.setCategoryToEdit(categoryToEdit.getCategoryId());
         Constants.getGuiManager().open("EditCategory", user.getUserId());
     }
 }

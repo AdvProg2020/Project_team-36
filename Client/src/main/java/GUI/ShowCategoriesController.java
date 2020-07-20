@@ -10,9 +10,7 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.ImageView;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowCategoriesController extends SellerProfileController implements Initializable {
@@ -20,15 +18,15 @@ public class ShowCategoriesController extends SellerProfileController implements
     @FXML
     private ImageView profilePicture;
     @FXML
-    private TreeTableColumn<? extends Object, ? extends Object> nameColumn;
+    private TreeTableColumn<?, ?> nameColumn;
     @FXML
     private TreeTableView<Category> allCategoriesTable;
     @FXML
     private Label usernameLabel;
-    private User user;
 
     @Override
     public void initialize(int id) throws IOException {
+        User user;
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
@@ -36,7 +34,7 @@ public class ShowCategoriesController extends SellerProfileController implements
             Constants.getGuiManager().back();
             return;
         } else {
-            this.user = Constants.globalVariables.getLoggedInUser();
+            user = Constants.globalVariables.getLoggedInUser();
         }
 
         usernameLabel.setText(user.getUsername());

@@ -26,14 +26,12 @@ public class ViewUsersController extends ManagerProfileController implements Ini
     @FXML private TextField companyInfo;
     @FXML private TextField credit;
     @FXML private ImageView userProfilePicture;
-    private User user;
-    private User loggedInUser;
 
 
     @Override
     public void initialize(int id) throws IOException {
-        user =Constants.userController.getUserToView();
-        this.loggedInUser = Constants.userController.getUserById(id);
+        User user = Constants.userController.getUserToView();
+        User loggedInUser = Constants.userController.getUserById(id);
 //        if (Constants.globalVariables.getLoggedInUser() != user) {
 //            Constants.getGuiManager().back();
 //        }

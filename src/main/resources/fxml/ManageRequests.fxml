@@ -53,13 +53,10 @@
         </Pane>
         <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
-                <TableView fx:id="allRequestsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
+                <TableView fx:id="allRequestsTable" layoutX="133.0" layoutY="83.0" prefHeight="297.0" prefWidth="430.0">
                     <columns>
-                        <TableColumn fx:id="idColumn" prefWidth="160.0" sortable="false" text="request id" />
-                        <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="181.0" text="request type" />
-                        <TableColumn fx:id="viewColumn" minWidth="0.0" prefWidth="150.0" text="view" />
-                        <TableColumn fx:id="acceptColumn" prefWidth="155.0" text="accept" />
-                  <TableColumn fx:id="declineColumn" prefWidth="154.0" text="decline" />
+                        <TableColumn fx:id="idColumn" prefWidth="216.0" sortable="false" text="request id" />
+                        <TableColumn fx:id="typeColumn" minWidth="0.0" prefWidth="213.0" text="request type" />
                     </columns>
                 </TableView>
             <ComboBox fx:id="sortName" layoutX="612.0" layoutY="44.0" onAction="#sort" prefWidth="150.0" promptText="none">
@@ -76,6 +73,9 @@
                </font>
             </Label>
             <CheckBox fx:id="isAscending" disable="true" layoutX="781.0" layoutY="48.0" mnemonicParsing="false" onAction="#sort" text="is ascendning" />
+            <Button layoutX="612.0" layoutY="95.0" mnemonicParsing="false" onAction="#viewAction" prefHeight="25.0" prefWidth="58.0" text="View" />
+            <Button layoutX="612.0" layoutY="137.0" mnemonicParsing="false" onAction="#acceptAction" prefHeight="25.0" prefWidth="58.0" text="Accept" />
+            <Button layoutX="611.0" layoutY="180.0" mnemonicParsing="false" onAction="#declineAction" prefHeight="25.0" prefWidth="58.0" text="Decline" />
             </AnchorPane>
         </ScrollPane>
     </AnchorPane>

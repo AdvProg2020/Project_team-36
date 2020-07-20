@@ -89,7 +89,7 @@ public class Sale implements Pendable {
 
     @Override
     public String getPendingRequestType() {
-        return null;
+        return "sale";
     }
 
     public boolean isSaleAvailable(){

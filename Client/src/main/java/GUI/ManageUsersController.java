@@ -1,9 +1,8 @@
 package GUI;
 
 import Controllers.ProductsController;
-import Models.Discount;
 import Models.User;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -14,14 +13,14 @@ import java.util.ArrayList;
 public class ManageUsersController extends ManagerProfileController implements Initializable{
 
 
-    public ImageView profilePicture;
-    public TableView<User> allUsersTable;
-    public TableColumn<Object, Object> profilePictureColumn;
-    public TableColumn<?, ?> usernameColumn;
-    public TableColumn<?, ?> roleColumn;
-    public Label usernameLabel;
-    public ComboBox sortName;
-    public CheckBox isAscending;
+    @FXML private ImageView profilePicture;
+    @FXML private TableView<User> allUsersTable;
+    @FXML private TableColumn<Object, Object> profilePictureColumn;
+    @FXML private TableColumn<?, ?> usernameColumn;
+    @FXML private TableColumn<?, ?> roleColumn;
+    @FXML private Label usernameLabel;
+    @FXML private ComboBox sortName;
+    @FXML private CheckBox isAscending;
     private User user;
 
     @Override
@@ -67,9 +66,7 @@ public class ManageUsersController extends ManagerProfileController implements I
             return;
         }
 
-        toBeRemoved.setUserDeleted();
-        User.removeUsername(toBeRemoved.getUsername());
-        User.updateAllUsers();
+        Constants.managerController.deleteUser(toBeRemoved);
         allUsersTable.getItems().remove(toBeRemoved);
     }
 
@@ -90,7 +87,7 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
 
-    public void sort(ActionEvent actionEvent) throws ProductsController.NoSortException {
+    public void sort() throws ProductsController.NoSortException {
         isAscending.setDisable(false);
         if(isAscending.isSelected()){
             ArrayList<User> users =Constants.managerController.sortUsers(sortName.getValue().toString(),"ascending");

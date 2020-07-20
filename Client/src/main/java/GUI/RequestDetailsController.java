@@ -1,17 +1,18 @@
 package GUI;
 
 import Models.Request;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 import java.io.IOException;
 
 public class RequestDetailsController extends ManagerProfileController implements Initializable{
-    public TextArea information;
-    public Label status;
-    public Label requestType;
-    public Label requestId;
-    private Request request;
+
+    @FXML private TextArea information;
+    @FXML private Label status;
+    @FXML private Label requestType;
+    @FXML private Label requestId;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -22,7 +23,7 @@ public class RequestDetailsController extends ManagerProfileController implement
             Constants.getGuiManager().back();
             return;
         }
-        this.request = ManageRequestsController.getChosenRequest();
+        Request request = ManageRequestsController.getChosenRequest();
         status.setText(request.getStatus().toString());
         information.setText(request.getPendableRequest().toString());
         requestType.setText(request.getType());

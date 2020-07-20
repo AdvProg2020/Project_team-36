@@ -13,7 +13,6 @@ import java.io.IOException;
 public class ManagerPersonalInfoController extends ManagerProfileController implements Initializable {
 
     private User user;
-    private PersonalInfoController personalInfoController;
     @FXML
     private Label username;
     @FXML
@@ -40,7 +39,7 @@ public class ManagerPersonalInfoController extends ManagerProfileController impl
     public void showPersonalInfo() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PersonalInfo.fxml"));
         Parent parent = fxmlLoader.load();
-        this.personalInfoController = fxmlLoader.getController();
+        PersonalInfoController personalInfoController = fxmlLoader.getController();
         personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
     }

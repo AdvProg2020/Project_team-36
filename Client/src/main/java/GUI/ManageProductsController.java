@@ -5,6 +5,7 @@ import Models.Discount;
 import Models.Product;
 import Models.User;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -14,14 +15,15 @@ import java.util.ArrayList;
 
 public class ManageProductsController extends ManagerProfileController implements Initializable {
 
-    public Label usernameLabel;
-    public ImageView profilePicture;
-    public TableView<Product> allProductsTable;
-    public TableColumn<?, ?> productPictureColumn;
-    public TableColumn<?, ?> productNameColumn;
-    public TableColumn<?, ?> productIdColumn;
-    public ComboBox sortName;
-    public CheckBox isAscending;
+    @FXML
+    private Label usernameLabel;
+    @FXML private ImageView profilePicture;
+    @FXML private TableView<Product> allProductsTable;
+    @FXML private TableColumn<?, ?> productPictureColumn;
+    @FXML private TableColumn<?, ?> productNameColumn;
+    @FXML private TableColumn<?, ?> productIdColumn;
+    @FXML private ComboBox sortName;
+    @FXML private CheckBox isAscending;
     private User user;
 
     @Override
@@ -45,7 +47,6 @@ public class ManageProductsController extends ManagerProfileController implement
 
     private void setTheTable(ArrayList<Product> allProducts){
         allProductsTable.getItems().clear();
-        Product.setManageProductsController(this);
         allProductsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -61,7 +62,7 @@ public class ManageProductsController extends ManagerProfileController implement
         }
 
         Product toBeRemoved = selectedProduct.getSelectedItem();
-        managerController.removeProduct(toBeRemoved);
+        Constants.managerController.removeProduct(toBeRemoved);
         allProductsTable.getItems().remove(toBeRemoved);
     }
 

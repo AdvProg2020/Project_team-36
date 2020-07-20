@@ -2,6 +2,7 @@ package GUI;
 
 import Models.*;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -10,26 +11,27 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class SalesHistoryController extends SellerProfileController implements Initializable {
 
 
-    public TableColumn id;
-    public TableColumn date;
-    public TableColumn totalPrice;
-    public TableColumn customer;
-    public TableColumn status;
-    public TableView<ItemInLog> itemInLog;
-    public TableColumn<ItemInLog, String> productName;
-    public TableColumn<ItemInLog, Long> initialPrice;
-    public Label phoneNumber;
-    public TextField address;
-    public ImageView profilePicture;
-    public TableView<SellerLog> sellerLog;
-    public Label usernameLabel;
-    public TableColumn off;
-    public TableColumn count;
-    public TableColumn offPercent;
+    @FXML private TableColumn<SellerLog,Integer> id;
+    @FXML private TableColumn<SellerLog, Date> date;
+    @FXML private TableColumn<SellerLog,Long> totalPrice;
+    @FXML private TableColumn<SellerLog,String> customer;
+    @FXML private TableColumn<SellerLog,LogStatus> status;
+    @FXML private TableView<ItemInLog> itemInLog;
+    @FXML private TableColumn<ItemInLog, String> productName;
+    @FXML private TableColumn<ItemInLog, Long> initialPrice;
+    @FXML private Label phoneNumber;
+    @FXML private TextField address;
+    @FXML private ImageView profilePicture;
+    @FXML private TableView<SellerLog> sellerLog;
+    @FXML private Label usernameLabel;
+    @FXML private TableColumn<SellerLog,Long> off;
+    @FXML private TableColumn<ItemInLog,Integer> count;
+    @FXML private TableColumn<ItemInLog,String> offPercent;
     private User user;
 
     @Override

@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.CategoryController;
 import Models.*;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -18,21 +19,21 @@ import java.util.List;
 
 public class ViewSellerProductController extends SellerProfileController implements Initializable {
 
-    public Label usernameLabel;
-    public ImageView profilePicture;
-    public TextField productName;
-    public TextField productCompany;
-    public TextField productInfo;
-    public TreeTableView<Category> categoryTable;
-    public TreeTableColumn<Category, String> categoriesColumn;
-    public ImageView image;
-    public TextField price;
-    public TextField supply;
-    public VBox fieldsVBox;
+    @FXML private Label usernameLabel;
+    @FXML private ImageView profilePicture;
+    @FXML private TextField productName;
+    @FXML private TextField productCompany;
+    @FXML private TextField productInfo;
+    @FXML private TreeTableView<Category> categoryTable;
+    @FXML private TreeTableColumn<Category, String> categoriesColumn;
+    @FXML private ImageView image;
+    @FXML private TextField price;
+    @FXML private TextField supply;
+    @FXML private VBox fieldsVBox;
     private User user;
     private ArrayList<Field> fields;
     private Category category;
-    private final Product productToView = productController.getProductToView();
+    private final Product productToView = Constants.productsController.getProductToView();
 
     @Override
     public void initialize(int id) throws IOException {

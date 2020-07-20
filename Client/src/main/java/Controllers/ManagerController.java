@@ -248,6 +248,12 @@ public class ManagerController extends UserController {
         }
     }
 
+    public void acceptRequest(int id) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "acceptRequest");
+        query.getMethodInputs().put("id", Integer.toString(id));
+        Client.process(query);
+    }
+
     public ArrayList<Product> getAllProducts() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllProducts");
         Response response = Client.process(query);
