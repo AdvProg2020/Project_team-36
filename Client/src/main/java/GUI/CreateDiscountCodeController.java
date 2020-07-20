@@ -1,5 +1,7 @@
 package GUI;
 
+import Controllers.DiscountController;
+import Controllers.NewOffController;
 import Models.Customer;
 import Models.Discount;
 import Models.User;
@@ -15,13 +17,20 @@ import java.util.Date;
 import java.util.Objects;
 
 public class CreateDiscountCodeController extends ManagerProfileController implements Initializable {
-    public Button createButton;
-    public TableView<Customer> customersIncludedTable;
-    public TableColumn<? extends Object, ? extends Object> customersIncludedColumn;
-    public TableView<Customer> availableCustomersTable;
-    public TableColumn<? extends Object, ? extends Object> availableCustomersColumn;
-    public Button removeCustomerButton;
-    public Button addCustomerButton;
+    @FXML
+    private Button createButton;
+    @FXML
+    private TableView<Customer> customersIncludedTable;
+    @FXML
+    private TableColumn<? extends Object, ? extends Object> customersIncludedColumn;
+    @FXML
+    private TableView<Customer> availableCustomersTable;
+    @FXML
+    private TableColumn<? extends Object, ? extends Object> availableCustomersColumn;
+    @FXML
+    private Button removeCustomerButton;
+    @FXML
+    private Button addCustomerButton;
     @FXML
     private Label dateError;
     @FXML
@@ -44,6 +53,7 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
     private Label usernameLabel;
     private User user;
     private ArrayList<Customer> selectedCustomers = new ArrayList<>();
+    private DiscountController newDiscount = new DiscountController();
 
     @Override
     public void initialize(int id) throws IOException {
@@ -57,7 +67,7 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
             this.user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
-        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
 
 
         startDate.setDayCellFactory(picker -> new DateCell() {
@@ -90,7 +100,7 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
 
     private void setAvailableCustomers() {
 
-        ArrayList<Customer> availableCustomers = Customer.getAllCustomers();
+        ArrayList<Customer> availableCustomers = newDiscount.getAllCustomers();
 
         availableCustomersColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         customersIncludedColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -112,7 +122,7 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
         availableCustomersTable.getItems().add(toBeRemoved);
     }
 
-    public void addAction(){
+    public void addAction() {
         TableView.TableViewSelectionModel<Customer> selectedUser = availableCustomersTable.getSelectionModel();
 
         if (selectedUser.isEmpty()) {
@@ -142,12 +152,12 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
         LocalDate start = startDate.getValue();
         LocalDate end = endDate.getValue();
 
-        if (start==null || end==null ){
+        if (start == null || end == null) {
             dateError.setVisible(true);
             return;
         }
 
-        if(limit.getText()==null || !limit.getText().matches("\\d+")){
+        if (limit.getText() == null || !limit.getText().matches("\\d+")) {
             limitError.setVisible(true);
             return;
         }
@@ -158,10 +168,26 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
         Date startDate = java.sql.Date.valueOf(start);
         Date endDate = java.sql.Date.valueOf(end);
 
-        Discount discount = new Discount(startDate, endDate, percent*0.01, limit, repetition, selectedCustomers);
-        discount.giveDiscountCodeToCustomers();
+        selectedCustomers.forEach(customer -> {
+            try {
+                newDiscount.setCustomersForDiscountCode(customer.getUsername());
+            } catch (DiscountController.InvalidUsernameException | DiscountController.CustomerAlreadyAddedException e) {
+                e.printStackTrace();
+            }
+        });
+        newDiscount.setStartTime(startDate);
+        try {
+            newDiscount.setEndTime(endDate);
+        } catch (DiscountController.EndDateBeforeStartDateException | DiscountController.EndDatePassedException e) {
+            e.printStackTrace();
+        }
+        newDiscount.setDiscountPercent(percent * 0.01);
+        newDiscount.setDiscountLimit(limit);
+        newDiscount.setRepetitionForEachUser(repetition);
 
-        AlertBox.display("Done","Discount Code Was Created SuccessFully");
+        newDiscount.finalizeTheNewDiscountCode();
+
+        AlertBox.display("Done", "Discount Code Was Created SuccessFully");
         Constants.getGuiManager().reopen();
     }
 

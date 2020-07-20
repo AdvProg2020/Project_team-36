@@ -5,6 +5,7 @@ import Models.Category;
 import Models.Field;
 import Models.User;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,19 +15,31 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Set;
 
 public class EditCategoryController extends ManagerProfileController implements Initializable {
-    public Label welcomeLabel;
-    public TextField newName;
-    public Label nameLabel;
-    public VBox fields;
-    public Label editNotif;
-    public TextField newOptionalField;
-    public TextField newIntegerField;
-    public Label integerAlertLabel;
-    public Label optionalAlertLabel;
-    public Label usernameLabel;
-    public ImageView profilePicture;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private TextField newName;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private VBox fields;
+    @FXML
+    private Label editNotif;
+    @FXML
+    private TextField newOptionalField;
+    @FXML
+    private TextField newIntegerField;
+    @FXML
+    private Label integerAlertLabel;
+    @FXML
+    private Label optionalAlertLabel;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private ImageView profilePicture;
     private User user;
     Category category ;
     CategoryController categoryController;
@@ -59,7 +72,7 @@ public class EditCategoryController extends ManagerProfileController implements 
     }
 
     private void setFields(){
-        HashSet<Field> allFields = category.getCategoryOwnFields();
+        Set<Field> allFields = category.getCategoryOwnFields();
         for (Field field : allFields) {
            fields.getChildren().add(createHbox(field.getName()));
         }

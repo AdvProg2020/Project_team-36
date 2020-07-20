@@ -8,6 +8,11 @@ import Network.Client;
 public class NewProductController {
     private String controllerName = "NewProductController";
 
+    public void setSeller(Seller seller) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setSeller");
+        query.getMethodInputs().put("id", Integer.toString(seller.getUserId()));
+        Client.process(query);
+    }
 
     public void setName(String name) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setName");

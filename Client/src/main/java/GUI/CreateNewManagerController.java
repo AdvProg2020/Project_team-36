@@ -3,6 +3,7 @@ package GUI;
 import Controllers.EntryController;
 import Models.User;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,17 +18,28 @@ import java.io.IOException;
 
 public class CreateNewManagerController extends ManagerProfileController implements Initializable {
 
-    public TextField username;
-    public TextField firstname;
-    public TextField lastname;
-    public TextField email;
-    public TextField phone;
-    public PasswordField password;
-    public PasswordField rePassword;
-    public ImageView image;
-    public Label alertLabel;
-    public ImageView profilePicture;
-    public Label usernameLabel;
+    @FXML
+    private TextField username;
+    @FXML
+    private TextField firstname;
+    @FXML
+    private TextField lastname;
+    @FXML
+    private TextField email;
+    @FXML
+    private TextField phone;
+    @FXML
+    private PasswordField password;
+    @FXML
+    private PasswordField rePassword;
+    @FXML
+    private ImageView image;
+    @FXML
+    private Label alertLabel;
+    @FXML
+    private ImageView profilePicture;
+    @FXML
+    private Label usernameLabel;
     private String imagePath = "";
     private EntryController entryController = Constants.entryController;
     private User user;

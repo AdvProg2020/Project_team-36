@@ -4,8 +4,11 @@ import Repository.SaveCustomer;
 import Repository.SaveManager;
 import Repository.SaveSeller;
 import Repository.SaveUser;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -108,8 +111,17 @@ public abstract class User {
         return status;
     }
 
-    public ImageView getProfilePicture() {
-        return profilePicture;
+    public ImageView getProfilePicture(int height,int width) throws MalformedURLException {
+        File file = new File (this.profilePictureUrl);
+        String path = file.toURI().toURL().toString();
+        Image image = new Image(path,width,height,false,false);
+        return new ImageView(image);
+    }
+
+    public ImageView getSmallProfilePicture() throws MalformedURLException {
+        File file = new File (this.profilePictureUrl);
+        String path = file.toURI().toURL().toString();
+        return new ImageView(new Image(path,50,50,false,false));
     }
 
     public String getProfilePictureUrl() {

@@ -1,7 +1,9 @@
 package GUI;
 
+import Controllers.NewOffController;
 import Models.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -15,18 +17,29 @@ import java.util.Objects;
 public class AddOffController extends SellerPersonalInfoController implements Initializable {
 
 
-    public Button addCustomerButton;
-    public Button removeCustomerButton;
-    public TableColumn<Product,?> availableProductsColumn;
-    public TableView<Product> availableProductsTable;
-    public TableColumn<Product,?> productsIncludedColumn;
-    public TableView<Product> productsIncludedTable;
-    public DatePicker endDate;
-    public DatePicker startDate;
-    public Spinner percentSpinner;
-    public Label dateError;
+    @FXML
+    private Button addCustomerButton;
+    @FXML
+    private Button removeCustomerButton;
+    @FXML
+    private TableColumn<Product,?> availableProductsColumn;
+    @FXML
+    private TableView<Product> availableProductsTable;
+    @FXML
+    private TableColumn<Product,?> productsIncludedColumn;
+    @FXML
+    private TableView<Product> productsIncludedTable;
+    @FXML
+    private DatePicker endDate;
+    @FXML
+    private DatePicker startDate;
+    @FXML
+    private Spinner percentSpinner;
+    @FXML
+    private Label dateError;
     private User user;
     private ArrayList<Product> selectedProducts = new ArrayList<>();
+    NewOffController newOff = new NewOffController();
 
     @Override
     public void initialize(int id) throws IOException {
@@ -117,7 +130,20 @@ public class AddOffController extends SellerPersonalInfoController implements In
         Date startDate = java.sql.Date.valueOf(start);
         Date endDate = java.sql.Date.valueOf(end);
 
-        new Request(new Sale((Seller)user, selectedProducts, startDate, endDate, percent*0.01),Status.TO_BE_ADDED);
+        selectedProducts.forEach(product -> {
+            try {
+                newOff.setProductsInSale(product.getProductId());
+            } catch (NewOffController.InvalidProductIdException e) {
+                e.printStackTrace();
+            } });
+        newOff.setStartTime(startDate);
+        try {
+            newOff.setEndTime(endDate);
+        } catch (NewOffController.EndDateBeforeStartDateException | NewOffController.EndDatePassedException e) {
+            e.printStackTrace(); }
+        newOff.setSalePercent(percent*0.01);
+
+        newOff.sendNewOffRequest();
 
         AlertBox.display("Done","Off Request Was Sent SuccessFully");
         Constants.getGuiManager().reopen();

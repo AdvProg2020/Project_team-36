@@ -15,11 +15,11 @@ public class AlertBox {
         Stage window = new Stage();
 
         File file = new File ("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\star.png");
-        String path = "";
+        String path = null;
         try {
             path = file.toURI().toURL().toString();
         } catch (MalformedURLException e) {
-            //
+            e.printStackTrace();
         }
         window.getIcons().add(new Image(path,50,50,false,false));
 

@@ -1,6 +1,7 @@
 package GUI;
 
 import Models.*;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -12,18 +13,30 @@ import java.util.List;
 
 public class AddExistingProductController extends SellerProfileController implements Initializable {
 
-    public Label usernameLabel;
-    public ImageView profilePicture;
-    public TableView<Product> productsTable;
-    public TextField priceField;
-    public TextField supplyField;
-    public Label nameLabel;
-    public Label companyLabel;
-    public Label infoLabel;
-    public Label errorLabel;
-    public TableColumn<Product, String> productsNameColumn;
-    public TableColumn<Product, ImageView> productsPictureColumn;
-    public ImageView productImage;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private ImageView profilePicture;
+    @FXML
+    private TableView<Product> productsTable;
+    @FXML
+    private TextField priceField;
+    @FXML
+    private TextField supplyField;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label companyLabel;
+    @FXML
+    private Label infoLabel;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private TableColumn<Product, String> productsNameColumn;
+    @FXML
+    private TableColumn<Product, ImageView> productsPictureColumn;
+    @FXML
+    private ImageView productImage;
     private User user;
     private Product product;
 

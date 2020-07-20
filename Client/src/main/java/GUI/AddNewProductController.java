@@ -4,6 +4,7 @@ import Controllers.CategoryController;
 import Controllers.NewProductController;
 import Models.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -23,28 +24,42 @@ import java.util.List;
 public class AddNewProductController extends SellerProductsController implements Initializable {
 
 
-    public TreeTableColumn<Category,String> categoriesColumn;
-    public ImageView image;
-    public TextField productInfo;
-    public TextField productCompany;
-    public TextField productName;
-    public TreeTableView<Category> categoryTable;
-    public TextField price;
-    public TextField supply;
-    public Label emptyFieldsError;
-    public Label profilePicError;
-    public Label supplyError;
-    public Label priceError;
-    public VBox fieldsVBox;
-    public ScrollPane fieldsScrollPane;
-    public Label fieldError;
+    @FXML
+    private TreeTableColumn<Category,String> categoriesColumn;
+    @FXML
+    private ImageView image;
+    @FXML
+    private TextField productInfo;
+    @FXML
+    private TextField productCompany;
+    @FXML
+    private TextField productName;
+    @FXML
+    private TreeTableView<Category> categoryTable;
+    @FXML
+    private TextField price;
+    @FXML
+    private TextField supply;
+    @FXML
+    private Label emptyFieldsError;
+    @FXML
+    private Label profilePicError;
+    @FXML
+    private Label supplyError;
+    @FXML
+    private Label priceError;
+    @FXML
+    private VBox fieldsVBox;
+    @FXML
+    private ScrollPane fieldsScrollPane;
+    @FXML
+    private Label fieldError;
     private User user;
     private String imagePath = "";
     private ArrayList<Field> fields = new ArrayList<>();
     private Category category;
     private ArrayList<String> fieldsValue = new ArrayList<>();
     private NewProductController newProduct = new NewProductController();
-
 
     @Override
     public void initialize(int id) throws IOException {
@@ -60,6 +75,7 @@ public class AddNewProductController extends SellerProductsController implements
         }
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+        newProduct.setSeller((Seller)user);
 
         categoriesColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
 
@@ -79,7 +95,11 @@ public class AddNewProductController extends SellerProductsController implements
         categoryTable.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) ->{
             fields.clear();
             category = newValue.getValue();
-            newProduct.setCategory(category);
+            try {
+                newProduct.setCategory(category.getName());
+            } catch (NewProductController.InvalidCategoryName invalidCategoryName) {
+                invalidCategoryName.printStackTrace();
+            }
             for (Field field : category.getAllFields()) {
                 if(field instanceof IntegerField)
                     fields.add(new IntegerField(field.getName()));
@@ -200,7 +220,7 @@ public class AddNewProductController extends SellerProductsController implements
                 priceError.setVisible(true);
                 return;
             }
-            newProduct.setProductField(longPrice, intSupply, (Seller)user);
+            newProduct.setProductField(longPrice, intSupply);
         }
         if(category == null){
             System.out.println("cat");
@@ -232,25 +252,6 @@ public class AddNewProductController extends SellerProductsController implements
 
         return true;
     }
-
-
-//
-//    private ArrayList<Field> getFieldsOfCategory(){
-//        ArrayList<Field> fieldsOfCategory = new ArrayList<>();
-//
-//        for (Field field : fields) {
-//            if(field instanceof IntegerField){
-//                    IntegerField newField = new IntegerField(field.getName());
-//                    newField.setValue(fieldValueVBox.getChildren().get(fields.indexOf(field)).);
-//                    fieldsOfCategory.add(newField);
-//            } else if (field instanceof OptionalField){
-//                OptionalField newField = new OptionalField(field.getName());
-//                newField.setValue(value);
-//                fieldsOfCategory.add(newField);
-//            }
-//        }
-//
-//    }
 
     public void addImage(ActionEvent actionEvent) {
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");

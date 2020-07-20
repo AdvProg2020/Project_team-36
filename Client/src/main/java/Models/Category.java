@@ -91,4 +91,24 @@ public class Category {
             return null;
         }
     }
+
+    public Set<Field> getCategoryOwnFields(){
+        Set<Field> parentFields = this.getParentCategory().getAllFields();
+        HashSet<Field> toBeReturned = new HashSet<>();
+        HashSet<Field> toBeRemoved = new HashSet<>();
+        for (Field field : allFields) {
+            for (Field parentField : parentFields) {
+                if(parentField.getName().equalsIgnoreCase(field.getName())) {
+                    toBeRemoved.add(field);
+                    break;
+                }
+            }
+        }
+        for (Field allField : allFields) {
+            if(!toBeRemoved.contains(allField))
+                toBeReturned.add(allField);
+        }
+        return toBeReturned;
+    }
+
 }

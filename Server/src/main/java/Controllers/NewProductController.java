@@ -29,6 +29,11 @@ public class NewProductController {
     public NewProductController() {
         fieldsOfCategory = new HashMap<>();
         neededFields = new ArrayList<>();
+
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
 
     public void setName(String name) {
@@ -122,34 +127,18 @@ public class NewProductController {
     }
 
     public Response processQuery(Query query) {
-        switch (query.getMethodName()) {
-            case "setName":
-                return processSetName(query);
-
-            case "setCompany":
-                return processSetCompany(query);
-
-            case "setCategory":
-                return processSetCategory(query);
-
-            case "setEachCategoryField":
-                return processSetEachCategoryField(query);
-
-            case "setInformation":
-                return processSetInformation(query);
-
-            case "setProductField":
-                return processSetProductField(query);
-
-            case "sendNewProductRequest":
-                return processSendNewProductRequest();
-
-            case "setImage":
-                return processSetImage(query);
-
-            default:
-                return new Response("Error", "");
-        }
+        return switch (query.getMethodName()) {
+            case "setName" -> processSetName(query);
+            case "setCompany" -> processSetCompany(query);
+            case "setCategory" -> processSetCategory(query);
+            case "setEachCategoryField" -> processSetEachCategoryField(query);
+            case "setInformation" -> processSetInformation(query);
+            case "setProductField" -> processSetProductField(query);
+            case "sendNewProductRequest" -> processSendNewProductRequest();
+            case "setImage" -> processSetImage(query);
+            case "setSeller" -> processSetSeller(query);
+            default -> new Response("Error", "");
+        };
     }
 
     private Response processSetName(Query query){
@@ -206,6 +195,12 @@ public class NewProductController {
 
     private Response processSetImage(Query query){
         setImage(query.getMethodInputs().get("imagePath"));
+        return new Response("void", "");
+    }
+
+    private Response processSetSeller(Query query){
+        Seller seller = Seller.getSellerById(Integer.parseInt(query.getMethodInputs().get("id")));
+        setSeller(seller);
         return new Response("void", "");
     }
 

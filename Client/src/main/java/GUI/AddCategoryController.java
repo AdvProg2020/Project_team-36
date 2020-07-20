@@ -4,6 +4,7 @@ import Controllers.CategoryController;
 import Models.Category;
 import Models.User;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -16,15 +17,24 @@ import java.util.ArrayList;
 
 public class AddCategoryController extends ManagerProfileController implements Initializable {
 
-    public TextField name;
-    public ComboBox parentCategory;
-    public TextField integerFieldName;
-    public TextField optionalField;
-    public Label notifLabel;
-    public VBox integerChosen;
-    public VBox optionalChosen;
-    public ImageView profilePicture;
-    public Label usernameLabel;
+    @FXML
+    private TextField name;
+    @FXML
+    private ComboBox parentCategory;
+    @FXML
+    private TextField integerFieldName;
+    @FXML
+    private TextField optionalField;
+    @FXML
+    private Label notifLabel;
+    @FXML
+    private VBox integerChosen;
+    @FXML
+    private VBox optionalChosen;
+    @FXML
+    private ImageView profilePicture;
+    @FXML
+    private Label usernameLabel;
     private User user;
     private CategoryController categoryController;
 

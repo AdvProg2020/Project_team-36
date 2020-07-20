@@ -7,9 +7,12 @@ import Repository.SaveCustomer;
 import Repository.SaveProduct;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.util.*;
 
 public class Product implements Pendable{
@@ -121,10 +124,18 @@ public class Product implements Pendable{
         return seenNumber;
     }
 
-    public ImageView getProductImage() {
-        return productImage;
+    public ImageView getSmallProductImage() throws MalformedURLException {
+        File file = new File (this.productImageUrl);
+        String path = file.toURI().toURL().toString();
+        return new ImageView(new Image(path,50,50,false,false));
     }
 
+    public ImageView getProductImage(int height, int width) throws MalformedURLException {
+        File file = new File (this.productImageUrl);
+        String path = file.toURI().toURL().toString();
+        Image image = new Image(path,width,height,false,false);
+        return new ImageView(image);
+    }
     public String getProductImageUrl() {
         return productImageUrl;
     }
