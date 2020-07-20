@@ -231,14 +231,18 @@ public class ManagerController extends UserController {
     }
 
     public void giveCodeToSelectedCustomers(Discount discount) {
-        discount.setCustomersIncluded(customersToBeEditedForDiscountCode);
+        for (Customer customer : customersToBeEditedForDiscountCode) {
+            discount.setCustomersIncluded(customer);
+        }
         for (Customer customer : customersToBeEditedForDiscountCode) {
             customer.setDiscountForCustomer(discount);
         }
     }
 
     public void removeCodeFromSelectedCustomers(Discount discount) {
-        discount.removeCustomersIncluded(customersToBeEditedForDiscountCode);
+        for (Customer customer : customersToBeEditedForDiscountCode) {
+            discount.removeCustomersIncluded(customer);
+        }
         for (Customer customer : customersToBeEditedForDiscountCode) {
             customer.removeDiscount(discount);
         }
@@ -292,6 +296,14 @@ public class ManagerController extends UserController {
         return false;
     }
 
+    public void setCustomersIncludedForDiscount(Customer customer, int id){
+        Discount.getDiscountById(id).setCustomersIncluded(customer);
+    }
+
+    public void removeCustomersIncludedForDiscount(Customer customer, int id){
+        Discount.getDiscountById(id).removeCustomersIncluded(customer);
+    }
+
     public User getUserWithUsername(String username) throws InvalidUsernameException {
         if (!User.isThereUsername(username)) {
             throw new InvalidUsernameException("there's no user with this username");
@@ -340,6 +352,10 @@ public class ManagerController extends UserController {
         } else {
             throw new InvalidProductIdException("there's no product with these id");
         }
+    }
+
+    public boolean canManagerRegister(){
+        return Manager.canManagerRegister();
     }
 
     public void removeProduct(Product product) {
@@ -494,6 +510,9 @@ public class ManagerController extends UserController {
             case "setDiscountToView" -> processSetDiscountToView(query);
             case "setDiscountToEdit" -> processSetDiscountToEdit(query);
             case "acceptRequest" -> processAcceptRequest(query);
+            case "canManagerRegister" -> processCanManagerRegister();
+            case "setCustomersIncludedForDiscount" -> processSetCustomersIncludedForDiscount(query);
+            case "removeCustomersIncludedForDiscount" -> processRemoveCustomersIncludedForDiscount(query);
             default -> new Response("Error", "");
         };
     }
@@ -855,6 +874,25 @@ public class ManagerController extends UserController {
 
     private Response processAcceptRequest(Query query){
         acceptRequest(Integer.parseInt(query.getMethodInputs().get("id")));
+        return new Response("void", "");
+    }
+
+    private Response processCanManagerRegister() {
+        boolean canRegister = canManagerRegister();
+        Gson gson = new GsonBuilder().create();
+        String canRegisterGson = gson.toJson(canRegister);
+        return new Response("Boolean", canRegisterGson);
+    }
+
+    private Response processSetCustomersIncludedForDiscount(Query query){
+        Customer customer = (Customer)User.getUserByUsername(query.getMethodInputs().get("username"));
+        setCustomersIncludedForDiscount(customer, Integer.parseInt(query.getMethodInputs().get("id")));
+        return new Response("void", "");
+    }
+
+    private Response processRemoveCustomersIncludedForDiscount(Query query){
+        Customer customer = (Customer)User.getUserByUsername(query.getMethodInputs().get("username"));
+        removeCustomersIncludedForDiscount(customer, Integer.parseInt(query.getMethodInputs().get("id")));
         return new Response("void", "");
     }
 

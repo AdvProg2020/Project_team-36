@@ -15,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -24,33 +23,54 @@ import java.util.HashSet;
 public class ProductsMenuController implements Initializable {
 
     @FXML
-    public CheckBox ascendingSort;
-    public MenuButton companyFilterMenu;
-    public ScrollPane companyFilterScroll;
-    public VBox filterNamesBox;
-    public TextField filterName;
-    public Button back;
-    public Button cart;
-    public Button login;
-    public Button account;
-    public Button logout;
-    public HBox header;
-    private ObjectController controller;
-    public CheckBox onlyAvailables;
-    public TextField filterSeller;
-    public VBox filterSellersBox;
-    public ComboBox categoryFilter;
-    public TextField minimumPrice;
-    public TextField maximumPrice;
-    public VBox integerFields;
-    public VBox optionalFields;
+    private CheckBox ascendingSort;
+    @FXML
+    private MenuButton companyFilterMenu;
+    @FXML
+    private ScrollPane companyFilterScroll;
+    @FXML
+    private VBox filterNamesBox;
+    @FXML
+    private TextField filterName;
+    @FXML
+    private Button back;
+    @FXML
+    private Button cart;
+    @FXML
+    private Button login;
+    @FXML
+    private Button account;
+    @FXML
+    private Button logout;
+    @FXML
+    private HBox header;
+    @FXML
+    private CheckBox onlyAvailables;
+    @FXML
+    private TextField filterSeller;
+    @FXML
+    private VBox filterSellersBox;
+    @FXML
+    private ComboBox categoryFilter;
+    @FXML
+    private TextField minimumPrice;
+    @FXML
+    private TextField maximumPrice;
+    @FXML
+    private VBox integerFields;
+    @FXML
+    private VBox optionalFields;
+    @FXML
+    private ComboBox sortBox;
+    @FXML
+    private HBox bottomPane;
+    @FXML
+    private ScrollPane productsScrollPane;
     private int page = 1;
-    public ComboBox sortBox;
-    public HBox bottomPane;
-    public ScrollPane productsScrollPane;
     private final ArrayList<Button> pageButtons = new ArrayList<>();
     private final ArrayList<CheckBox> companyFilterCheckBox = new ArrayList<>();
     private int pageId;
+    private ObjectController controller;
 
     @Override
     public void initialize(int id) {

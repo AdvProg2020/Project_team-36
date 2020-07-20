@@ -146,6 +146,20 @@ public class ManagerController extends UserController {
         Client.process(query);
     }
 
+    public void setCustomersIncludedForDiscount(Customer customer, int id){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setCustomersIncludedForDiscount");
+        query.getMethodInputs().put("id", Integer.toString(id));
+        query.getMethodInputs().put("username", customer.getUsername());
+        Client.process(query);
+    }
+
+    public void removeCustomersIncludedForDiscount(Customer customer, int id){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeCustomersIncludedForDiscount");
+        query.getMethodInputs().put("id", Integer.toString(id));
+        query.getMethodInputs().put("username", customer.getUsername());
+        Client.process(query);
+    }
+
     public ArrayList<Customer> getCustomersWithThisCode(int id) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCustomersWithThisCode");
         query.getMethodInputs().put("id", Integer.toString(id));
@@ -186,6 +200,13 @@ public class ManagerController extends UserController {
     public boolean isThereCustomerWithUsername(String username) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "isThereCustomerWithUsername");
         query.getMethodInputs().put("username", username);
+        Response response = Client.process(query);
+        Gson gson = new Gson();
+        return gson.fromJson(response.getData(), Boolean.class);
+    }
+
+    public boolean canManagerRegister(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "canManagerRegister");
         Response response = Client.process(query);
         Gson gson = new Gson();
         return gson.fromJson(response.getData(), Boolean.class);

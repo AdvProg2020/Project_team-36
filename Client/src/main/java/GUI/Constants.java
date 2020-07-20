@@ -21,12 +21,12 @@ public class  Constants {
 
     public static void setControllers() {
         globalVariables = new GlobalVariables();
-        Constants.customerController = new CustomerController(globalVariables);
-        Constants.entryController = new EntryController(globalVariables);
-        Constants.managerController = new ManagerController(globalVariables);
-        Constants.offController = new OffController(globalVariables);
-        Constants.sellerController = new SellerController(globalVariables);
-        Constants.userController = new UserController(globalVariables);
+        Constants.customerController = new CustomerController();
+        Constants.entryController = new EntryController();
+        Constants.managerController = new ManagerController();
+        Constants.offController = new OffController();
+        Constants.sellerController = new SellerController();
+        Constants.userController = new UserController();
         Constants.productsController = new ProductsController(globalVariables);
     }
 

@@ -1,12 +1,15 @@
 package GUI;
 
+import Controllers.SellerController;
 import Models.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,21 +17,21 @@ import java.util.Objects;
 
 public class EditOffController extends SellerProfileController implements Initializable {
 
-    public Label usernameLabel;
-    public ImageView profilePicture;
-    public Spinner<Integer> percentSpinner;
-    public DatePicker startDate;
-    public DatePicker endDate;
-    public Button createButton;
-    public Label dateError;
-    public TableView<Product> productsIncludedTable;
-    public TableView<Product> availableProductsTable;
-    public TableColumn<? extends Object, ? extends Object> availableProductsColumn;
-    public TableColumn<? extends Object, ? extends Object> productsIncludedColumn;
-    public Label idLabel;
+    @FXML private Label usernameLabel;
+    @FXML private ImageView profilePicture;
+    @FXML private Spinner<Integer> percentSpinner;
+    @FXML private DatePicker startDate;
+    @FXML private DatePicker endDate;
+    @FXML private Button createButton;
+    @FXML private Label dateError;
+    @FXML private TableView<Product> productsIncludedTable;
+    @FXML private TableView<Product> availableProductsTable;
+    @FXML private TableColumn<?, ?> availableProductsColumn;
+    @FXML private TableColumn<?, ?> productsIncludedColumn;
+    @FXML private Label idLabel;
     private User user;
     private ArrayList<Product> selectedProducts = new ArrayList<>();
-    private Sale offToEdit = sellerController.getOffToEdit();
+    private final Sale offToEdit = Constants.sellerController.getOffToEdit();
 
     @Override
     public void initialize(int id) throws IOException {
@@ -119,9 +122,8 @@ public class EditOffController extends SellerProfileController implements Initia
         productsIncludedTable.getItems().add(toBeAdded);
     }
 
-    public void editOff(ActionEvent actionEvent) {
-        Sale copiedOff = new Sale(offToEdit);
-
+    public void editOff() {
+        Sale copiedOff = Constants.sellerController.getOffCopy(offToEdit);
         LocalDate start = startDate.getValue();
         LocalDate end = endDate.getValue();
         if (start==null || end==null ){
@@ -131,13 +133,17 @@ public class EditOffController extends SellerProfileController implements Initia
         int percent = percentSpinner.getValue();
         Date startDate = java.sql.Date.valueOf(start);
         Date endDate = java.sql.Date.valueOf(end);
-
-        copiedOff.setEndTime(endDate);
-        copiedOff.setStartTime(startDate);
-        copiedOff.setSalePercent(percent*0.01);
-        copiedOff.setProductsInSale(selectedProducts);
-
-        new Request(copiedOff,Status.TO_BE_EDITED);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            Constants.sellerController.editOffEndDate(dateFormat.format(endDate));
+            Constants.sellerController.editOffStartDate(dateFormat.format(startDate));
+            Constants.sellerController.editOffPercent(Integer.toString(percent));
+            selectedProducts.forEach(product -> Constants.sellerController.addProductToOff(product));
+            Constants.sellerController.finalizeAddingProducts();
+            Constants.sellerController.sendEditOffRequest();
+        } catch (SellerController.StartDateAfterEndDateException | SellerController.InvalidDateFormatException | SellerController.InvalidRangeException | SellerController.EndDateBeforeStartDateException e) {
+            e.printStackTrace();
+        }
 
         AlertBox.display("Done","Request To edit Off Was Sent SuccessFully");
     }

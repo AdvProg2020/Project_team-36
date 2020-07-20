@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.File;
+import java.net.URL;
 
 
 public class Main extends Application {
@@ -40,16 +41,22 @@ public class Main extends Application {
 
         String firstPage = "ManagerRegister";
 
-        if (!Manager.canManagerRegister())
+        if (!Constants.managerController.canManagerRegister())
             firstPage = "MainMenu";
 
-        File file = new File ("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\customerBackground.jpg");
-        String path = file.toURI().toURL().toString();
-        stage.getIcons().add(new Image(path,50,50,false,false));
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("customerBackground.jpg");
+        if (resource == null) {
+            throw new IllegalArgumentException("file is not found!");
+        } else {
+            File file = new File(resource.getFile());
+            String path = file.toURI().toURL().toString();
+            stage.getIcons().add(new Image(path,50,50,false,false));
+        }
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + firstPage + ".fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
-        Constants.globalVariables.setLoggedInUser(User.getUserById(2));
+        Constants.globalVariables.setLoggedInUser(Constants.userController.getUserById(2));
         Constants.getGuiManager().open(firstPage, 1000);
         stage.show();
         stage.setOnCloseRequest(windowEvent -> RepositoryManager.saveData());

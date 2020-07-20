@@ -14,7 +14,8 @@ import java.io.IOException;
 
 public class CompareBoxController implements Initializable {
 
-    public GridPane title;
+    @FXML
+    private GridPane title;
     @FXML
     private VBox mainVbox;
     @FXML
@@ -27,7 +28,6 @@ public class CompareBoxController implements Initializable {
     private Label firstProductName;
     @FXML
     private Label secondProductName;
-
     private Product firstProduct;
     private Product secondProduct;
 

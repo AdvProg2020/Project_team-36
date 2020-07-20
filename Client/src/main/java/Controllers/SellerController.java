@@ -205,6 +205,17 @@ public class SellerController extends UserController {
         return new Sale(saveSale);
     }
 
+    public void addProductToOff(Product product){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "addProductToOff");
+        query.getMethodInputs().put("id", Integer.toString(product.getProductId()));
+        Client.process(query);
+    }
+
+    public void finalizeAddingProducts(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "finalizeAddingProducts");
+        Client.process(query);
+    }
+
     public void editOffStartDate(String newStartDate) throws StartDateAfterEndDateException, InvalidDateFormatException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "editOffStartDate");
         query.getMethodInputs().put("newStartDate", newStartDate);

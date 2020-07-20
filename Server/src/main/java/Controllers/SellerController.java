@@ -15,6 +15,7 @@ public class SellerController extends UserController {
 
     private static HashMap<String, String> OffFieldsSetters = new HashMap<>();
     private static ArrayList<Product> productsToBeEditedForOff = new ArrayList<>();
+    private static ArrayList<Product> productsToBeInOff = new ArrayList<>();
     private Sale editingOff;
 
     public SellerController(GlobalVariables userVariables) {
@@ -118,6 +119,7 @@ public class SellerController extends UserController {
 
     public Sale getOffCopy(Sale off) {
         editingOff = new Sale(off);
+        productsToBeInOff.clear();
         return editingOff;
     }
 
@@ -248,6 +250,14 @@ public class SellerController extends UserController {
         editingOff.setEditedField("productsInSale");
     }
 
+    public void addProductToOff(Product product){
+        productsToBeInOff.add(product);
+    }
+
+    public void finalizeAddingProducts(){
+        editingOff.setProductsInSale(productsToBeInOff);
+    }
+
     public void removeProductsFromOff() {
         editingOff.removeProducts(productsToBeEditedForOff);
         editingOff.setEditedField("productsInSale");
@@ -317,6 +327,8 @@ public class SellerController extends UserController {
             case "setOffToView" -> processSetOffToView(query);
             case "setOffToEdit" -> processSetOffToEdit(query);
             case "removeSale" -> processRemoveSale(query);
+            case "addProductToOff" -> processAddProductToOff(query);
+            case "finalizeAddingProducts" -> processFinalizeAddingProducts();
             default -> new Response("Error", "");
         };
     }
@@ -577,6 +589,18 @@ public class SellerController extends UserController {
         int id = Integer.parseInt(query.getMethodInputs().get("id"));
         Sale offToRemove = Sale.getSaleById(id);
         removeSale(offToRemove);
+        return new Response("void", "");
+    }
+
+    private Response processAddProductToOff(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        Product product = Product.getProductById(id);
+        addProductToOff(product);
+        return new Response("void", "");
+    }
+
+    private Response processFinalizeAddingProducts(){
+        finalizeAddingProducts();
         return new Response("void", "");
     }
 
