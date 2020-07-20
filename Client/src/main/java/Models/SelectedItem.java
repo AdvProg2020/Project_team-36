@@ -62,4 +62,15 @@ public class SelectedItem {
     public CartTag getTag() {
         return tag;
     }
+
+    public long getItemTotalPrice() {
+        long sum = 0;
+        int i = 0;
+        for (Seller seller : this.getSellers()) {
+            Long eachPrice = getProduct().getProductFieldBySeller(seller.getUserId()).getCurrentPrice();
+            sum += eachPrice * countFromEachSeller.get(i);
+            i++;
+        }
+        return sum;
+    }
 }

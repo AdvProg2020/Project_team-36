@@ -75,4 +75,6 @@ public class Discount {
         }
     }
 
+    public int getDiscountPercentForTable(){ return (int)(discountPercent*100); }
+
 }

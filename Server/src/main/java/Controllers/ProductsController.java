@@ -4,6 +4,7 @@ import Models.*;
 import Repository.SaveCategory;
 import Repository.SaveComment;
 import Repository.SaveProduct;
+import Repository.SaveProductField;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -475,6 +476,10 @@ public class ProductsController implements ObjectController {
         Product.getProduct(productId).seen();
     }
 
+    public ProductField getBestSale(int productId) throws Product.NoSaleForProduct {
+       return Product.getProduct(productId).getBestSale();
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getProduct" -> processGetProduct(query);
@@ -515,8 +520,21 @@ public class ProductsController implements ObjectController {
             case "setProductToEdit" -> processSetProductToEdit(query);
             case "setProductToView" -> processSetProductToView(query);
             case"seenProduct" -> processSeenProduct(query);
+            case "getBestSale" -> processGetBestSale(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processGetBestSale(Query query) {
+        int productId = Integer.parseInt(query.getMethodInputs().get("productId"));
+        try {
+            ProductField productField = getBestSale(productId);
+            SaveProductField saveProductField = new SaveProductField(productField);
+            Gson gson = new GsonBuilder().create();
+            return new Response("ProductField",gson.toJson(saveProductField));
+        } catch (Product.NoSaleForProduct noSaleForProduct) {
+            return new Response("NoSaleForProduct", "");
+        }
     }
 
     private Response processSeenProduct(Query query) {

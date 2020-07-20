@@ -33,7 +33,12 @@ public class CompareBoxController implements Initializable {
 
     @Override
     public void initialize(int id) throws IOException {
-        firstProduct = Product.getProduct(id);
+        try {
+            firstProduct = Constants.productsController.getProduct(id);
+        } catch (ProductsController.NoProductWithId noProductWithId) {
+            noProductWithId.printStackTrace();
+           return;
+        }
         addTextFieldListener();
         firstProductName.setText(firstProduct.getName());
     }
@@ -86,13 +91,13 @@ public class CompareBoxController implements Initializable {
        String first="";
        String second = "";
         try {
-            first = firstProduct.getBestSale().getSale().getSalePercent()*100+"%";
-        } catch (Product.NoSaleForProduct noSaleForProduct) {
+            first = Constants.productsController.getBestSale(firstProduct.getProductId()).getSale().getSalePercent()*100+"%";
+        } catch (ProductsController.NoSaleForProduct noSaleForProduct) {
            first="-";
         }
         try {
-          second=firstProduct.getBestSale().getSale().getSalePercent()*100+"%";
-        } catch (Product.NoSaleForProduct noSaleForProduct) {
+          second=Constants.productsController.getBestSale(secondProduct.getProductId()).getSale().getSalePercent()*100+"%";
+        } catch (ProductsController.NoSaleForProduct noSaleForProduct) {
             second = "-";
         }
         addLabel("best sale percent",first,second);

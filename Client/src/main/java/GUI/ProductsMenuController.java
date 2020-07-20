@@ -262,19 +262,19 @@ public class ProductsMenuController implements Initializable {
         }
         Label sale = new Label();
         Label name = new Label(product.getName());
-        Label price = new Label("lowest price: " + Double.toString(product.getLowestPrice()));
+        Label price = new Label("lowest price: " + product.getLowestPrice());
         Label id = new Label("id: " + product.getProductId());
         id.setOpacity(0.3);
         Label startDate = null;
         Label endDate = null;
         if (this.pageId == 2) {
             try {
-                startDate = new Label("start date:" + product.getBestSale().getSale().getStartTime().toLocaleString());
-                endDate = new Label("end date:" + product.getBestSale().getSale().getEndTime().toLocaleString());
+                startDate = new Label("start date:" + Constants.productsController.getBestSale(product.getProductId()).getSale().getStartTime().toLocaleString());
+                endDate = new Label("end date:" + Constants.productsController.getBestSale(product.getProductId()).getSale().getEndTime().toLocaleString());
                 startDate.setStyle("-fx-text-fill: darkgreen;-fx-font-style: italic;");
                 endDate.setStyle("-fx-text-fill: darkgreen;-fx-font-style: italic;");
 
-            } catch (Product.NoSaleForProduct noSaleForProduct) {
+            } catch ( ProductsController.NoSaleForProduct noSaleForProduct) {
                 noSaleForProduct.printStackTrace();
             }
         }
@@ -296,10 +296,10 @@ public class ProductsMenuController implements Initializable {
             return;
         }
         try {
-            ProductField saleField = product.getBestSale();
+            ProductField saleField =  Constants.productsController.getBestSale(product.getProductId());
             sale.setText(saleField.getSale().getSalePercent() * 100 + "%");
             sale.setStyle("-fx-text-fill: red;-fx-font-style: italic;-fx-font-weight: bold");
-        } catch (Product.NoSaleForProduct noSaleForProduct) {
+        } catch (ProductsController.NoSaleForProduct noSaleForProduct) {
             return;
         }
     }

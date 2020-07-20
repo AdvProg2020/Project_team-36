@@ -1,7 +1,6 @@
 package GUI;
 
 import Controllers.EntryController;
-import Controllers.GlobalVariables;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 

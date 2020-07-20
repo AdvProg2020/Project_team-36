@@ -82,4 +82,19 @@ public class Sale implements Pendable {
     public Double getSalePercent() {
         return salePercent;
     }
+
+    public int getSalePercentForTable(){
+        return (int) (salePercent*100);
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return null;
+    }
+
+    public boolean isSaleAvailable(){
+        Date now = new Date();
+        return (now.after(this.startTime) && now.before(this.endTime)) || now.equals(this.startTime) || now.equals(this.endTime);
+
+    }
 }

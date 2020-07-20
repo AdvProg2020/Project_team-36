@@ -32,8 +32,8 @@ public class ViewUsersController extends ManagerProfileController implements Ini
 
     @Override
     public void initialize(int id) throws IOException {
-        user = User.getUserToView();
-        this.loggedInUser = User.getUserById(id);
+        user =Constants.userController.getUserToView();
+        this.loggedInUser = Constants.userController.getUserById(id);
 //        if (Constants.globalVariables.getLoggedInUser() != user) {
 //            Constants.getGuiManager().back();
 //        }

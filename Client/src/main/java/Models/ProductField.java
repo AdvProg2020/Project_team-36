@@ -98,4 +98,12 @@ public class ProductField implements Pendable{
     public String getPendingRequestType() {
         return "seller for a product";
     }
+
+    public long getCurrentPrice() {
+        if (this.getSale() == null || !getSale().isSaleAvailable()) {
+            return price;
+        } else {
+            return price - (long) (price * getSale().getSalePercent());
+        }
+    }
 }

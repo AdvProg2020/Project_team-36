@@ -15,7 +15,7 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.util.*;
 
-public class Product implements Pendable{
+public class Product implements Pendable {
     private SaveProduct saveProduct;
     private int productId;
     private String name;
@@ -109,12 +109,13 @@ public class Product implements Pendable{
         Response response = Client.process(query);
         if (response.getReturnType().equals("List<Customer>")) {
             Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<SaveCustomer>>(){}.getType();
-            List<SaveCustomer> allSaveCustomers = gson.fromJson(response.getData(),type);
+            Type type = new TypeToken<ArrayList<SaveCustomer>>() {
+            }.getType();
+            List<SaveCustomer> allSaveCustomers = gson.fromJson(response.getData(), type);
             Set<Customer> allCustomers = new HashSet<>();
             allSaveCustomers.forEach(saveCustomer -> allCustomers.add(new Customer(saveCustomer)));
             return allCustomers;
-        }else {
+        } else {
             System.out.println(response);
             return null;
         }
@@ -125,36 +126,37 @@ public class Product implements Pendable{
     }
 
     public ImageView getSmallProductImage() throws MalformedURLException {
-        File file = new File (this.productImageUrl);
+        File file = new File(this.productImageUrl);
         String path = file.toURI().toURL().toString();
-        return new ImageView(new Image(path,50,50,false,false));
+        return new ImageView(new Image(path, 50, 50, false, false));
     }
 
     public ImageView getProductImage(int height, int width) throws MalformedURLException {
-        File file = new File (this.productImageUrl);
+        File file = new File(this.productImageUrl);
         String path = file.toURI().toURL().toString();
-        Image image = new Image(path,width,height,false,false);
+        Image image = new Image(path, width, height, false, false);
         return new ImageView(image);
     }
+
     public String getProductImageUrl() {
         return productImageUrl;
     }
 
-    public long getScore(){
-        if(allScore.size() == 0)
+    public long getScore() {
+        if (allScore.size() == 0)
             return 0;
-        int sum =0;
+        int sum = 0;
         for (Score score : allScore) {
-            sum+=score.getScore();
+            sum += score.getScore();
 
         }
-        return (long)sum/allScore.size();
+        return (long) sum / allScore.size();
     }
 
-    public int getTotalSupply(){
-        int sum=0;
+    public int getTotalSupply() {
+        int sum = 0;
         for (ProductField field : productFields) {
-            sum+=field.getSupply();
+            sum += field.getSupply();
         }
         return sum;
     }
@@ -164,11 +166,40 @@ public class Product implements Pendable{
         return "product";
     }
 
-    public ProductField getProductFieldBySeller(int sellerId){
+    public ProductField getProductFieldBySeller(int sellerId) {
         for (ProductField productField : productFields) {
-            if(productField.getSeller().getUserId()==sellerId)
+            if (productField.getSeller().getUserId() == sellerId)
                 return productField;
         }
         return null;
     }
+
+    public long getLowestPrice() {
+        ArrayList<Long> temp = new ArrayList<>();
+        for (ProductField productField : this.productFields) {
+            if (!productField.getSeller().getStatus().equals(Status.DELETED))
+                temp.add(productField.getPrice());
+        }
+        return Collections.min(temp);
+    }
+
+    public long getLowestCurrentPrice() {
+        ArrayList<Long> temp = new ArrayList<>();
+
+        for (ProductField productField : this.productFields) {
+            if (!productField.getSeller().getStatus().equals(Status.DELETED))
+                temp.add(productField.getPrice());
+        }
+        return Collections.min(temp);
+    }
+
+    public Field getField(String name) {
+        for (Field field : fieldsOfCategory) {
+            if (field.getName().equalsIgnoreCase(name))
+                return field;
+        }
+        return null;
+    }
+
+
 }

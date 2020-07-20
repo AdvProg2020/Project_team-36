@@ -6,6 +6,7 @@ import Network.Client;
 import Repository.SaveCategory;
 import Repository.SaveComment;
 import Repository.SaveProduct;
+import Repository.SaveProductField;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -392,22 +393,18 @@ public class ProductsController implements ObjectController {
         Client.process(query);
     }
 
+    public ProductField getBestSale(int productId) throws NoSaleForProduct {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getBestSale");
+        query.getMethodInputs().put("productId",Integer.toString(productId));
+        Response response =Client.process(query);
+        if(response.getReturnType().equalsIgnoreCase("NoSaleForProduct"))
+            throw new NoSaleForProduct();
+        Gson gson = new Gson();
+        return new ProductField(gson.fromJson(response.getData(),SaveProductField.class));
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static class NoSaleForProduct extends Exception{}
 
     public static class NoProductWithId extends Exception {
     }
