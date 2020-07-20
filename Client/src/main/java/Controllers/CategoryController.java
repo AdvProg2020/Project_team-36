@@ -47,9 +47,9 @@ public class CategoryController {
         return allCategories;
     }
 
-    public void setParentCategory(int i) {
+    public void setParentCategory(String name) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setParentCategory");
-        query.getMethodInputs().put("i", "" + i);
+        query.getMethodInputs().put("name", "" + name);
         Client.process(query);
     }
 
