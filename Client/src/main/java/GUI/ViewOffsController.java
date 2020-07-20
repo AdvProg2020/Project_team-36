@@ -3,6 +3,7 @@ package GUI;
 import Models.Sale;
 import Models.Seller;
 import Models.User;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -13,11 +14,11 @@ import java.util.List;
 
 public class ViewOffsController extends SellerProfileController implements Initializable {
 
-    public TableColumn<?, ?> percentColumn;
-    public TableColumn<?, ?> offIdColumn;
-    public TableView<Sale> allOffsTable;
-    public Label usernameLabel;
-    public ImageView profilePicture;
+    @FXML private TableColumn<?, ?> percentColumn;
+    @FXML private TableColumn<?, ?> offIdColumn;
+    @FXML private TableView<Sale> allOffsTable;
+    @FXML private Label usernameLabel;
+    @FXML private ImageView profilePicture;
 
     @Override
     public void initialize(int id) throws IOException {

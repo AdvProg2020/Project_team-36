@@ -65,6 +65,20 @@ public class CustomerController {
         return new WaitingLog(gson.fromJson(response.getData(), SaveWaitingLog.class));
     }
 
+    public void removeDiscount(int id, String username){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeDiscount");
+        query.getMethodInputs().put("id",Integer.toString(id));
+        query.getMethodInputs().put("username",username);
+        Client.process(query);
+    }
+
+    public void setDiscountForCustomer(int id, String username){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setDiscountForCustomer");
+        query.getMethodInputs().put("id",Integer.toString(id));
+        query.getMethodInputs().put("username",username);
+        Client.process(query);
+    }
+
     public void increaseProductInCart(int productId) throws NoProductWithIdInCart, MoreThanOneSellerForItem, NotEnoughSupply {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "increaseProductInCart");
         query.getMethodInputs().put("productId",Integer.toString(productId));

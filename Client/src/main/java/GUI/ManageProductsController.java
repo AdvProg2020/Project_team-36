@@ -15,8 +15,7 @@ import java.util.ArrayList;
 
 public class ManageProductsController extends ManagerProfileController implements Initializable {
 
-    @FXML
-    private Label usernameLabel;
+    @FXML private Label usernameLabel;
     @FXML private ImageView profilePicture;
     @FXML private TableView<Product> allProductsTable;
     @FXML private TableColumn<?, ?> productPictureColumn;

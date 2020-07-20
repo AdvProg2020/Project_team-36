@@ -142,12 +142,12 @@ public class Discount {
         Discount.totalCodesMade = totalCodesMade;
     }
 
-    public void setCustomersIncluded(ArrayList<Customer> customersIncluded) {
-        this.customersIncluded.addAll(customersIncluded);
+    public void setCustomersIncluded(Customer customer) {
+        this.customersIncluded.add(customer);
     }
 
-    public void removeCustomersIncluded(ArrayList<Customer> customersIncluded){
-        this.customersIncluded.removeAll(customersIncluded);
+    public void removeCustomersIncluded(Customer customer){
+        this.customersIncluded.remove(customer);
     }
 
     private int makeNewId(){

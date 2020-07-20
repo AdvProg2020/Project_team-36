@@ -103,6 +103,12 @@ public class EditProductController {
         }
     }
 
+    public void editImage(String imagePath) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "editImage");
+        query.getMethodInputs().put("imagePath", imagePath);
+        Client.process(query);
+    }
+
     public void editProductInformation(String newInformation){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "editProductInformation");
         query.getMethodInputs().put("newInformation", newInformation);

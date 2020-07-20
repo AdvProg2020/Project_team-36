@@ -1,18 +1,19 @@
 package GUI;
 
 import Controllers.EntryController;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 public class LoginMenu {
 private EntryController entryController;
 
-    public Button back;
-    public Label loginLabel;
-    public TextField username;
-    public PasswordField password;
-    public CheckBox robotChecking;
-    public Button loginButton;
+    @FXML private Button back;
+    @FXML private Label loginLabel;
+    @FXML private TextField username;
+    @FXML private PasswordField password;
+    @FXML private CheckBox robotChecking;
+    @FXML private Button loginButton;
 
     public LoginMenu(){
     this.entryController = Constants.entryController;

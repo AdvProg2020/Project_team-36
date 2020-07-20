@@ -161,6 +161,17 @@ public class CustomerController extends UserController {
         return ((Customer) userVariables.getLoggedInUser()).getCartPrice();
     }
 
+    public void removeDiscount(int id, String username){
+        Customer customer = (Customer)User.getUserByUsername(username);
+        Discount discount = Discount.getDiscountWithId(id);
+        customer.removeDiscount(discount);
+    }
+
+    public void setDiscountForCustomer(int id, String username){
+        Customer customer = (Customer)User.getUserByUsername(username);
+        Discount discount = Discount.getDiscountWithId(id);
+        customer.setDiscountForCustomer(discount);
+    }
 
     public ArrayList<Discount> getDiscountCodes() {
         ArrayList<Discount> toBeReturned = new ArrayList<>();
@@ -324,6 +335,8 @@ public class CustomerController extends UserController {
             case "getCartPrice" -> processGetCartPrice(query);
             case "getCartPriceConsideringSale" -> processGetCartPriceConsideringSale(query);
             case "getWaitingLogPayable" -> processGetWaitingLogPayable(query);
+            case "setDiscountForCustomer" -> processSetDiscountForCustomer(query);
+            case "removeDiscount" -> processRemoveDiscount(query);
             default -> new Response("Error", "");
         };
     }
@@ -542,6 +555,17 @@ public class CustomerController extends UserController {
         return new Response("boolean",Boolean.toString(isThereProductInCart(productId)));
     }
 
+    private Response processSetDiscountForCustomer(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        setDiscountForCustomer(id, query.getMethodInputs().get("username"));
+        return new Response("void", "");
+    }
+
+    private Response processRemoveDiscount(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("id"));
+        removeDiscount(id, query.getMethodInputs().get("username"));
+        return new Response("void", "");
+    }
 
     public static class NoProductWithIdInCart extends Exception {
         public NoProductWithIdInCart(String message) {

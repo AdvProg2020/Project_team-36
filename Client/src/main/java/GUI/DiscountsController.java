@@ -24,7 +24,6 @@ public class DiscountsController {
     private TableColumn<DiscountTable,Double> discountPercent;
     @FXML
     private TableColumn<DiscountTable,Long> discountLimit;
-
     @FXML
     private TableView<DiscountTable> allDiscounts;
 

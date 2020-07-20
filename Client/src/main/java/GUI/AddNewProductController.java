@@ -54,6 +54,10 @@ public class AddNewProductController extends SellerProductsController implements
     private ScrollPane fieldsScrollPane;
     @FXML
     private Label fieldError;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private ImageView profilePicture;
     private User user;
     private String imagePath = "";
     private ArrayList<Field> fields = new ArrayList<>();

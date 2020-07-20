@@ -4,6 +4,7 @@ import Controllers.CategoryController;
 import Controllers.EditProductController;
 import Models.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
@@ -23,24 +24,24 @@ import java.util.List;
 public class EditSellerProductController extends SellerProfileController implements Initializable {
 
 
-    public ImageView profilePicture;
-    public Label usernameLabel;
-    public ImageView image;
-    public TextField price;
-    public TextField supply;
-    public Label emptyFieldsError;
-    public Label priceError;
-    public Label supplyError;
-    public TreeTableColumn<Category, String> categoriesColumn;
-    public TreeTableView<Category> categoryTable;
-    public TextField productInfo;
-    public TextField productCompany;
-    public TextField productName;
-    public VBox fieldsVBox;
-    public Label fieldError;
+    @FXML private ImageView profilePicture;
+    @FXML private Label usernameLabel;
+    @FXML private ImageView image;
+    @FXML private TextField price;
+    @FXML private TextField supply;
+    @FXML private Label emptyFieldsError;
+    @FXML private Label priceError;
+    @FXML private Label supplyError;
+    @FXML private TreeTableColumn<Category, String> categoriesColumn;
+    @FXML private TreeTableView<Category> categoryTable;
+    @FXML private TextField productInfo;
+    @FXML private TextField productCompany;
+    @FXML private TextField productName;
+    @FXML private VBox fieldsVBox;
+    @FXML private Label fieldError;
     private User user;
     private Category category;
-    private final Product productToEdit = productController.getProductToEdit();
+    private final Product productToEdit = Constants.productsController.getProductToEdit();
     private String imagePath = "";
     private ArrayList<Field> fields;
     private EditProductController editProductController;
@@ -74,7 +75,7 @@ public class EditSellerProductController extends SellerProfileController impleme
         categoryTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         categoryTable.setRoot(tableMainRoot);
 
-        ArrayList<Category> mainCategories = mainCategoryRoot.getSubCategories();
+        List<Category> mainCategories = mainCategoryRoot.getSubCategories();
         for (Category category : mainCategories) {
             TreeItem<Category> categoryItem = new TreeItem<>(category);
             setTheSubcategories(category, categoryItem, 0);
@@ -87,8 +88,8 @@ public class EditSellerProductController extends SellerProfileController impleme
             category = newValue.getValue();
             sameCategory = productToEdit.getCategory().equals(category);
             try {
-                editProductController.editProductCategory(category.getName(), editingProduct);
-            } catch (EditProductController.SameCategoryException | EditProductController.InvalidCategoryException e) {
+                editProductController.editProductCategory(category.getName());
+            } catch (EditProductController.InvalidCategoryException e) {
                 //
             }
             for (Field field : category.getAllFields()) {
@@ -110,7 +111,7 @@ public class EditSellerProductController extends SellerProfileController impleme
                         supply.setText(supply.getText().replaceAll("[^\\d]", ""));
         });
 
-        editProductController = new EditProductController((Seller) user);
+        editProductController = new EditProductController();
         editingProduct = editProductController.getProductCopy(productToEdit);
         fields = new ArrayList<>(productToEdit.getFieldsOfCategory());
         setNewFields();
@@ -218,12 +219,11 @@ public class EditSellerProductController extends SellerProfileController impleme
         productName.setText(productToEdit.getName());
         productCompany.setText(productToEdit.getCompany());
         productInfo.setText(productToEdit.getInformation());
-        price.setText(Long.toString(productToEdit.getProductFieldBySeller((Seller) user).getPrice()));
-        supply.setText(Integer.toString(productToEdit.getProductFieldBySeller((Seller) user).getSupply()));
-
+        price.setText(Long.toString(productToEdit.getProductFieldBySeller(user.getUserId()).getPrice()));
+        supply.setText(Integer.toString(productToEdit.getProductFieldBySeller(user.getUserId()).getSupply()));
     }
 
-    public void editImage(ActionEvent actionEvent) {
+    public void editImage() {
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(imageFilter);
@@ -240,10 +240,9 @@ public class EditSellerProductController extends SellerProfileController impleme
     }
 
     private boolean setImage() {
-        editingProduct.setProductImageUrl(imagePath);
+        editProductController.editImage(imagePath);
         return true;
     }
-
 
     private boolean getStringInput(TextField textField) {
         if (textField.getText().isEmpty()) {
@@ -254,28 +253,27 @@ public class EditSellerProductController extends SellerProfileController impleme
         return true;
     }
 
-    public void editProduct(ActionEvent actionEvent) throws IOException {
+    public void editProduct() throws IOException {
         setImage();
-        editProductController.setFieldsOfCategory(editingProduct);
-
+        editProductController.setFieldsOfCategory();
         if (getStringInput(productName)) {
-            editingProduct.setName(productName.getText());
+            editProductController.editProductName(productName.getText());
         } else {
             return;
         }
         if (getStringInput(productCompany)) {
-            editingProduct.setCompany(productCompany.getText());
+            editProductController.editProductCompany(productCompany.getText());
         } else {
             return;
         }
         if (getStringInput(productInfo)) {
-            editingProduct.setInformation(productInfo.getText());
+            editProductController.editProductInformation(productInfo.getText());
         } else {
             return;
         }
         if (getStringInput(price)) {
             try {
-                editProductController.editProductPrice(price.getText(), editingProduct);
+                editProductController.editProductPrice(price.getText());
             } catch (Exception e) {
                 price.clear();
                 priceError.setVisible(true);
@@ -284,7 +282,7 @@ public class EditSellerProductController extends SellerProfileController impleme
         }
         if (getStringInput(supply)) {
             try {
-                editProductController.editProductSupply(supply.getText(), editingProduct);
+                editProductController.editProductSupply(supply.getText());
             } catch (Exception e) {
                 supply.clear();
                 supplyError.setVisible(true);
@@ -299,13 +297,13 @@ public class EditSellerProductController extends SellerProfileController impleme
             emptyFieldsError.setVisible(true);
             return;
         }
-        if (editingProduct.getProductFieldBySeller((Seller) user).getSupply() !=
-                productToEdit.getProductFieldBySeller((Seller) user).getSupply() ||
-                editingProduct.getProductFieldBySeller((Seller) user).getPrice() !=
-                        productToEdit.getProductFieldBySeller((Seller) user).getPrice())
-            editProductController.sendEditProductFieldRequest(editingProduct);
+        if (editingProduct.getProductFieldBySeller(user.getUserId()).getSupply() !=
+                productToEdit.getProductFieldBySeller(user.getUserId()).getSupply() ||
+                editingProduct.getProductFieldBySeller(user.getUserId()).getPrice() !=
+                        productToEdit.getProductFieldBySeller(user.getUserId()).getPrice())
+            editProductController.sendEditProductFieldRequest();
 
-        editProductController.sendEditProductRequest(editingProduct);
+        editProductController.sendEditProductRequest();
         AlertBox.display("Done!", "Request to edit the product was sent.");
         Constants.getGuiManager().reopen();
     }

@@ -4,12 +4,14 @@ import Controllers.ManagerController;
 import Models.Customer;
 import Models.Discount;
 import Models.User;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,28 +20,28 @@ import java.util.Objects;
 public class EditDiscountCodeController extends ManagerProfileController implements Initializable {
 
 
-    public Button editButton;
-    public Spinner<Integer> repetitionSpinner;
-    public TextField limit;
-    public DatePicker endDate;
-    public DatePicker startDate;
-    public Spinner<Integer> percentSpinner;
-    public ImageView profilePicture;
-    public Label usernameLabel;
-    public Label codeLabel;
-    public Label limitError;
-    public Button removeCustomerButton;
-    public Button addCustomerButton;
-    public TableColumn<? extends Object, ? extends Object> customersIncludedColumn;
-    public TableColumn<? extends Object, ? extends Object> availableCustomersColumn;
-    public TableView<Customer> availableCustomersTable;
-    public TableView<Customer> customersIncludedTable;
-    private User user;
-    private Discount discountToEdit = managerController.getDiscountToEdit();
+    @FXML private Button editButton;
+    @FXML private Spinner<Integer> repetitionSpinner;
+    @FXML private TextField limit;
+    @FXML private DatePicker endDate;
+    @FXML private DatePicker startDate;
+    @FXML private Spinner<Integer> percentSpinner;
+    @FXML private ImageView profilePicture;
+    @FXML private Label usernameLabel;
+    @FXML private Label codeLabel;
+    @FXML private Label limitError;
+    @FXML private Button removeCustomerButton;
+    @FXML private Button addCustomerButton;
+    @FXML private TableColumn<?, ?> customersIncludedColumn;
+    @FXML private TableColumn<?, ?> availableCustomersColumn;
+    @FXML private TableView<Customer> availableCustomersTable;
+    @FXML private TableView<Customer> customersIncludedTable;
+    private final Discount discountToEdit = Constants.managerController.getDiscountToEdit();
     private ArrayList<Customer> selectedCustomers = new ArrayList<>();
 
     @Override
     public void initialize(int id) throws IOException {
+        User user;
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
@@ -47,7 +49,7 @@ public class EditDiscountCodeController extends ManagerProfileController impleme
             Constants.getGuiManager().back();
             return;
         } else {
-            this.user = Constants.globalVariables.getLoggedInUser();
+            user = Constants.globalVariables.getLoggedInUser();
         }
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
@@ -103,14 +105,12 @@ public class EditDiscountCodeController extends ManagerProfileController impleme
             return;
         }
 
-        ArrayList<Customer> toBeRemoved = new ArrayList<>();
         Customer customer = selectedUser.getSelectedItem() ;
-        toBeRemoved.add(customer);
-        discountToEdit.removeCustomersIncluded(toBeRemoved);
+        Constants.managerController.removeCustomersIncludedForDiscount(customer,discountToEdit.getId());
         selectedCustomers.remove(customer);
         customersIncludedTable.getItems().remove(customer);
         availableCustomersTable.getItems().add(customer);
-        customer.removeDiscount(discountToEdit);
+        Constants.customerController.removeDiscount(discountToEdit.getId(), customer.getUsername());
     }
 
     public void addAction(){
@@ -120,27 +120,21 @@ public class EditDiscountCodeController extends ManagerProfileController impleme
             return;
         }
 
-        ArrayList<Customer> toBeAdded = new ArrayList<>();
         Customer customer = selectedUser.getSelectedItem() ;
-        toBeAdded.add(customer);
-        discountToEdit.setCustomersIncluded(toBeAdded);
+        Constants.managerController.setCustomersIncludedForDiscount(customer,discountToEdit.getId());
         availableCustomersTable.getItems().remove(customer);
         customersIncludedTable.getItems().add(customer);
         selectedCustomers.add(customer);
-        customer.setDiscountForCustomer(discountToEdit);
+        Constants.customerController.setDiscountForCustomer(discountToEdit.getId(), customer.getUsername());
     }
 
     private void setValues() {
-        Discount discount = Discount.getDiscountToEdit();
-
-        codeLabel.setText("Discount Code: " + discount.getId());
-        startDate.setValue(new Date(discount.getStartTime().getTime()).toLocalDate());
-        endDate.setValue(new Date(discount.getEndTime().getTime()).toLocalDate());
-        limit.setText(Long.toString(discount.getDiscountLimit()));
-        repetitionSpinner.getValueFactory().setValue(discount.getRepetitionForEachUser());
-        percentSpinner.getValueFactory().setValue(discount.getDiscountPercentForTable());
-
-
+        codeLabel.setText("Discount Code: " + discountToEdit.getId());
+        startDate.setValue(new Date(discountToEdit.getStartTime().getTime()).toLocalDate());
+        endDate.setValue(new Date(discountToEdit.getEndTime().getTime()).toLocalDate());
+        limit.setText(Long.toString(discountToEdit.getDiscountLimit()));
+        repetitionSpinner.getValueFactory().setValue(discountToEdit.getRepetitionForEachUser());
+        percentSpinner.getValueFactory().setValue(discountToEdit.getDiscountPercentForTable());
     }
 
     public void editDiscountCode() {
@@ -161,11 +155,15 @@ public class EditDiscountCodeController extends ManagerProfileController impleme
         int repetition = repetitionSpinner.getValue();
         java.util.Date startDate = java.sql.Date.valueOf(start);
         java.util.Date endDate = java.sql.Date.valueOf(end);
-
-        discountToEdit.setEndTime(endDate);
-        discountToEdit.setStartTime(startDate);
-        discountToEdit.setDiscountPercent(percent*0.01);
-        discountToEdit.setDiscountLimit(limit);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            managerController.editDiscountEndTime(dateFormat.format(endDate), discountToEdit);
+            managerController.editDiscountStartTime(dateFormat.format(startDate), discountToEdit);
+            managerController.editDiscountPercent(Integer.toString(percent),discountToEdit);
+            managerController.editDiscountLimit(Integer.toString(limit), discountToEdit);
+        } catch (ManagerController.InvalidDateException | ManagerController.InvalidRangeException | ManagerController.InvalidDiscountIdException e) {
+            e.printStackTrace();
+        }
         managerController.editDiscountRepetitionForEachUser(Integer.toString(repetition),discountToEdit);
 
         AlertBox.display("Done","Discount Code Was Edited SuccessFully");
@@ -178,19 +176,20 @@ public class EditDiscountCodeController extends ManagerProfileController impleme
         for (Customer customer : discountToEdit.getCustomersIncluded()) {
             if(!selectedCustomers.contains(customer)){
                 temp.add(customer);
-                customer.removeDiscount(discountToEdit);
+                Constants.customerController.removeDiscount(discountToEdit.getId(), customer.getUsername());
             }
         }
-        discountToEdit.removeCustomersIncluded(temp);
+        temp.forEach(customer -> Constants.managerController.removeCustomersIncludedForDiscount(customer,discountToEdit.getId()));
         temp.clear();
 
         for (Customer customer : selectedCustomers) {
             if(!discountToEdit.getCustomersIncluded().contains(customer)){
                 temp.add(customer);
-                customer.setDiscountForCustomer(discountToEdit);
+                Constants.customerController.setDiscountForCustomer(discountToEdit.getId(), customer.getUsername());
             }
         }
-        discountToEdit.setCustomersIncluded(temp);
+        temp.forEach(customer -> Constants.managerController.setCustomersIncludedForDiscount(customer,discountToEdit.getId()));
+
     }
 
 }

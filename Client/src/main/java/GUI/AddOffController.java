@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -37,6 +38,10 @@ public class AddOffController extends SellerPersonalInfoController implements In
     private Spinner percentSpinner;
     @FXML
     private Label dateError;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private ImageView profilePicture;
     private User user;
     private ArrayList<Product> selectedProducts = new ArrayList<>();
     NewOffController newOff = new NewOffController();

@@ -128,6 +128,11 @@ public class EditProductController {
         }
     }
 
+
+    public void editImage(String imagePath) {
+        editingProduct.setProductImageUrl(imagePath);
+    }
+
     public void editProductInformation(String newInformation){
         editingProduct.setInformation(newInformation);
         editingProduct.setEditedField("information");
@@ -161,6 +166,7 @@ public class EditProductController {
         new Request(editingProduct.getProductFieldBySeller(seller),Status.TO_BE_EDITED);
     }
 
+
     private void writeProductFieldsSetters() {
         productFieldsSetters.put("name", "editProductName");
         productFieldsSetters.put("company", "editProductCompany");
@@ -172,52 +178,24 @@ public class EditProductController {
     }
 
     public Response processQuery(Query query) {
-        switch (query.getMethodName()) {
-            case "getProductCopy":
-                return processGetProductCopy(query);
-
-            case "editProductName":
-                return processEditProductName(query);
-
-            case "editProductCompany":
-                return processEditProductCompany(query);
-
-            case "editProductCategory":
-                return processEditProductCategory(query);
-
-            case "getNeededFields":
-                return processGetNeededFields();
-
-            case "setEachCategoryField":
-                return processSetEachCategoryField(query);
-
-            case "setFieldsOfCategory":
-                return processSetFieldsOfCategory();
-
-            case "getCategoryFieldsToEdit":
-                return processGetCategoryFieldsToEdit(query);
-
-            case "setEditedField":
-                return processSetEditedField(query);
-
-            case "editProductInformation":
-                return processEditProductInformation(query);
-
-            case "editProductPrice":
-                return processEditProductPrice(query);
-
-            case "editProductSupply":
-                return processEditProductSupply(query);
-
-            case "sendEditProductRequest":
-                return processSendEditProductRequest();
-
-            case "sendEditProductFieldRequest":
-                return processSendEditProductFieldRequest();
-
-            default:
-                return new Response("Error", "");
-        }
+        return switch (query.getMethodName()) {
+            case "getProductCopy" -> processGetProductCopy(query);
+            case "editProductName" -> processEditProductName(query);
+            case "editProductCompany" -> processEditProductCompany(query);
+            case "editProductCategory" -> processEditProductCategory(query);
+            case "getNeededFields" -> processGetNeededFields();
+            case "setEachCategoryField" -> processSetEachCategoryField(query);
+            case "setFieldsOfCategory" -> processSetFieldsOfCategory();
+            case "getCategoryFieldsToEdit" -> processGetCategoryFieldsToEdit(query);
+            case "setEditedField" -> processSetEditedField(query);
+            case "editProductInformation" -> processEditProductInformation(query);
+            case "editProductPrice" -> processEditProductPrice(query);
+            case "editProductSupply" -> processEditProductSupply(query);
+            case "sendEditProductRequest" -> processSendEditProductRequest();
+            case "sendEditProductFieldRequest" -> processSendEditProductFieldRequest();
+            case "editImage" -> processEditImage(query);
+            default -> new Response("Error", "");
+        };
     }
 
     private Response processGetProductCopy(Query query){
@@ -291,6 +269,11 @@ public class EditProductController {
         } catch (InvalidFieldValue invalidFieldValue) {
             return new Response("InvalidFieldValue", "");
         }
+    }
+
+    private Response processEditImage(Query query){
+        editImage(query.getMethodInputs().get("imagePath"));
+        return new Response("void", "");
     }
 
     private Response processEditProductInformation(Query query){

@@ -23,7 +23,6 @@ public class OrdersController {
     private TableColumn<CustomerLog, Long> totalPayable;
     @FXML
     private TableColumn<CustomerLog, LogStatus> status;
-
     @FXML
     private TableColumn<ItemInLog, String> productName;
     @FXML
@@ -34,10 +33,8 @@ public class OrdersController {
     private TableColumn<ItemInLog, Long> currentPrice;
     @FXML
     private TableColumn<ItemInLog, Integer> count;
-
     @FXML
     private TableView<CustomerLog> customerLog;
-
     @FXML
     private TableView<ItemInLog> itemInLog;
 
