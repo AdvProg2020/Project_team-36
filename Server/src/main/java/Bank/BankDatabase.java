@@ -10,10 +10,12 @@ public class BankDatabase {
     private static BankDatabase bankDatabase = null;
     private Map<BankUser, Token> allTokens ;
     private  List<BankUser> allUsers ;
+    private List<Transaction> allTransactions;
 
     private BankDatabase(){
         allTokens = new HashMap<>();
         allUsers = new ArrayList<>();
+        allTransactions = new ArrayList<>();
     }
 
     public static BankDatabase getInstance (){
@@ -38,11 +40,48 @@ public class BankDatabase {
         throw new NoUserWithUsername();
     }
 
-    public void addToken(BankUser bankUser,Token token){
+    public BankUser getUser(int accountId) throws NoUserWithID {
+        for (BankUser user : allUsers) {
+            if(user.getAccountId() == accountId)
+                return user;
+        }
+        throw new NoUserWithID();
+    }
 
+    public void addToken(BankUser bankUser,Token token){
+        allTokens.put(bankUser,token);
+    }
+
+    public BankUser validateToken(Token token) throws TokenExpired, InvalidToken {
+        for (BankUser value : allTokens.keySet()) {
+            if(allTokens.get(value).equals(token)){
+                if(allTokens.get(value).isTokenExpired())
+                    throw new TokenExpired();
+                return value;
+            }
+        }
+        throw new InvalidToken();
+    }
+
+    public boolean isThereAccount(int id){
+        for (BankUser user : allUsers) {
+            if(user.getAccountId()==id)
+                return true;
+        }
+        return false;
+    }
+
+    public void addTransaction(Transaction transaction){
+        allTransactions.add(transaction);
     }
 
     public static class ThereIsUserException extends Exception{}
 
     public static class NoUserWithUsername extends Exception{}
+
+    public static class NoUserWithID extends Exception{}
+
+    public static class TokenExpired extends Exception{}
+
+    public static class InvalidToken extends Exception{}
 }
