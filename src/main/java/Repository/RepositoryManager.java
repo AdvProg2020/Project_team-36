@@ -19,6 +19,7 @@ public class RepositoryManager {
         Sale.updateSales();
         Seller.updateSellers();
         User.updateAllUsers();
+        Supporter.updateAllSupporters();
 
         try {
             File categoryFile = new File("./src/main/resources/" + Category.class.getName());
@@ -44,6 +45,11 @@ public class RepositoryManager {
             File managerFile = new File("./src/main/resources/" + Manager.class.getName());
             if (managerFile.exists()){
                 FileUtils.cleanDirectory(managerFile);
+            }
+
+            File supporterFile = new File("./src/main/resources/" + Supporter.class.getName());
+            if (supporterFile.exists()){
+                FileUtils.cleanDirectory(supporterFile);
             }
 
             File productFile = new File("./src/main/resources/" + Product.class.getName());
@@ -76,6 +82,7 @@ public class RepositoryManager {
         Discount.getAllDiscounts().forEach(discount -> SaveDiscount.save(discount));
         Gift.getAllGifts().forEach(gift -> SaveGift.save(gift));
         Manager.getAllManagers().forEach(manager -> SaveManager.save(manager));
+        Supporter.getAllSupporters().forEach(supporter -> SaveSupporter.save(supporter));
         Product.getAllProducts().forEach(product -> SaveProduct.save(product));
         Request.getAllRequests().forEach(request -> SaveRequest.save(request));
         Sale.getAllSales().forEach(sale -> SaveSale.save(sale));
@@ -92,6 +99,7 @@ public class RepositoryManager {
         loadRequests();
         loadSales();
         loadSellers();
+        loadSupporters();
 
         SaveUser.setLastId(User.getTotalUsersMade());
         User.getAllUsers().forEach(user -> SaveUser.load(user.getUserId()));
@@ -154,6 +162,18 @@ public class RepositoryManager {
             }
         }
         User.setTotalUsersMade(Math.max(SaveManager.getLastId(),User.getTotalUsersMade()));
+    }
+
+    private static void loadSupporters(){
+        File supporterDir = new File("./src/main/resources/"+ Supporter.class.getName()+"/");
+        File[] directoryListing = supporterDir.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                String name = child.getName();
+                SaveSupporter.load(Integer.parseInt(name.split("\\.")[0]));
+            }
+        }
+        User.setTotalUsersMade(Math.max(SaveSupporter.getLastId(),User.getTotalUsersMade()));
     }
 
     private static void loadGifts() {

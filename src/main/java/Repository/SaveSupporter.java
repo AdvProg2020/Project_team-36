@@ -1,7 +1,11 @@
 package Repository;
 
+import Models.Manager;
 import Models.Status;
 import Models.Supporter;
+import Models.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.scene.image.ImageView;
 
 public class SaveSupporter {
@@ -14,9 +18,9 @@ public class SaveSupporter {
     protected String password;
     private Status status;
     private String profilePictureUrl;
+    private static int lastId = 0;
 
     public SaveSupporter(Supporter supporter){
-        //TODO nazanin save supporter
         this.profilePictureUrl = supporter.getProfilePictureUrl();
         this.userId = supporter.getUserId();
         this.username = supporter.getUsername();
@@ -26,6 +30,34 @@ public class SaveSupporter {
         this.phoneNumber = supporter.getPhoneNumber();
         this.password = supporter.getPassword();
         this.status = supporter.getStatus();
+    }
+
+    public static void save(Supporter supporter){
+        SaveSupporter saveSupporter = new SaveSupporter(supporter);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String saveSupporterGson = gson.toJson(saveSupporter);
+        FileUtil.write(FileUtil.generateAddress(Manager.class.getName(),saveSupporter.userId),saveSupporterGson);
+    }
+
+    public static Supporter load(int id){
+        lastId = Math.max(lastId,id);
+        Supporter potentialSupporter = Supporter.getSupporterById(id);
+        if(potentialSupporter != null){
+            return potentialSupporter;
+        }
+
+        Gson gson = new Gson();
+        String data = FileUtil.read(FileUtil.generateAddress(Supporter.class.getName(),id));
+        if (data == null){
+            return null;
+        }
+        SaveSupporter saveSupporter = gson.fromJson(data,SaveSupporter.class);
+        Supporter supporter = new Supporter(saveSupporter.userId,saveSupporter.username,saveSupporter.firstname,
+                saveSupporter.lastname,saveSupporter.email,saveSupporter.phoneNumber,
+                saveSupporter.password,saveSupporter.status,saveSupporter.profilePictureUrl);
+        Supporter.addToAllSupporter(supporter);
+        User.addToAllUsers(supporter);
+        return supporter;
     }
 
     public int getUserId() {
@@ -62,5 +94,9 @@ public class SaveSupporter {
 
     public String getProfilePictureUrl() {
         return profilePictureUrl;
+    }
+
+    public static int getLastId() {
+        return lastId;
     }
 }
