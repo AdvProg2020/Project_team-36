@@ -20,6 +20,9 @@ public abstract class ManagerProfileController {
     public void openCategories() throws IOException {
         Constants.getGuiManager().open("ManageCategories",Constants.globalVariables.getLoggedInUser().getUserId());
     }
+    public void openCustomerLogs() throws IOException {
+        Constants.getGuiManager().open("ManageAllOrders",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
     public void openRequests () throws IOException {
         Constants.getGuiManager().open("ManageRequests",Constants.globalVariables.getLoggedInUser().getUserId());
     }
