@@ -34,7 +34,7 @@ public class BankServer {
             Socket socket = serverSocket.accept();
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-            new ClientHandler(socket, dataInputStream, dataOutputStream);
+            new ClientHandler(socket, dataInputStream, dataOutputStream).start();
         }
     }
 
@@ -295,11 +295,15 @@ class ClientHandler extends Thread {
         synchronized (bankDatabase){
             if(sourceId==-1){
                 destUser.addMoney(transaction.getMoney());
+                destUser.addTransaction(transaction);
             }else {
                 try {
                     sourceUser.withdrawMoney(transaction.getMoney());
-                    if(destId!=-1)
+                    sourceUser.addTransaction(transaction);
+                    if(destId!=-1) {
                         destUser.addMoney(transaction.getMoney());
+                        destUser.addTransaction(transaction);
+                    }
                 } catch (BankUser.NotEnoughMoney notEnoughMoney) {
                     sendResponse("source account doesnot have enough money");
                     return;

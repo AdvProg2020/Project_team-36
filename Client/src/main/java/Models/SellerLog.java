@@ -79,4 +79,9 @@ public class SellerLog {
     public List<ItemInLog> getAllItems() {
         return allItems;
     }
+
+    public String getCustomerUsername(){
+        return getCustomer().getUsername();
+    }
+
 }

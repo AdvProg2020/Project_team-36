@@ -9,6 +9,7 @@ import static Models.LogStatus.WAITING_TO_BE_SENT;
 public class  CustomerLog {
     static Random random = new Random();
     private static int totalLogsMade = random.nextInt(4988 - 1000) + 1000;
+    private String customerName;
     private Date date;
     private int id;
     private double discountPercent;//be darsad nist yani0.2 mishe 20 darsad masan
@@ -34,7 +35,18 @@ public class  CustomerLog {
         this.totalPayable = totalPayable;
         this.totalPrice = totalPrice;
         this.logStatus = WAITING_TO_BE_SENT;
+    }
 
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public void setLogStatus(LogStatus logStatus) {
+        this.logStatus = logStatus;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 
     public long getGiftDiscount() {
@@ -104,6 +116,7 @@ public class  CustomerLog {
             customerLog = new CustomerLog(0,0,
                     waitingLog.getGiftDiscount(),waitingLog.getCustomerAddress(),waitingLog.getCustomerPhoneNumber(),itemsInLog,payable,totalPrice);
         }
+        customerLog.setCustomerName(waitingLog.getCustomer().getUsername());
         waitingLog.getCustomer().addNewLog(customerLog);
         return customerLog;
     }

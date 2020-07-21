@@ -470,6 +470,23 @@ public class ManagerController extends UserController {
         return this.giftEvents;
     }
 
+    public List<CustomerLog> getAllCustomerLogs(){
+        List<CustomerLog> toBeReturned = new ArrayList<>();
+        for (Customer customer : Customer.getAllCustomers()) {
+            toBeReturned.addAll(customer.getAllLogs());
+        }
+        return toBeReturned;
+    }
+
+    public void setLogSent(int logId){
+        for (CustomerLog log : getAllCustomerLogs()) {
+            if(log.getId()==logId){
+                log.setLogStatus(LogStatus.SENT);
+                return;
+            }
+        }
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getAllUsers" -> processGetAllUsers();
@@ -513,8 +530,23 @@ public class ManagerController extends UserController {
             case "canManagerRegister" -> processCanManagerRegister();
             case "setCustomersIncludedForDiscount" -> processSetCustomersIncludedForDiscount(query);
             case "removeCustomersIncludedForDiscount" -> processRemoveCustomersIncludedForDiscount(query);
+            case "getAllCustomerLogs" -> processGetAllCustomerLogs(query);
+            case "setLogSent" -> processSetLogSent(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processSetLogSent(Query query) {
+        setLogSent(Integer.getInteger(query.getMethodInputs().get("logId")));
+        return new Response("void", "");
+    }
+
+    private Response processGetAllCustomerLogs(Query query) {
+        List<SaveCustomerLog> allSaveLogs = new ArrayList<>();
+        getAllCustomerLogs().forEach(customerLog -> allSaveLogs.add(new SaveCustomerLog(customerLog)));
+        Gson gson = new GsonBuilder().create();
+        String saved = gson.toJson(allSaveLogs);
+        return new Response("List<CustomerLog>", saved);
     }
 
     private Response processGetAllUsers() {

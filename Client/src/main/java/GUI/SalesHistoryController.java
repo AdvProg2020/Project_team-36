@@ -36,7 +36,6 @@ public class SalesHistoryController extends SellerProfileController implements I
 
     @Override
     public void initialize(int id) throws IOException {
-
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
@@ -51,7 +50,6 @@ public class SalesHistoryController extends SellerProfileController implements I
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
 
         fill();
-
     }
 
     public void fill() {

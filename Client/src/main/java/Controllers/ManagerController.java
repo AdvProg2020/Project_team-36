@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerController extends UserController {
-    private String controllerName = "ManagerController";
+    private final String controllerName = "ManagerController";
 
 
     public ArrayList<User> getAllUsers() {
@@ -439,6 +439,28 @@ public class ManagerController extends UserController {
         Client.process(query);
     }
 
+    public ArrayList<CustomerLog> getAllCustomerLogs(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllCustomerLogs");
+        Response response = Client.process(query);
+        if (response.getReturnType().equals("List<CustomerLog>")) {
+            Gson gson = new Gson();
+            ArrayList<CustomerLog> allLogs = new ArrayList<>();
+            Type type = new TypeToken<ArrayList<SaveCustomerLog>>() {
+            }.getType();
+            List<SaveCustomerLog> allSaveLogs = gson.fromJson(response.getData(), type);
+            allSaveLogs.forEach(saveLog -> allLogs.add(new CustomerLog(saveLog)));
+            return allLogs;
+        } else{
+            System.out.println(response.getData());
+            return null;
+        }
+    }
+
+    public void setLogSent(int logId) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setLogSent");
+        query.getMethodInputs().put("logId",Integer.toString(logId));
+        Client.process(query);
+    }
 
     public static class InvalidDiscountIdException extends Exception {
         public InvalidDiscountIdException() {

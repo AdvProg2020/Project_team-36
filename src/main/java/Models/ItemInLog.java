@@ -12,7 +12,6 @@ public class ItemInLog {
     private long initialPrice;//per product
     private long currentPrice;
 
-
     public ItemInLog(Product product, int count, Seller seller) {
         this.count = count;
         this.sellerUsername = seller.getUsername();
