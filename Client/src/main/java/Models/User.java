@@ -1,9 +1,6 @@
 package Models;
 
-import Repository.SaveCustomer;
-import Repository.SaveManager;
-import Repository.SaveSeller;
-import Repository.SaveUser;
+import Repository.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -61,6 +58,18 @@ public abstract class User {
         this.status = saveManager.getStatus();
         this.profilePictureUrl = saveManager.getProfilePictureURL();
 
+    }
+
+    public User(SaveSupporter saveSupporter){
+        this.userId = saveSupporter.getUserId();
+        this.username = saveSupporter.getUsername();
+        this.firstname = saveSupporter.getFirstname();
+        this.lastname = saveSupporter.getLastname();
+        this.email = saveSupporter.getEmail();
+        this.phoneNumber = saveSupporter.getPhoneNumber();
+        this.password = saveSupporter.getPassword();
+        this.status = saveSupporter.getStatus();
+        this.profilePictureUrl = saveSupporter.getProfilePictureUrl();
     }
 
     public abstract String getType();

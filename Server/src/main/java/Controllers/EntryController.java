@@ -36,7 +36,7 @@ public class EntryController extends UserController {
     }
 
     public void setUsernameRegister(String type, String username) throws InvalidTypeException, InvalidUsernameException, ManagerExistsException {
-        if (!type.matches("customer|manager|seller"))
+        if (!type.matches("customer|manager|seller|supporter"))
             throw new InvalidTypeException("there is no user with this type");
         else if (User.isThereUsername(username))
             throw new InvalidUsernameException("there is a user with this username");
@@ -82,6 +82,8 @@ public class EntryController extends UserController {
             Manager.addNewManager((Manager) user);
         else if (user instanceof Customer)
             Customer.addNewCustomer((Customer) user);
+        else if(user instanceof Supporter)
+            Supporter.addNewUser((Supporter) user);
         userVariables.setLoggedInUser(null);
     }
 
@@ -100,7 +102,10 @@ public class EntryController extends UserController {
         } else if (type.matches("seller")) {
             newUser = new Seller(username);
 
-        } else {
+        } else if(type.matches("supporter")){
+            newUser  = new Supporter(username);
+        }
+        else {
             if (!Manager.canManagerRegister() && !(getLoggedInUser() instanceof Manager)) {
                 throw new ManagerExistsException("There is a manager!You cannot register");
             } else {

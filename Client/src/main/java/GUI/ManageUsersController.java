@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.ProductsController;
 import Models.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -97,5 +98,9 @@ public class ManageUsersController extends ManagerProfileController implements I
             ArrayList<User> users = Constants.managerController.sortUsers(sortName.getValue().toString(),"descending");
             setTheTable(users);
         }
+    }
+
+    public void openCreateNewSupporter(ActionEvent actionEvent) throws IOException {
+        Constants.getGuiManager().open("AddNewSupporter",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 }

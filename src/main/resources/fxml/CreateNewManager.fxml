@@ -27,7 +27,7 @@
             <Button layoutX="14.0" layoutY="590.0" mnemonicParsing="false" onAction="#openCustomerLogs" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Customer Logs" textFill="#d7d4d4" />
             </children>
         </AnchorPane>
-        <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">
+        <AnchorPane layoutX="360.0" layoutY="36.0" prefHeight="670.0" prefWidth="1001.0">
             <children>
                 <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
                     <children>
