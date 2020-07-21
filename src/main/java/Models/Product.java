@@ -190,7 +190,6 @@ public class Product implements Pendable {
         this.productFields.add(productField);
         this.fieldsOfCategory = new ArrayList<>(product.getFieldsOfCategory());
         this.information = product.getInformation();
-
     }
 
     public Product(int productId, String name, String company, Category category,

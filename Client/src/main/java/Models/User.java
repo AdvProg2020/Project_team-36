@@ -63,6 +63,8 @@ public abstract class User {
 
     }
 
+    public abstract String getType();
+
     public static User generateUser(SaveUser saveUser){
         if (saveUser.getSaveCustomer() != null){
             return new Customer(saveUser.getSaveCustomer());

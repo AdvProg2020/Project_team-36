@@ -8,4 +8,9 @@ public class Manager extends User {
     public Manager(SaveManager saveManager) {
         super(saveManager);
     }
+
+    @Override
+    public String getType() {
+        return "manager";
+    }
 }

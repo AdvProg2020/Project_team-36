@@ -29,6 +29,11 @@ public class Customer extends User {
         this.waitingLog = new WaitingLog(saveCustomer.getWaitingLog());
     }
 
+    @Override
+    public String getType() {
+        return "customer";
+    }
+
     public SaveCustomer getSaveCustomer() {
         return saveCustomer;
     }

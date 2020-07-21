@@ -7,6 +7,8 @@ import Repository.SaveCustomer;
 import Repository.SaveProduct;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.collections.FXCollections;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -200,6 +202,20 @@ public class Product implements Pendable {
         }
         return null;
     }
+
+    public ComboBox<String> getBuyersDropDown(){
+
+        ArrayList<String> usernames = new ArrayList<>();
+        for (Customer buyer : getAllBuyers()) {
+            usernames.add(buyer.getUsername());
+        }
+
+        ComboBox<String> comboBox =
+                new ComboBox<>(FXCollections
+                        .observableArrayList(usernames));
+        return comboBox;
+    }
+
 
 
 }

@@ -47,7 +47,7 @@ public class ManageRequestsController extends ManagerProfileController implement
         allRequestsTable.getItems().clear();
         allRequestsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestId"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         allRequestsTable.getItems().addAll(allRequests);
 
     }

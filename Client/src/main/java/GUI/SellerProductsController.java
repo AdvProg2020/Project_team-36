@@ -46,6 +46,7 @@ public class  SellerProductsController extends SellerProfileController implement
 
     private void setTheTable(List<Product> allProducts){
         allProductsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        //todo inam dorost she :)))
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));

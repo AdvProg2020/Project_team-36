@@ -37,6 +37,8 @@ public abstract class User{
         this.status = AVAILABLE;
     }
 
+
+
     public static void addTest(){
         Seller customer = new Seller("sahar");
         Manager customer1 = new Manager("sayeh");

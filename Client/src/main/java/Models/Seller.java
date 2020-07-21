@@ -29,6 +29,11 @@ public class Seller extends User implements Pendable{
         saveSeller.getAllSellerLogs().forEach(saveSellerLog -> allLogs.add(new SellerLog(saveSellerLog)));
     }
 
+    @Override
+    public String getType() {
+        return null;
+    }
+
     public SaveSeller getSaveSeller() {
         return saveSeller;
     }
@@ -81,5 +86,10 @@ public class Seller extends User implements Pendable{
 
     public String getCompanyInfo() {
         return companyInfo;
+    }
+
+    @Override
+    public String getPendingRequestType() {
+        return "seller";
     }
 }

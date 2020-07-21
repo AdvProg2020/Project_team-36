@@ -92,6 +92,7 @@ public class AddExistingProductController extends SellerProfileController implem
     private void setTheTable(ArrayList<Product> allProducts){
         productsTable.getItems().clear();
         productsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        //todo axesh bayad dorost she
         productsPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
         productsNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
        productsTable.getItems().addAll(allProducts);
@@ -99,6 +100,8 @@ public class AddExistingProductController extends SellerProfileController implem
 
 
     public void addSellerToProduct() throws IOException {
+
+        //todo in chera call nashode :)))
         if(priceField.getText().isEmpty() || supplyField.getText().isEmpty()){
             errorLabel.setVisible(true);
             return;
