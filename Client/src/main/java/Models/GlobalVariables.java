@@ -172,4 +172,8 @@ public class GlobalVariables {
     public String getSortOff() {
         return sortOff;
     }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

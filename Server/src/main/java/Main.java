@@ -1,3 +1,5 @@
+import Network.FileServerRead;
+import Network.FileServerWrite;
 import Network.Server;
 
 import java.io.IOException;
@@ -5,6 +7,11 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         try {
+            Thread fileReaderThread = new Thread(new FileServerRead());
+            Thread fileWriterThread = new Thread(new FileServerWrite());
+            fileReaderThread.start();
+            fileWriterThread.start();
+
             Server server = new Server();
             server.run();
         } catch (IOException e) {
