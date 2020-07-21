@@ -20,7 +20,6 @@ public class SalesHistoryController extends SellerProfileController implements I
     @FXML private TableColumn<SellerLog, Date> date;
     @FXML private TableColumn<SellerLog,Long> totalPrice;
     @FXML private TableColumn<SellerLog,String> customer;
-    @FXML private TableColumn<SellerLog,LogStatus> status;
     @FXML private TableView<ItemInLog> itemInLog;
     @FXML private TableColumn<ItemInLog, String> productName;
     @FXML private TableColumn<ItemInLog, Long> initialPrice;
@@ -56,7 +55,6 @@ public class SalesHistoryController extends SellerProfileController implements I
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
         totalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
-        status.setCellValueFactory(new PropertyValueFactory<>("logStatus"));
         off.setCellValueFactory(new PropertyValueFactory<>("sale"));
         customer.setCellValueFactory(new PropertyValueFactory<>("customerUsername"));
 
