@@ -19,6 +19,7 @@ public class CustomerLog {
     private long totalPrice;//bedune haraj va discount
     private long totalPayable;
     private List<ItemInLog> allItems;
+    private String customerName;
 
     public CustomerLog(SaveCustomerLog saveCustomerLog) {
         this.saveCustomerLog = saveCustomerLog;
@@ -32,6 +33,7 @@ public class CustomerLog {
         this.phoneNumber = saveCustomerLog.getPhoneNumber();
         this.totalPayable = saveCustomerLog.getTotalPayable();
         this.totalPrice = saveCustomerLog.getTotalPrice();
+        this.customerName = saveCustomerLog.getCustomerName();
         this.allItems = new ArrayList<>();
         allItems.addAll(saveCustomerLog.getAllItems());
     }
@@ -82,5 +84,9 @@ public class CustomerLog {
 
     public List<ItemInLog> getAllItems() {
         return allItems;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 }

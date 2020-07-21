@@ -121,7 +121,9 @@ public class  CustomerLog {
         return customerLog;
     }
 
-    public CustomerLog(Date date, int id, double discountPercent, long discountAmount, long giftDiscount, String address, String phoneNumber, LogStatus logStatus, long totalPrice, long totalPayable, ArrayList<ItemInLog> allItems) {
+    public CustomerLog(Date date, int id, double discountPercent, long discountAmount,
+                       long giftDiscount, String address, String phoneNumber, LogStatus logStatus,
+                       long totalPrice, long totalPayable, ArrayList<ItemInLog> allItems,String customerName) {
         this.date = date;
         this.id = id;
         this.discountPercent = discountPercent;
@@ -133,6 +135,7 @@ public class  CustomerLog {
         this.totalPrice = totalPrice;
         this.totalPayable = totalPayable;
         this.allItems = allItems;
+        this.customerName = customerName;
     }
 
     @Override

@@ -21,11 +21,13 @@ public class SaveCustomerLog {
     private long totalPrice;
     private long totalPayable;
     private List<ItemInLog> allItems;
+    private String customerName;
 
     public SaveCustomerLog(CustomerLog customerLog) {
         this.date = customerLog.getDate().getTime();
         this.id = customerLog.getId();
         lastId = Math.max(lastId,this.id);
+        this.customerName = customerLog.getCustomerName();
         this.discountPercent = customerLog.getDiscountPercent();
         this.discountAmount = customerLog.getDiscountAmount();
         this.giftDiscount = customerLog.getGiftDiscount();
@@ -40,7 +42,7 @@ public class SaveCustomerLog {
     public CustomerLog generateCustomerLog(){
         ArrayList<ItemInLog> allItems = new ArrayList<>(this.allItems);
         return new CustomerLog(new Date(this.date),this.id,this.discountPercent,this.discountAmount,this.giftDiscount,
-                this.address,this.phoneNumber,this.logStatus,this.totalPrice,this.totalPayable,allItems);
+                this.address,this.phoneNumber,this.logStatus,this.totalPrice,this.totalPayable,allItems,this.customerName);
     }
 
     public static int getLastId() {
@@ -89,5 +91,9 @@ public class SaveCustomerLog {
 
     public List<ItemInLog> getAllItems() {
         return allItems;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 }
