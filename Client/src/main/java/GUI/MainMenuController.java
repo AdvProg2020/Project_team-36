@@ -1,10 +1,7 @@
 package GUI;
 
 import Controllers.EntryController;
-import Models.Customer;
-import Models.Manager;
-import Models.Seller;
-import Models.User;
+import Models.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -80,6 +77,8 @@ public class MainMenuController implements Initializable{
             Constants.getGuiManager().open("SellerPersonalInfo",user.getUserId());
         }else if (user instanceof Customer){
             Constants.getGuiManager().open("CustomerTemplate",user.getUserId());
+        }else if(user instanceof Supporter){
+            Constants.getGuiManager().open("SupporterPersonalInfo",user.getUserId());
         }
     }
 
