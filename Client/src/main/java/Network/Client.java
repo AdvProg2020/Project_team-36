@@ -5,6 +5,7 @@ import Models.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -35,5 +36,27 @@ public class Client {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String writeFile(byte[] fileBytes) throws IOException {
+        Socket socket = new Socket("localhost",8181);
+        DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+
+        dataOutputStream.write(fileBytes);
+        String path = dataInputStream.readUTF();
+        socket.close();
+        return path;
+    }
+
+    public static byte[] readFile(String path) throws IOException {
+        Socket socket = new Socket("localhost",8282);
+        DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+        DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+
+        dataOutputStream.writeUTF(path);
+        byte[] fileBytes = dataInputStream.readAllBytes();
+        socket.close();
+        return fileBytes;
     }
 }
