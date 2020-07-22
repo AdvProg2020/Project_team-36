@@ -32,8 +32,10 @@ public class Product implements Pendable {
     private List<Comment> allComments;
     private int seenNumber;
     private String productImageUrl = "";
+    private FileProduct fileProduct;
 
     public Product(SaveProduct saveProduct) {
+        this.fileProduct = saveProduct.getFileProduct();
         this.saveProduct = saveProduct;
         this.name = saveProduct.getName();
         this.productId = saveProduct.getProductId();
@@ -227,6 +229,7 @@ public class Product implements Pendable {
         return comboBox;
     }
 
-
-
+    public FileProduct getFileProduct() {
+        return fileProduct;
+    }
 }

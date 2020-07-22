@@ -33,6 +33,7 @@ public class Product implements Pendable {
     private String editedField;
     private static Product productToEdit;
     private static Product productToView;
+    private FileProduct fileProduct;
 
     public String getProductImageUrl() {
         return productImageUrl;
@@ -194,7 +195,7 @@ public class Product implements Pendable {
 
     public Product(int productId, String name, String company, Category category,
                    ArrayList<IntegerField> integerFieldsOfCategory,ArrayList<OptionalField> optionalFieldsOfCategory,
-                   String information, Date productionDate, int seenNumber, String productImageURL) {
+                   String information, Date productionDate, int seenNumber, String productImageURL,FileProduct fileProduct) {
         this.productImageUrl = productImageURL;
         this.productId = productId;
         this.name = name;
@@ -210,6 +211,7 @@ public class Product implements Pendable {
         this.allComments = new ArrayList<>();
         this.allScore = new ArrayList<>();
         this.allBuyers = new HashSet<>();
+        this.fileProduct = fileProduct;
     }
 
     public int getProductId() {
@@ -724,5 +726,9 @@ public class Product implements Pendable {
 
     public static void setProductToView(Product productToView) {
         Product.productToView = productToView;
+    }
+
+    public FileProduct getFileProduct() {
+        return fileProduct;
     }
 }

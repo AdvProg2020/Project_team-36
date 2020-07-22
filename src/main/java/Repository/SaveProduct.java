@@ -21,6 +21,7 @@ public class SaveProduct {
     private String productImageURL;
     private Set<Integer> allBuyers;
     private int seenNumber;
+    private FileProduct fileProduct;
 
     public static void save(Product product){
         SaveProduct saveProduct = new SaveProduct(product);
@@ -43,7 +44,7 @@ public class SaveProduct {
         Product product = new Product(saveProduct.productId,saveProduct.name,
                 saveProduct.company,SaveCategory.load(saveProduct.categoryId),
                 new ArrayList<>(saveProduct.integerFieldsOfCategory),new ArrayList<>(saveProduct.optionalFieldsOfCategory),saveProduct.information,
-                new Date(saveProduct.productionDate),saveProduct.seenNumber,saveProduct.productImageURL);
+                new Date(saveProduct.productionDate),saveProduct.seenNumber,saveProduct.productImageURL,saveProduct.fileProduct);
         Product.addToAllProducts(product);
         saveProduct.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
         saveProduct.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
@@ -53,6 +54,7 @@ public class SaveProduct {
     }
 
     public SaveProduct(Product product) {
+        this.fileProduct = product.getFileProduct();
         this.allBuyers = new HashSet<>();
         this.productImageURL = product.getProductImageUrl();
         this.integerFieldsOfCategory = new ArrayList<>();
@@ -85,7 +87,7 @@ public class SaveProduct {
         Product product = new Product(this.productId,this.name,
                 this.company,SaveCategory.load(this.categoryId),
                 new ArrayList<>(this.integerFieldsOfCategory),new ArrayList<>(this.optionalFieldsOfCategory),this.information,
-                new Date(this.productionDate),this.seenNumber,this.productImageURL);
+                new Date(this.productionDate),this.seenNumber,this.productImageURL,this.fileProduct);
         this.allScore.forEach(saveScore -> product.getAllScore().add(saveScore.generateScore()));
         this.allComments.forEach(saveComment -> product.getAllComments().add(saveComment.generateComment()));
         this.productFields.forEach(saveProductField -> product.getProductFields().add(saveProductField.generateProductField()));
@@ -147,5 +149,9 @@ public class SaveProduct {
 
     public int getSeenNumber() {
         return seenNumber;
+    }
+
+    public FileProduct getFileProduct() {
+        return fileProduct;
     }
 }
