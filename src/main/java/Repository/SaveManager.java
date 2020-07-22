@@ -6,6 +6,9 @@ import Models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SaveManager {
     private int userId;
     private String username;
@@ -16,7 +19,11 @@ public class SaveManager {
     private String password;
     private Status status;
     private String profilePictureURL;
+    private List<Integer> chatsIds;
     private static int lastId = 0;
+
+    //todo nazanin save chatsIds
+
 
     private SaveManager() {
     }
@@ -31,6 +38,8 @@ public class SaveManager {
         this.phoneNumber = manager.getPhoneNumber();
         this.password = manager.getPassword();
         this.status = manager.getStatus();
+        this.chatsIds = new ArrayList<>();
+        manager.getChats().forEach(chat -> chatsIds.add(chat.getId()));
     }
 
     public static void save(Manager manager){
@@ -91,6 +100,10 @@ public class SaveManager {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Integer> getChatsIds() {
+        return chatsIds;
     }
 
     public Status getStatus() {

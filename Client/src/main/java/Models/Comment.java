@@ -71,4 +71,8 @@ public class Comment implements Pendable{
         return hasBought;
     }
 
+    @Override
+    public String getPendingRequestType() {
+        return "comment";
+    }
 }

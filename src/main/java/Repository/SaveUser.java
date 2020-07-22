@@ -11,6 +11,8 @@ public class SaveUser {
     private SaveCustomer saveCustomer;
     private SaveSeller saveSeller;
 
+    //todo nazanin save supporter
+
     public static User load(int id){
         lastId = Math.max(lastId,id);
         User potentialUser = User.getUserById(id);

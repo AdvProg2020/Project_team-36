@@ -19,6 +19,7 @@ public class SaveSeller {
     private String password;
     private Status status;
     private String profilePictureURL;
+    private List<Integer> chatsIds;
     private static int lastId = 0;
 
     private long credit;
@@ -27,7 +28,10 @@ public class SaveSeller {
     private List<SaveSellerLog> allSellerLogs;
     private List<Integer> allProductIds;
     private List<Integer> allOffIds;
-    
+
+    //todo nazanin save chatsIds
+
+
     public static void save(Seller seller){
         SaveSeller saveSeller = new SaveSeller(seller);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -61,6 +65,7 @@ public class SaveSeller {
 
     public SaveSeller(Seller seller) {
         this.profilePictureURL = seller.getProfilePictureUrl();
+        this.chatsIds = new ArrayList<>();
         this.allOffIds = new ArrayList<>();
         this.allProductIds = new ArrayList<>();
         this.allSellerLogs = new ArrayList<>();
@@ -75,6 +80,7 @@ public class SaveSeller {
         this.credit = seller.getCredit();
         this.companyInfo = seller.getCompanyInfo();
         this.companyName = seller.getCompanyName();
+        seller.getChats().forEach(chat -> chatsIds.add(chat.getId()));
         seller.getAllLogs().forEach(sellerLog -> this.allSellerLogs.add(new SaveSellerLog(sellerLog)));
         seller.getAllProducts().forEach(product -> this.allProductIds.add(product.getProductId()));
         seller.getAllSales().forEach(sale -> this.allOffIds.add(sale.getOffId()));
@@ -144,6 +150,10 @@ public class SaveSeller {
 
     public List<SaveSellerLog> getAllSellerLogs() {
         return allSellerLogs;
+    }
+
+    public List<Integer> getChatsIds() {
+        return chatsIds;
     }
 
     public List<Integer> getAllProductIds() {

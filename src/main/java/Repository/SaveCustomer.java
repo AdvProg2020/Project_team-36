@@ -21,14 +21,17 @@ public class SaveCustomer {
     private String phoneNumber;
     private String password;
     private Status status;
+    private List<Integer> chatsIds;
     private String profilePictureURL;
     private static int lastId = 0;
-
     private long credit;
     private List<SaveCustomerLog> allCustomerLogs;
     private List<SaveSelectedItem> cart;
     private Map<Integer, Integer> allDiscountsForCustomer;
     private SaveWaitingLog waitingLog;
+
+    //todo nazanin save chatsIds
+
 
     private SaveCustomer() {
         this.allCustomerLogs = new ArrayList<>();
@@ -38,6 +41,7 @@ public class SaveCustomer {
 
     public SaveCustomer(Customer customer){
         this.allCustomerLogs = new ArrayList<>();
+        this.chatsIds = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
         this.cart = new ArrayList<>();
         this.profilePictureURL = customer.getProfilePictureUrl();
@@ -51,6 +55,7 @@ public class SaveCustomer {
         this.status = customer.getStatus();
         this.credit = customer.getCredit();
         this.waitingLog = new SaveWaitingLog(customer.getWaitingLog());
+        customer.getChats().forEach(chat -> chatsIds.add(chat.getId()));
         customer.getAllLogs().forEach(customerLog -> this.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
         customer.getCart().forEach(selectedItem -> this.cart.add(new SaveSelectedItem(selectedItem)));
         if (customer.getAllDiscountsForCustomer() != null){
@@ -138,6 +143,10 @@ public class SaveCustomer {
 
     public List<SaveSelectedItem> getCart() {
         return cart;
+    }
+
+    public List<Integer> getChatsIds() {
+        return chatsIds;
     }
 
     public Map<Integer, Integer> getAllDiscountsForCustomer() {

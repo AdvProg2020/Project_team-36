@@ -2,6 +2,7 @@ package Models;
 
 import GUI.Constants;
 import Network.Client;
+import Repository.SaveChat;
 import Repository.SaveProduct;
 import Repository.SaveSale;
 import Repository.SaveSeller;
@@ -91,5 +92,23 @@ public class Seller extends User implements Pendable{
     @Override
     public String getPendingRequestType() {
         return "seller";
+    }
+
+    @Override
+    public ArrayList<Chat> getChats() {
+        Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Chat");
+        this.saveSeller.getChatsIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
+        Response response = Client.process(query);
+        if (response.getReturnType().equals("List<Chat>")) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<SaveChat>>(){}.getType();
+            List<SaveChat> allSaveChats = gson.fromJson(response.getData(),type);
+            ArrayList<Chat> allChats = new ArrayList<>();
+            allSaveChats.forEach(saveChat -> allChats.add(new Chat(saveChat)));
+            return allChats;
+        }else {
+            System.out.println(response);
+            return null;
+        }
     }
 }

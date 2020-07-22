@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="705" prefWidth="1360" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ChatRoomController">
+   <children>
+      <ScrollPane layoutY="-2.0" prefHeight="705.0" prefWidth="284.0">
+         <content>
+            <VBox fx:id="chatsVBox" alignment="TOP_CENTER" prefHeight="705.0" prefWidth="265.0" spacing="10.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <ImageView fx:id="writerProfilePicture" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@../images/happy.png" />
+                           </image>
+                        </ImageView>
+                        <TextArea fx:id="writerUsername" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="53.0" prefWidth="169.0">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextArea>
+                     </children>
+                  </HBox>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="153.0" text="Your chats" textAlignment="CENTER">
+                     <font>
+                        <Font name="Arial Narrow Bold" size="25.0" />
+                     </font></Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </VBox>
+         </content></ScrollPane>
+      <ScrollPane layoutX="1076.0" prefHeight="705.0" prefWidth="284.0">
+         <content>
+            <VBox fx:id="usersVBox" alignment="TOP_CENTER" prefHeight="702.0" prefWidth="280.0" spacing="10.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="153.0" text="Users in chat" textAlignment="CENTER">
+                     <font>
+                        <Font name="Arial Narrow Bold" size="25.0" />
+                     </font></Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <TextArea fx:id="chatsArea" layoutX="298.0" layoutY="26.0" prefHeight="517.0" prefWidth="758.0" />
+      <TextArea fx:id="messageArea" layoutX="297.0" layoutY="566.0" prefHeight="125.0" prefWidth="666.0" />
+      <Button fx:id="sendButton" disable="true" layoutX="976.0" layoutY="602.0" mnemonicParsing="false" onAction="#sendAction" prefHeight="46.0" prefWidth="81.0" style="-fx-background-radius: 20; -fx-border-radius: 20;" text="Send" />
+   </children>
+</AnchorPane>

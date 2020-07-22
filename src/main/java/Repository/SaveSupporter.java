@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SaveSupporter {
     protected int userId;
     protected String username;
@@ -18,7 +21,11 @@ public class SaveSupporter {
     protected String password;
     private Status status;
     private String profilePictureUrl;
+    private List<Integer> chatsIds;
     private static int lastId = 0;
+
+    //todo nazanin save chatsIds
+
 
     public SaveSupporter(Supporter supporter){
         this.profilePictureUrl = supporter.getProfilePictureUrl();
@@ -30,6 +37,8 @@ public class SaveSupporter {
         this.phoneNumber = supporter.getPhoneNumber();
         this.password = supporter.getPassword();
         this.status = supporter.getStatus();
+        this.chatsIds = new ArrayList<>();
+        supporter.getChats().forEach(chat -> chatsIds.add(chat.getId()));
     }
 
     public static void save(Supporter supporter){
@@ -94,6 +103,10 @@ public class SaveSupporter {
 
     public String getProfilePictureUrl() {
         return profilePictureUrl;
+    }
+
+    public List<Integer> getChatsIds() {
+        return chatsIds;
     }
 
     public static int getLastId() {

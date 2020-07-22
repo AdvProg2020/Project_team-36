@@ -1,15 +1,20 @@
 package Models;
 
+import GUI.Constants;
 import Network.Client;
 import Repository.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class User {
@@ -150,4 +155,6 @@ public abstract class User {
     public String getProfilePictureUrl() {
         return profilePictureUrl;
     }
+
+    public abstract ArrayList<Chat> getChats();
 }

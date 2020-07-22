@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 import static Models.Status.*;
@@ -29,12 +30,14 @@ public abstract class User{
     private ImageView profilePicture;
     private String profilePictureUrl;
     private static User userToView;
+    private ArrayList<Chat> chats;
 
     public User(String username){
         totalUsersMade++;
         this.username = username;
         this.userId = totalUsersMade;
         this.status = AVAILABLE;
+        chats = new ArrayList<>();
     }
 
 
@@ -66,6 +69,14 @@ public abstract class User{
         Customer.getAllCustomers().add(customer3);
         allUsernames.add("karaneh");
         allUsernames.add("nazanin");
+    }
+
+    public ArrayList<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChat(Chat chat) {
+        chats.add(chat);
     }
 
     public String getUsername() {
