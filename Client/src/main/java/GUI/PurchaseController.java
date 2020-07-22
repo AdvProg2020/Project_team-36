@@ -32,10 +32,8 @@ public class PurchaseController implements Initializable {
 
     @Override
     public void initialize(int id) throws IOException {
+        this.id = id;
         if (Constants.globalVariables.getLoggedInUser() == null) {
-            Constants.getGuiManager().back();
-            return;
-        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
             Constants.getGuiManager().back();
             return;
         } else {

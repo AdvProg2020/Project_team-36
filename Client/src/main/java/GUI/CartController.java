@@ -70,7 +70,7 @@ public class CartController implements Initializable {
     public void goToPurchase() throws IOException{
         try {
             Constants.customerController.startPurchase();
-            Constants.getGuiManager().open("Purchase",Constants.globalVariables.getLoggedInUser().getUserId());
+            Constants.getGuiManager().open("Purchase",customer.getWaitingLog().isOnlyFile()?0:1);
         }catch (CustomerController.NotEnoughSupplyInCart e){
             AlertBox.display("Error","Unfortunately we are out of some of the items you have ordered!!");
         }catch (CustomerController.EmptyCart e){
