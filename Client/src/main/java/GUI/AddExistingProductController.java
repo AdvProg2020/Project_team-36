@@ -102,7 +102,6 @@ public class AddExistingProductController extends SellerProfileController implem
 
     public void addSellerToProduct() throws IOException {
 
-        //todo in chera call nashode :)))
         if(priceField.getText().isEmpty() || supplyField.getText().isEmpty()){
             errorLabel.setVisible(true);
             return;

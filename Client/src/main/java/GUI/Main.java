@@ -45,7 +45,7 @@ public class Main extends Application {
             firstPage = "MainMenu";
 
         ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("customerBackground.jpg");
+        URL resource = classLoader.getResource("/images/customerBackground.jpg");
         if (resource == null) {
             throw new IllegalArgumentException("file is not found!");
         } else {

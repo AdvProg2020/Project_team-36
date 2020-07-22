@@ -16,12 +16,12 @@ public class AlertBox {
         Stage window = new Stage();
 
         ClassLoader classLoader = AlertBox.class.getClassLoader();
-        URL resource = classLoader.getResource("images\\star.png");
+        URL resource = classLoader.getResource("/images/star.png");
         if (resource == null) {
             throw new IllegalArgumentException("file is not found!");
         } else {
             File file = new File(resource.getFile());
-            String path = null;
+            String path = "";
             try {
                 path = file.toURI().toURL().toString();
             } catch (MalformedURLException e) {
