@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CustomerTemplateController">
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CustomerTemplateController">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -39,6 +35,11 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
+            <Button layoutX="6.0" layoutY="437.0" mnemonicParsing="false" onAction="#getSupport" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Get Support" textFill="#d7d4d4">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
             </children>
         </AnchorPane>
         <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">

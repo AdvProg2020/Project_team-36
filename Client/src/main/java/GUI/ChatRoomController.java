@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ChatRoomController implements Initializable {
     @FXML private VBox chatsVBox;
@@ -27,7 +29,7 @@ public class ChatRoomController implements Initializable {
     @FXML private TextArea writerUsername;
     private User writer;
     private Chat chat;
-    private ChatsController chatsController = new ChatsController();
+    private final ChatsController chatsController = new ChatsController();
 
 
     @Override
@@ -39,6 +41,17 @@ public class ChatRoomController implements Initializable {
         setUsersVBox();
         setChatsVBox();
         setChatsArea();
+        Timer t = new Timer( );
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    Constants.getGuiManager().reopen();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0,1000);
     }
 
     private void setUsersVBox() throws IOException {

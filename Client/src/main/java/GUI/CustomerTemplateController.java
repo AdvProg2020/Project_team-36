@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.EntryController;
 import Models.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -72,5 +73,13 @@ public class CustomerTemplateController implements Initializable{
 
     public void goToCart() throws IOException {
         Constants.getGuiManager().open("Cart",user.getUserId());
+    }
+
+    public void getSupport() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ChooseSupporter.fxml"));
+        Parent parent = fxmlLoader.load();
+        this.personalInfoController = fxmlLoader.getController();
+        personalInfoController.initialize(user.getUserId());
+        scrollPane.setContent(parent);
     }
 }

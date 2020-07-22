@@ -1,12 +1,11 @@
 package Controllers;
 
-import Models.Chat;
-import Models.Message;
-import Models.Query;
-import Models.Response;
+import Models.*;
 import Repository.SaveChat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
 
 public class ChatsController {
 
@@ -19,15 +18,20 @@ public class ChatsController {
         return Chat.getChatById(id);
     }
 
+    public int createNewChatRoom(Supporter supporter, User user){
+        ArrayList<User> userArrayList = new ArrayList<>();
+        userArrayList.add(user);
+        Chat chat = new Chat(supporter, userArrayList);
+        return chat.getId();
+    }
+
     public Response processQuery(Query query) {
-        switch (query.getMethodName()) {
-            case "sendNewMessage":
-                return processSendNewMessage(query);
-            case "getChatById":
-                return processGetChatById(query);
-            default:
-                return new Response("Error", "");
-        }
+        return switch (query.getMethodName()) {
+            case "sendNewMessage" -> processSendNewMessage(query);
+            case "getChatById" -> processGetChatById(query);
+            case "createNewChatRoom" -> processCreateNewChatRoom(query);
+            default -> new Response("Error", "");
+        };
     }
 
     private Response processSendNewMessage(Query query){
@@ -42,5 +46,12 @@ public class ChatsController {
         String saveChatGson = gson.toJson(saveChat);
         return new Response("Chat", saveChatGson);
     }
+
+    private Response processCreateNewChatRoom(Query query){
+        User user = User.getUserById(Integer.parseInt(query.getMethodInputs().get("user")));
+        Supporter supporter = Supporter.getSupporterById(Integer.parseInt(query.getMethodInputs().get("supporter")));
+        return new Response("int", Integer.toString(createNewChatRoom(supporter, user)));
+    }
+
 
 }
