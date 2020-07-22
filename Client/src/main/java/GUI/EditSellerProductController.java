@@ -3,6 +3,7 @@ package GUI;
 import Controllers.CategoryController;
 import Controllers.EditProductController;
 import Models.*;
+import Network.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class EditSellerProductController extends SellerProfileController impleme
     private User user;
     private Category category;
     private final Product productToEdit = Constants.productsController.getProductToEdit();
-    private String imagePath = "";
+    private File imageFile =null;
     private ArrayList<Field> fields;
     private EditProductController editProductController;
     private Product editingProduct;
@@ -116,9 +118,7 @@ public class EditSellerProductController extends SellerProfileController impleme
         fields = new ArrayList<>(productToEdit.getFieldsOfCategory());
         setNewFields();
         image.setImage(productToEdit.getProductImage(100, 100).getImage());
-        imagePath = productToEdit.getProductImageUrl();
         setTextFields();
-
     }
 
     private void setNewFields() {
@@ -231,7 +231,7 @@ public class EditSellerProductController extends SellerProfileController impleme
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
         if (file != null) {
             try {
-                imagePath = file.getPath();
+                imageFile = file;
                 image.setImage(new Image(new FileInputStream(file)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -240,8 +240,20 @@ public class EditSellerProductController extends SellerProfileController impleme
     }
 
     private boolean setImage() {
-        editProductController.editImage(imagePath);
-        return true;
+        if(imageFile!= null){
+            String path = "";
+            try {
+                path = Client.writeFile(Files.readAllBytes(imageFile.toPath()));
+                editProductController.editImage(path);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            return true;
+        }
+        return false;
     }
 
     private boolean getStringInput(TextField textField) {

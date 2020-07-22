@@ -12,7 +12,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.util.*;
@@ -29,7 +31,6 @@ public class Product implements Pendable {
     private Date productionDate;
     private List<Comment> allComments;
     private int seenNumber;
-    private ImageView productImage;
     private String productImageUrl = "";
 
     public Product(SaveProduct saveProduct) {
@@ -49,6 +50,7 @@ public class Product implements Pendable {
         saveProduct.getAllScore().forEach(saveScore -> allScore.add(new Score(saveScore)));
         this.allComments = new ArrayList<>();
         saveProduct.getAllComments().forEach(saveComment -> allComments.add(new Comment(saveComment)));
+        this.productImageUrl = saveProduct.getProductImageURL();
     }
 
     public SaveProduct getSaveProduct() {
@@ -128,16 +130,25 @@ public class Product implements Pendable {
     }
 
     public ImageView getSmallProductImage() throws MalformedURLException {
-        File file = new File(this.productImageUrl);
-        String path = file.toURI().toURL().toString();
-        return new ImageView(new Image(path, 50, 50, false, false));
+        byte[] bytes =null ;
+        try {
+            bytes = Client.readFile(productImageUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image img = new Image(new ByteArrayInputStream(bytes),50,50,false,false);
+        return new ImageView(img);
     }
 
     public ImageView getProductImage(int height, int width) throws MalformedURLException {
-        File file = new File(this.productImageUrl);
-        String path = file.toURI().toURL().toString();
-        Image image = new Image(path, width, height, false, false);
-        return new ImageView(image);
+        byte[] bytes =null ;
+        try {
+            bytes = Client.readFile(productImageUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Image img = new Image(new ByteArrayInputStream(bytes),width,height,false,false);
+        return new ImageView(img);
     }
 
     public String getProductImageUrl() {

@@ -1,6 +1,7 @@
 package GUI;
 
 import Controllers.EntryController;
+import Network.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public class RegisterMenu {
     @FXML private Label customerLabel;
@@ -35,8 +38,8 @@ public class RegisterMenu {
     @FXML private TextField customerFirstname;
     @FXML private TextField customerUsername;
     EntryController entryController;
-    private String sellerProfilePath="";
-    private String customerProfilePath="";
+    private File sellerProfileFile = null;
+    private File customerProfileFile = null;
 
     public RegisterMenu() {
         this.entryController = Constants.entryController;
@@ -234,7 +237,7 @@ public class RegisterMenu {
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
         if (file != null){
             try {
-                sellerProfilePath = file.getPath();
+                sellerProfileFile = file;
                 profileSeller.setImage(new Image(new FileInputStream(file)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -250,7 +253,7 @@ public class RegisterMenu {
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
         if (file != null){
             try {
-                customerProfilePath = file.getPath();
+                customerProfileFile = file;
                 customerImage.setImage(new Image(new FileInputStream(file)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -258,20 +261,32 @@ public class RegisterMenu {
         }
     }
 
-    private boolean setImage(boolean isSeller){
+    private boolean setImage(boolean isSeller) {
         if(isSeller){
-            if(sellerProfilePath.isEmpty()){
+            if(sellerProfileFile==null){
                 sellerLabel.setText("You need profile pic!");
                 return false;
             }
-            entryController.setImage(sellerProfilePath);
+            String path = null;
+            try {
+                path = Client.writeFile(Files.readAllBytes(sellerProfileFile.toPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            entryController.setImage(path);
             return true;
         }else{
-            if(customerProfilePath.isEmpty()) {
+            if(customerProfileFile ==null) {
                 customerLabel.setText("You need profile pic!");
                 return false;
             }
-            entryController.setImage(customerProfilePath);
+            String path = null;
+            try {
+                path = Client.writeFile(Files.readAllBytes(customerProfileFile.toPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            entryController.setImage(path);
             return true;
         }
     }
@@ -280,4 +295,5 @@ public class RegisterMenu {
         Constants.globalVariables.setLoggedInUser(null);
         Constants.getGuiManager().openLogin();
     }
+
 }

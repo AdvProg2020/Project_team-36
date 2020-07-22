@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Supporter extends User{
@@ -37,7 +38,11 @@ public class Supporter extends User{
     }
 
     public static void updateAllSupporters(){
-        //todo saye
+        Iterator<Supporter> iter  = allSupporters.iterator();
+        while(iter.hasNext()){
+            if(iter.next().getStatus().equals(Status.DELETED))
+                iter.remove();
+        }
     }
 
     public static List<Supporter> getAllSupporters(){

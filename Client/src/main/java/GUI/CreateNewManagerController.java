@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.EntryController;
 import Models.User;
+import Network.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,6 +16,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class CreateNewManagerController extends ManagerProfileController implements Initializable {
 
@@ -40,7 +42,7 @@ public class CreateNewManagerController extends ManagerProfileController impleme
     private ImageView profilePicture;
     @FXML
     private Label usernameLabel;
-    private String imagePath = "";
+    private File imageFile=null;
     private EntryController entryController = Constants.entryController;
     private User user;
     private final User loggedInUser = Constants.globalVariables.getLoggedInUser();
@@ -69,7 +71,7 @@ public class CreateNewManagerController extends ManagerProfileController impleme
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
         if (file != null) {
             try {
-                imagePath = file.getPath();
+                imageFile = file;
                 image.setImage(new Image(new FileInputStream(file)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -191,12 +193,18 @@ public class CreateNewManagerController extends ManagerProfileController impleme
     }
 
     private boolean setImage() {
-        if (imagePath.isEmpty()) {
+        if (imageFile==null) {
             alertLabel.setText("You need profile pic!");
             return false;
         }
-        entryController.setImage(imagePath);
-        return true;
+        try {
+            String path = Client.writeFile(Files.readAllBytes(imageFile.toPath()));
+            entryController.setImage(path);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

@@ -3,6 +3,7 @@ package GUI;
 import Controllers.CategoryController;
 import Controllers.NewProductController;
 import Models.*;
+import Network.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -17,6 +18,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,7 @@ public class AddNewProductController extends SellerProductsController implements
     @FXML
     private ImageView profilePicture;
     private User user;
-    private String imagePath = "";
+    private File imageFile =null;
     private ArrayList<Field> fields = new ArrayList<>();
     private Category category;
     private ArrayList<String> fieldsValue = new ArrayList<>();
@@ -265,7 +267,7 @@ public class AddNewProductController extends SellerProductsController implements
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
         if (file != null) {
             try {
-                imagePath = file.getPath();
+                imageFile = file;
                 image.setImage(new Image(new FileInputStream(file)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -274,11 +276,17 @@ public class AddNewProductController extends SellerProductsController implements
     }
 
     private boolean setImage() {
-        if (imagePath.isEmpty()) {
+        if (imageFile==null) {
             profilePicError.setVisible(true);
             return false;
         }
-        newProduct.setImage(imagePath);
+        String path = null;
+        try {
+            path = Client.writeFile(Files.readAllBytes(imageFile.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        newProduct.setImage(path);
         return true;
     }
 }

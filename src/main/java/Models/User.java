@@ -202,6 +202,7 @@ public abstract class User{
         Customer.updateAllCustomers();
         Seller.updateSellers();
         Manager.updateManagers();
+        Supporter.updateAllSupporters();
         allUsers.removeAll(temp);
     }
 
