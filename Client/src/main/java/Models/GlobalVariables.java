@@ -1,5 +1,10 @@
 package Models;
 
+import GUI.Constants;
+import Network.Client;
+import Repository.SaveUser;
+import com.google.gson.Gson;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +107,16 @@ public class GlobalVariables {
     }
 
     public User getLoggedInUser() {
-        return loggedInUser;
+        Query query = new Query(Constants.globalVariables.getToken(), "UserController", "getUserById");
+        query.getMethodInputs().put("id", Integer.toString(loggedInUser.getUserId()));
+        Response response = Client.process(query);
+        if(response.getReturnType().equals("User")){
+            Gson gson = new Gson();
+            User user = User.generateUser(gson.fromJson(response.getData(), SaveUser.class));
+            return user;
+        }
+        System.out.println(response.getReturnType());
+        return null;
     }
 
     public void setSortProduct(String name, String type) {

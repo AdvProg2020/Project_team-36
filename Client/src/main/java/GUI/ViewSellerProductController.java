@@ -116,7 +116,7 @@ public class ViewSellerProductController extends SellerProfileController impleme
     private void expandAllParents(TreeItem<Category> productCategory) throws MalformedURLException {
         if (productCategory.getValue().equals(category)) {
             //todo change address karaneh
-            File file = new File ("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\happy.png");
+            File file = new File ("src/main/resources/images/happy.png");
             String path = file.toURI().toURL().toString();
             Node rootIcon = new ImageView(new Image(path,10,10,false,false));
             productCategory.setGraphic(rootIcon);
