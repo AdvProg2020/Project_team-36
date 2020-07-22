@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AddNewFileProduct">
+    <children>
+        <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
+            <children>
+                <Pane prefHeight="149.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" text="Online Shop" textAlignment="CENTER" textFill="#d3d0d0">
+                            <font>
+                                <Font name="Arial Bold" size="21.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Button layoutX="1.0" layoutY="200.0" mnemonicParsing="false" onAction="#openPersonalInfo" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Personal Info" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="256.0" mnemonicParsing="false" onAction="#openSalesHistory" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Sales History" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="312.0" mnemonicParsing="false" onAction="#openManageProducts" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Manage Products" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#openShowCategories" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Show Categories" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="430.0" mnemonicParsing="false" onAction="#openViewOffs" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Offs" textFill="#d7d4d4" />
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">
+            <children>
+                <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
+                    <children>
+                        <Label fx:id="usernameLabel" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
+                            <font>
+                                <Font name="Times New Roman" size="30.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="232.0" layoutY="47.0" prefHeight="33.0" prefWidth="230.0" text="Seller" textFill="#070b07">
+                            <font>
+                                <Font name="Times New Roman" size="22.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Pane layoutY="127.0" prefHeight="81.0" prefWidth="1016.0" style="-fx-background-color: #FFFACD;">
+                    <children>
+                        <ImageView fx:id="profilePicture" fitHeight="150.0" fitWidth="150.0" layoutX="74.0" layoutY="-75.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/seller.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
+                    <content>
+                        <AnchorPane fx:id="anchorPane" minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
+                            <children>
+                                <Label layoutX="87.0" layoutY="33.0" text="Name:" />
+                                <Label layoutX="86.0" layoutY="77.0" text="Company:" />
+                                <Label layoutX="90.0" layoutY="198.0" text="Information:" />
+                                <TextField fx:id="productName" layoutX="193.0" layoutY="29.0" />
+                                <TextField fx:id="productCompany" layoutX="193.0" layoutY="73.0" />
+                                <TextField fx:id="productInfo" accessibleRole="TEXT_AREA" layoutX="192.0" layoutY="186.0" prefHeight="67.0" prefWidth="252.0">
+                                    <cursor>
+                                        <Cursor fx:constant="TEXT" />
+                                    </cursor>
+                                </TextField>
+                                <TreeTableView fx:id="categoryTable" layoutX="192.0" layoutY="261.0" prefHeight="138.0" prefWidth="150.0">
+                                    <columns>
+                                        <TreeTableColumn fx:id="categoriesColumn" prefWidth="149.0" text="Categories" />
+                                    </columns>
+                                </TreeTableView>
+                                <Label layoutX="87.0" layoutY="273.0" text="Category:" />
+                                <Button layoutX="38.0" layoutY="399.0" mnemonicParsing="false" onAction="#AddProduct" text="Add Product" />
+                                <HBox layoutX="637.0" layoutY="18.0" prefHeight="109.0" prefWidth="305.0">
+                                    <children>
+                                        <AnchorPane prefHeight="109.0" prefWidth="323.0">
+                                            <children>
+                                                <Button layoutX="39.0" layoutY="42.0" mnemonicParsing="false" onAction="#addImage" text="Add Image" />
+                                                <ImageView fx:id="image" fitHeight="100.0" fitWidth="100.0" layoutX="172.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+                                                <Label fx:id="profilePicError" layoutX="39.0" layoutY="78.0" text="You need profile pic!" textFill="#f21313" visible="false" />
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </HBox>
+                                <TextField fx:id="price" layoutX="193.0" layoutY="113.0" />
+                                <TextField fx:id="supply" layoutX="193.0" layoutY="150.0" />
+                                <Label layoutX="90.0" layoutY="117.0" text="Price:" />
+                                <Label layoutX="91.0" layoutY="154.0" text="Supply:" />
+                                <Label fx:id="emptyFieldsError" layoutX="35.0" layoutY="431.0" text="You Must Fill All The Wanted Fields!" textFill="#fa120c" visible="false" />
+                                <Label fx:id="priceError" layoutX="347.0" layoutY="117.0" text="You can only enter numbers!" textFill="RED" visible="false" />
+                                <Label fx:id="supplyError" layoutX="347.0" layoutY="154.0" text="You can only enter numbers!" textFill="RED" visible="false" />
+                                <ScrollPane fx:id="fieldsScrollPane" layoutX="636.0" layoutY="231.0" prefHeight="222.0" prefWidth="307.0">
+                                    <content>
+                                        <VBox fx:id="fieldsVBox" alignment="TOP_CENTER" layoutY="-1.0" prefHeight="218.0" prefWidth="305.0" spacing="8.0" />
+
+                                    </content>
+                                </ScrollPane>
+                                <Label fx:id="fieldError" layoutX="636.0" layoutY="416.0" prefHeight="17.0" prefWidth="130.0" text="Wrong Field Value!" textFill="#f20404" visible="false" />
+                        <Button layoutX="634.0" layoutY="144.0" mnemonicParsing="false" onAction="#addFile" prefHeight="54.0" prefWidth="310.0" text="Add your file" />
+                        <Label fx:id="fileAlertLabel" layoutX="637.0" layoutY="200.0" prefHeight="33.0" prefWidth="306.0" text="No file is chosen! try again" textFill="#dd1b1b" visible="false" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </AnchorPane>
+        <Button alignment="BASELINE_LEFT" layoutX="1252.0" layoutY="6.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="logout" textFill="#ebe29d">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/logout.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="359.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textAlignment="CENTER" textFill="#ebe29d">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

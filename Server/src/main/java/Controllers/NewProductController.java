@@ -19,6 +19,8 @@ public class NewProductController {
     private ProductField productField;
     private Date productionDate;
     private String imagePath;
+    private String filePath;
+    private String fileName;
 
     public NewProductController(SellerController sellerController) {
         fieldsOfCategory = new HashMap<>();
@@ -54,6 +56,8 @@ public class NewProductController {
         }
         throw new InvalidCategoryName();
     }
+
+
 
 //    public void setCategory(Category category){
 //        this.category = category;
@@ -117,13 +121,26 @@ public class NewProductController {
         for (String field : fieldsOfCategory.keySet()) {
             fields.add(fieldsOfCategory.get(field));
         }
-        Product product = new Product(name,company,category,fields,information,productField,productionDate, imagePath);
+        Product product=null;
+        if(filePath==null)
+            product = new Product(name,company,category,fields,information,productField,productionDate, imagePath);
+        else{
+            product = new FileProduct(name,company,category,fields,information,productField,productionDate, imagePath,filePath,fileName);
+        }
         productField.setMainProductId(product.getProductId());
         new Request(product,Status.TO_BE_ADDED);
     }
 
     public void setImage(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public void setFile(String path){
+        this.filePath = path;
+    }
+
+    public void setFileName(String fileName){
+        this.fileName =fileName;
     }
 
     public Response processQuery(Query query) {
@@ -137,8 +154,20 @@ public class NewProductController {
             case "sendNewProductRequest" -> processSendNewProductRequest();
             case "setImage" -> processSetImage(query);
             case "setSeller" -> processSetSeller(query);
+            case "setFile" -> processSetFile(query);
+            case "setFileName" -> processSetFileName(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processSetFileName(Query query) {
+        setFileName(query.getMethodInputs().get("fileName"));
+        return new Response("void", "");
+    }
+
+    private Response processSetFile(Query query) {
+        setFile(query.getMethodInputs().get("path"));
+        return new Response("void", "");
     }
 
     private Response processSetName(Query query){

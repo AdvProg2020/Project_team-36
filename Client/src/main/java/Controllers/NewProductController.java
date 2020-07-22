@@ -70,6 +70,18 @@ public class NewProductController {
         Client.process(query);
     }
 
+    public void setFile(String path){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setFile");
+        query.getMethodInputs().put("path", path);
+        Client.process(query);
+    }
+
+    public void setFileName(String fileName){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setFileName");
+        query.getMethodInputs().put("fileName", fileName);
+        Client.process(query);
+    }
+
     public static class InvalidCategoryName extends Exception {
 
     }

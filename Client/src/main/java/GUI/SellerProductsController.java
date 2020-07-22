@@ -3,6 +3,7 @@ package GUI;
 import Models.Product;
 import Models.Seller;
 import Models.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -96,5 +97,9 @@ public class  SellerProductsController extends SellerProfileController implement
 
     public void addExistingProduct() throws IOException {
         Constants.getGuiManager().open("AddExistingProduct",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
+
+    public void addNewFileAction(ActionEvent actionEvent) throws IOException {
+        Constants.getGuiManager().open("AddNewFileProduct",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 }

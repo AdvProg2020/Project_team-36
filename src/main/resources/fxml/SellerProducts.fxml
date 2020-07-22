@@ -62,9 +62,10 @@
                            <TableColumn fx:id="buyersColumn" prefWidth="132.0" text="Buyers" />
                                 </columns>
                             </TableView>
-                     <Button fx:id="addNewProduct" layoutX="78.0" layoutY="49.0" mnemonicParsing="false" onAction="#addNewProductAction" text="+ Sell a New Product" />
-                     <Button fx:id="removeProduct" layoutX="379.0" layoutY="49.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
-                     <Button layoutX="224.0" layoutY="49.0" mnemonicParsing="false" onAction="#addExistingProduct" text="Sell an Existing Product" />
+                     <Button fx:id="addNewProduct" layoutX="78.0" layoutY="49.0" mnemonicParsing="false" onAction="#addNewProductAction" text="+ Sell New Product" />
+                     <Button fx:id="removeProduct" layoutX="516.0" layoutY="49.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
+                     <Button layoutX="360.0" layoutY="49.0" mnemonicParsing="false" onAction="#addExistingProduct" text="Sell an Existing Product" />
+                     <Button fx:id="addNewProduct1" layoutX="209.0" layoutY="48.0" mnemonicParsing="false" onAction="#addNewFileAction" prefHeight="26.0" prefWidth="134.0" text="+ Sell New File" />
                         </AnchorPane>
                     </content>
                 </ScrollPane>
