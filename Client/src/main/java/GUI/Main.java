@@ -1,10 +1,9 @@
 package GUI;
 
-import Models.Category;
-import Models.Manager;
-import Models.Product;
-import Models.User;
+import Models.*;
+import Network.Client;
 import Repository.RepositoryManager;
+import com.google.gson.internal.$Gson$Preconditions;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,6 +27,9 @@ public class Main extends Application {
 //        Menu runMenu = new MainMenu();
 //        runMenu.execute();
       //  Product.addTest();
+        Query query = new Query("","SessionController","");
+        Response response = Client.process(query);
+        Constants.globalVariables.setToken(response.getData());
         Constants.setControllers();
         launch(args);
 
