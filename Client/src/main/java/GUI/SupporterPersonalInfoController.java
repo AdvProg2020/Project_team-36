@@ -2,6 +2,7 @@ package GUI;
 
 import Controllers.EntryController;
 import Models.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,5 +54,7 @@ public class SupporterPersonalInfoController implements Initializable {
     }
 
 
-
+    public void openChatRoom() throws IOException {
+        Constants.getGuiManager().open("ChatRoom",-1);
+    }
 }
