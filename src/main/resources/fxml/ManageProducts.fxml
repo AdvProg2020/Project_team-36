@@ -54,11 +54,12 @@
         </Pane>
         <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
-                <TableView fx:id="allProductsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
+                <TableView fx:id="allProductsTable" layoutX="78.0" layoutY="83.0" prefHeight="298.0" prefWidth="839.0">
                     <columns>
                         <TableColumn fx:id="productPictureColumn" prefWidth="266.0" sortable="false" text="product picture" />
-                        <TableColumn fx:id="productNameColumn" minWidth="0.0" prefWidth="341.0" text="product name" />
-                        <TableColumn fx:id="productIdColumn" minWidth="0.0" prefWidth="192.0" text="product id" />
+                        <TableColumn fx:id="productNameColumn" minWidth="0.0" prefWidth="302.59991455078125" text="product name" />
+                        <TableColumn fx:id="productIdColumn" minWidth="0.0" prefWidth="149.20001220703125" text="product id" />
+                  <TableColumn fx:id="productType" prefWidth="119.20000000000005" text="Type" />
                     </columns>
                 </TableView>
             <Label layoutX="583.0" layoutY="52.0" text="Sort">

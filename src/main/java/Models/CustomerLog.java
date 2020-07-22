@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import static Models.LogStatus.ONLY_FILE;
 import static Models.LogStatus.WAITING_TO_BE_SENT;
 
 public class  CustomerLog {
@@ -34,7 +35,6 @@ public class  CustomerLog {
         this.allItems.addAll(allItems);
         this.totalPayable = totalPayable;
         this.totalPrice = totalPrice;
-        this.logStatus = WAITING_TO_BE_SENT;
     }
 
     public void setCustomerName(String customerName) {
@@ -103,8 +103,11 @@ public class  CustomerLog {
     public static CustomerLog createCustomerLog(WaitingLog waitingLog){
         int totalPrice = 0;
         ArrayList <ItemInLog> itemsInLog = ItemInLog.createItemInLog(waitingLog.getAllItems());
+        boolean isFile = true;
         for (ItemInLog itemInLog : itemsInLog) {
             totalPrice +=(itemInLog.getInitialPrice()*itemInLog.getCount());
+            if(!itemInLog.isFile())
+                isFile =false;
         }
         long payable = waitingLog.getPayablePrice();
         Discount discount = waitingLog.getDiscount();
@@ -118,6 +121,11 @@ public class  CustomerLog {
         }
         customerLog.setCustomerName(waitingLog.getCustomer().getUsername());
         waitingLog.getCustomer().addNewLog(customerLog);
+        if(isFile){
+            customerLog.setLogStatus(ONLY_FILE);
+        }else{
+            customerLog.setLogStatus(WAITING_TO_BE_SENT);
+        }
         return customerLog;
     }
 

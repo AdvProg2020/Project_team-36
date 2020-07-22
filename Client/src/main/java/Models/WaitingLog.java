@@ -97,5 +97,30 @@ public class WaitingLog {
         }
     }
 
+    public boolean isOnlyFile(){
+        for (SelectedItem item : allSelectedItems) {
+            if(!item.getProduct().isFileProduct())
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isThereFile(){
+        for (SelectedItem item : allSelectedItems) {
+            if(item.getProduct().isFileProduct())
+                return true;
+        }
+        return false;
+    }
+
+    public List<Product> getFiles(){
+        List<Product> toBeReturned = new ArrayList<>();
+        for (SelectedItem item : allSelectedItems) {
+            if(item.getProduct().isFileProduct())
+                toBeReturned.add(item.getProduct());
+        }
+        return toBeReturned;
+    }
+
 
 }

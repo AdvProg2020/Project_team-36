@@ -181,6 +181,10 @@ public class Product implements Pendable {
         this.productImageUrl = productImageURL;
     }
 
+    public void setFileProduct(FileProduct fileProduct){
+        this.fileProduct = fileProduct;
+    }
+
     public Product(Product product, ProductField productField) {
         this.productFields = new ArrayList<>();
         this.fieldsOfCategory = new ArrayList<>();
@@ -730,5 +734,9 @@ public class Product implements Pendable {
 
     public FileProduct getFileProduct() {
         return fileProduct;
+    }
+
+    public boolean isFileProduct(){
+        return !(fileProduct==null);
     }
 }

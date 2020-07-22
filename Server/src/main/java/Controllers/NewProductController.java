@@ -125,7 +125,8 @@ public class NewProductController {
         if(filePath==null)
             product = new Product(name,company,category,fields,information,productField,productionDate, imagePath);
         else{
-            product = new FileProduct(name,company,category,fields,information,productField,productionDate, imagePath,filePath,fileName);
+            product = new Product(name,company,category,fields,information,productField,productionDate, imagePath);
+            product.setFileProduct(new FileProduct(filePath,fileName));
         }
         productField.setMainProductId(product.getProductId());
         new Request(product,Status.TO_BE_ADDED);

@@ -89,4 +89,12 @@ public class CustomerLog {
     public String getCustomerName() {
         return customerName;
     }
+
+    public boolean isOnlyFile(){
+        for (ItemInLog item : allItems) {
+            if(!item.isFile())
+                return false;
+        }
+        return true;
+    }
 }

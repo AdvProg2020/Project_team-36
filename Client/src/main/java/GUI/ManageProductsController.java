@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class ManageProductsController extends ManagerProfileController implements Initializable {
 
+    @FXML private  TableColumn<Product,String> productType;
     @FXML private Label usernameLabel;
     @FXML private ImageView profilePicture;
     @FXML private TableView<Product> allProductsTable;
@@ -47,9 +48,9 @@ public class ManageProductsController extends ManagerProfileController implement
     private void setTheTable(ArrayList<Product> allProducts){
         allProductsTable.getItems().clear();
         allProductsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        //todo inam bayad dorost she
         productPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productType.setCellValueFactory(new PropertyValueFactory<>("pendingRequestType"));
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
         allProductsTable.getItems().addAll(allProducts);
     }

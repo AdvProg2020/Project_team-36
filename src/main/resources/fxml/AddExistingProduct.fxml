@@ -53,10 +53,11 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
                      <children>
-                        <TableView fx:id="productsTable" layoutX="66.0" layoutY="59.0" prefHeight="355.0" prefWidth="287.0">
+                        <TableView fx:id="productsTable" layoutX="67.0" layoutY="67.0" prefHeight="355.0" prefWidth="406.0">
                           <columns>
                             <TableColumn fx:id="productsPictureColumn" prefWidth="129.0" text="Picture" />
                               <TableColumn fx:id="productsNameColumn" prefWidth="157.0" text="Name" />
+                              <TableColumn fx:id="productsType" prefWidth="118.39999999999998" text="Type" />
                           </columns>
                         </TableView>
                         <Label layoutX="537.0" layoutY="176.0" text="Price:" />

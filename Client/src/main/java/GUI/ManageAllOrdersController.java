@@ -69,7 +69,10 @@ public class ManageAllOrdersController extends SellerProfileController implement
             itemInLog.setItems(FXCollections.observableList(newValue.getAllItems()));
             address.setText(newValue.getAddress());
             phoneNumber.setText(newValue.getPhoneNumber());
-            deliverButton.setDisable(false);
+            if(newValue.isOnlyFile())
+            deliverButton.setDisable(true);
+            else
+                deliverButton.setDisable(false);
         });
 
 

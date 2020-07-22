@@ -178,7 +178,9 @@ public class Product implements Pendable {
 
     @Override
     public String getPendingRequestType() {
-        return "product";
+        if(fileProduct==null)
+            return "product";
+        return "file product";
     }
 
     public ProductField getProductFieldBySeller(int sellerId) {
@@ -231,5 +233,9 @@ public class Product implements Pendable {
 
     public FileProduct getFileProduct() {
         return fileProduct;
+    }
+
+    public boolean isFileProduct(){
+        return !(fileProduct==null);
     }
 }

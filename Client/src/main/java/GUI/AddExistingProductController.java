@@ -13,6 +13,7 @@ import java.util.List;
 
 public class AddExistingProductController extends SellerProfileController implements Initializable {
 
+    public TableColumn<Product,String> productsType;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -92,8 +93,8 @@ public class AddExistingProductController extends SellerProfileController implem
     private void setTheTable(ArrayList<Product> allProducts){
         productsTable.getItems().clear();
         productsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        //todo axesh bayad dorost she
         productsPictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProductImage"));
+        productsType.setCellValueFactory(new PropertyValueFactory<>("pendingRequestType"));
         productsNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
        productsTable.getItems().addAll(allProducts);
     }

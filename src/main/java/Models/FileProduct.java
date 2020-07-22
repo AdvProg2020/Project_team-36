@@ -1,8 +1,5 @@
 package Models;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 public class FileProduct {
     private String fileName;
     private String fileType;
@@ -15,4 +12,15 @@ public class FileProduct {
         this.fileName = fileName.substring(0,index);
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
 }

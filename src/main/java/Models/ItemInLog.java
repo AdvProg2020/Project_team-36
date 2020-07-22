@@ -11,6 +11,7 @@ public class ItemInLog {
     private double salePercent;
     private long initialPrice;//per product
     private long currentPrice;
+    private boolean isFile;
 
     public ItemInLog(Product product, int count, Seller seller) {
         this.count = count;
@@ -21,10 +22,15 @@ public class ItemInLog {
             this.salePercent = product.getProductFieldBySeller(seller).getSale().getSalePercent();
         this.initialPrice = product.getProductFieldBySeller(seller).getPrice();
         this.currentPrice = product.getProductFieldBySeller(seller).getCurrentPrice();
+        this.isFile = product.isFileProduct();
     }
 
     public String getSellerUsername() {
         return sellerUsername;
+    }
+
+    public boolean isFile(){
+        return isFile;
     }
 
     public String getProductName() {
