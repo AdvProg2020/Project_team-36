@@ -14,6 +14,11 @@ import com.google.gson.Gson;
 public class ChatsController {
     private String controllerName = "ChatsController";
 
+    public ChatsController(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "new");
+        Response response = Client.process(query);
+    }
+
     public void sendNewMessage(String text, int chatId, String username){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "sendNewMessage");
         query.getMethodInputs().put("text", text);

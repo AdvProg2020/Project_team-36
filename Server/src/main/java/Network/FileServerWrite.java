@@ -24,7 +24,7 @@ public class FileServerWrite implements Runnable{
                 int length = dataInputStream.readInt();
                 byte[] fileBytes = new byte[length];
                 dataInputStream.readFully(fileBytes);
-                String path = "./Server/src/main/resources/files/" + new Date().getTime()+".dat";
+                String path = "src/main/resources/files/" + new Date().getTime()+".dat";
                 File file = new File(path);
                 OutputStream outputStream = new FileOutputStream(file);
                 outputStream.write(fileBytes);

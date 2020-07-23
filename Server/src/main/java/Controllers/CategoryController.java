@@ -169,61 +169,26 @@ public class CategoryController {
     }
 
     public Response processQuery(Query query) {
-        switch (query.getMethodName()) {
-            case "setCategoriesName":
-                return processSetCategoriesName(query);
-
-            case "getMainCategory":
-                return processGetMainCategory();
-
-            case "getAllCategories":
-                return processGetAllCategories();
-
-            case "setParentCategory":
-                return processSetParentCategory(query);
-
-            case "setIntegerField":
-                return processSetIntegerField(query);
-
-            case "setOptionalField":
-                return processSetOptionalField(query);
-
-            case "acceptCategory":
-                return processAcceptCategory();
-
-            case "editCategory":
-                return processEditCategory(query);
-
-            case "editName":
-                return processEditName(query);
-
-            case "getPendableCategory":
-                return processGetPendableCategory();
-
-            case "editField":
-                return processEditField(query);
-
-            case "removeField":
-                return processRemoveField(query);
-
-            case "renameField":
-                return processRenameField(query);
-
-            case "addField":
-                return processAddField(query);
-
-            case "removeCategory":
-                return processRemoveCategory(query);
-
-            case "getCategoryToEdit":
-                return processGetCategoryToEdit();
-
-            case "setCategoryToEdit":
-                return processSetCategoryToEdit(query);
-
-            default:
-                return new Response("Error", "");
-        }
+        return switch (query.getMethodName()) {
+            case "setCategoriesName" -> processSetCategoriesName(query);
+            case "getMainCategory" -> processGetMainCategory();
+            case "getAllCategories" -> processGetAllCategories();
+            case "setParentCategory" -> processSetParentCategory(query);
+            case "setIntegerField" -> processSetIntegerField(query);
+            case "setOptionalField" -> processSetOptionalField(query);
+            case "acceptCategory" -> processAcceptCategory();
+            case "editCategory" -> processEditCategory(query);
+            case "editName" -> processEditName(query);
+            case "getPendableCategory" -> processGetPendableCategory();
+            case "editField" -> processEditField(query);
+            case "removeField" -> processRemoveField(query);
+            case "renameField" -> processRenameField(query);
+            case "addField" -> processAddField(query);
+            case "removeCategory" -> processRemoveCategory(query);
+            case "getCategoryToEdit" -> processGetCategoryToEdit();
+            case "setCategoryToEdit" -> processSetCategoryToEdit(query);
+            default -> new Response("Error", "");
+        };
     }
 
     private Response processRemoveCategory(Query query) {

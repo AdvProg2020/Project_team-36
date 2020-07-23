@@ -6,9 +6,13 @@ import Models.Response;
 import Client.Network.Client;
 
 public class NewManagerController {
-    private String controllerName = "NewManagerController";
+    private final String controllerName = "NewManagerController";
 
 
+    public NewManagerController(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "new");
+        Response response = Client.process(query);
+    }
     public void setUsername(String username) throws InvalidInputException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setUsername");
         query.getMethodInputs().put("username", username);

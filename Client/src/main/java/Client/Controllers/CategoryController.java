@@ -16,6 +16,11 @@ import java.util.List;
 public class CategoryController {
     private final String controllerName = "CategoryController";
 
+    public CategoryController(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "new");
+        Response response = Client.process(query);
+    }
+
     public Category getMainCategory() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMainCategory");
         Response response = Client.process(query);
@@ -136,7 +141,7 @@ public class CategoryController {
     }
 
     public void addField(String name, String type) throws ThereIsFieldWithNameException, ThereIsFieldWithNameInSubCategory {
-        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "renameField");
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "addField");
         query.getMethodInputs().put("name", name);
         query.getMethodInputs().put("type", type);
         Response response = Client.process(query);

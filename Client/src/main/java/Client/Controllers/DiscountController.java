@@ -21,6 +21,11 @@ import java.util.List;
 public class DiscountController {
     private String controllerName = "DiscountController";
 
+    public DiscountController(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "new");
+        Response response = Client.process(query);
+    }
+
     public void setStartTime(Date startTime) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setStartTime");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");

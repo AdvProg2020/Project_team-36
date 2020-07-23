@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Manager extends User {
     private static ArrayList<Manager> allManagers = new ArrayList<>();
-
+    private static int bankAccountId;
+    private static double wage = 0; //masalan 5% mishe 0.05
 
     public Manager(String username) {
         super(username);
@@ -65,5 +66,21 @@ public class Manager extends User {
                 toBeRemoved.add(manager);
         }
         allManagers.removeAll(toBeRemoved);
+    }
+
+    public static int getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public static void setBankAccountId(int bankAccountId) {
+        Manager.bankAccountId = bankAccountId;
+    }
+
+    public static double getWage() {
+        return wage;
+    }
+
+    public static void setWage(double wage) {
+        Manager.wage = wage;
     }
 }

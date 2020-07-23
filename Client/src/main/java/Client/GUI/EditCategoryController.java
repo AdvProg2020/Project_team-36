@@ -167,10 +167,10 @@ public class EditCategoryController extends ManagerProfileController implements 
             return;
         }
         try {
-            categoryController.addField(newIntegerField.getText(), "OptionalField");
+            categoryController.addField(newOptionalField.getText(), "OptionalField");
             optionalAlertLabel.setStyle("-fx-text-fill: green");
             optionalAlertLabel.setText("field added successfully");
-            addNewField(newIntegerField.getText());
+            addNewField(newOptionalField.getText());
         } catch (CategoryController.ThereIsFieldWithNameException e) {
             optionalAlertLabel.setStyle("-fx-text-fill: red");
             optionalAlertLabel.setText("Failed! Due to duplicated name");

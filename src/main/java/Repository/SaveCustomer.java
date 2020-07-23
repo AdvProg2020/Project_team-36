@@ -3,7 +3,7 @@ package Repository;
 import Models.Customer;
 import Models.Status;
 import Models.User;
-import Models.WaitingLog;
+import Models.Wallet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,6 +22,7 @@ public class SaveCustomer {
     private String password;
     private Status status;
     private List<Integer> chatsIds;
+    private Wallet wallet;     //todo nazanin save wallet
     private String profilePictureURL;
     private static int lastId = 0;
     private long credit;
@@ -161,5 +162,9 @@ public class SaveCustomer {
 
     public SaveWaitingLog getWaitingLog() {
         return waitingLog;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 }

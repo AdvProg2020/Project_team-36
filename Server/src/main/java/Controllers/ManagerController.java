@@ -128,6 +128,22 @@ public class ManagerController extends UserController {
         }
     }
 
+    public void setWage(double wage){
+        Manager.setWage(wage);
+    }
+
+    public void setMinimum(long money){
+        Wallet.setMinimumAmount(money);
+    }
+
+    public double getWage(){
+        return Manager.getWage();
+    }
+
+    public long getMinimum(){
+        return Wallet.getMinimumAmount();
+    }
+
     //todo nazashtamesh (bedune estefade)
     public Method getFieldEditor(String chosenField) throws NoSuchMethodException {
         for (String regex : discountFieldsSetters.keySet()) {
@@ -532,6 +548,10 @@ public class ManagerController extends UserController {
             case "removeCustomersIncludedForDiscount" -> processRemoveCustomersIncludedForDiscount(query);
             case "getAllCustomerLogs" -> processGetAllCustomerLogs(query);
             case "setLogSent" -> processSetLogSent(query);
+            case "setWage" -> processSetWage(query);
+            case "setMinimum" -> processSetMinimum(query);
+            case "getWage" -> processGetWage();
+            case "getMinimum" -> processGetMinimum();
             default -> new Response("Error", "");
         };
     }
@@ -738,6 +758,24 @@ public class ManagerController extends UserController {
         Gson gson = new GsonBuilder().create();
         String thereIsCustomerGson = gson.toJson(thereIsCustomer);
         return new Response("Boolean", thereIsCustomerGson);
+    }
+
+    private Response processSetWage(Query query){
+        setWage(Double.parseDouble(query.getMethodInputs().get("wage")));
+        return new Response("void" , "");
+    }
+
+    private Response processSetMinimum(Query query){
+        setMinimum(Long.parseLong(query.getMethodInputs().get("money")));
+        return new Response("void" , "");
+    }
+
+    private Response processGetMinimum(){
+        return new Response("long" , Long.toString(getMinimum()));
+    }
+
+    private Response processGetWage(){
+        return new Response("double" , Double.toString(getWage()));
     }
 
     private Response processGetUserWithUsername(Query query) {

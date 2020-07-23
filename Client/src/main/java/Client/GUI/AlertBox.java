@@ -16,7 +16,7 @@ public class AlertBox {
         Stage window = new Stage();
 
         ClassLoader classLoader = AlertBox.class.getClassLoader();
-        URL resource = classLoader.getResource("/images/star.png");
+        URL resource = classLoader.getResource("images/star.png");
         if (resource == null) {
             throw new IllegalArgumentException("file is not found!");
         } else {

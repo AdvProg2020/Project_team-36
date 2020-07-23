@@ -26,6 +26,9 @@ public abstract class ManagerProfileController {
     public void openRequests () throws IOException {
         Constants.getGuiManager().open("ManageRequests",Constants.globalVariables.getLoggedInUser().getUserId());
     }
+    public void openFinancialManagements() throws IOException {
+        Constants.getGuiManager().open("FinancialManagements",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
     public void back() throws IOException {
         Constants.getGuiManager().back();
     }
