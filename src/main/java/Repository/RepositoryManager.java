@@ -12,14 +12,11 @@ import org.apache.commons.io.FileUtils;
 public class RepositoryManager {
     public static void saveData() {
         Product.updateAllProducts();
-        Customer.updateAllCustomers();
         Discount.updateDiscounts();
         Gift.updateGifts();
-        Manager.updateManagers();
         Sale.updateSales();
-        Seller.updateSellers();
         User.updateAllUsers();
-        Supporter.updateAllSupporters();
+
 
         try {
             File categoryFile = new File("./Server/src/main/resources/" + Category.class.getName());
