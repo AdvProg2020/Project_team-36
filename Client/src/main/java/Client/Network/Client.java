@@ -56,8 +56,8 @@ public class Client {
         Socket socket = new Socket("localhost",8282);
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-
         dataOutputStream.writeUTF(path);
+        dataOutputStream.flush();
         int length = dataInputStream.readInt();
         byte[] fileBytes =new byte[length];
         dataInputStream.readFully(fileBytes);
