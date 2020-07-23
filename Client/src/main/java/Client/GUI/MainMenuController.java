@@ -49,7 +49,7 @@ public class MainMenuController implements Initializable{
 
     @Override
     public void initialize(int id) throws IOException {
-        Image image = new Image(new FileInputStream("src/main/resources/images/Background1.jpg"));
+        Image image = new Image(new FileInputStream("./Client/src/main/resources/images/Background1.jpg"));
         anchorPane.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(100,100,true,true,false,true))));
