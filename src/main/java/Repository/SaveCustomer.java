@@ -54,7 +54,9 @@ public class SaveCustomer {
         this.password = customer.getPassword();
         this.status = customer.getStatus();
         this.credit = customer.getCredit();
-        this.waitingLog = new SaveWaitingLog(customer.getWaitingLog());
+        if(customer.getWaitingLog() != null){
+            this.waitingLog = new SaveWaitingLog(customer.getWaitingLog());
+        }
         customer.getChats().forEach(chat -> chatsIds.add(chat.getId()));
         customer.getAllLogs().forEach(customerLog -> this.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
         customer.getCart().forEach(selectedItem -> this.cart.add(new SaveSelectedItem(selectedItem)));
@@ -82,9 +84,13 @@ public class SaveCustomer {
             return null;
         }
         SaveCustomer saveCustomer = gson.fromJson(data,SaveCustomer.class);
+        WaitingLog waitingLog = null;
+        if (saveCustomer.waitingLog != null){
+            waitingLog = saveCustomer.waitingLog.generateWaitingLog();
+        }
         Customer customer = new Customer(saveCustomer.userId,saveCustomer.username,saveCustomer.firstname,
                 saveCustomer.lastname,saveCustomer.email,saveCustomer.phoneNumber,saveCustomer.password,
-                saveCustomer.status,saveCustomer.credit,saveCustomer.profilePictureURL,saveCustomer.waitingLog.generateWaitingLog());
+                saveCustomer.status,saveCustomer.credit,saveCustomer.profilePictureURL,waitingLog);
         Customer.addToAllCustomers(customer);
         User.addToAllUsers(customer);
         saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));

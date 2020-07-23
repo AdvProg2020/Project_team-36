@@ -248,6 +248,9 @@ public class Server {
         String returnType;
         int id = Integer.parseInt(query.getMethodInputs().get("id"));
         Gson gson1 = new GsonBuilder().create();
+        if (id < 0){
+            return new Response(query.getMethodName(),gson1.toJson(null));
+        }
         String output;
         switch (query.getMethodName()) {
             case "Category":
