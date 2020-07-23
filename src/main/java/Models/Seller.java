@@ -10,12 +10,14 @@ public class Seller extends User implements Pendable {
     private long credit;
     private String companyName;
     private String companyInfo;
+    private Wallet wallet;
 
     public Seller(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
         this.allSales = new ArrayList<>();
         this.allProducts = new ArrayList<>();
+        this.wallet = new Wallet();
     }
 
     @Override
@@ -37,6 +39,10 @@ public class Seller extends User implements Pendable {
 
     public String getCompanyInfo() {
         return companyInfo;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 
     public boolean sellerHasTheOff(int id){

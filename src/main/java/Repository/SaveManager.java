@@ -22,6 +22,10 @@ public class SaveManager {
     private List<Integer> chatsIds;
     private static int lastId = 0;
 
+    //todo nazanin save in dota
+    private static int bankAccountId;
+    private static double wage;
+
     //todo nazanin save chatsIds
 
 
@@ -112,5 +116,13 @@ public class SaveManager {
 
     public String getProfilePictureURL() {
         return profilePictureURL;
+    }
+
+    public static int getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public static double getWage() {
+        return wage;
     }
 }

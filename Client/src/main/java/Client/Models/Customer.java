@@ -4,6 +4,7 @@ import Client.GUI.Constants;
 import Client.Network.Client;
 import Models.Query;
 import Models.Response;
+import Models.Wallet;
 import Repository.SaveChat;
 import Repository.SaveCustomer;
 import Repository.SaveDiscount;
@@ -22,11 +23,13 @@ public class Customer extends User {
     private List<CustomerLog> allLogs;
     private WaitingLog waitingLog;
     private List<SelectedItem> cart;
+    private Wallet wallet;
 
     public Customer(SaveCustomer saveCustomer) {
         super(saveCustomer);
         this.saveCustomer = saveCustomer;
         this.credit = saveCustomer.getCredit();
+        this.wallet = saveCustomer.getWallet();
         this.cart = new ArrayList<>();
         saveCustomer.getCart().forEach(saveSelectedItem -> cart.add(new SelectedItem(saveSelectedItem)));
         this.allLogs = new ArrayList<>();
@@ -57,6 +60,10 @@ public class Customer extends User {
 
     public List<SelectedItem> getCart() {
         return cart;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 
     public Map<Discount, Integer> getAllDiscountsForCustomer() {

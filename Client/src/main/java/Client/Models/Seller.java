@@ -4,6 +4,7 @@ import Client.GUI.Constants;
 import Models.Query;
 import Models.Response;
 import Client.Network.Client;
+import Models.Wallet;
 import Repository.SaveChat;
 import Repository.SaveProduct;
 import Repository.SaveSale;
@@ -21,12 +22,14 @@ public class Seller extends User implements Pendable {
     private long credit;
     private String companyName;
     private String companyInfo;
+    private Wallet wallet;
 
     public Seller(SaveSeller saveSeller){
         super(saveSeller);
         this.saveSeller = saveSeller;
         this.companyName = saveSeller.getCompanyName();
         this.companyInfo = saveSeller.getCompanyInfo();
+        this.wallet = saveSeller.getWallet();
         this.credit = saveSeller.getCredit();
         this.allLogs = new ArrayList<>();
         saveSeller.getAllSellerLogs().forEach(saveSellerLog -> allLogs.add(new SellerLog(saveSellerLog)));
@@ -43,6 +46,10 @@ public class Seller extends User implements Pendable {
 
     public List<SellerLog> getAllLogs() {
         return allLogs;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 
     public List<Product> getAllProducts() {

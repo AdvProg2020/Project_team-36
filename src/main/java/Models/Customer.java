@@ -10,12 +10,14 @@ public class Customer extends User {
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
+    private Wallet wallet;
 
     public Customer(String username) {
         super(username);
         this.allLogs = new ArrayList<>();
         this.cart = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
+        this.wallet = new Wallet();
     }
 
     @Override
@@ -49,6 +51,10 @@ public class Customer extends User {
             selectedItem.checkTag();
         }
         return this.cart;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 
     public WaitingLog getWaitingLog() {

@@ -6,6 +6,7 @@ import Client.Models.*;
 import Client.Network.Client;
 import Models.Query;
 import Models.Response;
+import Models.Wallet;
 import Repository.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -64,6 +65,30 @@ public class ManagerController extends UserController {
         } else {
             return null;
         }
+    }
+
+    public void setWage(double wage){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setWage");
+        query.getMethodInputs().put("wage", Double.toString(wage));
+        Client.process(query);
+    }
+
+    public void setMinimum(long money){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setMinimum");
+        query.getMethodInputs().put("money", Long.toString(money));
+        Client.process(query);
+    }
+
+    public double getWage(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getWage");
+        Response response = Client.process(query);
+        return Double.parseDouble(response.getData());
+    }
+
+    public long getMinimum(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMinimum");
+        Response response = Client.process(query);
+        return Long.parseLong(response.getData());
     }
 
     public void removeDiscount(String id) throws InvalidDiscountIdException {

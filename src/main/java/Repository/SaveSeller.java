@@ -3,6 +3,7 @@ package Repository;
 import Models.Seller;
 import Models.Status;
 import Models.User;
+import Models.Wallet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -20,6 +21,7 @@ public class SaveSeller {
     private Status status;
     private String profilePictureURL;
     private List<Integer> chatsIds;
+    private Wallet wallet;     //todo nazanin save wallet
     private static int lastId = 0;
 
     private long credit;
@@ -162,5 +164,9 @@ public class SaveSeller {
 
     public List<Integer> getAllOffIds() {
         return allOffIds;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 }
