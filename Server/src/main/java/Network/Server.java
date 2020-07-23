@@ -32,6 +32,7 @@ public class Server {
                 Gson gson = new GsonBuilder().create();
                 String output = gson.toJson(response);
                 dataOutputStream.writeUTF(output);
+                dataOutputStream.flush();
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,20 +1,19 @@
 package Controllers;
 
 import Models.*;
-import View.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class EntryController extends UserController {
-    UserAreaMenu userAreaMenu;
+  //  UserAreaMenu userAreaMenu;
 
     public EntryController(GlobalVariables userVariables) {
         super(userVariables);
     }
 
-    public void setUserAreaMenu(UserAreaMenu userAreaMenu) {
-        this.userAreaMenu = userAreaMenu;
-    }
+   // public void setUserAreaMenu(UserAreaMenu userAreaMenu) {
+ //       this.userAreaMenu = userAreaMenu;
+   // }
 
     public void setPasswordLogin(String password) throws WrongPasswordException {
         if (!password.equals(userVariables.getLoggedInUser().getPassword())) {

@@ -15,8 +15,6 @@ public class OffController implements ObjectController {
     private final String controllerName = "OffController";
 
 
-
-
     @Override
     public void removeSortProduct() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeSortProduct");

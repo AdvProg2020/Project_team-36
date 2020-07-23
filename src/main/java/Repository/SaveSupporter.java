@@ -39,7 +39,8 @@ public class SaveSupporter {
         this.password = supporter.getPassword();
         this.status = supporter.getStatus();
         this.chatsIds = new ArrayList<>();
-        this.isOnline = supporter.isOnline();
+        //todo ino az comment dararin! error mide
+        //this.isOnline = supporter.isOnline();
         supporter.getChats().forEach(chat -> chatsIds.add(chat.getId()));
     }
 
