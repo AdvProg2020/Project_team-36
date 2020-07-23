@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ChatRoomController">
+<AnchorPane prefHeight="705" prefWidth="1360" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ChatRoomController">
    <children>
       <ScrollPane layoutY="-2.0" prefHeight="705.0" prefWidth="284.0">
          <content>

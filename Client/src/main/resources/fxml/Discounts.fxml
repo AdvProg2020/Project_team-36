@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="450.0" maxWidth="950.0" minHeight="450.0" minWidth="950.0" prefHeight="450.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.DiscountsController">
+<AnchorPane maxHeight="450.0" maxWidth="950.0" minHeight="450.0" minWidth="950.0" prefHeight="450.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.DiscountsController">
    <children>
       <TableView fx:id="allDiscounts" layoutX="186.0" layoutY="74.0" prefHeight="350.0" prefWidth="578.0">
         <columns>

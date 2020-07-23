@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="#back" minHeight="0.0" minWidth="0.0" prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #000000,    linear-gradient(#303842, #3e5577),    linear-gradient(#375074, #5877a2),    linear-gradient(#486a9a, #768aa5); -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.1) , 2, 0.0 , 0 , 1);" stylesheets="@../css/ButtonsStyleSheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ManagerRegisterController">
+<AnchorPane id="#back" minHeight="0.0" minWidth="0.0" prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #000000,    linear-gradient(#303842, #3e5577),    linear-gradient(#375074, #5877a2),    linear-gradient(#486a9a, #768aa5); -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.1) , 2, 0.0 , 0 , 1);" stylesheets="@../css/ButtonsStyleSheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ManagerRegisterController">
 <children>
     <VBox alignment="CENTER" layoutX="742.0" layoutY="57.0" prefHeight="576.0" prefWidth="279.0" spacing="20.0">
         <children>

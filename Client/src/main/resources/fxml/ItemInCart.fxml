@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<HBox maxHeight="-Infinity" maxWidth="800.0" minHeight="-Infinity" minWidth="800.0" prefHeight="150.0" prefWidth="800.0" spacing="15.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ItemInCartController">
+<HBox maxHeight="-Infinity" maxWidth="800.0" minHeight="-Infinity" minWidth="800.0" prefHeight="150.0" prefWidth="800.0" spacing="15.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ItemInCartController">
    <children>
       <ImageView fx:id="image" fitHeight="125.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
       <VBox prefHeight="110.0" prefWidth="138.0" spacing="10.0">

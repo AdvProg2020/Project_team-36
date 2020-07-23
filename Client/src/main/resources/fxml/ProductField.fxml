@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="hBox" maxWidth="400.0" minWidth="-Infinity" prefWidth="400.0" spacing="8.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ProductFieldController">
+<HBox fx:id="hBox" maxWidth="400.0" minWidth="-Infinity" prefWidth="400.0" spacing="8.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ProductFieldController">
    <children>
       <Label fx:id="companyName" text="Label" />
       <Label fx:id="priceAfterSale" />

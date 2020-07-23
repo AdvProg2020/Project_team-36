@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #556B2F;" stylesheets="@../css/ButtonsStyleSheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ProductsMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="705.0" prefWidth="1360.0" style="-fx-background-color: #556B2F;" stylesheets="@../css/ButtonsStyleSheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ProductsMenuController">
    <top>
       <Pane prefHeight="91.0" prefWidth="1360.0" style="-fx-background-color: #1C3F1A;" BorderPane.alignment="CENTER">
          <children>

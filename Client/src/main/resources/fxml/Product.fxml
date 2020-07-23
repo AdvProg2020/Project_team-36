@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<ScrollPane maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" style="-fx-background-color: #556B2F;" stylesheets="@../css/ButtonsStyleSheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ProductController">
+<ScrollPane maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" style="-fx-background-color: #556B2F;" stylesheets="@../css/ButtonsStyleSheet.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ProductController">
     <content>
         <VBox maxWidth="1350.0" minWidth="1350.0" prefWidth="1350.0" spacing="8.0" style="-fx-background-color: #556B2F;">
             <children>
