@@ -20,6 +20,7 @@ public class BankUser {
         this.lastname = lastname;
         this.accountId = generateId();
         this.allTransactions = new ArrayList<>();
+        this.balance = 600_000;
     }
 
     public int generateId(){
