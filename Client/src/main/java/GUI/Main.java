@@ -39,7 +39,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Constants.getGuiManager().setStage(stage);
-        RepositoryManager.loadData();
+//        RepositoryManager.loadData();
 
         String firstPage = "ManagerRegister";
 
@@ -61,6 +61,6 @@ public class Main extends Application {
         Constants.globalVariables.setLoggedInUser(Constants.userController.getUserById(2));
         Constants.getGuiManager().open(firstPage, 1000);
         stage.show();
-        stage.setOnCloseRequest(windowEvent -> RepositoryManager.saveData());
+//        stage.setOnCloseRequest(windowEvent -> RepositoryManager.saveData());
     }
 }
