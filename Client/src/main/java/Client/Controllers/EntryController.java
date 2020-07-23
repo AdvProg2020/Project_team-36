@@ -25,8 +25,9 @@ public class EntryController {
         if (response.getReturnType().equals("User")) {
             Gson gson = new Gson();
             SaveUser saveUser = gson.fromJson(response.getData(), SaveUser.class);
-            if(saveUser==null)
+            if(saveUser==null) {
                 return null;
+            }
             return User.generateUser(saveUser);
         } else {
             return null;
@@ -99,6 +100,12 @@ public class EntryController {
 
     public void register() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "register");
+        Client.process(query);
+    }
+
+    public void setLoggedInUser(int userId){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setLoggedInUser");
+      query.getMethodInputs().put("userId",Integer.toString(userId));
         Client.process(query);
     }
 

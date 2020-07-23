@@ -120,6 +120,10 @@ public class EntryController extends UserController {
         return false;
     }
 
+    public void setLoggedInUser(int userId){
+        userVariables.setLoggedInUser(User.getUserById(userId));
+    }
+
     public void setImage(String path) {
         userVariables.getLoggedInUser().setImageURL(path);
     }
@@ -140,8 +144,16 @@ public class EntryController extends UserController {
             case"setPhoneNumber" -> processSetPhoneNumber(query);
             case "setPassword" -> processSetPassword(query);
             case "setEmail" -> processSetEmail(query);
-            default -> new Response("Error", "");
+            case "setLoggedInUser" -> processSetLoggedInUser(query);
+            default -> new Response("Error", "entry controller error");
+
         };
+    }
+
+    private Response processSetLoggedInUser(Query query) {
+        int userId = Integer.parseInt(query.getMethodInputs().get("userId"));
+        setLoggedInUser(userId);
+        return new Response("void", "");
     }
 
     private Response processSetPassword(Query query){
@@ -164,7 +176,7 @@ public class EntryController extends UserController {
 
     private Response processSetFirstname(Query query){
         String firstname = query.getMethodInputs().get("firstname");
-        setLastname(firstname);
+        setFirstname(firstname);
         return new Response("void", "");
     }
 

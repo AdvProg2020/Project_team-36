@@ -7,7 +7,12 @@ import Client.Network.Client;
 
 
 public class NewProductController {
-    private String controllerName = "NewProductController";
+    private final String controllerName = "NewProductController";
+
+    public NewProductController(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "new");
+        Response response = Client.process(query);
+    }
 
     public void setSeller(Seller seller) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setSeller");

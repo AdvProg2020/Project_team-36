@@ -37,7 +37,7 @@ public class Seller extends User implements Pendable {
 
     @Override
     public String getType() {
-        return null;
+        return "seller";
     }
 
     public SaveSeller getSaveSeller() {

@@ -20,9 +20,9 @@
                 </Pane>
                 <Button layoutX="1.0" layoutY="200.0" mnemonicParsing="false" onAction="#openPersonalInfo" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Personal Info" textFill="#d7d4d4" />
                 <Button layoutX="1.0" layoutY="256.0" mnemonicParsing="false" onAction="#openAllUsers" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="all users" textFill="#d7d4d4" />
-                <Button layoutX="1.0" layoutY="312.0" mnemonicParsing="false" onAction="#openManageProducts" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="all products" textFill="#d7d4d4" />
-                <Button layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#openShowCategories" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="discount codes" textFill="#d7d4d4" />
-                <Button layoutX="1.0" layoutY="430.0" mnemonicParsing="false" onAction="#openViewOffs" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="categories" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="312.0" mnemonicParsing="false" onAction="#openAllProducts" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="all products" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#openDiscountCodes" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="discount codes" textFill="#d7d4d4" />
+                <Button layoutX="1.0" layoutY="430.0" mnemonicParsing="false" onAction="#openCategories" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="categories" textFill="#d7d4d4" />
             <Button layoutX="3.0" layoutY="495.0" mnemonicParsing="false" onAction="#openRequests" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="requests" textFill="#d7d4d4" />
             <Button layoutX="3.0" layoutY="552.0" mnemonicParsing="false" onAction="#openCustomerLogs" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="customer logs" textFill="#d7d4d4" />
             </children>

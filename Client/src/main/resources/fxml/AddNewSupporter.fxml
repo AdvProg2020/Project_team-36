@@ -75,16 +75,17 @@
                             <Button layoutX="364.0" layoutY="277.0" mnemonicParsing="false" onAction="#addImage" text="add image" />
                             <Button layoutX="679.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#register" prefHeight="26.0" prefWidth="120.0" text="Create Account" />
                             <ImageView fx:id="image" fitHeight="105.0" fitWidth="132.0" layoutX="60.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" />
-                            <ImageView fitHeight="266.0" fitWidth="438.0" layoutX="520.0" layoutY="41.0" pickOnBounds="true">
-                                <image>
-                                    <Image url="@../images/supporterBackground.png" />
-                                </image>
-                            </ImageView>
+                            <ImageView fitHeight="266.0" fitWidth="438.0" layoutX="520.0" layoutY="41.0" pickOnBounds="true" />
                             <Label fx:id="alertLabel" layoutX="137.0" layoutY="338.0" prefHeight="31.0" prefWidth="271.0" textFill="#dd2c2c">
                                 <font>
                                     <Font size="14.0" />
                                 </font>
                             </Label>
+                     <ImageView fitHeight="251.0" fitWidth="441.0" layoutX="513.0" layoutY="79.0">
+                        <image>
+                           <Image url="@../images/supporterBackground.png" />
+                        </image>
+                     </ImageView>
                         </AnchorPane>
                     </content>
                 </ScrollPane>

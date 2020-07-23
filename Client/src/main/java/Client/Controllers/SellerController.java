@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 public class SellerController extends UserController {
-    private String controllerName = "SellerController";
+    private final String controllerName = "SellerController";
 
 
     public Seller getLoggedInSeller() {

@@ -16,6 +16,11 @@ import java.util.List;
 public class EditProductController {
     private String controllerName = "EditProductController";
 
+    public EditProductController(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "new");
+        Response response = Client.process(query);
+    }
+
     public Product getProductCopy(Product product){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductCopy");
         query.getMethodInputs().put("id", Integer.toString(product.getProductId()));

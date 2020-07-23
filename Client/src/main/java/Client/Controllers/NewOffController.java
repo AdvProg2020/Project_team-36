@@ -8,8 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class NewOffController {
-    private String controllerName = "NewOffController";
+    private final String controllerName = "NewOffController";
 
+    public NewOffController(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "new");
+        Response response = Client.process(query);
+    }
 
     public void setProductsInSale(int productId) throws InvalidProductIdException{
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setProductsInSale");

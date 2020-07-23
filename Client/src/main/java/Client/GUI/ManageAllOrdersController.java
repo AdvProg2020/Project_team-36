@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.util.Date;
 
-public class ManageAllOrdersController extends SellerProfileController implements Initializable {
+public class ManageAllOrdersController extends ManagerProfileController implements Initializable {
     public Label usernameLabel;
     public ImageView profilePicture;
     public TableColumn<Client.Models.CustomerLog,Integer> id;
