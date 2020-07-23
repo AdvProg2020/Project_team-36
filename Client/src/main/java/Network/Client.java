@@ -21,10 +21,11 @@ public class Client {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeUTF(output);
+            dataOutputStream.flush();
             String input = dataInputStream.readUTF();
             socket.close();
             Gson gson1 = new Gson();
-            return gson.fromJson(input, Response.class);
+            return gson1.fromJson(input, Response.class);
         } catch (IOException e) {
             if (socket != null && !socket.isClosed()){
                 try {

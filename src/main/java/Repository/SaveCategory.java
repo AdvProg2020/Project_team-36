@@ -71,7 +71,7 @@ public class SaveCategory {
 
     public static Category load(int id) {
         lastId = Math.max(lastId,id);
-        Category potentialCategory = Category.getCategoryById(id);
+        Category potentialCategory = Models.Category.getCategoryById(id);
         if (potentialCategory != null) {
             return potentialCategory;
         }

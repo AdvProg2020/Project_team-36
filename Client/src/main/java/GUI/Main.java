@@ -29,8 +29,8 @@ public class Main extends Application {
       //  Product.addTest();
         Query query = new Query("","SessionController","");
         Response response = Client.process(query);
-        Constants.globalVariables.setToken(response.getData());
         Constants.setControllers();
+        Constants.globalVariables.setToken(response.getData());
         launch(args);
 
     }

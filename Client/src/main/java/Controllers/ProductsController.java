@@ -18,54 +18,14 @@ import java.util.*;
 public class ProductsController implements ObjectController {
     private final String controllerName;
     private final GlobalVariables userVariables;
-    private final HashMap<String, Method> sortMethods;
-    private final HashMap<String, Method> optionalFilterMethods;
-    private final HashMap<String, Method> integerFilterMethods;
+
 
     public ProductsController(GlobalVariables userVariables) {
         this.controllerName = "ProductsController";
         this.userVariables = userVariables;
-        this.sortMethods = new HashMap<>();
-        this.integerFilterMethods = new HashMap<>();
-        this.optionalFilterMethods = new HashMap<>();
-        setSortMethodsProducts();
-        setFilterMethods();
     }
 
 
-    private void setSortMethodsProducts() {
-        try {
-            Method method = Product.class.getDeclaredMethod("getProductionDate");
-            this.sortMethods.put("production date", method);
-            method = Product.class.getDeclaredMethod("getSeenNumber");
-            this.sortMethods.put("seen", method);
-            method = Product.class.getDeclaredMethod("getName");
-            this.sortMethods.put("name", method);
-            method = Product.class.getDeclaredMethod("getScore");
-            this.sortMethods.put("score", method);
-            method = Product.class.getDeclaredMethod("getHighestCurrentPrice");
-            this.sortMethods.put("maximum price of all", method);
-            method = Product.class.getDeclaredMethod("getLowestCurrentPrice");
-            this.sortMethods.put("minimum price of all", method);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setFilterMethods() {
-        try {
-            Method method = Product.class.getDeclaredMethod("getName");
-            this.optionalFilterMethods.put("name", method);
-            method = Product.class.getDeclaredMethod("isThereSeller", String.class);
-            this.optionalFilterMethods.put("seller", method);
-            method = Product.class.getDeclaredMethod("getLowestPrice");
-            this.integerFilterMethods.put("price", method);
-            method = Product.class.getDeclaredMethod("getCompany");
-            this.optionalFilterMethods.put("company", method);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Product getProduct(int id) throws NoProductWithId {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProduct");

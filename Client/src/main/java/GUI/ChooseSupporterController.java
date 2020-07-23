@@ -26,11 +26,11 @@ public class ChooseSupporterController implements Initializable {
 
         ArrayList<Supporter> onlineSupporters = new ArrayList<>();
         //todo gereftan e hame user haie online
-        for (User user : ) {
-            if(user instanceof Supporter){
-                onlineSupporters.add((Supporter)user);
-            }
-        }
+//        for (User user : ) {
+//            if(user instanceof Supporter){
+//                onlineSupporters.add((Supporter)user);
+//            }
+//        }
 
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
