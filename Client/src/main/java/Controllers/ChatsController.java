@@ -1,14 +1,13 @@
 package Controllers;
 
 import GUI.Constants;
-import Models.Chat;
-import Models.Discount;
-import Models.Query;
-import Models.Response;
+import Models.*;
 import Network.Client;
 import Repository.SaveChat;
 import Repository.SaveDiscount;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 
 public class ChatsController {
@@ -32,6 +31,18 @@ public class ChatsController {
             return new Chat(saveChat);
         } else {
             return null;
+        }
+    }
+
+    public int createNewChatRoom(Supporter supporter, User user){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getChatById");
+        query.getMethodInputs().put("user", Integer.toString(user.getUserId()));
+        query.getMethodInputs().put("supporter", Integer.toString(supporter.getUserId()));
+        Response response = Client.process(query);
+        if (response.getReturnType().equals("int")) {
+            return Integer.parseInt(response.getData());
+        } else {
+            return -1;
         }
     }
 

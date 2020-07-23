@@ -22,10 +22,11 @@ public class SaveSupporter {
     private Status status;
     private String profilePictureUrl;
     private List<Integer> chatsIds;
+    private boolean isOnline;
     private static int lastId = 0;
 
     //todo nazanin save chatsIds
-
+    //todo nazanin save isOnline;
 
     public SaveSupporter(Supporter supporter){
         this.profilePictureUrl = supporter.getProfilePictureUrl();
@@ -38,6 +39,7 @@ public class SaveSupporter {
         this.password = supporter.getPassword();
         this.status = supporter.getStatus();
         this.chatsIds = new ArrayList<>();
+        this.isOnline = supporter.isOnline();
         supporter.getChats().forEach(chat -> chatsIds.add(chat.getId()));
     }
 
@@ -107,6 +109,10 @@ public class SaveSupporter {
 
     public List<Integer> getChatsIds() {
         return chatsIds;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
     }
 
     public static int getLastId() {

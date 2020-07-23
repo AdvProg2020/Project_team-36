@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,11 +116,16 @@ public class ViewSellerProductController extends SellerProfileController impleme
 
     private void expandAllParents(TreeItem<Category> productCategory) throws MalformedURLException {
         if (productCategory.getValue().equals(category)) {
-            //todo change address karaneh
-            File file = new File ("src/main/resources/images/happy.png");
-            String path = file.toURI().toURL().toString();
-            Node rootIcon = new ImageView(new Image(path,10,10,false,false));
-            productCategory.setGraphic(rootIcon);
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL resource = classLoader.getResource("/images/happy.png");
+            if (resource == null) {
+                throw new IllegalArgumentException("file is not found!");
+            } else {
+                File file = new File(resource.getFile());
+                String path = file.toURI().toURL().toString();
+                Node rootIcon = new ImageView(new Image(path, 10, 10, false, false));
+                productCategory.setGraphic(rootIcon);
+            }
             productCategory.setExpanded(false);
             productCategory = productCategory.getParent();
             while (productCategory != null) {

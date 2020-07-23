@@ -1,9 +1,11 @@
 package GUI;
 
 import Controllers.ChatsController;
+import Controllers.EntryController;
 import Models.Chat;
 import Models.Message;
 import Models.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -16,6 +18,8 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ChatRoomController implements Initializable {
     @FXML private VBox chatsVBox;
@@ -27,18 +31,31 @@ public class ChatRoomController implements Initializable {
     @FXML private TextArea writerUsername;
     private User writer;
     private Chat chat;
-    private ChatsController chatsController = new ChatsController();
+    private final ChatsController chatsController = new ChatsController();
 
 
     @Override
     public void initialize(int id) throws IOException {
         this.writer = Constants.globalVariables.getLoggedInUser();
-        writerUsername.setText(writer.getUsername()+"\n"+writer.getType());
+        writerUsername.setText(writer.getUsername() + "\n" + writer.getType());
         writerProfilePicture.setImage(writer.getProfilePicture(50, 50).getImage());
-        chat = chatsController.getChatById(id);
-        setUsersVBox();
         setChatsVBox();
-        setChatsArea();
+        if(id!=-1) {
+            chat = chatsController.getChatById(id);
+            setUsersVBox();
+            setChatsArea();
+        }
+        Timer t = new Timer( );
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    Constants.getGuiManager().reopen();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0,1000);
     }
 
     private void setUsersVBox() throws IOException {
@@ -83,10 +100,21 @@ public class ChatRoomController implements Initializable {
     }
 
     public void sendAction() throws IOException {
+        if(messageArea.getText().isEmpty()){
+            return;
+        }
+
         String text = messageArea.getText();
         chatsController.sendNewMessage(text, chat.getId(), writer.getUsername());
         messageArea.clear();
         Constants.getGuiManager().reopen();
+    }
+
+    public void back() throws IOException {
+        Constants.getGuiManager().back();
+    }
+    public void logout() throws EntryController.NotLoggedInException, IOException {
+        Constants.getGuiManager().logout();
     }
 }
 
