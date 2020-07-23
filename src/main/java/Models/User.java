@@ -1,9 +1,6 @@
 package Models;
 
 
-import javafx.scene.control.Hyperlink;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.io.IOException;

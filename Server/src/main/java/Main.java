@@ -16,7 +16,6 @@ public class Main {
 
             Server server = new Server();
             server.run();
-            RepositoryManager.saveData();
         } catch (IOException e) {
             e.printStackTrace();
         }

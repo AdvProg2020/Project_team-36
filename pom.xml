@@ -37,16 +37,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>14</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>14</version>
-        </dependency>
-        <dependency>
             <groupId>org.example</groupId>
             <artifactId>AP_Project</artifactId>
             <version>1.0-SNAPSHOT</version>

@@ -6,7 +6,6 @@ import Models.Supporter;
 import Models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;

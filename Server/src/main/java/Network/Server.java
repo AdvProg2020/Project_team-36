@@ -21,6 +21,7 @@ public class Server {
     }
 
     public void run() {
+        int counter = 0;
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
@@ -34,6 +35,10 @@ public class Server {
                 dataOutputStream.writeUTF(output);
                 dataOutputStream.flush();
                 socket.close();
+                counter ++ ;
+                if (counter%20 == 0){
+                    RepositoryManager.saveData();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -22,52 +22,52 @@ public class RepositoryManager {
         Supporter.updateAllSupporters();
 
         try {
-            File categoryFile = new File("./src/main/resources/" + Category.class.getName());
+            File categoryFile = new File("./Server/src/main/resources/" + Category.class.getName());
             if (categoryFile.exists()){
                 FileUtils.cleanDirectory(categoryFile);
             }
 
-            File customerFile = new File("./src/main/resources/" + Customer.class.getName());
+            File customerFile = new File("./Server/src/main/resources/" + Customer.class.getName());
             if (customerFile.exists()){
                 FileUtils.cleanDirectory(customerFile);
             }
 
-            File discountFile = new File("./src/main/resources/" + Discount.class.getName());
+            File discountFile = new File("./Server/src/main/resources/" + Discount.class.getName());
             if (discountFile.exists()){
                 FileUtils.cleanDirectory(discountFile);
             }
 
-            File giftFile = new File("./src/main/resources/" + Gift.class.getName());
+            File giftFile = new File("./Server/src/main/resources/" + Gift.class.getName());
             if (giftFile.exists()){
                 FileUtils.cleanDirectory(giftFile);
             }
 
-            File managerFile = new File("./src/main/resources/" + Manager.class.getName());
+            File managerFile = new File("./Server/src/main/resources/" + Manager.class.getName());
             if (managerFile.exists()){
                 FileUtils.cleanDirectory(managerFile);
             }
 
-            File supporterFile = new File("./src/main/resources/" + Supporter.class.getName());
+            File supporterFile = new File("./Server/src/main/resources/" + Supporter.class.getName());
             if (supporterFile.exists()){
                 FileUtils.cleanDirectory(supporterFile);
             }
 
-            File productFile = new File("./src/main/resources/" + Product.class.getName());
+            File productFile = new File("./Server/src/main/resources/" + Product.class.getName());
             if (productFile.exists()){
                 FileUtils.cleanDirectory(productFile);
             }
 
-            File requestFile = new File("./src/main/resources/" + Request.class.getName());
+            File requestFile = new File("./Server/src/main/resources/" + Request.class.getName());
             if (requestFile.exists()){
                 FileUtils.cleanDirectory(requestFile);
             }
 
-            File saleFile = new File("./src/main/resources/" + Sale.class.getName());
+            File saleFile = new File("./Server/src/main/resources/" + Sale.class.getName());
             if (saleFile.exists()){
                 FileUtils.cleanDirectory(saleFile);
             }
 
-            File sellerFile = new File("./src/main/resources/" + Seller.class.getName());
+            File sellerFile = new File("./Server/src/main/resources/" + Seller.class.getName());
             if (sellerFile.exists()){
                 FileUtils.cleanDirectory(sellerFile);
             }
@@ -108,7 +108,7 @@ public class RepositoryManager {
     }
 
     private static void loadSellers() {
-        File sellerDir = new File("./src/main/resources/"+ Seller.class.getName()+"/");
+        File sellerDir = new File("./Server/src/main/resources/"+ Seller.class.getName()+"/");
         File[] directoryListing = sellerDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -120,7 +120,7 @@ public class RepositoryManager {
     }
 
     private static void loadSales() {
-        File saleDir = new File("./src/main/resources/"+ Sale.class.getName()+"/");
+        File saleDir = new File("./Server/src/main/resources/"+ Sale.class.getName()+"/");
         File[] directoryListing = saleDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -131,7 +131,7 @@ public class RepositoryManager {
     }
 
     private static void loadRequests() {
-        File requestDir = new File("./src/main/resources/"+ Request.class.getName()+"/");
+        File requestDir = new File("./Server/src/main/resources/"+ Request.class.getName()+"/");
         File[] directoryListing = requestDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -142,7 +142,7 @@ public class RepositoryManager {
     }
 
     private static void loadProducts() {
-        File productDir = new File("./src/main/resources/"+ Product.class.getName()+"/");
+        File productDir = new File("./Server/src/main/resources/"+ Product.class.getName()+"/");
         File[] directoryListing = productDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -153,7 +153,7 @@ public class RepositoryManager {
     }
 
     private static void loadManagers() {
-        File managerDir = new File("./src/main/resources/"+ Manager.class.getName()+"/");
+        File managerDir = new File("./Server/src/main/resources/"+ Manager.class.getName()+"/");
         File[] directoryListing = managerDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -165,7 +165,7 @@ public class RepositoryManager {
     }
 
     private static void loadSupporters(){
-        File supporterDir = new File("./src/main/resources/"+ Supporter.class.getName()+"/");
+        File supporterDir = new File("./Server/src/main/resources/"+ Supporter.class.getName()+"/");
         File[] directoryListing = supporterDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -177,7 +177,7 @@ public class RepositoryManager {
     }
 
     private static void loadGifts() {
-        File giftDir = new File("./src/main/resources/"+ Gift.class.getName()+"/");
+        File giftDir = new File("./Server/src/main/resources/"+ Gift.class.getName()+"/");
         File[] directoryListing = giftDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -188,7 +188,7 @@ public class RepositoryManager {
     }
 
     private static void loadDiscounts() {
-        File discountDir = new File("./src/main/resources/"+ Discount.class.getName()+"/");
+        File discountDir = new File("./Server/src/main/resources/"+ Discount.class.getName()+"/");
         File[] directoryListing = discountDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -200,7 +200,7 @@ public class RepositoryManager {
     }
 
     private static void loadCustomers() {
-        File customerDir = new File("./src/main/resources/"+ Customer.class.getName()+"/");
+        File customerDir = new File("./Server/src/main/resources/"+ Customer.class.getName()+"/");
         File[] directoryListing = customerDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
@@ -212,7 +212,7 @@ public class RepositoryManager {
     }
 
     private static void loadCategories() {
-        File categoryDir = new File("./src/main/resources/"+ Category.class.getName()+"/");
+        File categoryDir = new File("./Server/src/main/resources/"+ Category.class.getName()+"/");
         File[] directoryListing = categoryDir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {

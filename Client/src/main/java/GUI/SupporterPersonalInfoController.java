@@ -2,7 +2,6 @@ package GUI;
 
 import Controllers.EntryController;
 import Models.User;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
