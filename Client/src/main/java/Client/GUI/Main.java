@@ -27,7 +27,7 @@ public class Main extends Application {
 //        Menu runMenu = new MainMenu();
 //        runMenu.execute();
       //  Product.addTest();
-        Query query = new Query("","SessionController","");
+        Query query = new Query("","SessionController","addSession");
         Response response = Client.process(query);
         Constants.setControllers();
         Constants.globalVariables.setToken(response.getData());
@@ -61,6 +61,11 @@ public class Main extends Application {
         Constants.globalVariables.setLoggedInUser(Constants.userController.getUserById(2));
         Constants.getGuiManager().open(firstPage, 1000);
         stage.show();
-//        stage.setOnCloseRequest(windowEvent -> RepositoryManager.saveData());
+        stage.setOnCloseRequest(windowEvent -> closeTheStage());
+    }
+
+    private void closeTheStage(){
+        Query query = new Query(Constants.globalVariables.getToken(),"SessionController","close");
+        Client.process(query);
     }
 }
