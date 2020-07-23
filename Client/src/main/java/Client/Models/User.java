@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class User {
     protected int userId;
@@ -143,4 +144,5 @@ public abstract class User {
     }
 
     public abstract ArrayList<Chat> getChats();
+
 }
