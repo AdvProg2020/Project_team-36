@@ -29,9 +29,13 @@ public class Server {
                 DataOutputStream dataOutputStream = new DataOutputStream(
                         new BufferedOutputStream(socket.getOutputStream()));
                 String input = dataInputStream.readUTF();
+                System.out.println(input);
+                System.out.println();
                 Response response = process(input);
                 Gson gson = new GsonBuilder().create();
                 String output = gson.toJson(response);
+                System.out.println(output);
+                System.out.println("-----");
                 dataOutputStream.writeUTF(output);
                 dataOutputStream.flush();
                 socket.close();
