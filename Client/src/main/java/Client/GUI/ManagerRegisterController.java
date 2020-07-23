@@ -1,6 +1,7 @@
 package Client.GUI;
 
 import Client.Controllers.EntryController;
+import Client.Network.Client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -12,6 +13,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class ManagerRegisterController implements Initializable {
 
@@ -24,7 +26,7 @@ public class ManagerRegisterController implements Initializable {
     @FXML private PasswordField rePassword;
     @FXML private ImageView image;
     @FXML private Label alertLabel;
-    private String imagePath = "";
+    private File imageFile = null;
     private final EntryController entryController = Constants.entryController;
 
     @Override
@@ -40,7 +42,7 @@ public class ManagerRegisterController implements Initializable {
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
         if (file != null) {
             try {
-                imagePath = file.getPath();
+                imageFile = file;
                 image.setImage(new Image(new FileInputStream(file)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -161,11 +163,17 @@ public class ManagerRegisterController implements Initializable {
     }
 
     private boolean setImage() {
-        if (imagePath.isEmpty()) {
+        if (imageFile==null) {
             alertLabel.setText("You need profile pic!");
             return false;
         }
-        entryController.setImage(imagePath);
+        String path = null;
+        try {
+            path = Client.writeFile(Files.readAllBytes(imageFile.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        entryController.setImage(path);
         return true;
     }
 

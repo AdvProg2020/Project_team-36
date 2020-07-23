@@ -124,7 +124,7 @@ public abstract class User {
     }
 
     public ImageView getProfilePicture(int height,int width) throws MalformedURLException {
-        byte[] bytes =null ;
+        byte[] bytes =null;
         try {
             bytes = Client.readFile(profilePictureUrl);
         } catch (IOException e) {
@@ -135,14 +135,7 @@ public abstract class User {
     }
 
     public ImageView getSmallProfilePicture() throws MalformedURLException {
-        byte[] bytes =null ;
-        try {
-            bytes = Client.readFile(profilePictureUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Image img = new Image(new ByteArrayInputStream(bytes),50,50,false,false);
-        return new ImageView(img);
+        return getProfilePicture(50,50);
     }
 
     public String getProfilePictureUrl() {

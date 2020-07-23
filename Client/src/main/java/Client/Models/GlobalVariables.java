@@ -107,16 +107,7 @@ public class GlobalVariables {
     }
 
     public User getLoggedInUser() {
-        Query query = new Query(Constants.globalVariables.getToken(), "UserController", "getUserById");
-        query.getMethodInputs().put("id", Integer.toString(loggedInUser.getUserId()));
-        Response response = Client.process(query);
-        if(response.getReturnType().equals("User")){
-            Gson gson = new Gson();
-            User user = User.generateUser(gson.fromJson(response.getData(), SaveUser.class));
-            return user;
-        }
-        System.out.println(response.getReturnType());
-        return null;
+        return Constants.entryController.getLoggedInUser();
     }
 
     public void setSortProduct(String name, String type) {

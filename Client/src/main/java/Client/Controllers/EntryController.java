@@ -1,8 +1,11 @@
 package Client.Controllers;
 
 import Client.GUI.Constants;
+import Client.Models.User;
 import Client.Network.Client;
 import Models.*;
+import Repository.SaveUser;
+import com.google.gson.Gson;
 
 public class EntryController {
     private final String controllerName = "EntryController";
@@ -11,8 +14,23 @@ public class EntryController {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setPasswordLogin");
         query.getMethodInputs().put("password",password);
         Response response = Client.process(query);
+        Constants.globalVariables.setLoggedInUser(getLoggedInUser());
         if(response.getReturnType().equalsIgnoreCase("WrongPasswordException"))
             throw new WrongPasswordException("Wrong password!");
+    }
+
+    public User getLoggedInUser() {
+        Query query = new Query(Constants.globalVariables.getToken(), "UserController", "getLoggedInUser");
+        Response response = Client.process(query);
+        if (response.getReturnType().equals("User")) {
+            Gson gson = new Gson();
+            SaveUser saveUser = gson.fromJson(response.getData(), SaveUser.class);
+            if(saveUser==null)
+                return null;
+            return User.generateUser(saveUser);
+        } else {
+            return null;
+        }
     }
 
     public void setUserNameLogin(String username) throws InvalidUsernameException {
@@ -85,6 +103,7 @@ public class EntryController {
     }
 
     public void logout() throws NotLoggedInException {
+        Constants.globalVariables.setLoggedInUser(null);
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "logout");
         if(Client.process(query).getReturnType().equalsIgnoreCase("NotLoggedInException"))
             throw new NotLoggedInException();
