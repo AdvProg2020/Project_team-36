@@ -1,17 +1,14 @@
 package Repository;
 
-import Models.Customer;
-import Models.Manager;
-import Models.Seller;
-import Models.User;
+import Models.*;
 
 public class SaveUser {
     private static int lastId;
     private SaveManager saveManager;
     private SaveCustomer saveCustomer;
     private SaveSeller saveSeller;
+    private SaveSupporter saveSupporter;
 
-    //todo nazanin save supporter
 
     public static User load(int id){
         lastId = Math.max(lastId,id);
@@ -28,6 +25,9 @@ public class SaveUser {
         if (SaveCustomer.load(id) != null){
             return SaveCustomer.load(id);
         }
+        if (SaveSupporter.load(id) != null){
+            return SaveSupporter.load(id);
+        }
         return null;
     }
 
@@ -39,6 +39,8 @@ public class SaveUser {
                 this.saveCustomer = new SaveCustomer((Customer) user);
             }else if (user instanceof Seller){
                 this.saveSeller = new SaveSeller((Seller) user);
+            }else if (user instanceof Supporter){
+                this.saveSupporter = new SaveSupporter((Supporter) user);
             }
         }
     }
@@ -61,5 +63,9 @@ public class SaveUser {
 
     public SaveSeller getSaveSeller() {
         return saveSeller;
+    }
+
+    public SaveSupporter getSaveSupporter() {
+        return saveSupporter;
     }
 }

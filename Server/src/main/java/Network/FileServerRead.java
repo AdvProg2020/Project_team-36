@@ -22,7 +22,9 @@ public class FileServerRead implements Runnable {
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
                 String path = dataInputStream.readUTF();
                 File file = new File(path);
+                dataOutputStream.writeInt(Files.readAllBytes(file.toPath()).length);
                 dataOutputStream.write(Files.readAllBytes(file.toPath()));
+
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();

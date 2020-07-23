@@ -294,8 +294,12 @@ public class ProductsController implements ObjectController {
     }
 
     public HashMap<String, HashSet<String>> getAllOptionalChoices() {
-       //TODO nazanin man vaghan nemidunam chjuri ino dorost konam =))))
-        return null;
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllOptionalChoices");
+        Response response = Client.process(query);
+        Gson gson = new Gson();
+        Type type = new TypeToken<HashMap<String, HashSet<String>>>(){}.getType();
+        HashMap<String, HashSet<String>> output = gson.fromJson(response.getData(),type);
+        return output;
     }
 
     public void addOptionalFilter(String filterName, String option) {

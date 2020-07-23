@@ -27,7 +27,7 @@ public class Main extends Application {
 //        Menu runMenu = new MainMenu();
 //        runMenu.execute();
       //  Product.addTest();
-        Query query = new Query("","SessionController","");
+        Query query = new Query("","SessionController","addSession");
         Response response = Client.process(query);
         Constants.setControllers();
         Constants.globalVariables.setToken(response.getData());
@@ -49,7 +49,7 @@ public class Main extends Application {
         ClassLoader classLoader = getClass().getClassLoader();
         URL resource = classLoader.getResource("images/customerBackground.jpg");
         if (resource == null) {
-            throw new IllegalArgumentException("file is not found!");
+           throw new IllegalArgumentException("file is not found!");
         } else {
             File file = new File(resource.getFile());
             String path = file.toURI().toURL().toString();
@@ -58,9 +58,14 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + firstPage + ".fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
-        Constants.globalVariables.setLoggedInUser(Constants.userController.getUserById(2));
+    //    Constants.globalVariables.setLoggedInUser(Constants.userController.getUserById(2));
         Constants.getGuiManager().open(firstPage, 1000);
         stage.show();
-//        stage.setOnCloseRequest(windowEvent -> RepositoryManager.saveData());
+        stage.setOnCloseRequest(windowEvent -> closeTheStage());
+    }
+
+    private void closeTheStage(){
+        Query query = new Query(Constants.globalVariables.getToken(),"SessionController","close");
+        Client.process(query);
     }
 }

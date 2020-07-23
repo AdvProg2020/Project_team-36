@@ -12,13 +12,14 @@ public class SaveChat {
     private List<Message> messagesInChat;
     private int id;
 
-    //todo nazanin SaveChat
 
     public SaveChat(Chat chat) {
         usersInChat = new ArrayList<>();
         messagesInChat = new ArrayList<>();
         this.id = chat.getId();
-        this.supporterId = chat.getSupporter().getUserId();
+        if (chat.getSupporter() != null){
+            this.supporterId = chat.getSupporter().getUserId();
+        }
         messagesInChat.addAll(chat.getMessagesInChat());
         chat.getUsersInChat().forEach(user -> usersInChat.add(user.getUserId()));
     }
