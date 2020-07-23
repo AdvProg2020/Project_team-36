@@ -16,7 +16,8 @@ public abstract class User{
     private static ArrayList<String> allUsernames = new ArrayList<>();
     protected int userId;
     protected String username;
-    protected String firstname;    protected String lastname;
+    protected String firstname;
+    protected String lastname;
     protected String email;
     protected String phoneNumber;
     protected String password;
@@ -227,6 +228,11 @@ public abstract class User{
         this.profilePictureUrl = profilePictureUrl;
     }
 
+    public ImageView getSmallProfilePicture() throws MalformedURLException {
+        File file = new File (this.profilePictureUrl);
+        String path = file.toURI().toURL().toString();
+        return new ImageView(new Image(path,50,50,false,false));
+    }
 
     public String getProfilePictureUrl() {
         return profilePictureUrl;
