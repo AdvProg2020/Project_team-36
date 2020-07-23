@@ -60,7 +60,7 @@ public class Discount {
         return repetitionForEachUser;
     }
 
-    public List<Client.Models.Customer> getCustomersIncluded() {
+    public List<Customer> getCustomersIncluded() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Customer");
         this.saveDiscount.getCustomersIncludedIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -68,7 +68,7 @@ public class Discount {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveCustomer>>(){}.getType();
             List<SaveCustomer> allSaveCustomers = gson.fromJson(response.getData(),type);
-            List<Client.Models.Customer> allCustomers = new ArrayList<>();
+            List<Customer> allCustomers = new ArrayList<>();
             allSaveCustomers.forEach(saveCustomer -> allCustomers.add(new Customer(saveCustomer)));
             return allCustomers;
         }else {

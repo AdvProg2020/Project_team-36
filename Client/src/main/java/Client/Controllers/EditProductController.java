@@ -16,7 +16,7 @@ import java.util.List;
 public class EditProductController {
     private String controllerName = "EditProductController";
 
-    public Client.Models.Product getProductCopy(Client.Models.Product product){
+    public Product getProductCopy(Product product){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductCopy");
         query.getMethodInputs().put("id", Integer.toString(product.getProductId()));
         Response response = Client.process(query);

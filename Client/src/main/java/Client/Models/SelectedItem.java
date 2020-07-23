@@ -26,7 +26,7 @@ public class SelectedItem {
         this.countFromEachSeller = new ArrayList<>();
         this.countFromEachSeller.addAll(saveSelectedItem.getCountFromEachSeller());
     }
-    public Client.Models.Product getProduct() {
+    public Product getProduct() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Product");
         query.getMethodInputs().put("id", "" + saveSelectedItem.getProductId());
         Response response = Client.process(query);
@@ -40,7 +40,7 @@ public class SelectedItem {
         }
     }
 
-    public List<Client.Models.Seller> getSellers() {
+    public List<Seller> getSellers() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Customer");
         this.saveSelectedItem.getSellerIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -48,8 +48,8 @@ public class SelectedItem {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveSeller>>(){}.getType();
             List<SaveSeller> allSaveSellers = gson.fromJson(response.getData(),type);
-            List<Client.Models.Seller> allSellers = new ArrayList<>();
-            allSaveSellers.forEach(saveSeller -> allSellers.add(new Client.Models.Seller(saveSeller)));
+            List<Seller> allSellers = new ArrayList<>();
+            allSaveSellers.forEach(saveSeller -> allSellers.add(new Seller(saveSeller)));
             return allSellers;
         }else {
             System.out.println(response);

@@ -27,7 +27,7 @@ public class Manager extends User {
     }
 
     @Override
-    public ArrayList<Client.Models.Chat> getChats() {
+    public ArrayList<Chat> getChats() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Chat");
         this.saveManager.getChatsIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -35,7 +35,7 @@ public class Manager extends User {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveChat>>(){}.getType();
             List<SaveChat> allSaveChats = gson.fromJson(response.getData(),type);
-            ArrayList<Client.Models.Chat> allChats = new ArrayList<>();
+            ArrayList<Chat> allChats = new ArrayList<>();
             allSaveChats.forEach(saveChat -> allChats.add(new Chat(saveChat)));
             return allChats;
         }else {

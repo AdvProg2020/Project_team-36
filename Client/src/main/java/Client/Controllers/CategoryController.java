@@ -2,8 +2,9 @@ package Client.Controllers;
 
 import Client.GUI.Constants;
 import Client.Models.Category;
-import Models.*;
 import Client.Network.Client;
+import Models.Query;
+import Models.Response;
 import Repository.SaveCategory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,13 +16,13 @@ import java.util.List;
 public class CategoryController {
     private final String controllerName = "CategoryController";
 
-    public Client.Models.Category getMainCategory() {
+    public Category getMainCategory() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMainCategory");
         Response response = Client.process(query);
         if (response.getReturnType().equals("Category")) {
             Gson gson = new Gson();
             SaveCategory saveCategory = gson.fromJson(response.getData(), SaveCategory.class);
-            return new Client.Models.Category(saveCategory);
+            return new Category(saveCategory);
         } else {
             return null;
         }
@@ -36,15 +37,15 @@ public class CategoryController {
         }
     }
 
-    public ArrayList<Client.Models.Category> getAllCategories() {
+    public ArrayList<Category> getAllCategories() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllCategories");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Category> allCategories = new ArrayList<>();
+        ArrayList<Category> allCategories = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveCategory>>() {
         }.getType();
         List<SaveCategory> allSaveCategories = gson.fromJson(response.getData(), type);
-        allSaveCategories.forEach(saveCategory -> allCategories.add(new Client.Models.Category(saveCategory)));
+        allSaveCategories.forEach(saveCategory -> allCategories.add(new Category(saveCategory)));
         return allCategories;
     }
 
@@ -95,13 +96,13 @@ public class CategoryController {
         }
     }
 
-    public Client.Models.Category getPendableCategory() {
+    public Category getPendableCategory() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getPendableCategory");
         Response response = Client.process(query);
         if (response.getReturnType().equals("Category")) {
             Gson gson = new Gson();
             SaveCategory saveCategory = gson.fromJson(response.getData(), SaveCategory.class);
-            return new Client.Models.Category(saveCategory);
+            return new Category(saveCategory);
         } else {
             return null;
         }
@@ -155,13 +156,13 @@ public class CategoryController {
         }
     }
 
-    public Client.Models.Category getCategoryToEdit() {
+    public Category getCategoryToEdit() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCategoryToEdit");
         Response response = Client.process(query);
         if (response.getReturnType().equals("Category")) {
             Gson gson = new Gson();
             SaveCategory saveCategory = gson.fromJson(response.getData(), SaveCategory.class);
-            return new Client.Models.Category(saveCategory);
+            return new Category(saveCategory);
         } else {
             return null;
         }
@@ -191,7 +192,7 @@ public class CategoryController {
             return saveCategory;
         }
 
-        public Client.Models.Category getCategory() {
+        public Category getCategory() {
             return new Category(saveCategory);
         }
     }

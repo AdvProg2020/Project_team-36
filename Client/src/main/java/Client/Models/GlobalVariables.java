@@ -20,7 +20,7 @@ public class GlobalVariables {
     private Category filterProductsCategory;
     private String sortProduct;
     private String sortProductType;
-    private Client.Models.Product product;
+    private Product product;
     private Seller pendingSellerOfProduct;
     private Filter pendingFilter;
 
@@ -41,7 +41,7 @@ public class GlobalVariables {
         this.sortProductType = "ascending";
     }
 
-    public void setProduct(Client.Models.Product product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 

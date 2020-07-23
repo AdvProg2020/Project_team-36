@@ -2,8 +2,11 @@ package Client.Controllers;
 
 import Client.GUI.Constants;
 import Client.Models.Customer;
-import Models.*;
+
+import Client.Models.Discount;
 import Client.Network.Client;
+import Models.Query;
+import Models.Response;
 import Repository.SaveCustomer;
 import Repository.SaveDiscount;
 import com.google.gson.Gson;
@@ -60,11 +63,11 @@ public class DiscountController {
         Client.process(query);
     }
 
-    public ArrayList<Client.Models.Customer> getAllCustomers() {
+    public ArrayList<Customer> getAllCustomers() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllCustomers");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Customer> allCustomers = new ArrayList<>();
+        ArrayList<Customer> allCustomers = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveCustomer>>() {
         }.getType();
         List<SaveCustomer> allSaveCustomers = gson.fromJson(response.getData(), type);
@@ -96,13 +99,13 @@ public class DiscountController {
         Client.process(query);
     }
 
-    public Client.Models.Discount getDiscount() {
+    public Discount getDiscount() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getDiscount");
         Response response = Client.process(query);
         if (response.getReturnType().equals("Discount")) {
             Gson gson = new Gson();
             SaveDiscount saveDiscount = gson.fromJson(response.getData(), SaveDiscount.class);
-            return new Client.Models.Discount(saveDiscount);
+            return new Discount(saveDiscount);
         } else {
             return null;
         }

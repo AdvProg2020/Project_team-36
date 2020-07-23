@@ -41,7 +41,7 @@ public class Chat {
         }
     }
 
-    public ArrayList<Client.Models.User> getUsersInChat() {
+    public ArrayList<User> getUsersInChat() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "User");
         this.saveChat.getUsersInChat().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -49,7 +49,7 @@ public class Chat {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveUser>>(){}.getType();
             List<SaveUser> allSaveUsers = gson.fromJson(response.getData(),type);
-            ArrayList<Client.Models.User> allUsers = new ArrayList<>();
+            ArrayList<User> allUsers = new ArrayList<>();
             allSaveUsers.forEach(saveUser -> allUsers.add(User.generateUser(saveUser)));
             return allUsers;
         }else {

@@ -2,9 +2,13 @@ package Client.GUI;
 
 import Client.Controllers.CategoryController;
 import Client.Controllers.NewProductController;
+import Client.Models.Category;
+import Client.Models.Seller;
 import Client.Models.User;
-import Models.*;
 import Client.Network.Client;
+import Models.Field;
+import Models.IntegerField;
+import Models.OptionalField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -28,7 +32,7 @@ public class AddNewProductController extends SellerProductsController implements
 
 
     @FXML
-    private TreeTableColumn<Client.Models.Category,String> categoriesColumn;
+    private TreeTableColumn<Category,String> categoriesColumn;
     @FXML
     private ImageView image;
     @FXML
@@ -38,7 +42,7 @@ public class AddNewProductController extends SellerProductsController implements
     @FXML
     private TextField productName;
     @FXML
-    private TreeTableView<Client.Models.Category> categoryTable;
+    private TreeTableView<Category> categoryTable;
     @FXML
     private TextField price;
     @FXML
@@ -64,7 +68,7 @@ public class AddNewProductController extends SellerProductsController implements
     private User user;
     private File imageFile =null;
     private ArrayList<Field> fields = new ArrayList<>();
-    private Client.Models.Category category;
+    private Category category;
     private ArrayList<String> fieldsValue = new ArrayList<>();
     private NewProductController newProduct = new NewProductController();
 
@@ -82,19 +86,19 @@ public class AddNewProductController extends SellerProductsController implements
         }
         usernameLabel.setText(user.getUsername());
         profilePicture.setImage(user.getProfilePicture(150,150).getImage());
-        newProduct.setSeller((Client.Models.Seller)user);
+        newProduct.setSeller((Seller)user);
 
         categoriesColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
 
         CategoryController categoryController = new CategoryController();
-        Client.Models.Category mainCategoryRoot = categoryController.getMainCategory();
-        TreeItem<Client.Models.Category> tableMainRoot = new TreeItem<>(mainCategoryRoot);
+        Category mainCategoryRoot = categoryController.getMainCategory();
+        TreeItem<Category> tableMainRoot = new TreeItem<>(mainCategoryRoot);
         categoryTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         categoryTable.setRoot(tableMainRoot);
 
-        List<Client.Models.Category> mainCategories = mainCategoryRoot.getSubCategories();
-        for (Client.Models.Category category : mainCategories) {
-            TreeItem<Client.Models.Category> categoryItem = new TreeItem<>(category);
+        List<Category> mainCategories = mainCategoryRoot.getSubCategories();
+        for (Category category : mainCategories) {
+            TreeItem<Category> categoryItem = new TreeItem<>(category);
             setTheSubcategories(category, categoryItem, 0);
             tableMainRoot.getChildren().add(categoryItem);
         }
@@ -128,19 +132,19 @@ public class AddNewProductController extends SellerProductsController implements
 
     }
 
-    private void setTheSubcategories(Client.Models.Category mainCategory, TreeItem<Client.Models.Category> categoryItem, int indent){
-        List<Client.Models.Category> subcategories = mainCategory.getSubCategories();
+    private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent){
+        List<Category> subcategories = mainCategory.getSubCategories();
         if(subcategories.isEmpty() && indent!=0){
-            TreeItem<Client.Models.Category> subcategory = new TreeItem<>(mainCategory);
+            TreeItem<Category> subcategory = new TreeItem<>(mainCategory);
             categoryItem.getChildren().add(subcategory);
         } else if (!subcategories.isEmpty() && indent!=0){
-            TreeItem<Client.Models.Category> subItem = new TreeItem<>(mainCategory);
-            for (Client.Models.Category subcategory : subcategories) {
+            TreeItem<Category> subItem = new TreeItem<>(mainCategory);
+            for (Category subcategory : subcategories) {
                 setTheSubcategories(subcategory, subItem, indent+1);
             }
             categoryItem.getChildren().add(subItem);
         } else if (!subcategories.isEmpty()){
-            for (Client.Models.Category subcategory : subcategories) {
+            for (Category subcategory : subcategories) {
                 setTheSubcategories(subcategory, categoryItem, indent+1);
             }
         }

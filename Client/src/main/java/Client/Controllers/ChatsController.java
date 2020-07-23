@@ -1,8 +1,11 @@
 package Client.Controllers;
 
 import Client.GUI.Constants;
+import Client.Models.Chat;
+import Client.Models.Supporter;
 import Client.Models.User;
-import Models.*;
+import Models.Query;
+import Models.Response;
 import Client.Network.Client;
 import Repository.SaveChat;
 import com.google.gson.Gson;
@@ -19,20 +22,20 @@ public class ChatsController {
         Client.process(query);
     }
 
-    public Client.Models.Chat getChatById(int id){
+    public Chat getChatById(int id){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getChatById");
         query.getMethodInputs().put("id", Integer.toString(id));
         Response response = Client.process(query);
         if (response.getReturnType().equals("Chat")) {
             Gson gson = new Gson();
             SaveChat saveChat = gson.fromJson(response.getData(), SaveChat.class);
-            return new Client.Models.Chat(saveChat);
+            return new Chat(saveChat);
         } else {
             return null;
         }
     }
 
-    public int createNewChatRoom(Client.Models.Supporter supporter, User user){
+    public int createNewChatRoom(Supporter supporter, User user){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getChatById");
         query.getMethodInputs().put("user", Integer.toString(user.getUserId()));
         query.getMethodInputs().put("supporter", Integer.toString(supporter.getUserId()));

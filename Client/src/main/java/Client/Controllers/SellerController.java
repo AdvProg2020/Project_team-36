@@ -1,9 +1,11 @@
 package Client.Controllers;
 
 import Client.GUI.Constants;
-import Client.Models.Customer;
+import Client.Models.*;
 import Client.Network.Client;
-import Models.*;
+
+import Models.Query;
+import Models.Response;
 import Repository.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,13 +17,13 @@ public class SellerController extends UserController {
     private String controllerName = "SellerController";
 
 
-    public Client.Models.Seller getLoggedInSeller() {
+    public Seller getLoggedInSeller() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getLoggedInSeller");
         Response response = Client.process(query);
         if (response.getReturnType().equals("Seller")) {
             Gson gson = new Gson();
             SaveSeller saveSeller = gson.fromJson(response.getData(), SaveSeller.class);
-            return new Client.Models.Seller(saveSeller);
+            return new Seller(saveSeller);
         } else {
             return null;
         }
@@ -54,38 +56,38 @@ public class SellerController extends UserController {
         }
     }
 
-    public Client.Models.Category getMainCategory() {
+    public Category getMainCategory() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMainCategory");
         Response response = Client.process(query);
         if (response.getReturnType().equals("Category")) {
             Gson gson = new Gson();
             SaveCategory saveCategory = gson.fromJson(response.getData(), SaveCategory.class);
-            return new Client.Models.Category(saveCategory);
+            return new Category(saveCategory);
         } else {
             return null;
         }
     }
 
-    public ArrayList<Client.Models.Product> getSellerProducts() {
+    public ArrayList<Product> getSellerProducts() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getSellerProducts");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Product> allProducts = new ArrayList<>();
+        ArrayList<Product> allProducts = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveProduct>>() {
         }.getType();
         List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(), type);
-        allSaveProducts.forEach(saveProduct -> allProducts.add(new Client.Models.Product(saveProduct)));
+        allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
         return allProducts;
     }
 
-    public Client.Models.Product getSellerProductWithId(int id) throws NoProductForSeller {
+    public Product getSellerProductWithId(int id) throws NoProductForSeller {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getSellerProductWithId");
         query.getMethodInputs().put("id", Integer.toString(id));
         Response response = Client.process(query);
         if (response.getReturnType().equals("Product")) {
             Gson gson = new Gson();
             SaveProduct saveProduct = gson.fromJson(response.getData(), SaveProduct.class);
-            return new Client.Models.Product(saveProduct);
+            return new Product(saveProduct);
         } else if (response.getReturnType().equals("NoProductForSeller")) {
             throw new NoProductForSeller();
         } else {
@@ -93,26 +95,26 @@ public class SellerController extends UserController {
         }
     }
 
-    public ArrayList<Client.Models.Product> getAllProducts() {
+    public ArrayList<Product> getAllProducts() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllProducts");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Product> allProducts = new ArrayList<>();
+        ArrayList<Product> allProducts = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveProduct>>() {
         }.getType();
         List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(), type);
-        allSaveProducts.forEach(saveProduct -> allProducts.add(new Client.Models.Product(saveProduct)));
+        allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
         return allProducts;
     }
 
-    public Client.Models.Product getProductWithId(int id) throws InvalidProductIdException {
+    public Product getProductWithId(int id) throws InvalidProductIdException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductWithId");
         query.getMethodInputs().put("id", Integer.toString(id));
         Response response = Client.process(query);
         if (response.getReturnType().equals("Product")) {
             Gson gson = new Gson();
             SaveProduct saveProduct = gson.fromJson(response.getData(), SaveProduct.class);
-            return new Client.Models.Product(saveProduct);
+            return new Product(saveProduct);
         } else if (response.getReturnType().equals("InvalidProductIdException")) {
             throw new InvalidProductIdException();
         } else {
@@ -120,12 +122,12 @@ public class SellerController extends UserController {
         }
     }
 
-    public HashSet<Client.Models.Customer> getAllBuyers(Client.Models.Product product) {
+    public HashSet<Customer> getAllBuyers(Product product) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllBuyers");
         query.getMethodInputs().put("id", Integer.toString(product.getProductId()));
         Response response = Client.process(query);
         Gson gson = new Gson();
-        HashSet<Client.Models.Customer> allBuyers = new HashSet<>();
+        HashSet<Customer> allBuyers = new HashSet<>();
         Type type = new TypeToken<ArrayList<SaveCustomer>>() {
         }.getType();
         Set<SaveCustomer> allSaveCustomers = gson.fromJson(response.getData(), type);
@@ -133,7 +135,7 @@ public class SellerController extends UserController {
         return allBuyers;
     }
 
-    public void sendAddSellerToProductRequest(long price, int supply, Client.Models.Product product) {
+    public void sendAddSellerToProductRequest(long price, int supply, Product product) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllBuyers");
         query.getMethodInputs().put("id", Integer.toString(product.getProductId()));
         query.getMethodInputs().put("price", Long.toString(price));
@@ -141,50 +143,50 @@ public class SellerController extends UserController {
         Client.process(query);
     }
 
-    public ArrayList<Client.Models.Category> getAllCategories() {
+    public ArrayList<Category> getAllCategories() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllCategories");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Category> allCategories = new ArrayList<>();
+        ArrayList<Category> allCategories = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveCategory>>() {
         }.getType();
         List<SaveCategory> allSaveCategories = gson.fromJson(response.getData(), type);
-        allSaveCategories.forEach(saveCategory -> allCategories.add(new Client.Models.Category(saveCategory)));
+        allSaveCategories.forEach(saveCategory -> allCategories.add(new Category(saveCategory)));
         return allCategories;
     }
 
-    public ArrayList<Client.Models.SellerLog> getAllSellerLogs() {
+    public ArrayList<SellerLog> getAllSellerLogs() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllSellerLogs ");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.SellerLog> allSellerLogs = new ArrayList<>();
+        ArrayList<SellerLog> allSellerLogs = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveSellerLog>>() {
         }.getType();
         List<SaveSellerLog> allSaveSellerLogs = gson.fromJson(response.getData(), type);
-        allSaveSellerLogs.forEach(saveSellerLog -> allSellerLogs.add(new Client.Models.SellerLog(saveSellerLog)));
+        allSaveSellerLogs.forEach(saveSellerLog -> allSellerLogs.add(new SellerLog(saveSellerLog)));
         return allSellerLogs;
     }
 
-    public ArrayList<Client.Models.Sale> getAllSellerSales() {
+    public ArrayList<Sale> getAllSellerSales() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllSellerSales ");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Sale> allSales = new ArrayList<>();
+        ArrayList<Sale> allSales = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveSale>>() {
         }.getType();
         List<SaveSale> allSaveSales = gson.fromJson(response.getData(), type);
-        allSaveSales.forEach(saveSale -> allSales.add(new Client.Models.Sale(saveSale)));
+        allSaveSales.forEach(saveSale -> allSales.add(new Sale(saveSale)));
         return allSales;
     }
 
-    public Client.Models.Sale getSaleWithId(int id) throws InvalidOffIdException {
+    public Sale getSaleWithId(int id) throws InvalidOffIdException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getSaleWithId");
         query.getMethodInputs().put("id", Integer.toString(id));
         Response response = Client.process(query);
         if (response.getReturnType().equals("Sale")) {
             Gson gson = new Gson();
             SaveSale saveSale = gson.fromJson(response.getData(), SaveSale.class);
-            return new Client.Models.Sale(saveSale);
+            return new Sale(saveSale);
         } else if (response.getReturnType().equals("InvalidOffIdException")) {
             throw new InvalidOffIdException();
         } else {
@@ -192,16 +194,16 @@ public class SellerController extends UserController {
         }
     }
 
-    public Client.Models.Sale getOffCopy(Client.Models.Sale off) {
+    public Sale getOffCopy(Sale off) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getOffCopy");
         query.getMethodInputs().put("id", Integer.toString(off.getOffId()));
         Response response = Client.process(query);
         Gson gson = new Gson();
         SaveSale saveSale = gson.fromJson(response.getData(), SaveSale.class);
-        return new Client.Models.Sale(saveSale);
+        return new Sale(saveSale);
     }
 
-    public void addProductToOff(Client.Models.Product product){
+    public void addProductToOff(Product product){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "addProductToOff");
         query.getMethodInputs().put("id", Integer.toString(product.getProductId()));
         Client.process(query);
@@ -267,27 +269,27 @@ public class SellerController extends UserController {
         }
     }
 
-    public ArrayList<Client.Models.Product> getProductsNotInOff() {
+    public ArrayList<Product> getProductsNotInOff() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductsNotInOff");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Product> allProducts = new ArrayList<>();
+        ArrayList<Product> allProducts = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveProduct>>() {
         }.getType();
         List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(), type);
-        allSaveProducts.forEach(saveProduct -> allProducts.add(new Client.Models.Product(saveProduct)));
+        allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
         return allProducts;
     }
 
-    public ArrayList<Client.Models.Product> getProductsInOff() {
+    public ArrayList<Product> getProductsInOff() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductsInOff");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Product> allProducts = new ArrayList<>();
+        ArrayList<Product> allProducts = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveProduct>>() {
         }.getType();
         List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(), type);
-        allSaveProducts.forEach(saveProduct -> allProducts.add(new Client.Models.Product(saveProduct)));
+        allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
         return allProducts;
     }
 
@@ -307,35 +309,35 @@ public class SellerController extends UserController {
     }
 
 
-    public Client.Models.Sale getOffToView() {
+    public Sale getOffToView() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getOffToView");
         Response response = Client.process(query);
         Gson gson = new Gson();
         SaveSale saveSale = gson.fromJson(response.getData(), SaveSale.class);
-        return new Client.Models.Sale(saveSale);
+        return new Sale(saveSale);
     }
 
-    public Client.Models.Sale getOffToEdit() {
+    public Sale getOffToEdit() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getOffToEdit");
         Response response = Client.process(query);
         Gson gson = new Gson();
         SaveSale saveSale = gson.fromJson(response.getData(), SaveSale.class);
-        return new Client.Models.Sale(saveSale);
+        return new Sale(saveSale);
     }
 
-    public void setOffToView(Client.Models.Sale offToView) {
+    public void setOffToView(Sale offToView) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setOffToView");
         query.getMethodInputs().put("id", Integer.toString(offToView.getOffId()));
         Client.process(query);
     }
 
-    public void setOffToEdit(Client.Models.Sale offToEdit) {
+    public void setOffToEdit(Sale offToEdit) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setOffToEdit");
         query.getMethodInputs().put("id", Integer.toString(offToEdit.getOffId()));
         Client.process(query);
     }
 
-    public void removeSale(Client.Models.Sale sale) {
+    public void removeSale(Sale sale) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeSale");
         query.getMethodInputs().put("id", Integer.toString(sale.getOffId()));
         Client.process(query);

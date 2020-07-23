@@ -579,16 +579,9 @@ public class CustomerController extends UserController {
     }
 
     public static class NotEnoughSupplyInCart extends Exception {
-        private ArrayList<SelectedItem> items;
         private List<SaveSelectedItem> saveItems = new ArrayList<>();
         public NotEnoughSupplyInCart(ArrayList<SelectedItem> items) {
-            this.items = new ArrayList<>();
-            this.items = items;
             items.forEach(selectedItem -> saveItems.add(new SaveSelectedItem(selectedItem)));
-        }
-
-        public ArrayList<SelectedItem> getItems() {
-            return items;
         }
 
         public List<SaveSelectedItem> getSaveItems() {
@@ -597,15 +590,9 @@ public class CustomerController extends UserController {
     }
 
     public static class MoreThanOneSellerForItem extends Exception {
-        ArrayList<Seller> sellers = new ArrayList<>();
         List<SaveSeller> saveSellers = new ArrayList<>();
         public MoreThanOneSellerForItem(ArrayList<Seller> sellers) {
-            this.sellers.addAll(sellers);
             sellers.forEach(seller -> saveSellers.add(new SaveSeller(seller)));
-        }
-
-        public ArrayList<Seller> getSellers() {
-            return sellers;
         }
 
         public List<SaveSeller> getSaveSellers(){

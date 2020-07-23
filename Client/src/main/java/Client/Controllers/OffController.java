@@ -107,11 +107,11 @@ public class OffController implements ObjectController {
     }
 
     @Override
-    public ArrayList<Client.Models.Product> getFinalProductsList() {
+    public ArrayList<Product> getFinalProductsList() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getFinalProductsList");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Product> allProducts = new ArrayList<>();
+        ArrayList<Product> allProducts = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveProduct>>() {
         }.getType();
         List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(), type);

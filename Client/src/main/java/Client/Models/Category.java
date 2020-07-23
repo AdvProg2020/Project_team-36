@@ -78,7 +78,7 @@ public class Category {
         }
     }
 
-    public List<Client.Models.Product> getProducts() {
+    public List<Product> getProducts() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Product");
         this.saveCategory.getProductsIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -86,7 +86,7 @@ public class Category {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveProduct>>(){}.getType();
             List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(),type);
-            List<Client.Models.Product> allProducts = new ArrayList<>();
+            List<Product> allProducts = new ArrayList<>();
             allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
             return allProducts;
         }else {

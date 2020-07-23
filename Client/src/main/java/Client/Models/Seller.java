@@ -45,7 +45,7 @@ public class Seller extends User implements Pendable {
         return allLogs;
     }
 
-    public List<Client.Models.Product> getAllProducts() {
+    public List<Product> getAllProducts() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Product");
         this.saveSeller.getAllProductIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -53,7 +53,7 @@ public class Seller extends User implements Pendable {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveProduct>>(){}.getType();
             List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(),type);
-            List<Client.Models.Product> allProducts = new ArrayList<>();
+            List<Product> allProducts = new ArrayList<>();
             allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
             return allProducts;
         }else {
@@ -97,7 +97,7 @@ public class Seller extends User implements Pendable {
     }
 
     @Override
-    public ArrayList<Client.Models.Chat> getChats() {
+    public ArrayList<Chat> getChats() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Chat");
         this.saveSeller.getChatsIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -105,7 +105,7 @@ public class Seller extends User implements Pendable {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveChat>>(){}.getType();
             List<SaveChat> allSaveChats = gson.fromJson(response.getData(),type);
-            ArrayList<Client.Models.Chat> allChats = new ArrayList<>();
+            ArrayList<Chat> allChats = new ArrayList<>();
             allSaveChats.forEach(saveChat -> allChats.add(new Chat(saveChat)));
             return allChats;
         }else {

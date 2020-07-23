@@ -1,10 +1,10 @@
 package Client.Controllers;
 
 import Client.GUI.Constants;
-import Client.Models.GlobalVariables;
-import Client.Models.User;
-import Models.*;
+import Client.Models.*;
 import Client.Network.Client;
+import Models.Query;
+import Models.Response;
 import Repository.SaveCategory;
 import Repository.SaveComment;
 import Repository.SaveProduct;
@@ -28,14 +28,14 @@ public class ProductsController implements ObjectController {
 
 
 
-    public Client.Models.Product getProduct(int id) throws NoProductWithId {
+    public Product getProduct(int id) throws NoProductWithId {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProduct");
         query.getMethodInputs().put("id",Integer.toString(id));
         Response response = Client.process(query);
         if (response.getReturnType().equals("Product")) {
             Gson gson = new Gson();
             SaveProduct saveProduct = gson.fromJson(response.getData(), SaveProduct.class);
-            return new Client.Models.Product(saveProduct);
+            return new Product(saveProduct);
         }  if(response.getReturnType().equals("NoProductWithId")) {
             throw new NoProductWithId();
         } else{
@@ -45,11 +45,11 @@ public class ProductsController implements ObjectController {
         }
     }
 
-    public Client.Models.Category getMainCategory() {
+    public Category getMainCategory() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMainCategory");
         Response response = Client.process(query);
             Gson gson = new Gson();
-            return new Client.Models.Category(gson.fromJson(response.getData(),SaveCategory.class));
+            return new Category(gson.fromJson(response.getData(),SaveCategory.class));
     }
 
     public void setSort(String name, String type) throws NoSortException {
@@ -135,15 +135,15 @@ public class ProductsController implements ObjectController {
         Client.process(query);
     }
 
-    public ArrayList<Client.Models.Product> getFinalProductsList() {
+    public ArrayList<Product> getFinalProductsList() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getFinalProductsList");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Product> allProducts = new ArrayList<>();
+        ArrayList<Product> allProducts = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveProduct>>() {
         }.getType();
         List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(), type);
-        allSaveProducts.forEach(saveProduct -> allProducts.add(new Client.Models.Product(saveProduct)));
+        allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
         return allProducts;
     }
 
@@ -155,12 +155,12 @@ public class ProductsController implements ObjectController {
             throw new NoProductWithId();
     }
 
-    public Client.Models.Product getChosenProduct() throws NoProductWithId {
+    public Product getChosenProduct() throws NoProductWithId {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getChosenProduct");
         Response response = Client.process(query);
         if(response.getReturnType().equalsIgnoreCase("Product")){
             Gson gson = new Gson();
-            return new Client.Models.Product(gson.fromJson(response.getData(),SaveProduct.class));
+            return new Product(gson.fromJson(response.getData(),SaveProduct.class));
         }else{
             throw new NoProductWithId();
         }
@@ -192,28 +192,28 @@ public class ProductsController implements ObjectController {
             throw new EntryController.NotLoggedInException();
     }
 
-    public Client.Models.Product compare(int productId) throws NoProductWithId, NotInTheSameCategory {
+    public Product compare(int productId) throws NoProductWithId, NotInTheSameCategory {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "compare");
         query.getMethodInputs().put("productId",Integer.toString(productId));
         Response response = Client.process(query);
         if(response.getReturnType().equalsIgnoreCase("Product")){
             Gson gson = new Gson();
-            return new Client.Models.Product(gson.fromJson(response.getData(),SaveProduct.class));
+            return new Product(gson.fromJson(response.getData(),SaveProduct.class));
         }else if(response.getReturnType().equalsIgnoreCase("NoProductWithId")){
             throw new NoProductWithId();
         }else
             throw new NotInTheSameCategory();
     }
 
-    public ArrayList<Client.Models.Comment> getProductComments() {
+    public ArrayList<Comment> getProductComments() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductComments");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Comment> allComments = new ArrayList<>();
+        ArrayList<Comment> allComments = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveComment>>() {
         }.getType();
         List<SaveComment> allSaveComments = gson.fromJson(response.getData(), type);
-        allSaveComments.forEach(saveComment -> allComments.add(new Client.Models.Comment(saveComment)));
+        allSaveComments.forEach(saveComment -> allComments.add(new Comment(saveComment)));
         return allComments;
     }
 
@@ -312,7 +312,7 @@ public class ProductsController implements ObjectController {
         Client.process(query);
     }
 
-    public boolean canRate(Client.Models.Product product, User user) {
+    public boolean canRate(Product product, User user) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "canRate");
         query.getMethodInputs().put("product",Integer.toString(product.getProductId()));
         query.getMethodInputs().put("user",Integer.toString(user.getUserId()));
@@ -320,28 +320,28 @@ public class ProductsController implements ObjectController {
         return Boolean.getBoolean(response.getData());
     }
 
-    public Client.Models.Product getProductToEdit() {
+    public Product getProductToEdit() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductToEdit");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        return new Client.Models.Product(gson.fromJson(response.getData(),SaveProduct.class));
+        return new Product(gson.fromJson(response.getData(),SaveProduct.class));
     }
 
-    public Client.Models.Product getProductToView() {
+    public Product getProductToView() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getProductToView");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        return new Client.Models.Product(gson.fromJson(response.getData(),SaveProduct.class));
+        return new Product(gson.fromJson(response.getData(),SaveProduct.class));
     }
 
-    public void setProductToEdit(Client.Models.Product productToEdit) {
+    public void setProductToEdit(Product productToEdit) {
         String productId = Integer.toString(productToEdit.getProductId());
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setProductToEdit");
         query.getMethodInputs().put("productToEdit",productId);
-      Client.process(query);
+        Client.process(query);
     }
 
-    public void setProductToView(Client.Models.Product productToView) {
+    public void setProductToView(Product productToView) {
         String productId = Integer.toString(productToView.getProductId());
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setProductToView");
         query.getMethodInputs().put("productToView",productId);
@@ -354,14 +354,14 @@ public class ProductsController implements ObjectController {
         Client.process(query);
     }
 
-    public Client.Models.ProductField getBestSale(int productId) throws NoSaleForProduct {
+    public ProductField getBestSale(int productId) throws NoSaleForProduct {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getBestSale");
         query.getMethodInputs().put("productId",Integer.toString(productId));
         Response response =Client.process(query);
         if(response.getReturnType().equalsIgnoreCase("NoSaleForProduct"))
             throw new NoSaleForProduct();
         Gson gson = new Gson();
-        return new Client.Models.ProductField(gson.fromJson(response.getData(),SaveProductField.class));
+        return new ProductField(gson.fromJson(response.getData(),SaveProductField.class));
     }
 
 

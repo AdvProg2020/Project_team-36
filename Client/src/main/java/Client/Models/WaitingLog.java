@@ -67,7 +67,7 @@ public class WaitingLog {
         return customerPhoneNumber;
     }
 
-    public Client.Models.Customer getCustomer() {
+    public Customer getCustomer() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Customer");
         query.getMethodInputs().put("id", "" + saveWaitingLog.getCustomerId());
         Response response = Client.process(query);
@@ -113,7 +113,7 @@ public class WaitingLog {
         return false;
     }
 
-    public List<Client.Models.Product> getFiles(){
+    public List<Product> getFiles(){
         List<Product> toBeReturned = new ArrayList<>();
         for (SelectedItem item : allSelectedItems) {
             if(item.getProduct().isFileProduct())

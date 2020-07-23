@@ -2,9 +2,13 @@ package Client.GUI;
 
 import Client.Controllers.CategoryController;
 import Client.Controllers.EditProductController;
+import Client.Models.Category;
+import Client.Models.Product;
 import Client.Models.User;
-import Models.*;
 import Client.Network.Client;
+import Models.Field;
+import Models.IntegerField;
+import Models.OptionalField;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -34,20 +38,20 @@ public class EditSellerProductController extends SellerProfileController impleme
     @FXML private Label emptyFieldsError;
     @FXML private Label priceError;
     @FXML private Label supplyError;
-    @FXML private TreeTableColumn<Client.Models.Category, String> categoriesColumn;
-    @FXML private TreeTableView<Client.Models.Category> categoryTable;
+    @FXML private TreeTableColumn<Category, String> categoriesColumn;
+    @FXML private TreeTableView<Category> categoryTable;
     @FXML private TextField productInfo;
     @FXML private TextField productCompany;
     @FXML private TextField productName;
     @FXML private VBox fieldsVBox;
     @FXML private Label fieldError;
     private User user;
-    private Client.Models.Category category;
-    private final Client.Models.Product productToEdit = Constants.productsController.getProductToEdit();
+    private Category category;
+    private final Product productToEdit = Constants.productsController.getProductToEdit();
     private File imageFile =null;
     private ArrayList<Field> fields;
     private EditProductController editProductController;
-    private Client.Models.Product editingProduct;
+    private Product editingProduct;
     private ArrayList<TextField> fieldsTextFields = new ArrayList<>();
     private boolean sameCategory;
 
@@ -70,16 +74,16 @@ public class EditSellerProductController extends SellerProfileController impleme
         categoriesColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
 
         CategoryController categoryController = new CategoryController();
-        Client.Models.Category mainCategoryRoot = categoryController.getMainCategory();
-        TreeItem<Client.Models.Category> tableMainRoot = new TreeItem<>(mainCategoryRoot);
+        Category mainCategoryRoot = categoryController.getMainCategory();
+        TreeItem<Category> tableMainRoot = new TreeItem<>(mainCategoryRoot);
         expandAllParents(tableMainRoot);
         tableMainRoot.setExpanded(true);
         categoryTable.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
         categoryTable.setRoot(tableMainRoot);
 
-        List<Client.Models.Category> mainCategories = mainCategoryRoot.getSubCategories();
-        for (Client.Models.Category category : mainCategories) {
-            TreeItem<Client.Models.Category> categoryItem = new TreeItem<>(category);
+        List<Category> mainCategories = mainCategoryRoot.getSubCategories();
+        for (Category category : mainCategories) {
+            TreeItem<Category> categoryItem = new TreeItem<>(category);
             setTheSubcategories(category, categoryItem, 0);
             tableMainRoot.getChildren().add(categoryItem);
             expandAllParents(categoryItem);
@@ -180,27 +184,27 @@ public class EditSellerProductController extends SellerProfileController impleme
 
     }
 
-    private void setTheSubcategories(Client.Models.Category mainCategory, TreeItem<Client.Models.Category> categoryItem, int indent) throws MalformedURLException {
-        List<Client.Models.Category> subcategories = mainCategory.getSubCategories();
+    private void setTheSubcategories(Category mainCategory, TreeItem<Category> categoryItem, int indent) throws MalformedURLException {
+        List<Category> subcategories = mainCategory.getSubCategories();
         if (subcategories.isEmpty() && indent != 0) {
-            TreeItem<Client.Models.Category> subcategory = new TreeItem<>(mainCategory);
+            TreeItem<Category> subcategory = new TreeItem<>(mainCategory);
             categoryItem.getChildren().add(subcategory);
             expandAllParents(subcategory);
         } else if (!subcategories.isEmpty() && indent != 0) {
-            TreeItem<Client.Models.Category> subItem = new TreeItem<>(mainCategory);
-            for (Client.Models.Category subcategory : subcategories) {
+            TreeItem<Category> subItem = new TreeItem<>(mainCategory);
+            for (Category subcategory : subcategories) {
                 setTheSubcategories(subcategory, subItem, indent + 1);
             }
             categoryItem.getChildren().add(subItem);
             expandAllParents(subItem);
         } else if (!subcategories.isEmpty()) {
-            for (Client.Models.Category subcategory : subcategories) {
+            for (Category subcategory : subcategories) {
                 setTheSubcategories(subcategory, categoryItem, indent + 1);
             }
         }
     }
 
-    private void expandAllParents(TreeItem<Client.Models.Category> productCategory) throws MalformedURLException {
+    private void expandAllParents(TreeItem<Category> productCategory) throws MalformedURLException {
         if (productCategory.getValue().equals(category)) {
             File file = new File("D:\\myprj\\project\\AP_Project\\src\\main\\resources\\images\\happy.png");
             String path = file.toURI().toURL().toString();

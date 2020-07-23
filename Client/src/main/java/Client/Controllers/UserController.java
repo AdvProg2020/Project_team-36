@@ -10,26 +10,26 @@ import com.google.gson.Gson;
 public class UserController {
     private String controllerName = "UserController";
 
-    public Client.Models.User getLoggedInUser() {
+    public User getLoggedInUser() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getLoggedInUser");
         Response response = Client.process(query);
         if (response.getReturnType().equals("User")) {
             Gson gson = new Gson();
             SaveUser saveUser = gson.fromJson(response.getData(), SaveUser.class);
-            return Client.Models.User.generateUser(saveUser);
+            return User.generateUser(saveUser);
         } else {
             return null;
         }
     }
 
-    public Client.Models.User getUserById(int id) {
+    public User getUserById(int id) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getUserById");
         query.getMethodInputs().put("id", Integer.toString(id));
         Response response = Client.process(query);
         if (response.getReturnType().equals("User")) {
             Gson gson = new Gson();
             SaveUser saveUser = gson.fromJson(response.getData(), SaveUser.class);
-            return Client.Models.User.generateUser(saveUser);
+            return User.generateUser(saveUser);
         } else {
             return null;
         }
@@ -75,13 +75,13 @@ public class UserController {
         Client.process(query);
     }
 
-    public Client.Models.User getUserToView() {
+    public User getUserToView() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getUserToView");
         Response response = Client.process(query);
         if (response.getReturnType().equals("User")) {
             Gson gson = new Gson();
             SaveUser saveUser = gson.fromJson(response.getData(), SaveUser.class);
-            return Client.Models.User.generateUser(saveUser);
+            return User.generateUser(saveUser);
         } else {
             return null;
         }

@@ -46,7 +46,7 @@ public class SellerLog {
         return id;
     }
 
-    public Client.Models.Customer getCustomer() {
+    public Customer getCustomer() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Customer");
         query.getMethodInputs().put("id", "" + saveSellerLog.getCustomerId());
         Response response = Client.process(query);

@@ -1,8 +1,9 @@
 package Client.Controllers;
 
-import Client.Models.Seller;
+import Client.Models.*;
 import Client.GUI.Constants;
-import Models.*;
+import Models.Query;
+import Models.Response;
 import Client.Network.Client;
 import Repository.*;
 import com.google.gson.Gson;
@@ -22,15 +23,15 @@ public class CustomerController {
         return Boolean.getBoolean(response.getData());
     }
 
-    public ArrayList<Client.Models.SelectedItem> getCart() {
+    public ArrayList<SelectedItem> getCart() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCart");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.SelectedItem> allSelectedItems = new ArrayList<>();
+        ArrayList<SelectedItem> allSelectedItems = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveSelectedItem>>() {
         }.getType();
         List<SaveSelectedItem> allSaveSelectedItem = gson.fromJson(response.getData(), type);
-        allSaveSelectedItem.forEach(saveSelectedItem -> allSelectedItems.add(new Client.Models.SelectedItem(saveSelectedItem)));
+        allSaveSelectedItem.forEach(saveSelectedItem -> allSelectedItems.add(new SelectedItem(saveSelectedItem)));
         return allSelectedItems;
     }
 
@@ -48,20 +49,18 @@ public class CustomerController {
             throw new EmptyCart();
         else if(response.getReturnType().equalsIgnoreCase("NotEnoughSupplyInCart")) {
             Gson gson = new Gson();
-            ArrayList<Client.Models.SelectedItem> allSelectedItems = new ArrayList<>();
             Type type = new TypeToken<ArrayList<SaveSelectedItem>>() {
             }.getType();
             List<SaveSelectedItem> allSaveSelectedItem = gson.fromJson(response.getData(), type);
-            allSaveSelectedItem.forEach(saveSelectedItem -> allSelectedItems.add(new Client.Models.SelectedItem(saveSelectedItem)));
-            throw new NotEnoughSupplyInCart(allSelectedItems);
+            throw new NotEnoughSupplyInCart(allSaveSelectedItem);
         }
     }
 
-    public Client.Models.WaitingLog getWaitingLog() {
+    public WaitingLog getWaitingLog() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getWaitingLog");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        return new Client.Models.WaitingLog(gson.fromJson(response.getData(), SaveWaitingLog.class));
+        return new WaitingLog(gson.fromJson(response.getData(), SaveWaitingLog.class));
     }
 
     public void removeDiscount(int id, String username){
@@ -88,12 +87,10 @@ public class CustomerController {
             throw new NotEnoughSupply();
         else if(response.getReturnType().equalsIgnoreCase("MoreThanOneSellerForItem")){
             Gson gson = new Gson();
-            ArrayList<Client.Models.Seller> allSellers = new ArrayList<>();
             Type type = new TypeToken<ArrayList<SaveSeller>>() {
             }.getType();
             List<SaveSeller> allSaveSellers = gson.fromJson(response.getData(), type);
-            allSaveSellers.forEach(saveSellers -> allSellers.add(new Client.Models.Seller(saveSellers)));
-            throw new MoreThanOneSellerForItem(allSellers);
+            throw new MoreThanOneSellerForItem(allSaveSellers);
         }
     }
 
@@ -114,20 +111,18 @@ public class CustomerController {
             throw new NoProductWithIdInCart("No product");
         else if(response.getReturnType().equalsIgnoreCase("MoreThanOneSellerForItem")){
             Gson gson = new Gson();
-            ArrayList<Client.Models.Seller> allSellers = new ArrayList<>();
             Type type = new TypeToken<ArrayList<SaveSeller>>() {
             }.getType();
             List<SaveSeller> allSaveSellers = gson.fromJson(response.getData(), type);
-            allSaveSellers.forEach(saveSellers -> allSellers.add(new Client.Models.Seller(saveSellers)));
-            throw new MoreThanOneSellerForItem(allSellers);
+            throw new MoreThanOneSellerForItem(allSaveSellers);
         }
     }
 
-    public void decreaseProductInCart(Client.Models.Seller seller, int productId) {
+    public void decreaseProductInCart(Seller seller, int productId) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "decreaseProductInCart");
         query.getMethodInputs().put("productId",Integer.toString(productId));
         query.getMethodInputs().put("seller",Integer.toString(seller.getUserId()));
-        Response response = Client.process(query);
+        Client.process(query);
     }
 
     public long getTotalCartPrice() {
@@ -137,15 +132,15 @@ public class CustomerController {
     }
 
 
-    public ArrayList<Client.Models.Discount> getDiscountCodes() {
+    public ArrayList<Discount> getDiscountCodes() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getDiscountCodes");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.Discount> allDiscounts = new ArrayList<>();
+        ArrayList<Discount> allDiscounts = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveDiscount>>() {
         }.getType();
         List<SaveDiscount> allSaveDiscounts = gson.fromJson(response.getData(), type);
-        allSaveDiscounts.forEach(saveDiscount -> allDiscounts.add(new Client.Models.Discount(saveDiscount)));
+        allSaveDiscounts.forEach(saveDiscount -> allDiscounts.add(new Discount(saveDiscount)));
         return allDiscounts;
     }
 
@@ -155,13 +150,13 @@ public class CustomerController {
         return Long.getLong(response.getData());
     }
 
-    public Client.Models.CustomerLog getOrder(int orderId) throws NoLogWithId {
+    public CustomerLog getOrder(int orderId) throws NoLogWithId {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getOrder");
         query.getMethodInputs().put("orderId",Integer.toString(orderId));
         Response response = Client.process(query);
         Gson gson = new Gson();
         SaveCustomerLog saveCustomerLog = gson.fromJson(response.getData(),SaveCustomerLog.class);
-        return new Client.Models.CustomerLog(saveCustomerLog);
+        return new CustomerLog(saveCustomerLog);
     }
 
     public void rateProduct(int productId, int rate) throws NoProductWithIdInLog {
@@ -203,13 +198,13 @@ public class CustomerController {
         Response response = Client.process(query);
     }
 
-    public Client.Models.CustomerLog purchase() throws NotEnoughMoney {
+    public CustomerLog purchase() throws NotEnoughMoney {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "purchase");
         Response response = Client.process(query);
         if(response.getReturnType().equalsIgnoreCase("CustomerLog")){
             Gson gson = new Gson();
             SaveCustomerLog saveCustomerLog = gson.fromJson(response.getData(),SaveCustomerLog.class);
-            return new Client.Models.CustomerLog(saveCustomerLog);
+            return new CustomerLog(saveCustomerLog);
         }else if(response.getReturnType().equalsIgnoreCase("NotEnoughMoney"))
             throw new NotEnoughMoney(Long.getLong(response.getData()));
         else{
@@ -218,19 +213,19 @@ public class CustomerController {
         }
     }
 
-    public ArrayList<Client.Models.CustomerLog> getAllLogs() {
+    public ArrayList<CustomerLog> getAllLogs() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllLogs");
         Response response = Client.process(query);
         Gson gson = new Gson();
-        ArrayList<Client.Models.CustomerLog> allCustomerLogs = new ArrayList<>();
+        ArrayList<CustomerLog> allCustomerLogs = new ArrayList<>();
         Type type = new TypeToken<ArrayList<SaveCustomerLog>>() {
         }.getType();
         List<SaveCustomerLog> allSaveCustomerLogs = gson.fromJson(response.getData(), type);
-        allSaveCustomerLogs.forEach(saveCustomerLog -> allCustomerLogs.add(new Client.Models.CustomerLog(saveCustomerLog)));
+        allSaveCustomerLogs.forEach(saveCustomerLog -> allCustomerLogs.add(new CustomerLog(saveCustomerLog)));
         return allCustomerLogs;
     }
 
-    public ArrayList<Client.Models.SelectedItem> sortCart(String field, String type) throws ProductsController.NoSortException {
+    public ArrayList<SelectedItem> sortCart(String field, String type) throws ProductsController.NoSortException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "sortCart");
         query.getMethodInputs().put("field",field);
         query.getMethodInputs().put("type",type);
@@ -238,15 +233,15 @@ public class CustomerController {
         if(response.getReturnType().equalsIgnoreCase("NoSortException"))
             throw new ProductsController.NoSortException();
         Gson gson = new Gson();
-        ArrayList<Client.Models.SelectedItem> allSelectedItems = new ArrayList<>();
+        ArrayList<SelectedItem> allSelectedItems = new ArrayList<>();
         Type fieldType = new TypeToken<ArrayList<SaveSelectedItem>>() {
         }.getType();
         List<SaveSelectedItem> allSaveSelectedItems = gson.fromJson(response.getData(), fieldType);
-        allSaveSelectedItems.forEach(saveSelectedItem -> allSelectedItems.add(new Client.Models.SelectedItem(saveSelectedItem)));
+        allSaveSelectedItems.forEach(saveSelectedItem -> allSelectedItems.add(new SelectedItem(saveSelectedItem)));
         return allSelectedItems;
     }
 
-    public ArrayList<Client.Models.Discount> sortDiscounts(String name, String type) throws ProductsController.NoSortException {
+    public ArrayList<Discount> sortDiscounts(String name, String type) throws ProductsController.NoSortException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "sortDiscounts");
         query.getMethodInputs().put("name",name);
         query.getMethodInputs().put("type",type);
@@ -254,15 +249,15 @@ public class CustomerController {
         if(response.getReturnType().equalsIgnoreCase("NoSortException"))
             throw new ProductsController.NoSortException();
         Gson gson = new Gson();
-        ArrayList<Client.Models.Discount> allDiscounts = new ArrayList<>();
+        ArrayList<Discount> allDiscounts = new ArrayList<>();
         Type fieldType = new TypeToken<ArrayList<SaveDiscount>>() {
         }.getType();
         List<SaveDiscount> allSaveDiscounts = gson.fromJson(response.getData(), fieldType);
-        allSaveDiscounts.forEach(saveDiscount -> allDiscounts.add(new Client.Models.Discount(saveDiscount)));
+        allSaveDiscounts.forEach(saveDiscount -> allDiscounts.add(new Discount(saveDiscount)));
         return allDiscounts;
     }
 
-    public ArrayList<Client.Models.CustomerLog> sortLogs(String name, String type) throws ProductsController.NoSortException {
+    public ArrayList<CustomerLog> sortLogs(String name, String type) throws ProductsController.NoSortException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "sortLogs");
         query.getMethodInputs().put("name",name);
         query.getMethodInputs().put("type",type);
@@ -270,11 +265,11 @@ public class CustomerController {
         if(response.getReturnType().equalsIgnoreCase("NoSortException"))
             throw new ProductsController.NoSortException();
         Gson gson = new Gson();
-        ArrayList<Client.Models.CustomerLog> allCustomerLogs = new ArrayList<>();
+        ArrayList<CustomerLog> allCustomerLogs = new ArrayList<>();
         Type fieldType = new TypeToken<ArrayList<SaveCustomerLog>>() {
         }.getType();
         List<SaveCustomerLog> allSaveCustomerLogs = gson.fromJson(response.getData(), fieldType);
-        allSaveCustomerLogs.forEach(saveCustomerLog -> allCustomerLogs.add(new Client.Models.CustomerLog(saveCustomerLog)));
+        allSaveCustomerLogs.forEach(saveCustomerLog -> allCustomerLogs.add(new CustomerLog(saveCustomerLog)));
         return allCustomerLogs;
     }
 
@@ -309,16 +304,16 @@ public class CustomerController {
     }
 
     public static class NotEnoughSupplyInCart extends Exception {
-        private ArrayList<Client.Models.SelectedItem> items;
-        private List<SaveSelectedItem> saveItems = new ArrayList<>();
-        public NotEnoughSupplyInCart(ArrayList<Client.Models.SelectedItem> items) {
-            this.items = new ArrayList<>();
-            this.items = items;
-            items.forEach(selectedItem -> saveItems.add(new SaveSelectedItem(selectedItem)));
+
+        private List<SaveSelectedItem> saveItems ;
+        public NotEnoughSupplyInCart(List<SaveSelectedItem> saveSelectedItems) {
+            this.saveItems = saveSelectedItems;
         }
 
-        public ArrayList<Client.Models.SelectedItem> getItems() {
-            return items;
+        public ArrayList<SelectedItem> getItems() {
+             ArrayList<SelectedItem> items = new ArrayList<>();
+             saveItems.forEach(saveSelectedItem -> items.add(new SelectedItem(saveSelectedItem)));
+             return items;
         }
 
         public List<SaveSelectedItem> getSaveItems() {
@@ -327,14 +322,14 @@ public class CustomerController {
     }
 
     public static class MoreThanOneSellerForItem extends Exception {
-        ArrayList<Client.Models.Seller> sellers = new ArrayList<>();
-        List<SaveSeller> saveSellers = new ArrayList<>();
-        public MoreThanOneSellerForItem(ArrayList<Client.Models.Seller> sellers) {
-            this.sellers.addAll(sellers);
-            sellers.forEach(seller -> saveSellers.add(new SaveSeller(seller)));
+        List<SaveSeller> saveSellers;
+        public MoreThanOneSellerForItem(List<SaveSeller> saveSellers) {
+            this.saveSellers = saveSellers;
         }
 
         public ArrayList<Seller> getSellers() {
+            ArrayList<Seller> sellers = new ArrayList<>();
+            saveSellers.forEach(saveSeller -> sellers.add(new Seller(saveSeller)));
             return sellers;
         }
 

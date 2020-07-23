@@ -44,7 +44,7 @@ public class Comment implements Pendable{
         }
     }
 
-    public Client.Models.Product getProduct() {
+    public Product getProduct() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Product");
         query.getMethodInputs().put("id", "" + saveComment.getProductId());
         Response response = Client.process(query);

@@ -35,7 +35,7 @@ public class Sale implements Pendable {
         return saveSale;
     }
 
-    public Client.Models.Seller getSeller() {
+    public Seller getSeller() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Seller");
         query.getMethodInputs().put("id", "" + saveSale.getSellerId());
         Response response = Client.process(query);
@@ -53,7 +53,7 @@ public class Sale implements Pendable {
         return offId;
     }
 
-    public List<Client.Models.Product> getProductsInSale() {
+    public List<Product> getProductsInSale() {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Product");
         this.saveSale.getProductsInSaleIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
@@ -61,7 +61,7 @@ public class Sale implements Pendable {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveProduct>>(){}.getType();
             List<SaveProduct> allSaveProducts = gson.fromJson(response.getData(),type);
-            List<Client.Models.Product> allProducts = new ArrayList<>();
+            List<Product> allProducts = new ArrayList<>();
             allSaveProducts.forEach(saveProduct -> allProducts.add(new Product(saveProduct)));
             return allProducts;
         }else {
