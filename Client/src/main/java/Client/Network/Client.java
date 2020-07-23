@@ -10,6 +10,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Client {
     public static Response process(Query query) {
@@ -43,8 +44,9 @@ public class Client {
         Socket socket = new Socket("localhost",8181);
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-
+        dataOutputStream.writeInt(fileBytes.length);
         dataOutputStream.write(fileBytes);
+        dataOutputStream.flush();
         String path = dataInputStream.readUTF();
         socket.close();
         return path;
@@ -56,7 +58,9 @@ public class Client {
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
         dataOutputStream.writeUTF(path);
-        byte[] fileBytes = dataInputStream.readAllBytes();
+        int length = dataInputStream.readInt();
+        byte[] fileBytes =new byte[length];
+        dataInputStream.readFully(fileBytes);
         socket.close();
         return fileBytes;
     }

@@ -58,7 +58,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + firstPage + ".fxml"));
         Parent parent = fxmlLoader.load();
         stage.setScene(new Scene(parent));
-        Constants.globalVariables.setLoggedInUser(Constants.userController.getUserById(2));
+    //    Constants.globalVariables.setLoggedInUser(Constants.userController.getUserById(2));
         Constants.getGuiManager().open(firstPage, 1000);
         stage.show();
         stage.setOnCloseRequest(windowEvent -> closeTheStage());
