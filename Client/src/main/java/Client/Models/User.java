@@ -89,6 +89,9 @@ public abstract class User {
             return new Seller(saveUser.getSaveSeller());
         }
 
+        if (saveUser.getSaveSupporter() != null){
+            return new Supporter(saveUser.getSaveSupporter());
+        }
         return null;
     }
 
