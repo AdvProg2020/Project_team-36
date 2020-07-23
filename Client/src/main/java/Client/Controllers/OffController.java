@@ -25,10 +25,10 @@ public class OffController implements ObjectController {
     @Override
     public void setSort(String name, String type) throws ProductsController.NoSortException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setSort");
-        query.getMethodInputs().put("name",name);
-        query.getMethodInputs().put("type",type);
+        query.getMethodInputs().put("name", name);
+        query.getMethodInputs().put("type", type);
         Response response = Client.process(query);
-        if(response.getReturnType().equalsIgnoreCase("NoSortException"))
+        if (response.getReturnType().equalsIgnoreCase("NoSortException"))
             throw new ProductsController.NoSortException();
     }
 
@@ -45,21 +45,21 @@ public class OffController implements ObjectController {
     @Override
     public void setNewFilter(String name) throws ProductsController.IntegerFieldException, ProductsController.OptionalFieldException, ProductsController.NoFilterWithNameException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setNewFilter");
-        query.getMethodInputs().put("name",name);
+        query.getMethodInputs().put("name", name);
         Response response = Client.process(query);
-        if(response.getReturnType().equalsIgnoreCase("IntegerFieldException"))
+        if (response.getReturnType().equalsIgnoreCase("IntegerFieldException"))
             throw new ProductsController.IntegerFieldException();
-        else if(response.getReturnType().equalsIgnoreCase("OptionalFieldException"))
+        else if (response.getReturnType().equalsIgnoreCase("OptionalFieldException"))
             throw new ProductsController.OptionalFieldException();
-        else if(response.getReturnType().equalsIgnoreCase("NoFilterWithNameException"))
+        else if (response.getReturnType().equalsIgnoreCase("NoFilterWithNameException"))
             throw new ProductsController.NoFilterWithNameException();
     }
 
     @Override
     public void setFilterRange(String min, String max) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setFilterRange");
-        query.getMethodInputs().put("min",min);
-        query.getMethodInputs().put("max",max);
+        query.getMethodInputs().put("min", min);
+        query.getMethodInputs().put("max", max);
         Client.process(query);
     }
 
@@ -68,21 +68,22 @@ public class OffController implements ObjectController {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setFilterOptions");
         //TODO check kon ino nazanin
         List<String> temp = new ArrayList<>(options);
-        Gson gson =  new GsonBuilder().create();
+        Gson gson = new GsonBuilder().create();
         String optionz = gson.toJson(temp);
-        query.getMethodInputs().put("options",optionz);
+        query.getMethodInputs().put("options", optionz);
         Client.process(query);
     }
 
     @Override
     public void removeFilter(String name) throws ProductsController.NoFilterWithNameException {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeFilter");
-        query.getMethodInputs().put("name",name);
+        query.getMethodInputs().put("name", name);
         Response response = Client.process(query);
-        if(response.getReturnType().equalsIgnoreCase("NoFilterWithNameException")){
+        if (response.getReturnType().equalsIgnoreCase("NoFilterWithNameException")) {
             throw new ProductsController.NoFilterWithNameException();
         }
     }
+
     @Override
     public HashSet<String> getCompanyNamesForFilter() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCompanyNamesForFilter");
@@ -122,9 +123,9 @@ public class OffController implements ObjectController {
     @Override
     public void setCategoryFilter(String name) throws ProductsController.NoCategoryWithName {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setCategoryFilter");
-        query.getMethodInputs().put("name",name);
+        query.getMethodInputs().put("name", name);
         Response response = Client.process(query);
-        if(response.getReturnType().equalsIgnoreCase("NoCategoryWithName"))
+        if (response.getReturnType().equalsIgnoreCase("NoCategoryWithName"))
             throw new ProductsController.NoCategoryWithName();
     }
 
@@ -132,19 +133,19 @@ public class OffController implements ObjectController {
         List<String> temp = new ArrayList<>(options);
         Gson gson = new GsonBuilder().create();
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setCompanyFilter");
-        query.getMethodInputs().put("options",gson.toJson(temp));
+        query.getMethodInputs().put("options", gson.toJson(temp));
         Client.process(query);
     }
 
     public void addNameFilter(String name) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "addNameFilter");
-        query.getMethodInputs().put("name",name);
+        query.getMethodInputs().put("name", name);
         Client.process(query);
     }
 
     public void removeNameFilter(String name) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeNameFilter");
-        query.getMethodInputs().put("name",name);
+        query.getMethodInputs().put("name", name);
         Client.process(query);
     }
 
@@ -161,33 +162,37 @@ public class OffController implements ObjectController {
     @Override
     public void addSellerFilter(String name) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "addSellerFilter");
-        query.getMethodInputs().put("name",name);
+        query.getMethodInputs().put("name", name);
         Client.process(query);
     }
 
     @Override
     public void removeSellerFilter(String name) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeSellerFilter");
-        query.getMethodInputs().put("name",name);
+        query.getMethodInputs().put("name", name);
         Client.process(query);
     }
 
     public HashMap<String, HashSet<String>> getAllOptionalChoices() {
-       //TODO nazanin inam mese producte chjuri load konam?
-        return null;
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllOptionalChoices");
+        Response response = Client.process(query);
+        Gson gson = new Gson();
+        Type type = new TypeToken<HashMap<String, HashSet<String>>>(){}.getType();
+        HashMap<String, HashSet<String>> output = gson.fromJson(response.getData(),type);
+        return output;
     }
 
     public void addOptionalFilter(String filterName, String option) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "addOptionalFilter");
-        query.getMethodInputs().put("filterName",filterName);
-        query.getMethodInputs().put("option",option);
+        query.getMethodInputs().put("filterName", filterName);
+        query.getMethodInputs().put("option", option);
         Client.process(query);
     }
 
     public void removeOptionalFilter(String filterName, String option) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "removeOptionalFilter");
-        query.getMethodInputs().put("filterName",filterName);
-        query.getMethodInputs().put("option",option);
+        query.getMethodInputs().put("filterName", filterName);
+        query.getMethodInputs().put("option", option);
         Client.process(query);
     }
 
@@ -201,11 +206,6 @@ public class OffController implements ObjectController {
         List<String> names = gson.fromJson(response.getData(), type);
         return new ArrayList<>(names);
     }
-
-
-
-
-
 
 
 }
