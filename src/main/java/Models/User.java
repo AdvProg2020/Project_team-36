@@ -24,7 +24,6 @@ public abstract class User{
     static Random random = new Random();
     private static int totalUsersMade = random.nextInt(4988 - 1000) + 1000;
     private Status status;
-    private ImageView profilePicture;
     private String profilePictureUrl;
     private static User userToView;
     private ArrayList<Chat> chats;
@@ -214,25 +213,8 @@ public abstract class User{
         allUsers.removeAll(temp);
     }
 
-    public ImageView getProfilePicture() {
-        return profilePicture;
-    }
-
-    public ImageView getProfilePicture(int height,int width) throws MalformedURLException {
-        File file = new File (this.profilePictureUrl);
-        String path = file.toURI().toURL().toString();
-        Image image = new Image(path,width,height,false,false);
-        return new ImageView(image);
-    }
-
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
-    }
-
-    public ImageView getSmallProfilePicture() throws MalformedURLException {
-        File file = new File (this.profilePictureUrl);
-        String path = file.toURI().toURL().toString();
-        return new ImageView(new Image(path,50,50,false,false));
     }
 
     public String getProfilePictureUrl() {

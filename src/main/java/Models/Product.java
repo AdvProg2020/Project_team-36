@@ -22,7 +22,6 @@ public class Product implements Pendable {
     static Random random = new Random();
     private static int allProductsMade = random.nextInt(4988 - 1000) + 1000;
     private int seenNumber;
-    private ImageView productImage;
     private String productImageUrl = "";
     private String editedField;
     private static Product productToEdit;
@@ -33,129 +32,126 @@ public class Product implements Pendable {
         return productImageUrl;
     }
 
-    public static void addTest(){
-        ArrayList<Field> fields = new ArrayList<>();
-        IntegerField size = new IntegerField("size");
-        size.setValue("5000");
-        IntegerField productionDate = new IntegerField("production date");
-        productionDate.setValue("2020");
-        OptionalField color = new OptionalField("color");
-        color.setValue("red");
-        OptionalField waterProof = new OptionalField("waterProof");
-        waterProof.setValue("high level");
-        fields.add(size);
-        fields.add(color);
-        fields.add(productionDate);
-        fields.add(waterProof);
-        Seller seller = new Seller("seller");
-        Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
-        Product product = new Product("abc","team36",new Category("testingCategory"),fields,
-                "this a string of information about this product.",new ProductField(2000,seller,
-                100,0),new Date(), "/images/edit.png");
-        product.setProductImage(new ImageView(image));
-        ArrayList<Product> sale=  new ArrayList<>();
-        sale.add(product);
-        product.productImageUrl = "/images/edit.png";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        dateFormat.setLenient(false);
-        Date startDate=null;
-        Date endDate=null;
-        try {
-            startDate = dateFormat.parse("2020/5/10");
-            endDate = dateFormat.parse("2020/10/10");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        product.getProductFieldBySeller(seller).setSale(new Sale(seller,sale,startDate,endDate,0.2));
-        allProducts.add(product);
-        seller.addProduct(product);
-        test1();
-        test2();
-    }
+//    public static void addTest(){
+//        ArrayList<Field> fields = new ArrayList<>();
+//        IntegerField size = new IntegerField("size");
+//        size.setValue("5000");
+//        IntegerField productionDate = new IntegerField("production date");
+//        productionDate.setValue("2020");
+//        OptionalField color = new OptionalField("color");
+//        color.setValue("red");
+//        OptionalField waterProof = new OptionalField("waterProof");
+//        waterProof.setValue("high level");
+//        fields.add(size);
+//        fields.add(color);
+//        fields.add(productionDate);
+//        fields.add(waterProof);
+//        Seller seller = new Seller("seller");
+//        Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
+//        Product product = new Product("abc","team36",new Category("testingCategory"),fields,
+//                "this a string of information about this product.",new ProductField(2000,seller,
+//                100,0),new Date(), "/images/edit.png");
+//        product.setProductImage(new ImageView(image));
+//        ArrayList<Product> sale=  new ArrayList<>();
+//        sale.add(product);
+//        product.productImageUrl = "/images/edit.png";
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        dateFormat.setLenient(false);
+//        Date startDate=null;
+//        Date endDate=null;
+//        try {
+//            startDate = dateFormat.parse("2020/5/10");
+//            endDate = dateFormat.parse("2020/10/10");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        product.getProductFieldBySeller(seller).setSale(new Sale(seller,sale,startDate,endDate,0.2));
+//        allProducts.add(product);
+//        seller.addProduct(product);
+//        test1();
+//        test2();
+//    }
+//
+//    private static void test1(){
+//        ArrayList<Field> fields = new ArrayList<>();
+//        IntegerField size = new IntegerField("size");
+//        size.setValue("4000");
+//        IntegerField productionDate = new IntegerField("production date");
+//        productionDate.setValue("2018");
+//        OptionalField color = new OptionalField("color");
+//        color.setValue("red");
+//        OptionalField waterProof = new OptionalField("waterProof");
+//        waterProof.setValue("high level");
+//        fields.add(size);
+//        fields.add(color);
+//        fields.add(productionDate);
+//        fields.add(waterProof);
+//        Seller seller = new Seller("sell");
+//        Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
+//        Product product = new Product("def","team37",new Category("nazanin"),fields,
+//                "this a string of information about that product.",new ProductField(755555,seller,
+//                0,123),new Date(), "/images/edit.png");
+//        product.setProductImage(new ImageView(image));
+//        ArrayList<Product> sale=  new ArrayList<>();
+//        sale.add(product);
+//        product.productImageUrl = "/images/edit.png";
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        dateFormat.setLenient(false);
+//        Date startDate=null;
+//        Date endDate=null;
+//        try {
+//            startDate = dateFormat.parse("2018/5/10");
+//            endDate = dateFormat.parse("2019/10/10");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        product.getProductFieldBySeller(seller).setSale(new Sale(seller,sale,startDate,endDate,0.8));
+//        allProducts.add(product);
+//        seller.addProduct(product);
+//
+//
+//    }
+//
+//    private static void test2(){
+//       for(int i=0;i<20;i++) {
+//            ArrayList<Field> fields = new ArrayList<>();
+//            IntegerField size = new IntegerField("size");
+//            size.setValue("4000");
+//            IntegerField productionDate = new IntegerField("production date");
+//            productionDate.setValue("2018");
+//            OptionalField color = new OptionalField("color");
+//            color.setValue("red");
+//            OptionalField waterProof = new OptionalField("waterProof");
+//            waterProof.setValue("high level");
+//            fields.add(size);
+//            fields.add(color);
+//            fields.add(productionDate);
+//            fields.add(waterProof);
+//            Seller seller = new Seller("what?");
+//            Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
+//            Product product = new Product("nazanin", "shalalay", new Category("NAZANIN"), fields,
+//                    "this a string of information about nazanin.", new ProductField(i*4567+45, seller,
+//                    i*23+4, 456), new Date(), "/images/edit.png");
+//            product.setProductImage(new ImageView(image));
+//            ArrayList<Product> sale = new ArrayList<>();
+//            sale.add(product);
+//           // product.productImageUrl = ;
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//            dateFormat.setLenient(false);
+//            Date startDate = null;
+//            Date endDate = null;
+//            try {
+//                startDate = dateFormat.parse("2017/5/10");
+//                endDate = dateFormat.parse("2020/10/30");
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            product.getProductFieldBySeller(seller).setSale(new Sale(seller, sale, startDate, endDate, 0.15));
+//            allProducts.add(product);
+//            seller.addProduct(product);
+//        }
+//    }
 
-    private static void test1(){
-        ArrayList<Field> fields = new ArrayList<>();
-        IntegerField size = new IntegerField("size");
-        size.setValue("4000");
-        IntegerField productionDate = new IntegerField("production date");
-        productionDate.setValue("2018");
-        OptionalField color = new OptionalField("color");
-        color.setValue("red");
-        OptionalField waterProof = new OptionalField("waterProof");
-        waterProof.setValue("high level");
-        fields.add(size);
-        fields.add(color);
-        fields.add(productionDate);
-        fields.add(waterProof);
-        Seller seller = new Seller("sell");
-        Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
-        Product product = new Product("def","team37",new Category("nazanin"),fields,
-                "this a string of information about that product.",new ProductField(755555,seller,
-                0,123),new Date(), "/images/edit.png");
-        product.setProductImage(new ImageView(image));
-        ArrayList<Product> sale=  new ArrayList<>();
-        sale.add(product);
-        product.productImageUrl = "/images/edit.png";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        dateFormat.setLenient(false);
-        Date startDate=null;
-        Date endDate=null;
-        try {
-            startDate = dateFormat.parse("2018/5/10");
-            endDate = dateFormat.parse("2019/10/10");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        product.getProductFieldBySeller(seller).setSale(new Sale(seller,sale,startDate,endDate,0.8));
-        allProducts.add(product);
-        seller.addProduct(product);
-
-
-    }
-
-    private static void test2(){
-       for(int i=0;i<20;i++) {
-            ArrayList<Field> fields = new ArrayList<>();
-            IntegerField size = new IntegerField("size");
-            size.setValue("4000");
-            IntegerField productionDate = new IntegerField("production date");
-            productionDate.setValue("2018");
-            OptionalField color = new OptionalField("color");
-            color.setValue("red");
-            OptionalField waterProof = new OptionalField("waterProof");
-            waterProof.setValue("high level");
-            fields.add(size);
-            fields.add(color);
-            fields.add(productionDate);
-            fields.add(waterProof);
-            Seller seller = new Seller("what?");
-            Image image = new Image(Product.class.getResource("/images/edit.png").toExternalForm());
-            Product product = new Product("nazanin", "shalalay", new Category("NAZANIN"), fields,
-                    "this a string of information about nazanin.", new ProductField(i*4567+45, seller,
-                    i*23+4, 456), new Date(), "/images/edit.png");
-            product.setProductImage(new ImageView(image));
-            ArrayList<Product> sale = new ArrayList<>();
-            sale.add(product);
-           // product.productImageUrl = ;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            dateFormat.setLenient(false);
-            Date startDate = null;
-            Date endDate = null;
-            try {
-                startDate = dateFormat.parse("2017/5/10");
-                endDate = dateFormat.parse("2020/10/30");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            product.getProductFieldBySeller(seller).setSale(new Sale(seller, sale, startDate, endDate, 0.15));
-            allProducts.add(product);
-            seller.addProduct(product);
-        }
-    }
-
-    public void setProductImage(ImageView productImage) {
-        this.productImage = productImage;
-    }
 
     public Product(String name, String company, Category category, ArrayList<Field> fieldsOfCategory,
                    String information, ProductField productField, Date productionDate, String productImageURL) {
@@ -668,39 +664,11 @@ public class Product implements Pendable {
         allBuyers.removeAll(toBeRemoved);
     }
 
-    public ImageView getProductImage() {
-        return productImage;
-    }
 
     public void setProductImageUrl(String productImageUrl) {
         this.productImageUrl = productImageUrl;
     }
 
-    public ImageView getSmallProductImage() throws MalformedURLException {
-        File file = new File (this.productImageUrl);
-        String path = file.toURI().toURL().toString();
-        return new ImageView(new Image(path,50,50,false,false));
-    }
-
-    public ImageView getProductImage(int height, int width) throws MalformedURLException {
-        File file = new File (this.productImageUrl);
-        String path = file.toURI().toURL().toString();
-        Image image = new Image(path,width,height,false,false);
-        return new ImageView(image);
-    }
-
-    public ComboBox<String> getBuyersDropDown(){
-
-        ArrayList<String> usernames = new ArrayList<>();
-        for (Customer buyer : allBuyers) {
-            usernames.add(buyer.getUsername());
-        }
-
-        ComboBox<String> comboBox =
-                new ComboBox<>(FXCollections
-                        .observableArrayList(usernames));
-        return comboBox;
-    }
 
     public HashSet<Customer> getAllBuyers() {
         return allBuyers;

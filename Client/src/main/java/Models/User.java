@@ -26,7 +26,6 @@ public abstract class User {
     protected String phoneNumber;
     protected String password;
     private Status status;
-    private ImageView profilePicture;
     private String profilePictureUrl;
 
     public User(SaveCustomer saveCustomer){
