@@ -3,6 +3,7 @@ package Controllers;
 import Models.Customer;
 import Models.Query;
 import Models.Response;
+import Models.Seller;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -88,7 +89,7 @@ public class BankController {
     }
 
     public Response processCreateReceiptAndPay(Query query) {
-        String token = query.getMethodInputs().get("token");
+        String token = "";
         String receiptType = query.getMethodInputs().get("receiptType");
         String money = query.getMethodInputs().get("money");
         String sourceID = query.getMethodInputs().get("sourceID");
@@ -97,10 +98,13 @@ public class BankController {
 
         if (destID.equals("")) {
             destID = shopBankAccountId;
+            token = globalVariables.getBankToken();
         }
 
-        if (sourceID.equals("")){
+        if (sourceID.equals("")) {
             sourceID = shopBankAccountId;
+            String command = "get_token" + " " + shopBankUsername + " " + shopBankPassword;
+            token = connect(command);
         }
         String command = "create_receipt" + " " + token + " " + receiptType + " " + money + " "
                 + sourceID + " " + destID + " " + description;
@@ -109,12 +113,17 @@ public class BankController {
             int receiptID = Integer.parseInt(receiptId);
             String payCommand = "pay" + " " + receiptID;
             String payOutput = connect(payCommand);
-            if (destID.equals(shopBankAccountId) && payOutput.equals("\"done successfully\"")){
-                ((Customer)globalVariables.getLoggedInUser()).getWallet().chargeWallet(Long.parseLong(money));
+            if (destID.equals(shopBankAccountId) && payOutput.equals("\"done successfully\"")) {
+                if (globalVariables.getLoggedInUser() instanceof Customer){
+                    ((Customer) globalVariables.getLoggedInUser()).getWallet().chargeWallet(Long.parseLong(money));
+                }
+                if (globalVariables.getLoggedInUser() instanceof Seller){
+                    ((Seller) globalVariables.getLoggedInUser()).getWallet().chargeWallet(Long.parseLong(money));
+                }
             }
             if (sourceID.equals(shopBankAccountId) && payOutput.equals("\"done successfully\"")
-            && Long.parseLong(money)<=((Customer)globalVariables.getLoggedInUser()).getWallet().getAvailableMoney()){
-                ((Customer)globalVariables.getLoggedInUser()).getWallet().withdrawMoney(Long.parseLong(money));
+                    && Long.parseLong(money) <= ((Seller) globalVariables.getLoggedInUser()).getWallet().getAvailableMoney()) {
+                ((Seller) globalVariables.getLoggedInUser()).getWallet().withdrawMoney(Long.parseLong(money));
             }
             return new Response("String", payOutput);
         } catch (Exception e) {
