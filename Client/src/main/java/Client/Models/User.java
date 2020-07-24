@@ -1,5 +1,6 @@
 package Client.Models;
 
+import Client.GUI.Constants;
 import Client.Network.Client;
 import Models.Status;
 import Repository.*;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public abstract class User {
     protected int userId;
@@ -147,5 +149,29 @@ public abstract class User {
     }
 
     public abstract ArrayList<Chat> getChats();
+
+    public String getOnline(){
+        for (User user : Constants.managerController.getOnlineUsers()) {
+            if(user.equals(this))
+                return "online";
+        }
+        return "offline";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(firstname, user.firstname) &&
+                Objects.equals(lastname, user.lastname) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(phoneNumber, user.phoneNumber) &&
+                Objects.equals(password, user.password) &&
+                status == user.status &&
+                Objects.equals(profilePictureUrl, user.profilePictureUrl);
+    }
 
 }

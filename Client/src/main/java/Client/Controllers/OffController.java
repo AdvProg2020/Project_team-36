@@ -66,7 +66,6 @@ public class OffController implements ObjectController {
     @Override
     public void setFilterOptions(ArrayList<String> options) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setFilterOptions");
-        //TODO check kon ino nazanin
         List<String> temp = new ArrayList<>(options);
         Gson gson = new GsonBuilder().create();
         String optionz = gson.toJson(temp);
