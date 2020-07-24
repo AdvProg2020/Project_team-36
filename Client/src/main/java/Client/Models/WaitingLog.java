@@ -122,5 +122,15 @@ public class WaitingLog {
         return toBeReturned;
     }
 
+    public long getPayablePrice() {
+        long payable;
+        if (getDiscount() == null) {
+            payable = totalPrice - giftDiscount;
+        }
+        else {
+            payable = getDiscount().getPayableAfterDiscount(totalPrice) - giftDiscount;
+        }
+        return payable;
+    }
 
 }

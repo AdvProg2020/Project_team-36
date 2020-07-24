@@ -79,4 +79,12 @@ public class Discount {
 
     public int getDiscountPercentForTable(){ return (int)(discountPercent*100); }
 
+    public long getPayableAfterDiscount(long totalPrice){
+        if(totalPrice*this.discountPercent>this.discountLimit){
+            return totalPrice-this.discountLimit;
+        }else{
+            return totalPrice - (long)(totalPrice*this.discountPercent);
+        }
+    }
+
 }

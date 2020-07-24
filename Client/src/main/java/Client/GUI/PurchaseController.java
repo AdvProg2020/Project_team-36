@@ -93,9 +93,12 @@ public class PurchaseController implements Initializable {
         }
         try {
             if(payWithWallet){
-                Constants.customerController.purchaseWithWallet();
+                if (Constants.customerController.getWaitingLog().getPayablePrice() > customer.getWallet().getAvailableMoney()) {
+                    Constants.customerController.purchase();
+                }else
+                    Constants.customerController.purchaseWithWallet();
             } else {
-                Constants.customerController.purchaseWithBankAccount();
+                Constants.customerController.purchaseWithBankAccount(customer.getUserId());
             }
             afterPurchase();
             AlertBox.display("SUCCESS","All files downloaded successfully!\n returning to customer log");

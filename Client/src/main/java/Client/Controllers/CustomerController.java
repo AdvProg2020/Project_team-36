@@ -1,5 +1,7 @@
 package Client.Controllers;
 
+import Client.GUI.AlertBox;
+import Client.GUI.BankGetToken;
 import Client.Models.*;
 import Client.GUI.Constants;
 import Models.Query;
@@ -254,19 +256,22 @@ public class CustomerController {
         }
     }
 
-    public CustomerLog purchaseWithBankAccount() throws NotEnoughMoney {
-        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "purchaseWithBankAccount");
-        Response response = Client.process(query);
-        if(response.getReturnType().equalsIgnoreCase("CustomerLog")){
-            Gson gson = new Gson();
-            SaveCustomerLog saveCustomerLog = gson.fromJson(response.getData(),SaveCustomerLog.class);
-            return new CustomerLog(saveCustomerLog);
-        }else if(response.getReturnType().equalsIgnoreCase("NotEnoughMoney"))
-            throw new NotEnoughMoney(Long.getLong(response.getData()));
-        else{
-            System.out.println(response.getData());
-            return null;
+    public CustomerLog purchaseWithBankAccount(int customerId) throws NotEnoughMoney {
+
+        long money = getWaitingLog().getPayablePrice();
+        String output = Constants.bankController.createReceiptAndPay("move", money + "",
+                ((Customer) Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(), "", "boughtProduct");
+        while (output.equals("token is invalid") || output.equals("token expired")) {
+            BankGetToken.display();
+            output = Constants.bankController.createReceiptAndPay("move", money + "",
+                    ((Customer) Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(), "", "boughtProduct");
         }
+        if (output.equals("done successfully")) {
+            chargeWallet(money, customerId);
+        } else {
+            AlertBox.display("Error", output);
+        }
+        return purchaseWithWallet();
     }
 
     public ArrayList<CustomerLog> getAllLogs() {

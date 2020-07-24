@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Customer extends User {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
-    private long credit=500_000;
+    private long credit=0;
     private ArrayList<CustomerLog> allLogs;
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
