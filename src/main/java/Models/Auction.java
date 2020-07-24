@@ -36,6 +36,7 @@ public class Auction {
     }
 
     public static List<Auction> getAllAuctions() {
+        updateAllAuctions();
         return allAuctions;
     }
 
