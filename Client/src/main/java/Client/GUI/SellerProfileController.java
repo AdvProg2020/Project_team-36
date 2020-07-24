@@ -1,6 +1,7 @@
 package Client.GUI;
 
 import Client.Controllers.EntryController;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 
@@ -30,5 +31,9 @@ public abstract class SellerProfileController {
     }
     public void logout() throws EntryController.NotLoggedInException, IOException {
         Constants.getGuiManager().logout();
+    }
+
+    public void openAuction(ActionEvent actionEvent) throws IOException {
+        Constants.getGuiManager().open("AddNewAuction",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 }

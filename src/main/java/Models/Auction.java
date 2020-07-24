@@ -73,4 +73,8 @@ public class Auction {
             }
         }
     }
+
+    public static void addNewAuction(Auction auction){
+        allAuctions.add(auction);
+    }
 }

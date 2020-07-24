@@ -181,4 +181,13 @@ public class Seller extends User implements Pendable {
         }
         allSellers.removeAll(toBeRemoved);
     }
+
+    public ArrayList<Product> getAuctionProducts(){
+        ArrayList<Product> toBeReturned = new ArrayList<>();
+        for (Product product : allProducts) {
+            if(product.getProductFieldBySeller(this).getSupply()==1&& !product.getProductFieldBySeller(this).isInAuction())
+                toBeReturned.add(product);
+        }
+        return toBeReturned;
+    }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.SellerProductsController">
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.AddNewAuction">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -24,7 +24,7 @@
                 <Button layoutX="1.0" layoutY="372.0" mnemonicParsing="false" onAction="#openShowCategories" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Show Categories" textFill="#d7d4d4" />
                 <Button layoutX="1.0" layoutY="430.0" mnemonicParsing="false" onAction="#openViewOffs" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Offs" textFill="#d7d4d4" />
                 <Button layoutX="3.0" layoutY="486.0" mnemonicParsing="false" onAction="#openWallet" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Wallet" textFill="#d7d4d4" />
-            <Button layoutY="557.0" mnemonicParsing="false" onAction="#openAuction" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Add Auction" textFill="#d7d4d4" />
+            <Button layoutY="558.0" mnemonicParsing="false" onAction="#openAuction" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Add Auction" textFill="#d7d4d4" />
             </children>
         </AnchorPane>
         <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">
@@ -54,21 +54,34 @@
                 <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
-                            <TableView fx:id="allProductsTable" layoutX="78.0" layoutY="83.0" prefHeight="297.0" prefWidth="800.0">
-                                <columns>
-                                    <TableColumn fx:id="productPictureColumn" prefWidth="143.0" sortable="false" text="product picture" />
-                                    <TableColumn fx:id="productNameColumn" minWidth="0.0" prefWidth="167.0" text="product name" />
-                                    <TableColumn fx:id="productIdColumn" minWidth="0.0" prefWidth="123.0" text="product id" />
-                                    <TableColumn fx:id="viewColumn" prefWidth="117.0" text="View Product" />
-                           <TableColumn fx:id="editColumn" prefWidth="123.0" text="Edit Product" />
-                           <TableColumn fx:id="buyersColumn" prefWidth="132.0" text="Buyers" />
-                                </columns>
-                            </TableView>
-                     <Button fx:id="addNewProduct" layoutX="78.0" layoutY="49.0" mnemonicParsing="false" onAction="#addNewProductAction" text="+ Sell New Product" />
-                     <Button fx:id="removeProduct" layoutX="516.0" layoutY="49.0" mnemonicParsing="false" onAction="#removeAction" text="remove" />
-                     <Button layoutX="360.0" layoutY="49.0" mnemonicParsing="false" onAction="#addExistingProduct" text="Sell an Existing Product" />
-                     <Button fx:id="addNewProduct1" layoutX="209.0" layoutY="48.0" mnemonicParsing="false" onAction="#addNewFileAction" prefHeight="26.0" prefWidth="134.0" text="+ Sell New File" />
-                        </AnchorPane>
+                     <children>
+                        <ComboBox fx:id="chooseProduct" layoutX="159.0" layoutY="46.0" prefHeight="26.0" prefWidth="270.0" />
+                        <Label layoutX="29.0" layoutY="43.0" prefHeight="34.0" prefWidth="124.0" text="Choose product" />
+                        <Label fx:id="chooseProductAlert" layoutX="29.0" layoutY="77.0" prefHeight="18.0" prefWidth="405.0" text="You have to choose a product" textFill="#d71616" visible="false">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <DatePicker fx:id="datePicker" layoutX="159.0" layoutY="127.0" prefHeight="26.0" prefWidth="268.0" />
+                        <Label layoutX="29.0" layoutY="123.0" prefHeight="34.0" prefWidth="124.0" text="Choose end date" />
+                        <Label fx:id="dateAlert" layoutX="29.0" layoutY="167.0" prefHeight="18.0" prefWidth="230.0" text="You have to choose end date" textFill="#dd1616" visible="false">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="206.0" layoutY="206.0" mnemonicParsing="false" onAction="#addAuction" text="Add Auction" />
+                        <ImageView fitHeight="299.0" fitWidth="511.0" layoutX="469.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="357.0" fitWidth="366.0" layoutX="542.0" layoutY="40.0">
+                           <image>
+                              <Image url="@../images/auctionBackground.jpg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="successAlert" layoutX="159.0" layoutY="251.0" prefHeight="18.0" prefWidth="429.0" text="Auction added successfully" textFill="#0b9426" visible="false">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
                     </content>
                 </ScrollPane>
             </children>

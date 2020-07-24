@@ -13,6 +13,7 @@ public class  Constants {
     public static OffController offController;
     public static UserController userController;
     public static GlobalVariables globalVariables;
+    public static AuctionController auctionController;
 
     private static GUIManager guiManager = new GUIManager();
     public static GUIManager getGuiManager() {
@@ -28,6 +29,7 @@ public class  Constants {
         Constants.sellerController = new SellerController();
         Constants.userController = new UserController();
         Constants.productsController = new ProductsController(globalVariables);
+        Constants.auctionController = new AuctionController(globalVariables);
     }
 
 }

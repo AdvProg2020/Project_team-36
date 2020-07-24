@@ -13,6 +13,8 @@ public class ProductField implements Pendable {
     private int supply;
     private HashSet<Customer> allBuyers;
     private String editedField;
+    //todo ino ezafe kon nazanin
+    private boolean isInAuction;
 
 
     public ProductField(long price, Seller seller, int supply, int mainProductId) {
@@ -21,6 +23,7 @@ public class ProductField implements Pendable {
         this.seller = seller;
         this.supply = supply;
         this.mainProductId = mainProductId;
+        this.isInAuction = false;
         status = Status.TO_BE_CONFIRMED;
     }
 
@@ -29,6 +32,7 @@ public class ProductField implements Pendable {
         this.price = productField.price;
         this.seller = productField.seller;
         this.supply = productField.supply;
+        this.isInAuction = productField.isInAuction;
     }
 
     public Status getStatus() {
@@ -185,5 +189,13 @@ public class ProductField implements Pendable {
         if(sale!=null)
         return (long) ((1 - sale.getSalePercent()) * price);
         return price;
+    }
+
+    public void setInAuction(boolean isInAuction){
+        this.isInAuction = isInAuction;
+    }
+
+    public boolean isInAuction() {
+        return isInAuction;
     }
 }
