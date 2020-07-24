@@ -248,6 +248,35 @@ public class CustomerController extends UserController {
         return CustomerLog.createCustomerLog(waitingLog);
     }
 
+    public CustomerLog purchaseWithWallet() throws NotEnoughMoney {
+        WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
+        Customer customer = (Customer) userVariables.getLoggedInUser();
+        if (waitingLog.getPayablePrice() > customer.getWallet().getAvailableMoney()) {
+            waitingLog.removeDiscount();
+            cancelPurchase();
+            throw new NotEnoughMoney(waitingLog.getPayablePrice() - customer.getWallet().getAvailableMoney());
+        }
+        waitingLog.applyPurchaseWithWalletChanges();
+        waitingLog.addCustomerToBuyers();
+        SellerLog.createSellerLogs(waitingLog);
+        return CustomerLog.createCustomerLog(waitingLog);
+    }
+
+    public CustomerLog purchaseWithBankAccount() throws NotEnoughMoney {
+        WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
+        Customer customer = (Customer) userVariables.getLoggedInUser();
+        //todo get customer bank balance
+        if (waitingLog.getPayablePrice() > bankbalance) {
+            waitingLog.removeDiscount();
+            cancelPurchase();
+            throw new NotEnoughMoney(waitingLog.getPayablePrice() - bankbalance);
+        }
+        waitingLog.applyPurchaseWithBankChanges();
+        waitingLog.addCustomerToBuyers();
+        SellerLog.createSellerLogs(waitingLog);
+        return CustomerLog.createCustomerLog(waitingLog);
+    }
+
     public ArrayList<CustomerLog> getAllLogs() {
         return ((Customer) userVariables.getLoggedInUser()).getAllLogs();
     }
@@ -348,6 +377,8 @@ public class CustomerController extends UserController {
             case "removeDiscount" -> processRemoveDiscount(query);
             case "getMoneyInWallet" -> processGetMoneyInWallet(query);
             case "chargeWallet" -> processChargeWallet(query);
+            case "purchaseWithBankAccount" -> processPurchaseWithBankAccount();
+            case "purchaseWithWallet" -> processPurchaseWithWallet();
             default -> new Response("Error", "");
         };
     }
@@ -401,6 +432,26 @@ public class CustomerController extends UserController {
     private Response processPurchase(Query query) {
         try {
             SaveCustomerLog log = new SaveCustomerLog(purchase());
+            Gson gson = new GsonBuilder().create();
+            return new Response("CustomerLog", gson.toJson(log));
+        } catch (NotEnoughMoney notEnoughMoney) {
+            return new Response("NotEnoughMoney",Long.toString(notEnoughMoney.getAmount()));
+        }
+    }
+
+    private Response processPurchaseWithBankAccount() {
+        try {
+            SaveCustomerLog log = new SaveCustomerLog(purchaseWithBankAccount());
+            Gson gson = new GsonBuilder().create();
+            return new Response("CustomerLog", gson.toJson(log));
+        } catch (NotEnoughMoney notEnoughMoney) {
+            return new Response("NotEnoughMoney",Long.toString(notEnoughMoney.getAmount()));
+        }
+    }
+
+    private Response processPurchaseWithWallet() {
+        try {
+            SaveCustomerLog log = new SaveCustomerLog(purchaseWithWallet());
             Gson gson = new GsonBuilder().create();
             return new Response("CustomerLog", gson.toJson(log));
         } catch (NotEnoughMoney notEnoughMoney) {

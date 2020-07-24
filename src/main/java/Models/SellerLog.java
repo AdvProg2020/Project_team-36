@@ -60,7 +60,7 @@ public class SellerLog {
             totalPrice += item.getInitialPrice()*count;
             cash+=item.getCurrentPrice();
         }
-        this.totalPrice = totalPrice;
+        this.totalPrice = (totalPrice-(long)(totalPrice*Manager.getWage()));
         this.sale = totalPrice - cash;
     }
 

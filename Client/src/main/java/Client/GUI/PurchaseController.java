@@ -5,16 +5,18 @@ import Client.Controllers.EntryController;
 import Client.Models.Customer;
 import Client.Models.Product;
 import Client.Network.Client;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 
 import java.io.*;
 import java.util.List;
 
 public class PurchaseController implements Initializable {
+    public RadioButton walletButton;
+    public ToggleGroup purchase;
+    public RadioButton bankButton;
     @FXML
     private TextArea address;
     @FXML
@@ -25,7 +27,7 @@ public class PurchaseController implements Initializable {
     private Label totalPrice;
     @FXML
     private Label totalPayable;
-
+    private boolean payWithWallet = false;
     private Customer customer;
     private int id;
 
@@ -47,6 +49,10 @@ public class PurchaseController implements Initializable {
 
         totalPrice.setText("" + Constants.customerController.getCartPrice());
         totalPayable.setText("" + Constants.customerController.getCartPriceConsideringSale());
+
+        bankButton.setOnAction(actionEvent -> payWithWallet = !bankButton.isSelected());
+        walletButton.setOnAction(actionEvent -> payWithWallet = walletButton.isSelected());
+
         Constants.customerController.addNewWaitingLog();
     }
 
@@ -81,8 +87,16 @@ public class PurchaseController implements Initializable {
             return;
         }
         Constants.customerController.setPhoneNumberForPurchase(phoneNumber.getText());
+        if(!(walletButton.isSelected()&&bankButton.isSelected())){
+            AlertBox.display("Error","select your payment method.");
+            return;
+        }
         try {
-            Constants.customerController.purchase();
+            if(payWithWallet){
+                Constants.customerController.purchaseWithWallet();
+            } else {
+                Constants.customerController.purchaseWithBankAccount();
+            }
             afterPurchase();
             AlertBox.display("SUCCESS","All files downloaded successfully!\n returning to customer log");
             ((CustomerTemplateController) Constants.getGuiManager().
@@ -131,5 +145,8 @@ public class PurchaseController implements Initializable {
     public void back() throws IOException {
         Constants.customerController.cancelPurchase();
         Constants.getGuiManager().back();
+    }
+
+    public void payWithBank(ActionEvent actionEvent) {
     }
 }

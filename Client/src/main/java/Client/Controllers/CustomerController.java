@@ -227,6 +227,36 @@ public class CustomerController {
         }
     }
 
+    public CustomerLog purchaseWithWallet() throws NotEnoughMoney {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "purchaseWithWallet");
+        Response response = Client.process(query);
+        if(response.getReturnType().equalsIgnoreCase("CustomerLog")){
+            Gson gson = new Gson();
+            SaveCustomerLog saveCustomerLog = gson.fromJson(response.getData(),SaveCustomerLog.class);
+            return new CustomerLog(saveCustomerLog);
+        }else if(response.getReturnType().equalsIgnoreCase("NotEnoughMoney"))
+            throw new NotEnoughMoney(Long.getLong(response.getData()));
+        else{
+            System.out.println(response.getData());
+            return null;
+        }
+    }
+
+    public CustomerLog purchaseWithBankAccount() throws NotEnoughMoney {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "purchaseWithBankAccount");
+        Response response = Client.process(query);
+        if(response.getReturnType().equalsIgnoreCase("CustomerLog")){
+            Gson gson = new Gson();
+            SaveCustomerLog saveCustomerLog = gson.fromJson(response.getData(),SaveCustomerLog.class);
+            return new CustomerLog(saveCustomerLog);
+        }else if(response.getReturnType().equalsIgnoreCase("NotEnoughMoney"))
+            throw new NotEnoughMoney(Long.getLong(response.getData()));
+        else{
+            System.out.println(response.getData());
+            return null;
+        }
+    }
+
     public ArrayList<CustomerLog> getAllLogs() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllLogs");
         Response response = Client.process(query);

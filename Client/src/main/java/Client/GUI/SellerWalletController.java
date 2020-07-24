@@ -40,7 +40,7 @@ public class SellerWalletController extends SellerProfileController implements I
         }
 
         //todo check if bank account has enough to charge
-
+        //todo az hesabe furushande be hesabe furushgah
         long money = Long.parseLong(chargeField.getText());
         Constants.sellerController.chargeWallet(money, sellerId);
         chargeField.clear();
@@ -51,6 +51,7 @@ public class SellerWalletController extends SellerProfileController implements I
             return;
         }
         long money = Long.parseLong(withdrawField.getText());
+        //todo az hesabe furushgah be hesabe furushande
 
         if(Constants.sellerController.isThereEnoughAvailable(money, sellerId)){
             Constants.sellerController.withdrawFromWallet(money, sellerId);

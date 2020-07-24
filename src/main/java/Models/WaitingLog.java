@@ -74,6 +74,30 @@ public class WaitingLog {
         }
     }
 
+    public void applyPurchaseWithWalletChanges() {
+        this.customer.getWallet().withdrawMoney(this.getPayablePrice());
+        for (SelectedItem item : allSelectedItems) {
+            for (Seller seller : item.getSellers()) {
+                long amount = item.getSellerTotalPrice(seller);
+                seller.getWallet().chargeWallet((amount-((long) Manager.getWage()*amount)));
+                int count= item.getCountFromEachSeller().get(item.getSellers().indexOf(seller));
+                item.getProduct().getProductFieldBySeller(seller).buyFromSeller(count);
+            }
+        }
+    }
+
+    public void applyPurchaseWithBankChanges() {
+        //todo variz az hesabe customer be hesabe furushgah this.getPayablePrice()
+        for (SelectedItem item : allSelectedItems) {
+            for (Seller seller : item.getSellers()) {
+                long amount = item.getSellerTotalPrice(seller);
+                seller.getWallet().chargeWallet((amount-((long) Manager.getWage()*amount)));
+                int count= item.getCountFromEachSeller().get(item.getSellers().indexOf(seller));
+                item.getProduct().getProductFieldBySeller(seller).buyFromSeller(count);
+            }
+        }
+    }
+
     public Customer getCustomer() {
         return customer;
     }
