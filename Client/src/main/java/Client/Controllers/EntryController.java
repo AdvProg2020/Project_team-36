@@ -98,7 +98,13 @@ public class EntryController {
         Client.process(query);
     }
 
-    public void register() {
+    public void register(String accountId) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "register");
+        query.getMethodInputs().put("accountId",accountId);
+        Client.process(query);
+    }
+
+    public void register(){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "register");
         Client.process(query);
     }

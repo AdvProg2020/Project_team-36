@@ -62,6 +62,7 @@ public class SaveSeller {
         saveSeller.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
         saveSeller.allProductIds.forEach(productId -> seller.getAllProducts().add(SaveProduct.load(productId)));
         saveSeller.allSellerLogs.forEach(sellerLog -> seller.getAllLogs().add(sellerLog.generateSellerLog()));
+        seller.setWallet(saveSeller.wallet);
         return seller;
     }
 
@@ -82,6 +83,7 @@ public class SaveSeller {
         this.credit = seller.getCredit();
         this.companyInfo = seller.getCompanyInfo();
         this.companyName = seller.getCompanyName();
+        this.wallet = seller.getWallet();
         seller.getChats().forEach(chat -> chatsIds.add(chat.getId()));
         seller.getAllLogs().forEach(sellerLog -> this.allSellerLogs.add(new SaveSellerLog(sellerLog)));
         seller.getAllProducts().forEach(product -> this.allProductIds.add(product.getProductId()));
@@ -95,6 +97,7 @@ public class SaveSeller {
         this.allOffIds.forEach(offId -> seller.getAllSales().add(SaveSale.load(offId)));
         this.allProductIds.forEach(productId -> seller.getAllProducts().add(SaveProduct.load(productId)));
         this.allSellerLogs.forEach(sellerLog -> seller.getAllLogs().add(sellerLog.generateSellerLog()));
+        seller.setWallet(this.wallet);
         return seller;
     }
 

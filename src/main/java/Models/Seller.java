@@ -20,6 +20,10 @@ public class Seller extends User implements Pendable {
         this.wallet = new Wallet();
     }
 
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
     @Override
     public String getType() {
         return "seller";

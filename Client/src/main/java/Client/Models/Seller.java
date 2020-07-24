@@ -35,6 +35,7 @@ public class Seller extends User implements Pendable {
         saveSeller.getAllSellerLogs().forEach(saveSellerLog -> allLogs.add(new SellerLog(saveSellerLog)));
     }
 
+
     @Override
     public String getType() {
         return "seller";

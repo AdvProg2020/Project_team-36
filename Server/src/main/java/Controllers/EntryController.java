@@ -86,6 +86,21 @@ public class EntryController extends UserController {
         userVariables.setLoggedInUser(null);
     }
 
+    public void register(String accountId){
+        setAccountId(accountId);
+        register();
+    }
+    private void setAccountId(String accountId){
+        User user = userVariables.getLoggedInUser();
+        if (user instanceof Seller ) {
+            ((Seller) user).getWallet().setBankAccount(accountId);
+        }
+
+        if (user instanceof Customer){
+            ((Customer) user).getWallet().setBankAccount(accountId);
+        }
+    }
+
     public void logout() throws NotLoggedInException {
         if (this.userVariables.getLoggedInUser() != null)
             this.userVariables.setLoggedInUser(null);
@@ -208,6 +223,9 @@ public class EntryController extends UserController {
     }
 
     private Response processRegister(Query query) {
+        if (query.getMethodInputs().containsKey("accountId")){
+            register(query.getMethodInputs().get("accountId"));
+        }
         register();
         return new Response("void", "");
     }

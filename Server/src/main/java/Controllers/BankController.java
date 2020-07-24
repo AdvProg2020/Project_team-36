@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Customer;
 import Models.Query;
 import Models.Response;
 
@@ -12,18 +13,21 @@ import java.net.Socket;
 public class BankController {
     private String host = "localhost";
     private int port = 8383;
-    private GlobalVariables  globalVariables;
+    private GlobalVariables globalVariables;
+    private static String shopBankAccountId;
+    private static String shopBankUsername;
+    private static String shopBankPassword;
 
     public BankController(GlobalVariables globalVariables) {
         this.globalVariables = globalVariables;
     }
 
     public Response processQuery(Query query) {
-        switch (query.getMethodName()){
-            case "createAccount" :
+        switch (query.getMethodName()) {
+            case "createAccount":
                 return processCreateAccount(query);
 
-            case "getToken" :
+            case "getToken":
                 return processGetToken(query);
 
             case "createReceiptAndPay":
@@ -39,11 +43,11 @@ public class BankController {
                 return processExit(query);
 
             default:
-                return new Response("Errror","");
+                return new Response("Errror", "");
         }
     }
 
-    private String connect(String command)  {
+    private String connect(String command) {
 
         Socket socket = null;
         try {
@@ -59,7 +63,7 @@ public class BankController {
 
     }
 
-    public Response processCreateAccount(Query query)  {
+    public Response processCreateAccount(Query query) {
         String firstname = query.getMethodInputs().get("firstname");
         String lastname = query.getMethodInputs().get("lastname");
         String username = query.getMethodInputs().get("username");
@@ -77,7 +81,7 @@ public class BankController {
 
         String command = "get_token" + " " + username + " " + password;
         String output = connect(command);
-        if (!output.equals("\"invalid username or password\"") ){
+        if (!output.equals("\"invalid username or password\"")) {
             globalVariables.setBankToken(output);
         }
         return new Response("String", output);
@@ -91,13 +95,28 @@ public class BankController {
         String destID = query.getMethodInputs().get("destID");
         String description = query.getMethodInputs().get("description");
 
+        if (destID.equals("")) {
+            destID = shopBankAccountId;
+        }
+
+        if (sourceID.equals("")){
+            sourceID = shopBankAccountId;
+        }
         String command = "create_receipt" + " " + token + " " + receiptType + " " + money + " "
                 + sourceID + " " + destID + " " + description;
         String receiptId = connect(command);
         try {
             int receiptID = Integer.parseInt(receiptId);
             String payCommand = "pay" + " " + receiptID;
-            return new Response("String", connect(payCommand));
+            String payOutput = connect(payCommand);
+            if (destID.equals(shopBankAccountId) && payOutput.equals("\"done successfully\"")){
+                ((Customer)globalVariables.getLoggedInUser()).getWallet().chargeWallet(Long.parseLong(money));
+            }
+            if (sourceID.equals(shopBankAccountId) && payOutput.equals("\"done successfully\"")
+            && Long.parseLong(money)<=((Customer)globalVariables.getLoggedInUser()).getWallet().getAvailableMoney()){
+                ((Customer)globalVariables.getLoggedInUser()).getWallet().withdrawMoney(Long.parseLong(money));
+            }
+            return new Response("String", payOutput);
         } catch (Exception e) {
             return new Response("String", receiptId);
         }
@@ -108,17 +127,17 @@ public class BankController {
         String type = query.getMethodInputs().get("type");
 
         String command = "get_transactions" + " " + token + " " + type;
-        return new Response("String",connect(command));
+        return new Response("String", connect(command));
     }
 
     public Response processGetBalance(Query query) {
         String token = query.getMethodInputs().get("token");
 
         String command = "get_balance" + " " + token;
-        return new Response("String",connect(command));
+        return new Response("String", connect(command));
     }
 
-    public Response processExit(Query query){
+    public Response processExit(Query query) {
         // TODO: bebinim socket chi mishe
         return null;
     }

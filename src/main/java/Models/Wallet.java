@@ -7,6 +7,7 @@ public class Wallet {
     private final int id;
     private static int totalWalletsMade = 0;
     private static long minimumAmount = 0;
+    private String bankAccount;
 
     public Wallet() {
         this.totalMoney = 0;
@@ -63,4 +64,11 @@ public class Wallet {
         Wallet.minimumAmount= minimumAmount;
     }
 
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
 }
