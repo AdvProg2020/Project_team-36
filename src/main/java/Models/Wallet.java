@@ -24,7 +24,7 @@ public class Wallet {
     }
 
     public long getAvailableMoney() {
-        return availableMoney;
+        return (availableMoney-minimumAmount);
     }
 
     public int getId() {
