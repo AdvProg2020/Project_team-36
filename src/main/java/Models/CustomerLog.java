@@ -37,6 +37,23 @@ public class  CustomerLog {
         this.totalPrice = totalPrice;
     }
 
+    public CustomerLog(Customer customer,String address,String phoneNumber,long totalPrice,Product product,Seller seller){
+        this.id  = randomId();
+        this.customerName = customer.getUsername();
+        this.date = new Date();
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        if(product.isFileProduct())
+            logStatus= ONLY_FILE;
+        else
+            logStatus = WAITING_TO_BE_SENT;
+        this.totalPayable = totalPrice;
+        this.totalPrice = totalPrice;
+        this.allItems = new ArrayList<>();
+        allItems.add(new ItemInLog(product,1,seller));
+        customer.addNewLog(this);
+    }
+
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }

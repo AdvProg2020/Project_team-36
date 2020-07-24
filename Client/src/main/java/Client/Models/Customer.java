@@ -24,6 +24,8 @@ public class Customer extends User {
     private WaitingLog waitingLog;
     private List<SelectedItem> cart;
     private Wallet wallet;
+    private List<Auction> winningAuctions;
+
 
     public Customer(SaveCustomer saveCustomer) {
         super(saveCustomer);
@@ -37,6 +39,10 @@ public class Customer extends User {
         if (saveCustomer.getWaitingLog() != null){
             this.waitingLog = new WaitingLog(saveCustomer.getWaitingLog());
         }
+    }
+
+    public List<Auction> getWinningAuctions() {
+        return winningAuctions;
     }
 
     @Override

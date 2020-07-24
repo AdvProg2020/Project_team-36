@@ -67,7 +67,29 @@ public class AuctionController {
         SaveAuction saveAuction = gson.fromJson(response.getData(), SaveAuction.class);
         return new Auction(saveAuction);
     }
+
+    public void addOffer(int amount,int auctionId) throws NotEnoughMoneyInWallet, NoAuctionWithId {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "addOffer");
+        query.getMethodInputs().put("amount",Integer.toString(amount));
+        query.getMethodInputs().put("auctionId",Integer.toString(auctionId));
+        Response response = Client.process(query);
+        if(response.getReturnType().equals("NotEnoughMoneyInWallet")){
+            throw new NotEnoughMoneyInWallet();
+        }else if(response.getReturnType().equals("NoAuctionWithId")){
+            throw new NoAuctionWithId();
+        }
+    }
+
+    public void buyAuction(int id,String address,String phoneNumber){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "buyAuction");
+        query.getMethodInputs().put("id",Integer.toString(id));
+        query.getMethodInputs().put("address",address);
+        query.getMethodInputs().put("phoneNumber",phoneNumber);
+        Response response = Client.process(query);
+
+    }
     public static class NoAuctionWithId extends Exception{}
 
+    public static class NotEnoughMoneyInWallet extends Exception{}
 }
 

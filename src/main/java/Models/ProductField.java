@@ -38,6 +38,10 @@ public class ProductField implements Pendable {
         return status;
     }
 
+    public void decreaseSupply(int amount){
+        supply -= amount;
+    }
+
     public long getCurrentPrice() {
         if (this.sale == null || !sale.isSaleAvailable()) {
             return price;

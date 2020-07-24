@@ -35,6 +35,20 @@ public class SellerLog {
         this.setPrices();
     }
 
+    public SellerLog(Customer customer,String customerAddress,String customerPhoneNumber,Product product,Seller seller,long price){
+        this.date = new Date();
+        this.id = randomId();
+        this.customer = customer;
+        this.customerAddress = customerAddress;
+        this.customerPhoneNumber = customerPhoneNumber;
+        this.logStatus = LogStatus.WAITING_TO_BE_SENT;
+        this.allItems = new ArrayList<>();
+        this.allItems.add(new ItemInLog(product,1,seller));
+        allLogs.add(this);
+        seller.getAllLogs().add(this);
+       this.totalPrice = price;
+    }
+
     public Date getDate() {
         return date;
     }
