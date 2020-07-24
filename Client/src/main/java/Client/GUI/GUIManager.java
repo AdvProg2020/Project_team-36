@@ -15,6 +15,7 @@ public class GUIManager {
     private List<Integer> openedParentsIds;
     private Stage stage;
     private Stage loginStage;
+    private Stage bankRegister;
 
     public GUIManager() {
         this.openedParents = new ArrayList<>();
@@ -91,6 +92,10 @@ public class GUIManager {
             e.printStackTrace();
         }
         loginStage.getScene().setRoot(parent);
+
+    }
+
+    public void openBankRegister(){
 
     }
 
