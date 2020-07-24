@@ -12,6 +12,7 @@ public class SaveAuction {
     private long highestPrice;
     private int finalBuyerId;
     private int chatId;
+    private int id;
 
     public SaveAuction(Auction auction){
         this.saveProductField = new SaveProductField(auction.getProductField());
@@ -21,6 +22,7 @@ public class SaveAuction {
         }
         this.highestPrice = auction.getHighestPrice();
         this.chatId = auction.getChat().getId();
+        this.id = auction.getId();
     }
 
     public int getChatId() {
@@ -41,6 +43,10 @@ public class SaveAuction {
 
     public int getFinalBuyerId() {
         return finalBuyerId;
+    }
+
+    public int getId() {
+        return id;
     }
 
     //todo age hesesh bud badan save o load mizarm

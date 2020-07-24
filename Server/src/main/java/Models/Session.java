@@ -10,6 +10,7 @@ public class Session {
     private ProductsController productsController;
     private OffController offController;
     private UserController userController;
+    private AuctionController auctionController;
 
     private CategoryController categoryController;
     private DiscountController discountController;
@@ -30,6 +31,7 @@ public class Session {
         this.productsController = new ProductsController(globalVariables);
         this.offController = new OffController(globalVariables);
         this.userController = new UserController(globalVariables);
+        this.auctionController = new AuctionController(globalVariables);
     }
 
     public void setCategoryController(){
@@ -116,5 +118,9 @@ public class Session {
 
     public NewProductController getNewProductController() {
         return newProductController;
+    }
+
+    public AuctionController getAuctionController() {
+        return auctionController;
     }
 }

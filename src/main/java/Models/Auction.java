@@ -10,13 +10,17 @@ public class Auction {
     private ProductField productField;
     private Date endDate;
     private long highestPrice;
-    private Customer finalBuyer=null;
+    private Customer finalBuyer = null;
     private Chat chat;
+    private int id;
+    private static int lastId;
 
     public Auction(ProductField productField, Date endDate) {
         this.productField = productField;
         this.endDate = endDate;
         this.chat = new Chat();
+        lastId++;
+        this.id = lastId;
     }
 
     public Chat getChat() {
@@ -43,12 +47,12 @@ public class Auction {
         return endDate;
     }
 
-    public boolean isAuctionExpired(){
+    public boolean isAuctionExpired() {
         return !this.getEndDate().before(new Date());
     }
 
-    public void action(){
-        if(finalBuyer==null){
+    public void action() {
+        if (finalBuyer == null) {
             return;
         }
 
@@ -63,18 +67,22 @@ public class Auction {
         return finalBuyer;
     }
 
-    public static void updateAllAuctions(){
+    public static void updateAllAuctions() {
         Iterator<Auction> iter = allAuctions.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             Auction auction = iter.next();
-            if(auction.isAuctionExpired()){
+            if (auction.isAuctionExpired()) {
                 iter.remove();
                 auction.action();
             }
         }
     }
 
-    public static void addNewAuction(Auction auction){
+    public static void addNewAuction(Auction auction) {
         allAuctions.add(auction);
+    }
+
+    public int getId() {
+        return id;
     }
 }

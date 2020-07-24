@@ -21,6 +21,7 @@ public class ProductField implements Pendable{
     private Status status;
     private long price;
     private int supply;
+    private boolean isInAuction;
 
 
     public ProductField(SaveProductField saveProductField) {
@@ -29,6 +30,7 @@ public class ProductField implements Pendable{
         this.status = saveProductField.getStatus();
         this.price = saveProductField.getPrice();
         this.supply = saveProductField.getSupply();
+        this.isInAuction = saveProductField.isInAuction();
 
     }
 
@@ -108,5 +110,9 @@ public class ProductField implements Pendable{
         } else {
             return price - (long) (price * getSale().getSalePercent());
         }
+    }
+
+    public boolean isInAuction() {
+        return isInAuction;
     }
 }

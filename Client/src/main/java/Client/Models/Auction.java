@@ -18,12 +18,14 @@ public class Auction {
     private ProductField productField;
     private Date endDate;
     private long highestPrice;
+    private int id;
 
     public Auction(SaveAuction saveAuction) {
         this.saveAuction = saveAuction;
         this.productField = new ProductField(saveAuction.getSaveProductField());
         this.endDate = new Date(saveAuction.getEndDate());
         this.highestPrice = saveAuction.getHighestPrice();
+        this.id = saveAuction.getId();
     }
 
 

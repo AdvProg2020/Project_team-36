@@ -13,7 +13,6 @@ public class ProductField implements Pendable {
     private int supply;
     private HashSet<Customer> allBuyers;
     private String editedField;
-    //todo ino ezafe kon nazanin
     private boolean isInAuction;
 
 

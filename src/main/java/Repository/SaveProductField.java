@@ -12,6 +12,7 @@ public class SaveProductField {
     private int offId;
     private int sellerId;
     private int supply;
+    private boolean isInAuction;
     private Set<Integer> customerIds;
 
     public SaveProductField(ProductField productField) {
@@ -26,6 +27,7 @@ public class SaveProductField {
         this.sellerId = productField.getSeller().getUserId();
         this.supply = productField.getSupply();
         productField.getAllBuyers().forEach(buyer -> customerIds.add(buyer.getUserId()));
+        this.isInAuction = productField.isInAuction();
     }
 
     public ProductField generateProductField(){
@@ -41,6 +43,7 @@ public class SaveProductField {
             customerIds.forEach(customerId -> productField.getAllBuyers().add(SaveCustomer.load(customerId)));
         }
 
+        productField.setInAuction(this.isInAuction);
         return productField;
     }
 
@@ -70,5 +73,9 @@ public class SaveProductField {
 
     public Set<Integer> getCustomerIds() {
         return customerIds;
+    }
+
+    public boolean isInAuction() {
+        return isInAuction;
     }
 }

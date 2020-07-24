@@ -96,6 +96,9 @@ public class Server {
             case "EditProductController":
                 return processEditProductController(query, currentSession);
 
+            case "AuctionController":
+                return currentSession.getAuctionController().processQuery(query);
+
             case "NewManagerController":
                 return processNewManagerController(query, currentSession);
 
