@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,17 +22,24 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ChatRoomController implements Initializable {
-    @FXML private VBox chatsVBox;
-    @FXML private VBox usersVBox;
-    @FXML private TextArea chatsArea;
-    @FXML private TextArea messageArea;
-    @FXML private Button sendButton;
-    @FXML private ImageView writerProfilePicture;
-    @FXML private TextArea writerUsername;
+    @FXML
+    private VBox chatsVBox;
+    @FXML
+    private VBox usersVBox;
+    @FXML
+    private TextArea chatsArea;
+    @FXML
+    private TextArea messageArea;
+    @FXML
+    private Button sendButton;
+    @FXML
+    private ImageView writerProfilePicture;
+    @FXML
+    private TextArea writerUsername;
     private User writer;
     private Client.Models.Chat chat;
     private final ChatsController chatsController = new ChatsController();
-
+    private Timer t = new Timer();
 
     @Override
     public void initialize(int id) throws IOException {
@@ -39,29 +47,30 @@ public class ChatRoomController implements Initializable {
         writerUsername.setText(writer.getUsername() + "\n" + writer.getType());
         writerProfilePicture.setImage(writer.getProfilePicture(50, 50).getImage());
         setChatsVBox();
-        if(id!=-1) {
+        if (id != -1) {
             chat = chatsController.getChatById(id);
             setUsersVBox();
             setChatsArea();
         }
-        Timer t = new Timer( );
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 try {
+                    t.cancel();
                     Constants.getGuiManager().reopen();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }, 0,1000);
+        }, 1000, 5000);
+
     }
 
     private void setUsersVBox() throws IOException {
         for (User user : chat.getUsersInChat()) {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
-            hBox.setPadding(new Insets(0,5,0,5));
+            hBox.setPadding(new Insets(0, 5, 0, 5));
 
             ImageView profilePicture = new ImageView();
             profilePicture.setImage(user.getProfilePicture(50, 50).getImage());
@@ -72,34 +81,35 @@ public class ChatRoomController implements Initializable {
         }
     }
 
-    private void setChatsVBox(){
+    private void setChatsVBox() {
         for (Chat newChat : writer.getChats()) {
-            Hyperlink chatHyperLink = new Hyperlink("chat: "+newChat.getId());
+            Hyperlink chatHyperLink = new Hyperlink("chat: " + newChat.getId());
             chatHyperLink.setOnAction(e -> {
                 try {
-                    Constants.getGuiManager().open("ChatRoom",newChat.getId());
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    t.cancel();
+                    Constants.getGuiManager().open("ChatRoom", newChat.getId());
+                } catch (IOException exception) {
+                    exception.printStackTrace();
                 }
+                chatsVBox.getChildren().add(chatHyperLink);
             });
-            chatsVBox.getChildren().add(chatHyperLink);
         }
     }
 
-    private void setChatsArea(){
+    private void setChatsArea() {
         StringBuilder allMessages = new StringBuilder();
         for (Message message : chat.getMessagesInChat()) {
             Date date = new Date(message.getTime());
             SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy hh:mm");
             String strDate = formatter.format(date);
-            String madeMessage = (message.getSenderUsername()+":  "+message.getText()+strDate+"\n\n");
+            String madeMessage = (message.getSenderUsername() + ":  " + message.getText() + strDate + "\n\n");
             allMessages.append(madeMessage);
         }
         chatsArea.setText(allMessages.toString());
     }
 
     public void sendAction() throws IOException {
-        if(messageArea.getText().isEmpty()){
+        if (messageArea.getText().isEmpty()) {
             return;
         }
 
@@ -110,10 +120,15 @@ public class ChatRoomController implements Initializable {
     }
 
     public void back() throws IOException {
-        Constants.getGuiManager().back();
+        Constants.getGuiManager().open("SupporterPersonalInfo", writer.getUserId());
     }
+
     public void logout() throws EntryController.NotLoggedInException, IOException {
         Constants.getGuiManager().logout();
+    }
+
+    public static void reopen() throws IOException {
+        Constants.getGuiManager().reopen();
     }
 }
 

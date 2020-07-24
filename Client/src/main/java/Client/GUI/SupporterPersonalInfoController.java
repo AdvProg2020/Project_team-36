@@ -10,6 +10,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SupporterPersonalInfoController implements Initializable {
 
@@ -54,6 +56,17 @@ public class SupporterPersonalInfoController implements Initializable {
 
 
     public void openChatRoom() throws IOException {
+//        Timer t = new Timer( );
+//        t.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                try {
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, 1000,5000);
         Constants.getGuiManager().open("ChatRoom",-1);
     }
 }

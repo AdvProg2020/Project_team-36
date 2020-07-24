@@ -14,6 +14,8 @@ import java.io.IOException;
 public class CustomerTemplateController implements Initializable{
     private User user;
     private PersonalInfoController personalInfoController;
+    private ChooseSupporterController chooseSupporterController;
+    private CustomerWalletController customerWalletController;
     @FXML
     private Label username;
     @FXML
@@ -77,16 +79,16 @@ public class CustomerTemplateController implements Initializable{
     public void getSupport() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ChooseSupporter.fxml"));
         Parent parent = fxmlLoader.load();
-        this.personalInfoController = fxmlLoader.getController();
-        personalInfoController.initialize(user.getUserId());
+        this.chooseSupporterController = fxmlLoader.getController();
+        chooseSupporterController.initialize(user.getUserId());
         scrollPane.setContent(parent);
     }
 
     public void openWallet() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/CustomerWallet.fxml"));
         Parent parent = fxmlLoader.load();
-        this.personalInfoController = fxmlLoader.getController();
-        personalInfoController.initialize(user.getUserId());
+        this.customerWalletController = fxmlLoader.getController();
+        customerWalletController.initialize(user.getUserId());
         scrollPane.setContent(parent);
     }
 
