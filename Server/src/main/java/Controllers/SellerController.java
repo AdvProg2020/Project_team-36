@@ -95,11 +95,6 @@ public class SellerController extends UserController {
         }
     }
 
-    //todo niaze?
-//    public StringBuilder getSellerProductDetail(Product product){
-//        return product.printSellerProductDetails((Seller)userVariables.getLoggedInUser());
-//    }
-
     public HashSet<Customer> getAllBuyers(Product product) {
         Seller seller = ((Seller) userVariables.getLoggedInUser());
         return product.getProductFieldBySeller(seller).getAllBuyers();

@@ -144,7 +144,7 @@ public class ManagerController extends UserController {
         return Wallet.getMinimumAmount();
     }
 
-    //todo nazashtamesh (bedune estefade)
+
     public Method getFieldEditor(String chosenField) throws NoSuchMethodException {
         for (String regex : discountFieldsSetters.keySet()) {
             if (chosenField.matches(regex)) {
@@ -154,7 +154,6 @@ public class ManagerController extends UserController {
         throw new NoSuchMethodException("you can only edit the fields above, and also please enter the required command.");
     }
 
-    //todo nazashtamesh (bedune estefade)
     public void invokeEditor(String newValue, Discount discount, Method editor) throws IllegalAccessException, InvocationTargetException {
 
         editor.invoke(this, newValue, discount);
@@ -481,7 +480,7 @@ public class ManagerController extends UserController {
         Discount.setDiscountToEdit(discountToEdit);
     }
 
-    //todo: fekr naknm bekhaim bezanimesh
+
     public HashMap<Integer, String> getGiftEventsName() {
         return this.giftEvents;
     }
