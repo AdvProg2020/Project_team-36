@@ -31,7 +31,7 @@ public class CustomerWalletController implements Initializable {
         String output = Constants.bankController.createReceiptAndPay("move", money + "",
                 ((Customer) Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(), "", "walletCharged");
         while (output.equals("token is invalid") || output.equals("token expired")) {
-            //todo sayeh
+            BankGetToken.display();
             output = Constants.bankController.createReceiptAndPay("move", money + "",
                     ((Customer) Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(), "", "walletCharged");
         }
