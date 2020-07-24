@@ -11,6 +11,7 @@ public class SaveAuction {
     private long endDate;
     private long highestPrice;
     private int finalBuyerId;
+    private int chatId;
 
     public SaveAuction(Auction auction){
         this.saveProductField = new SaveProductField(auction.getProductField());
@@ -19,6 +20,11 @@ public class SaveAuction {
             this.finalBuyerId = auction.getFinalBuyer().getUserId();
         }
         this.highestPrice = auction.getHighestPrice();
+        this.chatId = auction.getChat().getId();
+    }
+
+    public int getChatId() {
+        return chatId;
     }
 
     public SaveProductField getSaveProductField() {

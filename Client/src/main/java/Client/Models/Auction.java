@@ -5,6 +5,7 @@ import Client.Network.Client;
 import Models.Query;
 import Models.Response;
 import Repository.SaveAuction;
+import Repository.SaveChat;
 import Repository.SaveCustomer;
 import com.google.gson.Gson;
 
@@ -44,5 +45,13 @@ public class Auction {
         Response response = Client.process(query);
         Gson gson = new Gson();
         return new Customer(gson.fromJson(response.getData(), SaveCustomer.class));
+    }
+
+    public Chat getChat(){
+        Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Chat");
+        query.getMethodInputs().put("id", "" + saveAuction.getChatId());
+        Response response = Client.process(query);
+        Gson gson = new Gson();
+        return new Chat(gson.fromJson(response.getData(), SaveChat.class));
     }
 }

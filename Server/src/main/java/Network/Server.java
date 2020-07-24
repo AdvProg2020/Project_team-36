@@ -209,6 +209,20 @@ public class Server {
                 output = gson1.toJson(allRequests);
                 break;
 
+            case "Supporter":
+                returnType = "List<Supporter>";
+                List<SaveSupporter> allSupporters = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id -> allSupporters.add(new SaveSupporter(Supporter.getSupporterById(Integer.parseInt(id)))));
+                output = gson1.toJson(allSupporters);
+                break;
+
+            case "Chat":
+                returnType = "List<Chat>";
+                List<SaveChat> allChats = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id -> allChats.add(new SaveChat(Chat.getChatById(Integer.parseInt(id)))));
+                output = gson1.toJson(allChats);
+                break;
+
             case "Sale":
                 returnType = "List<Sale>";
                 List<SaveSale> allSales = new ArrayList<>();
@@ -301,6 +315,16 @@ public class Server {
             case "User":
                 returnType = "User";
                 output = gson1.toJson(new SaveUser(User.getUserById(id)));
+                break;
+
+            case "Supporter":
+                returnType = "Supporter";
+                output = gson1.toJson(new SaveSupporter(Supporter.getSupporterById(id)));
+                break;
+
+            case "Chat":
+                returnType = "Chat";
+                output = gson1.toJson(new SaveChat(Chat.getChatById(id)));
                 break;
 
             default:

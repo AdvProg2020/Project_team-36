@@ -10,6 +10,12 @@ public class Chat {
     private static int allChatsMade = 0;
     private static ArrayList<Chat> allChats = new ArrayList<>();
 
+    public Chat() {
+        this.usersInChat = new ArrayList<>();
+        this.messagesInChat = new ArrayList<>();
+        this.id = (allChatsMade+=1);
+    }
+
     public Chat(Supporter supporter, ArrayList<User> usersInChat) {
         this.supporter = supporter;
         messagesInChat = new ArrayList<>();

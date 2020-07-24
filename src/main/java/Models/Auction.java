@@ -10,10 +10,16 @@ public class Auction {
     private Date endDate;
     private long highestPrice;
     private Customer finalBuyer;
+    private Chat chat;
 
     public Auction(ProductField productField, Date endDate) {
         this.productField = productField;
         this.endDate = endDate;
+        this.chat = new Chat();
+    }
+
+    public Chat getChat() {
+        return chat;
     }
 
     public void setHighestPrice(long highestPrice) {
