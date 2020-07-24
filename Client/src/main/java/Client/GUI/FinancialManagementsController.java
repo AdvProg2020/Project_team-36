@@ -45,8 +45,10 @@ public class FinancialManagementsController extends ManagerProfileController imp
         wageField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (newValue.matches(".*[^\\d].*"))
                 wageField.setText(wageField.getText().replaceAll("[^\\d]", ""));
-            if(Integer.parseInt(newValue)>100)
-                wageField.setText(oldValue);
+            if(!newValue.equals("")) {
+                if (Integer.parseInt(newValue) > 100)
+                    wageField.setText(oldValue);
+            }
         });
 
     }

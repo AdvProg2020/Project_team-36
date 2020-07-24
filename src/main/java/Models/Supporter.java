@@ -15,7 +15,7 @@ public class Supporter extends User{
         super(userId,username,firstname,lastname,email,phoneNumber,password,status,profilePictureUrl);
     }
 
-    public void addNewSupporter(Supporter supporter){
+    public static void addNewSupporter(Supporter supporter){
         allSupporters.add(supporter);
     }
 

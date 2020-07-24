@@ -82,7 +82,7 @@ public class EntryController extends UserController {
         else if (user instanceof Customer)
             Customer.addNewCustomer((Customer) user);
         else if(user instanceof Supporter)
-            Supporter.addNewUser((Supporter) user);
+            Supporter.addNewSupporter((Supporter) user);
         userVariables.setLoggedInUser(null);
     }
 

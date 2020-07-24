@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.OpenAuction">
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ShowWinAuctions">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -78,24 +78,26 @@
                 </Pane>
                 <ScrollPane fx:id="scrollPane" layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
                <content>
-                  <AnchorPane prefHeight="457.0" prefWidth="999.0">
+                  <AnchorPane prefHeight="456.0" prefWidth="1009.0">
                      <children>
-                        <AnchorPane prefHeight="462.0" prefWidth="502.0">
-                           <children>
-                              <Label layoutX="44.0" layoutY="29.0" prefHeight="42.0" prefWidth="173.0" text="CHAT KARANEH :(((" />
-                           </children>
-                        </AnchorPane>
-                        <Button layoutX="814.0" layoutY="66.0" mnemonicParsing="false" onAction="#addPrice" prefHeight="26.0" prefWidth="75.0" text="Add Price" />
-                        <TextField fx:id="priceInput" layoutX="572.0" layoutY="66.0" prefHeight="26.0" prefWidth="211.0" />
-                        <Label fx:id="alertLabel" layoutX="572.0" layoutY="106.0" prefHeight="25.0" prefWidth="384.0" text="you should only raise the price :|" textFill="#e20606" visible="false" />
-                        <Label layoutX="572.0" layoutY="146.0" prefHeight="18.0" prefWidth="89.0" text="current offer:" />
-                        <TextField fx:id="currentOffer" alignment="CENTER" editable="false" layoutX="652.0" layoutY="142.0" prefHeight="26.0" prefWidth="237.0" />
-                        <Label fx:id="productName" alignment="CENTER" layoutX="565.0" layoutY="14.0" prefHeight="33.0" prefWidth="324.0" text="Product Name">
+                        <TableView fx:id="tableView" layoutX="35.0" layoutY="42.0" prefHeight="397.0" prefWidth="358.0">
+                          <columns>
+                            <TableColumn fx:id="productName" prefWidth="171.19998168945312" text="Product Name" />
+                            <TableColumn fx:id="price" prefWidth="188.5999755859375" text="Price" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="download" layoutX="639.0" layoutY="48.0" mnemonicParsing="false" onAction="#download" prefHeight="26.0" prefWidth="173.0" text="Download File" visible="false">
                            <font>
-                              <Font name="System Italic" size="19.0" />
+                              <Font name="System Bold Italic" size="12.0" />
                            </font>
-                        </Label>
-                     </children></AnchorPane>
+                        </Button>
+                        <TextArea fx:id="addressBar" layoutX="601.0" layoutY="111.0" prefHeight="200.0" prefWidth="273.0" promptText="Enter address" visible="false" />
+                        <TextField fx:id="phoneBar" layoutX="600.0" layoutY="323.0" prefHeight="33.0" prefWidth="276.0" promptText="Enter phone number" visible="false" />
+                        <Button layoutX="695.0" layoutY="369.0" mnemonicParsing="false" onAction="#buy" prefHeight="26.0" prefWidth="85.0" text="buy!" visible="false" />
+                        <Label fx:id="errorLabel" layoutX="602.0" layoutY="409.0" prefHeight="18.0" prefWidth="280.0" text="full all fields" textFill="#e50a0a" visible="false" />
+                        <Button layoutX="173.0" layoutY="8.0" mnemonicParsing="false" onAction="#choose" prefHeight="26.0" prefWidth="68.0" text="buy" />
+                     </children>
+                  </AnchorPane>
                </content></ScrollPane>
             </children>
         </AnchorPane>
@@ -122,6 +124,5 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </Button>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
     </children>
 </AnchorPane>

@@ -16,6 +16,10 @@ public class Wallet {
         this.id = (totalWalletsMade+=1);
     }
 
+    public void withdrawFromBlocked(long amount){
+        blockedMoney -= amount;
+    }
+
     public long getTotalMoney() {
         return totalMoney;
     }
