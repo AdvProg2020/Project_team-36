@@ -2,6 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class Auction {
@@ -9,7 +10,7 @@ public class Auction {
     private ProductField productField;
     private Date endDate;
     private long highestPrice;
-    private Customer finalBuyer;
+    private Customer finalBuyer=null;
     private Chat chat;
 
     public Auction(ProductField productField, Date endDate) {
@@ -42,11 +43,34 @@ public class Auction {
         return endDate;
     }
 
+    public boolean isAuctionExpired(){
+        return !this.getEndDate().before(new Date());
+    }
+
+    public void action(){
+        if(finalBuyer==null){
+            return;
+        }
+
+
+    }
+
     public long getHighestPrice() {
         return highestPrice;
     }
 
     public Customer getFinalBuyer() {
         return finalBuyer;
+    }
+
+    public static void updateAllAuctions(){
+        Iterator<Auction> iter = allAuctions.iterator();
+        while(iter.hasNext()){
+            Auction auction = iter.next();
+            if(auction.isAuctionExpired()){
+                iter.remove();
+                auction.action();
+            }
+        }
     }
 }
