@@ -35,6 +35,20 @@ public class CustomerController {
         return allSelectedItems;
     }
 
+    public long getMoneyInWallet(int customerId){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMoneyInWallet");
+        query.getMethodInputs().put("customerId",Integer.toString(customerId));
+        Response response = Client.process(query);
+        return Long.parseLong(response.getData());
+    }
+
+    public void chargeWallet(long money, int customerId){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "chargeWallet");
+        query.getMethodInputs().put("customerId",Integer.toString(customerId));
+        query.getMethodInputs().put("money",Long.toString(money));
+        Client.process(query);
+    }
+
     public boolean isThereMultipleSellers(int productId) {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "isThereMultipleSellers");
         query.getMethodInputs().put("productId",Integer.toString(productId));

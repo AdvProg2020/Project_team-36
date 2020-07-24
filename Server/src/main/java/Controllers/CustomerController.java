@@ -309,6 +309,15 @@ public class CustomerController extends UserController {
         return ((Customer)userVariables.getLoggedInUser()).getWaitingLog().getPayablePrice();
     }
 
+    public long getMoneyInWallet(int customerId){
+        return Customer.getCustomerById(customerId).getWallet().getTotalMoney();
+    }
+
+    //todo karaie lazem vase bank in
+    public void chargeWallet(long money, int customerId){
+        Customer.getCustomerById(customerId).getWallet().chargeWallet(money);
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "isThereProductInCart" -> processIsThereProductInCart(query);
@@ -337,6 +346,8 @@ public class CustomerController extends UserController {
             case "getWaitingLogPayable" -> processGetWaitingLogPayable(query);
             case "setDiscountForCustomer" -> processSetDiscountForCustomer(query);
             case "removeDiscount" -> processRemoveDiscount(query);
+            case "getMoneyInWallet" -> processGetMoneyInWallet(query);
+            case "chargeWallet" -> processChargeWallet(query);
             default -> new Response("Error", "");
         };
     }
@@ -564,6 +575,19 @@ public class CustomerController extends UserController {
     private Response processRemoveDiscount(Query query){
         int id = Integer.parseInt(query.getMethodInputs().get("id"));
         removeDiscount(id, query.getMethodInputs().get("username"));
+        return new Response("void", "");
+    }
+
+    private Response processGetMoneyInWallet(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("customerId"));
+        long money = getMoneyInWallet(id);
+        return new Response("long", Long.toString(money));
+    }
+
+    private Response processChargeWallet(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("customerId"));
+        long money = Long.parseLong(query.getMethodInputs().get("money"));
+        chargeWallet(money, id);
         return new Response("void", "");
     }
 

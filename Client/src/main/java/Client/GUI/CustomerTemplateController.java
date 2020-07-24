@@ -81,4 +81,13 @@ public class CustomerTemplateController implements Initializable{
         personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
     }
+
+    public void openWallet() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/CustomerWallet.fxml"));
+        Parent parent = fxmlLoader.load();
+        this.personalInfoController = fxmlLoader.getController();
+        personalInfoController.initialize(user.getUserId());
+        scrollPane.setContent(parent);
+    }
+
 }

@@ -39,7 +39,7 @@ public class FinancialManagementsController extends ManagerProfileController imp
         wageField.setText(Integer.toString(wage));
 
         minimumField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.matches(".*[^\\d].*"))
+            if (newValue.matches("[^\\d]"))
                 minimumField.setText(minimumField.getText().replaceAll("[^\\d]", ""));
         });
         wageField.textProperty().addListener((observableValue, oldValue, newValue) -> {

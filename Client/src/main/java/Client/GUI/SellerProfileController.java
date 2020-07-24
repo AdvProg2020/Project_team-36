@@ -18,6 +18,9 @@ public abstract class SellerProfileController {
         Constants.getGuiManager().open("ShowCategories",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
+    public void openWallet() throws IOException {
+        Constants.getGuiManager().open("SellerWallet",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
 
     public void openViewOffs() throws IOException {
         Constants.getGuiManager().open("ViewOffs",Constants.globalVariables.getLoggedInUser().getUserId());

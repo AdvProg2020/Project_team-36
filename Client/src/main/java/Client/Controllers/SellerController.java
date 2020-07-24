@@ -68,6 +68,38 @@ public class SellerController extends UserController {
         }
     }
 
+    public long getMoneyInWallet(int sellerId) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getMoneyInWallet");
+        query.getMethodInputs().put("sellerId", Integer.toString(sellerId));
+        Response response = Client.process(query);
+        return Long.parseLong(response.getData());
+    }
+
+    public void chargeWallet(long money, int sellerId) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "chargeWallet");
+        query.getMethodInputs().put("sellerId", Integer.toString(sellerId));
+        query.getMethodInputs().put("money", Long.toString(money));
+        Client.process(query);
+    }
+
+    public void withdrawFromWallet(long money, int sellerId) {
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "withdrawFromWallet");
+        query.getMethodInputs().put("sellerId", Integer.toString(sellerId));
+        query.getMethodInputs().put("money", Long.toString(money));
+        Client.process(query);
+    }
+
+    public boolean isThereEnoughAvailable(long money, int sellerId){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "isThereEnoughAvailable");
+        query.getMethodInputs().put("sellerId", Integer.toString(sellerId));
+        query.getMethodInputs().put("money", Long.toString(money));
+        Response response = Client.process(query);
+        return Boolean.parseBoolean(response.getData());
+    }
+
+
+
+
     public ArrayList<Product> getSellerProducts() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getSellerProducts");
         Response response = Client.process(query);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="416.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.CustomerWalletController">
+   <children>
+      <Label layoutX="55.0" layoutY="99.0" text="Total money in your wallet:" />
+      <Label layoutX="55.0" layoutY="237.0" text="Charge your wallet:" />
+      <Label fx:id="totalMoneyLabel" layoutX="55.0" layoutY="131.0">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <TextField fx:id="chargeField" layoutX="55.0" layoutY="267.0" />
+      <Button layoutX="213.0" layoutY="267.0" mnemonicParsing="false" onAction="#chargeAction" text="Charge" />
+   </children>
+</AnchorPane>

@@ -66,6 +66,23 @@ public class SellerController extends UserController {
         }
     }
 
+    public long getMoneyInWallet(int sellerId){
+        return Seller.getSellerById(sellerId).getWallet().getTotalMoney();
+    }
+
+    public boolean isThereEnoughAvailable(long money, int sellerId){
+        return Seller.getSellerById(sellerId).getWallet().isThereEnoughMoneyAvailable(money);
+    }
+
+    //todo karaie lazem vase bank in dota
+    public void chargeWallet(long money, int sellerId){
+        Seller.getSellerById(sellerId).getWallet().chargeWallet(money);
+    }
+
+    public void withdrawFromWallet(long money, int sellerId){
+        Seller.getSellerById(sellerId).getWallet().withdrawMoney(money);
+    }
+
     public ArrayList<Product> getAllProducts() {
         return Product.getAllProducts();
     }
@@ -329,6 +346,10 @@ public class SellerController extends UserController {
             case "removeSale" -> processRemoveSale(query);
             case "addProductToOff" -> processAddProductToOff(query);
             case "finalizeAddingProducts" -> processFinalizeAddingProducts();
+            case "getMoneyInWallet" -> processGetMoneyInWallet(query);
+            case "chargeWallet" -> processChargeWallet(query);
+            case "withdrawFromWallet" -> processWithdrawFromWallet(query);
+            case "isThereEnoughAvailable" -> processIsThereEnoughAvailable(query);
             default -> new Response("Error", "");
         };
     }
@@ -597,6 +618,33 @@ public class SellerController extends UserController {
         Product product = Product.getProductById(id);
         addProductToOff(product);
         return new Response("void", "");
+    }
+
+    private Response processGetMoneyInWallet(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("sellerId"));
+        long money = getMoneyInWallet(id);
+        return new Response("long", Long.toString(money));
+    }
+
+    private Response processChargeWallet(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("sellerId"));
+        long money = Long.parseLong(query.getMethodInputs().get("money"));
+        chargeWallet(money, id);
+        return new Response("void", "");
+    }
+
+    private Response processWithdrawFromWallet(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("sellerId"));
+        long money = Long.parseLong(query.getMethodInputs().get("money"));
+        withdrawFromWallet(money, id);
+        return new Response("void", "");
+    }
+
+    private Response processIsThereEnoughAvailable(Query query){
+        int id = Integer.parseInt(query.getMethodInputs().get("sellerId"));
+        long money = Long.parseLong(query.getMethodInputs().get("money"));
+        boolean available = isThereEnoughAvailable(money, id);
+        return new Response("boolean", Boolean.toString(available));
     }
 
     private Response processFinalizeAddingProducts(){

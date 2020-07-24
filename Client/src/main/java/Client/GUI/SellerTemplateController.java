@@ -1,5 +1,5 @@
 package Client.GUI;
 
-public class SellerTemplateController {
+public class SellerTemplateController extends SellerProfileController {
 
 }

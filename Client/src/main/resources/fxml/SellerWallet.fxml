@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.EditOffController">
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.SellerWalletController">
     <children>
         <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
             <children>
@@ -30,16 +30,6 @@
             <children>
                 <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
                     <children>
-                        <Button alignment="BASELINE_LEFT" layoutX="836.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #556B2F;" text="Edit Info" textFill="#ebe29d">
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../images/edit.png" />
-                                    </image></ImageView>
-                            </graphic>
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font></Button>
                         <Label fx:id="usernameLabel" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
                             <font>
                                 <Font name="Times New Roman" size="30.0" />
@@ -50,7 +40,8 @@
                                 <Font name="Times New Roman" size="22.0" />
                             </font>
                         </Label>
-                    </children></Pane>
+                    </children>
+                </Pane>
                 <Pane layoutY="127.0" prefHeight="81.0" prefWidth="1016.0" style="-fx-background-color: #FFFACD;">
                     <children>
                         <ImageView fx:id="profilePicture" fitHeight="150.0" fitWidth="150.0" layoutX="74.0" layoutY="-75.0" pickOnBounds="true" preserveRatio="true">
@@ -63,36 +54,19 @@
                 <ScrollPane layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="999.0" style="-fx-background-color: #FFFFF2;">
-                            <Spinner fx:id="percentSpinner" editable="true" layoutX="637.0" layoutY="102.0" BorderPane.alignment="CENTER">
-                                <valueFactory>
-                                    <SpinnerValueFactory.IntegerSpinnerValueFactory max="100" min="0" />
-                                </valueFactory>
-                            </Spinner>
-                            <DatePicker fx:id="startDate" layoutX="196.0" layoutY="102.0" />
-                            <DatePicker fx:id="endDate" layoutX="196.0" layoutY="185.0" />
-                            <Label layoutX="114.0" layoutY="106.0" prefHeight="17.0" prefWidth="68.0" text="Start Date:" />
-                            <Label layoutX="114.0" layoutY="189.0" prefHeight="17.0" prefWidth="68.0" text="End Date:" />
-                            <Label layoutX="528.0" layoutY="106.0" text="Off Percent:" />
-                            <Button fx:id="createButton" layoutX="777.0" layoutY="384.0" mnemonicParsing="false" onAction="#editOff" text="Edit Off" />
-                            <Label fx:id="dateError" layoutX="173.0" layoutY="223.0" text="You Must Select Both Start and End Dates." textFill="#d71e06" visible="false" />
-                            <TableView fx:id="productsIncludedTable" layoutX="289.0" layoutY="240.0" prefHeight="200.0" prefWidth="124.0">
-                                <columns>
-                                    <TableColumn fx:id="productsIncludedColumn" prefWidth="123.0" text="Included Products" />
-                                </columns>
-                            </TableView>
-                            <TableView fx:id="availableProductsTable" layoutX="140.0" layoutY="240.0" prefHeight="200.0" prefWidth="123.0">
-                                <columns>
-                                    <TableColumn fx:id="availableProductsColumn" prefWidth="122.0" text="Available Products" />
-                                </columns>
-                            </TableView>
-                            <Button fx:id="removeCustomerButton" layoutX="424.0" layoutY="240.0" mnemonicParsing="false" onAction="#removeAction" text="Remove" />
-                            <Button fx:id="addCustomerButton" layoutX="88.0" layoutY="240.0" mnemonicParsing="false" onAction="#addAction" text="Add" />
-                     <Label fx:id="idLabel" layoutX="440.0" layoutY="57.0">
-                        <font>
-                           <Font name="System Bold" size="16.0" />
-                        </font>
-                     </Label>
-
+                        <Label layoutX="55.0" layoutY="99.0" text="Total money in your wallet:" />
+                        <Label layoutX="55.0" layoutY="237.0" text="Charge your wallet:" />
+                        <Label fx:id="totalMoneyLabel" layoutX="55.0" layoutY="131.0">
+                            <font>
+                                <Font size="14.0" />
+                            </font></Label>
+                        <TextField fx:id="chargeField" layoutX="55.0" layoutY="267.0" />
+                        <Button layoutX="213.0" layoutY="267.0" mnemonicParsing="false" onAction="#chargeAction" text="Charge" />
+                     <Label layoutX="419.0" layoutY="240.0" text="Withdraw from your wallet:" />
+                     <TextField fx:id="withdrawField" layoutX="419.0" layoutY="270.0" />
+                     <Button layoutX="577.0" layoutY="270.0" mnemonicParsing="false" onAction="#withdrawAction" text="Withdraw" />
+                     <Label fx:id="withdrawError" layoutX="419.0" layoutY="303.0" text="You can't withdraw this much." textFill="#f20404" visible="false" />
+                     <Label fx:id="minimumError" layoutX="419.0" layoutY="320.0" text="The total money in your wallet would be less than the specified minimum." textFill="RED" visible="false" />
                         </AnchorPane>
                     </content>
                 </ScrollPane>
