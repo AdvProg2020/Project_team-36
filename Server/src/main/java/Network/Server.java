@@ -117,9 +117,24 @@ public class Server {
             case "BankController":
                 return currentSession.getBankController().processQuery(query);
 
+            case "ChatsController":
+                return processChatsController(query, currentSession);
+
             default:
                 return new Response("Error", "");
         }
+    }
+
+    private Response processChatsController(Query query, Session currentSession) {
+        if (query.getMethodName().equals("new")) {
+            currentSession.setChatsController();
+            return new Response("String", "Constructor is called");
+        }
+
+        if (currentSession.getChatsController() == null) {
+            return new Response("Error", "Constructor has not been called");
+        }
+        return currentSession.getChatsController().processQuery(query);
     }
 
     private Response processSessionController(Query query, Session currentSession) {

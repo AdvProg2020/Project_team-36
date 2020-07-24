@@ -19,6 +19,7 @@ public class Session {
     private NewManagerController newManagerController;
     private NewOffController newOffController;
     private NewProductController newProductController;
+    private ChatsController chatsController;
 
     private GlobalVariables globalVariables;
 
@@ -128,5 +129,13 @@ public class Session {
 
     public BankController getBankController() {
         return bankController;
+    }
+
+    public ChatsController getChatsController() {
+        return chatsController;
+    }
+
+    public void setChatsController() {
+        this.chatsController = new ChatsController();
     }
 }
