@@ -15,9 +15,9 @@ public class BankController {
     private String host = "localhost";
     private int port = 8383;
     private GlobalVariables globalVariables;
-    private static String shopBankAccountId;
-    private static String shopBankUsername;
-    private static String shopBankPassword;
+    private static String shopBankAccountId = "10001";
+    private static String shopBankUsername = "shop";
+    private static String shopBankPassword = "11111111";
 
     public BankController(GlobalVariables globalVariables) {
         this.globalVariables = globalVariables;
