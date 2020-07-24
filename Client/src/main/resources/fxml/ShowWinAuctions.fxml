@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="705" prefWidth="1360" style="-fx-background-color: #FFFFF2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.ShowWinAuctions">
+    <children>
+        <AnchorPane layoutX="-1.0" prefHeight="705.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
+            <children>
+                <Pane prefHeight="149.0" prefWidth="346.0" style="-fx-background-color: #0F130E;">
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" text="Online Shop" textAlignment="CENTER" textFill="#d3d0d0">
+                            <font>
+                                <Font name="Arial Bold" size="21.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Button layoutX="1.0" layoutY="182.0" mnemonicParsing="false" onAction="#showPersonalInfo" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Personal Info" textFill="#d7d4d4">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor></Button>
+                <Button layoutX="1.0" layoutY="247.0" mnemonicParsing="false" onAction="#goToCart" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Cart" textFill="#d7d4d4">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor></Button>
+                <Button layoutX="3.0" layoutY="312.0" mnemonicParsing="false" onAction="#viewOrders" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Orders" textFill="#d7d4d4">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor></Button>
+                <Button layoutX="1.0" layoutY="375.0" mnemonicParsing="false" onAction="#viewDiscounts" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="View Discount Codes" textFill="#d7d4d4">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor></Button>
+                <Button layoutX="1.0" layoutY="437.0" mnemonicParsing="false" onAction="#getSupport" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Get Support" textFill="#d7d4d4">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button layoutX="1.0" layoutY="494.0" mnemonicParsing="false" onAction="#openWallet" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="Wallet" textFill="#d7d4d4">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button layoutY="560.0" mnemonicParsing="false" onAction="#openAllAuctions" prefHeight="41.0" prefWidth="345.0" style="-fx-background-color: #070B07;" text="All Auctions" textFill="#d7d4d4">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="345.0" layoutY="36.0" prefHeight="669.0" prefWidth="1016.0">
+            <children>
+                <Pane layoutY="42.0" prefHeight="138.0" prefWidth="1016.0" style="-fx-background-color: #556B2F;">
+                    <children>
+                        <Label fx:id="username" layoutX="232.0" layoutY="14.0" prefHeight="33.0" prefWidth="230.0" text="username" textFill="#070b07">
+                            <font>
+                                <Font name="Times New Roman" size="30.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="232.0" layoutY="47.0" prefHeight="33.0" prefWidth="230.0" text="Customer" textFill="#070b07">
+                            <font>
+                                <Font name="Times New Roman" size="22.0" />
+                            </font>
+                        </Label>
+                    </children></Pane>
+                <Pane layoutY="127.0" prefHeight="81.0" prefWidth="1016.0" style="-fx-background-color: #FFFACD;">
+                    <children>
+                        <ImageView fx:id="profilePicture" fitHeight="150.0" fitWidth="150.0" layoutX="74.0" layoutY="-75.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/seller.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </Pane>
+                <ScrollPane fx:id="scrollPane" layoutY="208.0" prefHeight="461.0" prefWidth="1016.0">
+               <content>
+                  <AnchorPane prefHeight="456.0" prefWidth="1009.0">
+                     <children>
+                        <TableView fx:id="tableView" layoutX="35.0" layoutY="42.0" prefHeight="397.0" prefWidth="358.0">
+                          <columns>
+                            <TableColumn fx:id="productName" prefWidth="171.19998168945312" text="Product Name" />
+                            <TableColumn fx:id="price" prefWidth="188.5999755859375" text="Price" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="download" layoutX="639.0" layoutY="48.0" mnemonicParsing="false" onAction="#download" prefHeight="26.0" prefWidth="173.0" text="Download File" visible="false">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Button>
+                        <TextArea fx:id="addressBar" layoutX="601.0" layoutY="111.0" prefHeight="200.0" prefWidth="273.0" promptText="Enter address" visible="false" />
+                        <TextField fx:id="phoneBar" layoutX="600.0" layoutY="323.0" prefHeight="33.0" prefWidth="276.0" promptText="Enter phone number" visible="false" />
+                        <Button layoutX="695.0" layoutY="369.0" mnemonicParsing="false" onAction="#buy" prefHeight="26.0" prefWidth="85.0" text="buy!" visible="false" />
+                        <Label fx:id="errorLabel" layoutX="602.0" layoutY="409.0" prefHeight="18.0" prefWidth="280.0" text="full all fields" textFill="#e50a0a" visible="false" />
+                        <Button layoutX="173.0" layoutY="8.0" mnemonicParsing="false" onAction="#choose" prefHeight="26.0" prefWidth="68.0" text="buy" />
+                     </children>
+                  </AnchorPane>
+               </content></ScrollPane>
+            </children>
+        </AnchorPane>
+        <Button alignment="BASELINE_LEFT" layoutX="1244.0" layoutY="17.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Logout" textFill="#ebe29d">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/logout.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button alignment="CENTER" layoutX="356.0" layoutY="17.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </children>
+</AnchorPane>

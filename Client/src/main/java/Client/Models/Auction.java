@@ -1,5 +1,6 @@
 package Client.Models;
 
+import Client.Controllers.ProductsController;
 import Client.GUI.Constants;
 import Client.Network.Client;
 import Models.Query;
@@ -28,6 +29,9 @@ public class Auction {
         this.id = saveAuction.getId();
     }
 
+    public int getId() {
+        return id;
+    }
 
     public ProductField getProductField() {
         return productField;
@@ -55,5 +59,20 @@ public class Auction {
         Response response = Client.process(query);
         Gson gson = new Gson();
         return new Chat(gson.fromJson(response.getData(), SaveChat.class));
+    }
+
+    public Product getProduct() throws ProductsController.NoProductWithId {
+        int productId = productField.getMainProductId();
+        Product product = Constants.productsController.getProduct(productId);
+        return product;
+    }
+
+    public String getProductName(){
+        try {
+            return getProduct().getName();
+        } catch (ProductsController.NoProductWithId noProductWithId) {
+            noProductWithId.printStackTrace();
+            return "error";
+        }
     }
 }

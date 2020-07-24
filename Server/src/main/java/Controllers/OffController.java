@@ -23,6 +23,7 @@ public class OffController implements ObjectController {
         this.optionalFilterMethods = new HashMap<>();
         setSortMethodsProducts();
         setFilterMethods();
+
     }
 
     private void setSortMethodsProducts() {
@@ -217,7 +218,10 @@ public class OffController implements ObjectController {
         if (userVariables.getFilterOffsCategory() != null) {
             getInSaleCategories(result, userVariables.getFilterOffsCategory());
         } else {
-            result.addAll(Product.getAllInSaleProducts());
+            for (Product product : Product.getAllProducts()) {
+                if(!product.isInAuction())
+                    result.add(product);
+            }
         }
         for (Filter filter : userVariables.getAllFiltersOffs()) {
             result = filter.filter(result);

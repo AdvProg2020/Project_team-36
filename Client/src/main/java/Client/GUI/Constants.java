@@ -14,6 +14,7 @@ public class  Constants {
     public static UserController userController;
     public static GlobalVariables globalVariables;
     public static AuctionController auctionController;
+    public static BankController bankController;
 
     private static GUIManager guiManager = new GUIManager();
     public static GUIManager getGuiManager() {
@@ -30,6 +31,7 @@ public class  Constants {
         Constants.userController = new UserController();
         Constants.productsController = new ProductsController(globalVariables);
         Constants.auctionController = new AuctionController(globalVariables);
+        Constants.bankController = new BankController();
     }
 
 }

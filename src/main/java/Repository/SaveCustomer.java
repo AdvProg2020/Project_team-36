@@ -19,7 +19,7 @@ public class SaveCustomer {
     private String password;
     private Status status;
     private List<Integer> chatsIds;
-    private Wallet wallet;     //todo nazanin save wallet
+    private Wallet wallet;
     private String profilePictureURL;
     private static int lastId = 0;
     private long credit;
@@ -38,6 +38,7 @@ public class SaveCustomer {
     }
 
     public SaveCustomer(Customer customer){
+        this.wallet = customer.getWallet();
         this.allCustomerLogs = new ArrayList<>();
         this.chatsIds = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
@@ -94,6 +95,7 @@ public class SaveCustomer {
         saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));
         saveCustomer.allCustomerLogs.forEach(customerlog -> customer.getAllLogs().add(customerlog.generateCustomerLog()));
         saveCustomer.allDiscountsForCustomer.forEach((key,value) -> customer.getAllDiscountsForCustomer().put(SaveDiscount.load(key),value));
+        customer.setWallet(saveCustomer.wallet);
         return customer;
     }
 

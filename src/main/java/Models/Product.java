@@ -171,6 +171,14 @@ public class Product implements Pendable {
         this.productImageUrl = productImageURL;
     }
 
+    public boolean isInAuction(){
+        for (ProductField field : productFields) {
+            if(!field.isInAuction())
+                return true;
+        }
+        return false;
+    }
+
     public void setFileProduct(FileProduct fileProduct){
         this.fileProduct = fileProduct;
     }
@@ -591,7 +599,6 @@ public class Product implements Pendable {
         mainProduct.setCategory(this.category);
         mainProduct.setFieldsOfCategory(this.fieldsOfCategory);
     }
-
     @Override
     public String getPendingRequestType() {
         return "product";
@@ -613,6 +620,7 @@ public class Product implements Pendable {
     public int getTotalSupply(){
         int sum=0;
         for (ProductField field : productFields) {
+            if(!field.isInAuction())
             sum+=field.getSupply();
         }
         return sum;

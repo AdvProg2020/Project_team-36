@@ -101,7 +101,7 @@ public class ProductController implements Initializable {
 
     private void fillProductFields(List<Client.Models.ProductField> productFields, VBox vBox) throws IOException {
         for (Client.Models.ProductField productField : productFields) {
-            if (productField.getSupply() > 0) {
+            if (productField.getSupply() > 0&& !productField.isInAuction()) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ProductField.fxml"));
                 Parent parent = fxmlLoader.load();
                 ((ProductFieldController) fxmlLoader.getController()).fill(productField);

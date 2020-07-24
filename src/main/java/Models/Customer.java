@@ -2,6 +2,7 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Customer extends User {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
@@ -11,13 +12,32 @@ public class Customer extends User {
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
     private Wallet wallet;
+    private List<Auction> winningAuctions;
 
     public Customer(String username) {
         super(username);
+        winningAuctions = new ArrayList<>();
         this.allLogs = new ArrayList<>();
         this.cart = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
         this.wallet = new Wallet();
+    }
+
+    public List<Auction> getWinningAuctions() {
+        return winningAuctions;
+    }
+
+    public void addAuction(Auction auction){
+        winningAuctions.add(auction);
+    }
+
+    public void removeAuction(int auctionId){
+        for (Auction auction : winningAuctions) {
+            if(auction.getId()==auctionId) {
+                winningAuctions.remove(auction);
+                return;
+            }
+        }
     }
 
     @Override
@@ -56,6 +76,7 @@ public class Customer extends User {
     public Wallet getWallet() {
         return wallet;
     }
+
 
     public WaitingLog getWaitingLog() {
         return this.waitingLog;
@@ -270,4 +291,7 @@ public class Customer extends User {
         return price;
     }
 
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
 }

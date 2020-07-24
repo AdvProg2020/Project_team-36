@@ -36,6 +36,7 @@ public class Auction {
     }
 
     public static List<Auction> getAllAuctions() {
+        updateAllAuctions();
         return allAuctions;
     }
 
@@ -53,10 +54,10 @@ public class Auction {
 
     public void action() {
         if (finalBuyer == null) {
+            productField.setInAuction(false);
             return;
         }
-
-
+        finalBuyer.addAuction(this);
     }
 
     public long getHighestPrice() {

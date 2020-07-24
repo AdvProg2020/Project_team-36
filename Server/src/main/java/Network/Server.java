@@ -114,6 +114,9 @@ public class Server {
             case "GetAllById":
                 return processGetAllById(query);
 
+            case "BankController":
+                return currentSession.getBankController().processQuery(query);
+
             default:
                 return new Response("Error", "");
         }
