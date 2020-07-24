@@ -1,5 +1,7 @@
 package Client.GUI;
 
+import Client.Models.Customer;
+import Client.Models.Seller;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -38,12 +40,20 @@ public class SellerWalletController extends SellerProfileController implements I
         if(chargeField.getText().isEmpty()){
             return;
         }
-
-        //todo check if bank account has enough to charge
-        //todo az hesabe furushande be hesabe furushgah
         long money = Long.parseLong(chargeField.getText());
-        Constants.sellerController.chargeWallet(money, sellerId);
-        chargeField.clear();
+        String output = Constants.bankController.createReceiptAndPay("move",money+"","",
+                ((Customer)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"walletCharged");
+        while (output.equals("token is invalid") || output.equals("token expired")){
+            //todo sayeh
+            output = Constants.bankController.createReceiptAndPay("move",money+"","",
+                    ((Customer)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"walletCharged");
+        }
+        if (output.equals("done successfully")){
+            Constants.sellerController.chargeWallet(money, sellerId);
+            chargeField.setText("");
+        }else {
+            AlertBox.display("Error",output);
+        }
     }
 
     public void withdrawAction() {
@@ -51,10 +61,14 @@ public class SellerWalletController extends SellerProfileController implements I
             return;
         }
         long money = Long.parseLong(withdrawField.getText());
-        //todo az hesabe furushgah be hesabe furushande
-
         if(Constants.sellerController.isThereEnoughAvailable(money, sellerId)){
-            Constants.sellerController.withdrawFromWallet(money, sellerId);
+            String output = Constants.bankController.createReceiptAndPay("move",money + "","",
+                    ((Seller)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"Withdrawed");
+            if (output.equals("done successfully")){
+                Constants.sellerController.withdrawFromWallet(money, sellerId);
+            }else {
+                AlertBox.display("Error",output);
+            }
         } else {
             withdrawError.setVisible(true);
             minimumError.setVisible(true);

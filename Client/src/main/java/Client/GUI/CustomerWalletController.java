@@ -1,5 +1,6 @@
 package Client.GUI;
 
+import Client.Models.Customer;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -12,7 +13,7 @@ public class CustomerWalletController implements Initializable {
 
     @Override
     public void initialize(int id) throws IOException {
-        customerId=id;
+        customerId = id;
         long total = Constants.customerController.getMoneyInWallet(id);
         totalMoneyLabel.setText(Long.toString(total));
 
@@ -23,13 +24,22 @@ public class CustomerWalletController implements Initializable {
     }
 
     public void chargeAction() {
-        if(chargeField.getText().isEmpty()){
+        if (chargeField.getText().isEmpty()) {
             return;
         }
-
-        //todo check if bank account has enough to charge
-
         long money = Long.parseLong(chargeField.getText());
-        Constants.customerController.chargeWallet(money, customerId);
+        String output = Constants.bankController.createReceiptAndPay("move", money + "",
+                ((Customer) Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(), "", "walletCharged");
+        while (output.equals("token is invalid") || output.equals("token expired")) {
+            //todo sayeh
+            output = Constants.bankController.createReceiptAndPay("move", money + "",
+                    ((Customer) Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(), "", "walletCharged");
+        }
+        if (output.equals("done successfully")) {
+            Constants.customerController.chargeWallet(money, customerId);
+            chargeField.setText("");
+        } else {
+            AlertBox.display("Error", output);
+        }
     }
 }

@@ -29,10 +29,9 @@ public class BankController {
         return response.getData();
     }
 
-    public String createReceiptAndPay(String token,String receiptType,String money,String sourceID
+    public String createReceiptAndPay(String receiptType,String money,String sourceID
             ,String destID,String description) {
         Query query = new Query(token,controllerName,"createReceiptAndPay");
-        query.getMethodInputs().put("token",token);
         query.getMethodInputs().put("receiptType",receiptType);
         query.getMethodInputs().put("money",money);
         query.getMethodInputs().put("sourceID",sourceID);
