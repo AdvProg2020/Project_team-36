@@ -13,9 +13,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class BankRegister {
-    static int returning;
+    static String returning;
 
-    public static int display() {
+    public static String display() {
         Stage window = new Stage();
 
 
@@ -68,7 +68,7 @@ public class BankRegister {
                     label.setText("invalid username or password!");
                     return;
                 }else{
-                    returning = Integer.parseInt(result);
+                    returning =result;
                     window.close();
                 }
             }

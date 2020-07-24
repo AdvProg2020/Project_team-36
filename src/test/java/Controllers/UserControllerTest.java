@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 class UserControllerTest {
 
-//TODO ino ye khaki bayad berizim :)))
+
 //    @Test
 //    void editInfo() throws EntryController.InvalidUsernameException, EntryController.ManagerExistsException, EntryController.InvalidTypeException, UserController.NoFieldWithThisType {
 //        GlobalVariables globalVariables = new GlobalVariables();

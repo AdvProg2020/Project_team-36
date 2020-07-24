@@ -20,7 +20,7 @@ public class EntryController extends UserController {
             throw new WrongPasswordException("Wrong password!");
         }
         //  else{
-        //       //TODO change for consule
+        //
         //userAreaMenu.newUserMenu(userVariables.getLoggedInUser().getType());
         //}
     }

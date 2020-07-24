@@ -50,7 +50,7 @@ public class RegisterMenu {
         sellerLabel.setStyle("-fx-text-fill: red");
         setSellerTextFieldBorders();
         if (setUserName(true) && setPassword(true)&& setName(true)&& setSellerCompanyInfo()&& setPersonalInfo(true)&&setImage(true)){
-             int accountId = BankRegister.display();
+             String accountId = BankRegister.display();
             entryController.register(accountId);
             sellerLabel.setText("Successfully Entered");
             sellerLabel.setStyle("-fx-text-fill: green");
@@ -61,7 +61,7 @@ public class RegisterMenu {
         customerLabel.setStyle("-fx-text-fill: red");
         setCustomerTextFieldBorders();
         if (setUserName(false) && setPassword(false)&& setName(false)&& setPersonalInfo(false)&&setImage(false)){
-            int accountId = BankRegister.display();
+            String accountId = BankRegister.display();
             entryController.register(accountId);
             customerLabel.setText("Successfully Entered");
             customerLabel.setStyle("-fx-text-fill: green");
