@@ -34,7 +34,9 @@ public class Customer extends User {
         saveCustomer.getCart().forEach(saveSelectedItem -> cart.add(new SelectedItem(saveSelectedItem)));
         this.allLogs = new ArrayList<>();
         saveCustomer.getAllCustomerLogs().forEach(saveCustomerLog -> allLogs.add(new CustomerLog(saveCustomerLog)));
-        this.waitingLog = new WaitingLog(saveCustomer.getWaitingLog());
+        if (saveCustomer.getWaitingLog() != null){
+            this.waitingLog = new WaitingLog(saveCustomer.getWaitingLog());
+        }
     }
 
     @Override
