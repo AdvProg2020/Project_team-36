@@ -270,4 +270,7 @@ public class Customer extends User {
         return price;
     }
 
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
 }

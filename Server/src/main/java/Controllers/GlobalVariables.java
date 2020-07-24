@@ -18,6 +18,7 @@ public class GlobalVariables {
     private Seller pendingSellerOfProduct;
     private User loggedInUser;
     private Filter pendingFilter;
+    private String bankToken;
 
     public GlobalVariables() {
         this.allFiltersOffs = new ArrayList<>();
@@ -167,5 +168,13 @@ public class GlobalVariables {
 
     public String getSortOff() {
         return sortOff;
+    }
+
+    public String getBankToken() {
+        return bankToken;
+    }
+
+    public void setBankToken(String bankToken) {
+        this.bankToken = bankToken;
     }
 }

@@ -11,6 +11,7 @@ public class Session {
     private OffController offController;
     private UserController userController;
     private AuctionController auctionController;
+    private BankController bankController;
 
     private CategoryController categoryController;
     private DiscountController discountController;
@@ -32,6 +33,7 @@ public class Session {
         this.offController = new OffController(globalVariables);
         this.userController = new UserController(globalVariables);
         this.auctionController = new AuctionController(globalVariables);
+        this.bankController = new BankController(globalVariables);
     }
 
     public void setCategoryController(){
@@ -122,5 +124,9 @@ public class Session {
 
     public AuctionController getAuctionController() {
         return auctionController;
+    }
+
+    public BankController getBankController() {
+        return bankController;
     }
 }
