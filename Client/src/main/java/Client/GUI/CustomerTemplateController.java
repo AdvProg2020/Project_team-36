@@ -2,6 +2,7 @@ package Client.GUI;
 
 import Client.Controllers.EntryController;
 import Client.Models.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -89,5 +90,10 @@ public class CustomerTemplateController implements Initializable{
         personalInfoController.initialize(user.getUserId());
         scrollPane.setContent(parent);
     }
+
+    public void openAllAuctions() throws IOException {
+        Constants.getGuiManager().open("ShowAllAuctions",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
+
 
 }
