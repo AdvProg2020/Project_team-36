@@ -64,8 +64,11 @@ public class BankRegister {
                     return;
                 }
                 result = Constants.bankController.createAccount(firstname.getText(),lastname.getText(),username.getText(),password.getText(),repassword.getText());
-                if(result.equals("invalid username or password")){
+                if(result.equals("passwords do not match")){
                     label.setText("invalid username or password!");
+                    return;
+                }else if(result.equals("username is not valid")){
+                    label.setText("invalid username!");
                     return;
                 }else{
                     returning =result;
