@@ -1,5 +1,6 @@
 package Client.GUI;
 
+import Client.Controllers.EntryController;
 import Client.Controllers.ProductsController;
 import Client.Models.User;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class ManageUsersController extends ManagerProfileController implements Initializable{
 
 
+    public TableColumn<?,?> online;
     @FXML private ImageView profilePicture;
     @FXML private TableView<User> allUsersTable;
     @FXML private TableColumn<Object, Object> profilePictureColumn;
@@ -23,6 +25,7 @@ public class ManageUsersController extends ManagerProfileController implements I
     @FXML private ComboBox sortName;
     @FXML private CheckBox isAscending;
     private User user;
+    private boolean inPage = true;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -41,10 +44,12 @@ public class ManageUsersController extends ManagerProfileController implements I
 
         ArrayList<User> allUsers = Constants.managerController.getAllUsers();
         setTheTable(allUsers);
+        update();
     }
 
     private void setTheTable(ArrayList<User> allUsers){
         allUsersTable.getItems().clear();
+        online.setCellValueFactory(new PropertyValueFactory<>("online"));
         allUsersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -79,11 +84,13 @@ public class ManageUsersController extends ManagerProfileController implements I
         }
 
         User toBeViewed = selectedUser.getSelectedItem();
+        inPage = false;
         Constants.userController.setUserToView(toBeViewed);
         Constants.getGuiManager().open("ViewUser",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void openCreateNewManager() throws IOException {
+        inPage = false;
         Constants.getGuiManager().open("CreateNewManager",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
@@ -101,6 +108,33 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
     public void openCreateNewSupporter(ActionEvent actionEvent) throws IOException {
+        inPage = false;
         Constants.getGuiManager().open("AddNewSupporter",Constants.globalVariables.getLoggedInUser().getUserId());
+    }
+
+    @Override
+    public void back() throws IOException {
+        inPage=false;
+        super.back();
+    }
+
+    @Override
+    public void logout() throws EntryController.NotLoggedInException, IOException {
+        inPage= false;
+        super.logout();
+    }
+
+    public void update(){
+        new Thread(() -> {
+            while(inPage){
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                setTheTable(Constants.managerController.getAllUsers());
+            }
+           return;
+        }).start();
     }
 }
