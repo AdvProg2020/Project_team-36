@@ -23,6 +23,18 @@ public class CustomerController {
         return Boolean.getBoolean(response.getData());
     }
 
+    public ArrayList<Supporter> getOnlineSupporters() {
+        Query query = new Query(Constants.globalVariables.getToken(), "SessionController", "getOnlineSupporters");
+        Response response = Client.process(query);
+        Gson gson = new Gson();
+        ArrayList<Supporter> allOnlineSupporters = new ArrayList<>();
+        Type type = new TypeToken<ArrayList<SaveSupporter>>() {
+        }.getType();
+        List<SaveSupporter> allSaveSupporters = gson.fromJson(response.getData(), type);
+        allSaveSupporters.forEach(saveSupporter -> allOnlineSupporters.add(new Supporter(saveSupporter)));
+        return allOnlineSupporters;
+    }
+
     public ArrayList<SelectedItem> getCart() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCart");
         Response response = Client.process(query);

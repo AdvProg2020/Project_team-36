@@ -23,13 +23,7 @@ public class ChooseSupporterController implements Initializable {
         supportersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         supportersTable.setPlaceholder(new Label("there is no online supporter right now!"));
 
-        ArrayList<Client.Models.Supporter> onlineSupporters = new ArrayList<>();
-        //todo gereftan e hame user haie online
-//        for (User user : ) {
-//            if(user instanceof Supporter){
-//                onlineSupporters.add((Supporter)user);
-//            }
-//        }
+        ArrayList<Client.Models.Supporter> onlineSupporters = new ArrayList<>(Constants.customerController.getOnlineSupporters());
 
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));

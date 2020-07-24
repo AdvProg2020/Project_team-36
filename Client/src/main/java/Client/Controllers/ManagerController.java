@@ -30,6 +30,18 @@ public class ManagerController extends UserController {
         return allUsers;
     }
 
+    public ArrayList<User> getOnlineUsers() {
+        Query query = new Query(Constants.globalVariables.getToken(), "SessionController", "getOnlineUsers");
+        Response response = Client.process(query);
+        Gson gson = new Gson();
+        ArrayList<User> allOnlineUsers = new ArrayList<>();
+        Type type = new TypeToken<ArrayList<SaveUser>>() {
+        }.getType();
+        List<SaveUser> allSaveUsers = gson.fromJson(response.getData(), type);
+        allSaveUsers.forEach(saveUser -> allOnlineUsers.add(User.generateUser(saveUser)));
+        return allOnlineUsers;
+    }
+
     public void setSortDiscountMethods() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "setSortDiscountMethods");
         Client.process(query);

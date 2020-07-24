@@ -3,6 +3,7 @@ package Client.GUI;
 import Client.Controllers.ChatsController;
 import Client.Models.Chat;
 import Client.Controllers.EntryController;
+import Client.Models.Supporter;
 import Models.Message;
 import Client.Models.User;
 import javafx.fxml.FXML;
@@ -38,6 +39,7 @@ public class ChatRoomController implements Initializable {
     private TextArea writerUsername;
     private User writer;
     private Client.Models.Chat chat;
+    private int chatId;
     private final ChatsController chatsController = new ChatsController();
     private Timer t = new Timer();
 
@@ -49,17 +51,26 @@ public class ChatRoomController implements Initializable {
         setChatsVBox();
         if (id != -1) {
             chat = chatsController.getChatById(id);
+            chatId = chat.getId();
             setUsersVBox();
             setChatsArea();
         }
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                try {
-                    t.cancel();
-                    Constants.getGuiManager().reopen();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                writer = Constants.globalVariables.getLoggedInUser();
+                setChatsVBox();
+                System.out.println("after setChatsvb");
+                if (id != -1) {
+                    try {
+                        chat = chatsController.getChatById(id);
+                        setUsersVBox();
+                        System.out.println("after setUsers");
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                    setChatsArea();
+                    System.out.println("after setCharArea");
                 }
             }
         }, 1000, 5000);
@@ -67,6 +78,7 @@ public class ChatRoomController implements Initializable {
     }
 
     private void setUsersVBox() throws IOException {
+        chat = chatsController.getChatById(chatId);
         for (User user : chat.getUsersInChat()) {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
@@ -82,6 +94,7 @@ public class ChatRoomController implements Initializable {
     }
 
     private void setChatsVBox() {
+        writer = Constants.globalVariables.getLoggedInUser();
         for (Chat newChat : writer.getChats()) {
             Hyperlink chatHyperLink = new Hyperlink("chat: " + newChat.getId());
             chatHyperLink.setOnAction(e -> {
@@ -120,7 +133,10 @@ public class ChatRoomController implements Initializable {
     }
 
     public void back() throws IOException {
+        if(writer instanceof Supporter)
         Constants.getGuiManager().open("SupporterPersonalInfo", writer.getUserId());
+
+        Constants.getGuiManager().back();
     }
 
     public void logout() throws EntryController.NotLoggedInException, IOException {

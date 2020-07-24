@@ -41,7 +41,7 @@ public class ChatsController {
     }
 
     public int createNewChatRoom(Supporter supporter, User user){
-        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getChatById");
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "createNewChatRoom");
         query.getMethodInputs().put("user", Integer.toString(user.getUserId()));
         query.getMethodInputs().put("supporter", Integer.toString(supporter.getUserId()));
         Response response = Client.process(query);
