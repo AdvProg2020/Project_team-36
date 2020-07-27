@@ -23,6 +23,22 @@ public class Auction {
         this.id = lastId;
     }
 
+    public Auction(ProductField productField, Date endDate, long highestPrice, Customer finalBuyer, int id) {
+        this.productField = productField;
+        this.endDate = endDate;
+        this.highestPrice = highestPrice;
+        this.finalBuyer = finalBuyer;
+        this.id = id;
+    }
+
+    public static Auction getAuctionById(int id){
+        for (Auction auction : allAuctions) {
+            if (auction.id == id){
+                return auction;
+            }
+        }
+        return null;
+    }
     public Chat getChat() {
         return chat;
     }
@@ -85,5 +101,9 @@ public class Auction {
 
     public int getId() {
         return id;
+    }
+
+    public static void addToAllAuctions(Auction auction){
+        allAuctions.add(auction);
     }
 }

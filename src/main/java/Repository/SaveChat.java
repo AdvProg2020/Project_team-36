@@ -24,6 +24,7 @@ public class SaveChat {
         chat.getUsersInChat().forEach(user -> usersInChat.add(user.getUserId()));
     }
 
+
     public int getSupporterId() {
         return supporterId;
     }

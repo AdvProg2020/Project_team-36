@@ -18,7 +18,7 @@ public class GlobalVariables {
     private Seller pendingSellerOfProduct;
     private User loggedInUser;
     private Filter pendingFilter;
-    private String bankToken;
+    private String bankToken = "thisProjectSucks";
 
     public GlobalVariables() {
         this.allFiltersOffs = new ArrayList<>();

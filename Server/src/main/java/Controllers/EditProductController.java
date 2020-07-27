@@ -17,7 +17,6 @@ public class EditProductController {
     private ArrayList<Field> neededFields;
     private HashMap<String,Field> fieldsOfCategory;
     private Product editingProduct;
-    //todo: beja id iebar editingProduct set mishe o ba un kar mishe
 
     public EditProductController(Seller seller) {
         this.seller = seller;

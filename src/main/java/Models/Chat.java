@@ -25,7 +25,6 @@ public class Chat {
         usersInChat.forEach(user -> user.setChat(this));
     }
 
-
     public void addNewMessage(Message message){
         messagesInChat.add(message);
     }

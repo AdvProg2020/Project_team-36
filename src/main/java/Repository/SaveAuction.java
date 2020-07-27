@@ -1,8 +1,8 @@
 package Repository;
 
-import Models.Auction;
-import Models.Customer;
-import Models.ProductField;
+import Models.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Date;
 
@@ -13,6 +13,7 @@ public class SaveAuction {
     private int finalBuyerId;
     private int chatId;
     private int id;
+    private static int lastId = 0;
 
     public SaveAuction(Auction auction){
         this.saveProductField = new SaveProductField(auction.getProductField());
@@ -49,5 +50,28 @@ public class SaveAuction {
         return id;
     }
 
-    //todo age hesesh bud badan save o load mizarm
+    public static void save(Auction auction){
+        SaveAuction saveAuction = new SaveAuction(auction);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String saveAuctionString = gson.toJson(saveAuction);
+        FileUtil.write(FileUtil.generateAddress(Auction.class.getName(),auction.getId()),saveAuctionString);
+    }
+
+    public static Auction load(int id){
+        lastId = Math.max(lastId,id);
+        Auction potentialAuction = Auction.getAuctionById(id);
+        if(potentialAuction != null){
+            return potentialAuction;
+        }
+        Gson gson = new Gson();
+        String data = FileUtil.read(FileUtil.generateAddress(Auction.class.getName(),id));
+        if(data == null){
+            return null;
+        }
+        SaveAuction saveAuction = gson.fromJson(data,SaveAuction.class);
+        Auction auction = new Auction(saveAuction.saveProductField.generateProductField(),new Date(saveAuction.endDate),
+                saveAuction.highestPrice,SaveCustomer.load(saveAuction.finalBuyerId),id);
+        Auction.addToAllAuctions(auction);
+        return auction;
+    }
 }

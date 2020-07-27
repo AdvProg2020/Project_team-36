@@ -1,0 +1,22 @@
+{
+  "userId": 4915,
+  "username": "Nazi",
+  "firstname": "jj",
+  "lastname": "ss",
+  "email": "ss@ss.d",
+  "phoneNumber": "09198923977",
+  "password": "11111111",
+  "status": "AVAILABLE",
+  "chatsIds": [],
+  "wallet": {
+    "totalMoney": 0,
+    "blockedMoney": 0,
+    "availableMoney": 0,
+    "id": 1
+  },
+  "profilePictureURL": "src/main/resources/files/1595629437652.dat",
+  "credit": 0,
+  "allCustomerLogs": [],
+  "cart": [],
+  "allDiscountsForCustomer": {}
+}

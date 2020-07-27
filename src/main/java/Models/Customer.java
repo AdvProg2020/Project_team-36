@@ -6,14 +6,13 @@ import java.util.List;
 
 public class Customer extends User {
     private static ArrayList<Customer> allCustomers = new ArrayList<>();
-    private long credit=500_000;
+    private long credit=0;
     private ArrayList<CustomerLog> allLogs;
     private WaitingLog waitingLog;
     private ArrayList<SelectedItem> cart;
     private HashMap<Discount, Integer> allDiscountsForCustomer;
     private Wallet wallet;
     private List<Auction> winningAuctions;
-    //todo in winningAuctions save she
 
     public Customer(String username) {
         super(username);
@@ -211,6 +210,7 @@ public class Customer extends User {
         this.allDiscountsForCustomer = new HashMap<>();
         this.cart = new ArrayList<>();
         this.waitingLog = waitingLog;
+        this.winningAuctions = new ArrayList<>();
     }
 
     public static void addToAllCustomers(Customer customer) {

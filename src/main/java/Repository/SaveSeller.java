@@ -21,7 +21,7 @@ public class SaveSeller {
     private Status status;
     private String profilePictureURL;
     private List<Integer> chatsIds;
-    private Wallet wallet;     //todo nazanin save wallet
+    private Wallet wallet;
     private static int lastId = 0;
 
     private long credit;
@@ -30,9 +30,6 @@ public class SaveSeller {
     private List<SaveSellerLog> allSellerLogs;
     private List<Integer> allProductIds;
     private List<Integer> allOffIds;
-
-    //todo nazanin save chatsIds
-
 
     public static void save(Seller seller){
         SaveSeller saveSeller = new SaveSeller(seller);

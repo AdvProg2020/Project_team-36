@@ -209,6 +209,13 @@ public class Server {
                 output = gson1.toJson(allDiscounts);
                 break;
 
+            case "Auction":
+                returnType = "List<Auction>";
+                List<SaveAuction> allAuctions = new ArrayList<>();
+                query.getMethodInputs().keySet().forEach(id -> allAuctions.add(new SaveAuction(Auction.getAuctionById(Integer.parseInt(id)))));
+                output = gson1.toJson(allAuctions);
+                break;
+
             case "Manager":
                 returnType = "List<Manager>";
                 List<SaveManager> allManagers = new ArrayList<>();
@@ -346,6 +353,11 @@ public class Server {
             case "Chat":
                 returnType = "Chat";
                 output = gson1.toJson(new SaveChat(Chat.getChatById(id)));
+                break;
+
+            case "Auction":
+                returnType = "Auction";
+                output = gson1.toJson(new SaveAuction(Auction.getAuctionById(id)));
                 break;
 
             default:

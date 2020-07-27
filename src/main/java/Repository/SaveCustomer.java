@@ -19,6 +19,7 @@ public class SaveCustomer {
     private String password;
     private Status status;
     private List<Integer> chatsIds;
+    private List<Integer> winingAuctionIds;
     private Wallet wallet;
     private String profilePictureURL;
     private static int lastId = 0;
@@ -27,9 +28,6 @@ public class SaveCustomer {
     private List<SaveSelectedItem> cart;
     private Map<Integer, Integer> allDiscountsForCustomer;
     private SaveWaitingLog waitingLog;
-
-    //todo nazanin save chatsIds
-
 
     private SaveCustomer() {
         this.allCustomerLogs = new ArrayList<>();
@@ -41,6 +39,7 @@ public class SaveCustomer {
         this.wallet = customer.getWallet();
         this.allCustomerLogs = new ArrayList<>();
         this.chatsIds = new ArrayList<>();
+        this.winingAuctionIds = new ArrayList<>();
         this.allDiscountsForCustomer = new HashMap<>();
         this.cart = new ArrayList<>();
         this.profilePictureURL = customer.getProfilePictureUrl();
@@ -57,6 +56,7 @@ public class SaveCustomer {
             this.waitingLog = new SaveWaitingLog(customer.getWaitingLog());
         }
         customer.getChats().forEach(chat -> chatsIds.add(chat.getId()));
+        customer.getWinningAuctions().forEach(auction -> this.winingAuctionIds.add(auction.getId()));
         customer.getAllLogs().forEach(customerLog -> this.allCustomerLogs.add(new SaveCustomerLog(customerLog)));
         customer.getCart().forEach(selectedItem -> this.cart.add(new SaveSelectedItem(selectedItem)));
         if (customer.getAllDiscountsForCustomer() != null){
@@ -92,6 +92,7 @@ public class SaveCustomer {
                 saveCustomer.status,saveCustomer.credit,saveCustomer.profilePictureURL,waitingLog);
         Customer.addToAllCustomers(customer);
         User.addToAllUsers(customer);
+        saveCustomer.winingAuctionIds.forEach(winningAuctionId -> customer.getWinningAuctions().add(SaveAuction.load(winningAuctionId)));
         saveCustomer.cart.forEach(saveSelectedItem -> customer.getCart().add(saveSelectedItem.generateSelectedItem()));
         saveCustomer.allCustomerLogs.forEach(customerlog -> customer.getAllLogs().add(customerlog.generateCustomerLog()));
         saveCustomer.allDiscountsForCustomer.forEach((key,value) -> customer.getAllDiscountsForCustomer().put(SaveDiscount.load(key),value));

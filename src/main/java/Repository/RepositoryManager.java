@@ -29,6 +29,11 @@ public class RepositoryManager {
                 FileUtils.cleanDirectory(customerFile);
             }
 
+            File auctionFile = new File("./Server/src/main/resources/" + Auction.class.getName());
+            if (auctionFile.exists()){
+                FileUtils.cleanDirectory(auctionFile);
+            }
+
             File discountFile = new File("./Server/src/main/resources/" + Discount.class.getName());
             if (discountFile.exists()){
                 FileUtils.cleanDirectory(discountFile);
@@ -83,6 +88,7 @@ public class RepositoryManager {
         Product.getAllProducts().forEach(product -> SaveProduct.save(product));
         Request.getAllRequests().forEach(request -> SaveRequest.save(request));
         Sale.getAllSales().forEach(sale -> SaveSale.save(sale));
+        Auction.getAllAuctions().forEach(auction -> SaveAuction.save(auction));
         Seller.getAllSellers().forEach(seller -> SaveSeller.save(seller));
     }
 
@@ -97,6 +103,7 @@ public class RepositoryManager {
         loadSales();
         loadSellers();
         loadSupporters();
+        loadAuctions();
 
         SaveUser.setLastId(User.getTotalUsersMade());
         User.getAllUsers().forEach(user -> SaveUser.load(user.getUserId()));
@@ -123,6 +130,17 @@ public class RepositoryManager {
             for (File child : directoryListing) {
                 String name = child.getName();
                 SaveSale.load(Integer.parseInt(name.split("\\.")[0]));
+            }
+        }
+    }
+
+    private static void loadAuctions() {
+        File auctinDir = new File("./Server/src/main/resources/"+ Auction.class.getName()+"/");
+        File[] directoryListing = auctinDir.listFiles();
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                String name = child.getName();
+                SaveAuction.load(Integer.parseInt(name.split("\\.")[0]));
             }
         }
     }

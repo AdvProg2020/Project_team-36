@@ -87,7 +87,6 @@ public class WaitingLog {
     }
 
     public void applyPurchaseWithBankChanges() {
-        //todo variz az hesabe customer be hesabe furushgah this.getPayablePrice()
         for (SelectedItem item : allSelectedItems) {
             for (Seller seller : item.getSellers()) {
                 long amount = item.getSellerTotalPrice(seller);
