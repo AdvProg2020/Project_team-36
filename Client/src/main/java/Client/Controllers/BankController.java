@@ -7,11 +7,9 @@ import Models.Response;
 
 public class BankController {
     private String controllerName = "BankController";
-    private String token = Constants.globalVariables.getToken();
-
 
     public String createAccount(String firstname, String lastname, String username, String password, String repeatPassword)  {
-        Query query = new Query(token,controllerName,"createAccount");
+        Query query = new Query(Constants.globalVariables.getToken(),controllerName,"createAccount");
         query.getMethodInputs().put("firstname",firstname);
         query.getMethodInputs().put("lastname",lastname);
         query.getMethodInputs().put("password",password);
@@ -22,7 +20,7 @@ public class BankController {
     }
 
     public String getToken(String username, String password) {
-        Query query = new Query(token,controllerName,"getToken");
+        Query query = new Query(Constants.globalVariables.getToken(),controllerName,"getToken");
         query.getMethodInputs().put("password",password);
         query.getMethodInputs().put("username",username);
         Response response = Client.process(query);
@@ -31,7 +29,7 @@ public class BankController {
 
     public String createReceiptAndPay(String receiptType,String money,String sourceID
             ,String destID,String description) {
-        Query query = new Query(token,controllerName,"createReceiptAndPay");
+        Query query = new Query(Constants.globalVariables.getToken(),controllerName,"createReceiptAndPay");
         query.getMethodInputs().put("receiptType",receiptType);
         query.getMethodInputs().put("money",money);
         query.getMethodInputs().put("sourceID",sourceID);
@@ -42,7 +40,7 @@ public class BankController {
     }
 
     public String getTransactions(String token,String type) {
-        Query query = new Query(token,controllerName,"getTransactions");
+        Query query = new Query(Constants.globalVariables.getToken(),controllerName,"getTransactions");
         query.getMethodInputs().put("token",token);
         query.getMethodInputs().put("type",type);
         Response response = Client.process(query);
@@ -50,7 +48,7 @@ public class BankController {
     }
 
     public String  getBalance(String token) {
-        Query query = new Query(token,controllerName,"getBalance");
+        Query query = new Query(Constants.globalVariables.getToken(),controllerName,"getBalance");
         query.getMethodInputs().put("token",token);
         Response response = Client.process(query);
         return response.getData();

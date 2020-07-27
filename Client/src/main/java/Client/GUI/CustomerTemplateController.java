@@ -90,6 +90,7 @@ public class CustomerTemplateController implements Initializable{
         Parent parent = fxmlLoader.load();
         this.customerWalletController = fxmlLoader.getController();
         customerWalletController.initialize(user.getUserId());
+        customerWalletController.setCustomerTemplateController(this);
         scrollPane.setContent(parent);
     }
 

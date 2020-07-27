@@ -69,10 +69,10 @@ public class BankController {
         String lastname = query.getMethodInputs().get("lastname");
         String username = query.getMethodInputs().get("username");
         String password = query.getMethodInputs().get("password");
-        String reapeat_password = query.getMethodInputs().get("repeat_password");
+        String repeatPassword = query.getMethodInputs().get("repeatPassword");
 
         String command = "create_account" + " " + firstname + " " + lastname + " " +
-                username + " " + password + " " + reapeat_password;
+                username + " " + password + " " + repeatPassword;
         return new Response("String", connect(command));
     }
 
@@ -96,12 +96,12 @@ public class BankController {
         String destID = query.getMethodInputs().get("destID");
         String description = query.getMethodInputs().get("description");
 
-        if (destID.equals("")) {
+        if (destID.equals("") || destID == null) {
             destID = shopBankAccountId;
             token = globalVariables.getBankToken();
         }
 
-        if (sourceID.equals("")) {
+        if (sourceID.equals("") || sourceID == null) {
             sourceID = shopBankAccountId;
             String command = "get_token" + " " + shopBankUsername + " " + shopBankPassword;
             token = connect(command);

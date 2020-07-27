@@ -36,27 +36,27 @@ public class SellerWalletController extends SellerProfileController implements I
         });
     }
 
-    public void chargeAction() {
+    public void chargeAction() throws IOException {
         if(chargeField.getText().isEmpty()){
             return;
         }
         long money = Long.parseLong(chargeField.getText());
-        String output = Constants.bankController.createReceiptAndPay("move",money+"","",
-                ((Customer)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"walletCharged");
+        String output = Constants.bankController.createReceiptAndPay("move",money+"",
+                ((Seller)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"","walletCharged");
         while (output.equals("token is invalid") || output.equals("token expired")){
             BankGetToken.display();
-            output = Constants.bankController.createReceiptAndPay("move",money+"","",
-                    ((Customer)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"walletCharged");
+            output = Constants.bankController.createReceiptAndPay("move",money+"",
+                    ((Seller)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"","walletCharged");
         }
         if (output.equals("done successfully")){
             Constants.sellerController.chargeWallet(money, sellerId);
-            chargeField.setText("");
+            Constants.getGuiManager().reopen();
         }else {
             AlertBox.display("Error",output);
         }
     }
 
-    public void withdrawAction() {
+    public void withdrawAction() throws IOException {
         if(withdrawField.getText().isEmpty()){
             return;
         }
@@ -66,6 +66,7 @@ public class SellerWalletController extends SellerProfileController implements I
                     ((Seller)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"Withdrawed");
             if (output.equals("done successfully")){
                 Constants.sellerController.withdrawFromWallet(money, sellerId);
+                Constants.getGuiManager().reopen();
             }else {
                 AlertBox.display("Error",output);
             }

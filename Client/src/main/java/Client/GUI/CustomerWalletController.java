@@ -10,6 +10,11 @@ public class CustomerWalletController implements Initializable {
     public TextField chargeField;
     public Label totalMoneyLabel;
     private int customerId;
+    private CustomerTemplateController customerTemplateController;
+
+    public void setCustomerTemplateController(CustomerTemplateController customerTemplateController) {
+        this.customerTemplateController = customerTemplateController;
+    }
 
     @Override
     public void initialize(int id) throws IOException {
@@ -23,7 +28,7 @@ public class CustomerWalletController implements Initializable {
         });
     }
 
-    public void chargeAction() {
+    public void chargeAction() throws IOException {
         if (chargeField.getText().isEmpty()) {
             return;
         }
@@ -38,6 +43,7 @@ public class CustomerWalletController implements Initializable {
         if (output.equals("done successfully")) {
             Constants.customerController.chargeWallet(money, customerId);
             chargeField.setText("");
+            customerTemplateController.openWallet();
         } else {
             AlertBox.display("Error", output);
         }

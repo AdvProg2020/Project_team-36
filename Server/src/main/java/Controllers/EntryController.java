@@ -225,8 +225,9 @@ public class EntryController extends UserController {
     private Response processRegister(Query query) {
         if (query.getMethodInputs().containsKey("accountId")){
             register(query.getMethodInputs().get("accountId"));
+        }else {
+            register();
         }
-        register();
         return new Response("void", "");
     }
 

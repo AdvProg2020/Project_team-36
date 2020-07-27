@@ -31,10 +31,10 @@ public class  FileUtil {
     }
 
     public static String generateAddress(String className, int id){
-        File file = new File("./src/main/resources/"+className+"/");
+        File file = new File("./Server/src/main/resources/"+className+"/");
         if(!file.exists()){
             file.mkdirs();
         }
-        return "./src/main/resources/"+className+"/"+id+".json";
+        return "./Server/src/main/resources/"+className+"/"+id+".json";
     }
 }
