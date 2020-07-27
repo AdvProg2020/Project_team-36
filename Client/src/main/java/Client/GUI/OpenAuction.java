@@ -2,6 +2,7 @@ package Client.GUI;
 
 import Client.Controllers.AuctionController;
 import Client.Controllers.ChatsController;
+import Client.Controllers.EntryController;
 import Client.Models.Auction;
 import Client.Models.Chat;
 import Models.Message;
@@ -24,9 +25,9 @@ public class OpenAuction extends CustomerTemplateController implements Initializ
     public TextArea chatsArea;
     public TextArea messageArea;
     private Auction auction;
-    private boolean inPage = true;
     private int chatId;
     private final ChatsController chatsController = new ChatsController();
+    private Thread updateThread;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -35,19 +36,25 @@ public class OpenAuction extends CustomerTemplateController implements Initializ
             chatId = auction.getChat().getId();
         } catch (AuctionController.NoAuctionWithId noAuctionWithId) {
             AlertBox.display("Error", "Auction has ended!");
-            inPage = false;
+            intteruptThread();
             Constants.getGuiManager().open("ShowAllAuctions", 1);
         }
         productName.setText(auction.getProductName());
         addNumberListener();
         currentOffer.setText("0");
-        update();
+        updateThread = update();
     }
 
     @Override
     public void back() throws IOException {
-        inPage=false;
+        intteruptThread();
         Constants.getGuiManager().back();
+    }
+
+    @Override
+    public void logout() throws EntryController.NotLoggedInException, IOException {
+        intteruptThread();
+        super.logout();
     }
 
     private void addNumberListener() {
@@ -70,20 +77,25 @@ public class OpenAuction extends CustomerTemplateController implements Initializ
             AlertBox.display("Error", "You don't have enough money in your wallet!");
         } catch (AuctionController.NoAuctionWithId noAuctionWithId) {
             AlertBox.display("Error", "Auction has ended!");
-            inPage = false;
+            intteruptThread();
             Constants.getGuiManager().open("ShowAllAuctions", 1);
         }
     }
 
-    private void update() {
-        new Thread(() -> {
-            while (inPage) {
+    private Thread update() {
+        Thread thread  = new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    break;
+                }
                 try {
                     auction = Constants.auctionController.getAuction(auction.getId());
                     setChatsArea();
                 } catch (AuctionController.NoAuctionWithId noAuctionWithId) {
                     AlertBox.display("Error", "Auction has ended!");
-                    inPage = false;
+                    intteruptThread();
                     try {
                         Constants.getGuiManager().open("ShowAllAuctions", 1);
                     } catch (IOException e) {
@@ -91,7 +103,9 @@ public class OpenAuction extends CustomerTemplateController implements Initializ
                     }
                 }
             }
-        }).start();
+        });
+        thread.start();
+        return thread;
     }
 
     private void setChatsArea() {
@@ -115,5 +129,51 @@ public class OpenAuction extends CustomerTemplateController implements Initializ
         chatsController.sendNewMessage(text, chatId, Constants.globalVariables.getLoggedInUser().getUsername());
         messageArea.clear();
         Constants.getGuiManager().reopen();
+    }
+
+    @Override
+    public void openAllAuctions() throws IOException {
+        intteruptThread();
+        super.openAllAuctions();
+    }
+
+    @Override
+    public void openWallet() throws IOException {
+        intteruptThread();
+        super.openWallet();
+    }
+
+    @Override
+    public void getSupport() throws IOException {
+        intteruptThread();
+        super.getSupport();
+    }
+
+    @Override
+    public void goToCart() throws IOException {
+        intteruptThread();
+        super.goToCart();
+    }
+
+    @Override
+    public void showPersonalInfo() throws IOException {
+        intteruptThread();
+        super.showPersonalInfo();
+    }
+
+    @Override
+    public void viewOrders() throws IOException {
+        intteruptThread();
+        super.viewOrders();
+    }
+
+    @Override
+    public void viewDiscounts() throws IOException {
+        intteruptThread();
+        super.viewDiscounts();
+    }
+
+    private void intteruptThread(){
+        updateThread.interrupt();
     }
 }

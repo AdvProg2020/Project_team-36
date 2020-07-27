@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class ManageUsersController extends ManagerProfileController implements Initializable{
 
-
     public TableColumn<?,?> online;
     @FXML private ImageView profilePicture;
     @FXML private TableView<User> allUsersTable;
@@ -22,14 +21,13 @@ public class ManageUsersController extends ManagerProfileController implements I
     @FXML private TableColumn<?, ?> usernameColumn;
     @FXML private TableColumn<?, ?> roleColumn;
     @FXML private Label usernameLabel;
-    @FXML private ComboBox sortName;
+    @FXML private ComboBox<String> sortName;
     @FXML private CheckBox isAscending;
     private User user;
-    private boolean inPage = true;
+    private Thread updateThread ;
 
     @Override
     public void initialize(int id) throws IOException {
-
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
@@ -44,7 +42,7 @@ public class ManageUsersController extends ManagerProfileController implements I
 
         ArrayList<User> allUsers = Constants.managerController.getAllUsers();
         setTheTable(allUsers);
-        update();
+        this.updateThread = update();
     }
 
     private void setTheTable(ArrayList<User> allUsers){
@@ -60,18 +58,14 @@ public class ManageUsersController extends ManagerProfileController implements I
 
     public void removeAction() {
         TableView.TableViewSelectionModel<User> selectedUser = allUsersTable.getSelectionModel();
-
         if (selectedUser.isEmpty()) {
             return;
         }
-
         User toBeRemoved = selectedUser.getSelectedItem();
-
         if(toBeRemoved.equals(user)){
             AlertBox.display("remove can't be done","you are removing your own account!");
             return;
         }
-
         Constants.managerController.deleteUser(toBeRemoved);
         allUsersTable.getItems().remove(toBeRemoved);
     }
@@ -84,13 +78,13 @@ public class ManageUsersController extends ManagerProfileController implements I
         }
 
         User toBeViewed = selectedUser.getSelectedItem();
-        inPage = false;
         Constants.userController.setUserToView(toBeViewed);
+        intteruptUpdate();
         Constants.getGuiManager().open("ViewUser",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void openCreateNewManager() throws IOException {
-        inPage = false;
+        intteruptUpdate();
         Constants.getGuiManager().open("CreateNewManager",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
@@ -108,33 +102,87 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
     public void openCreateNewSupporter(ActionEvent actionEvent) throws IOException {
-        inPage = false;
+        intteruptUpdate();
         Constants.getGuiManager().open("AddNewSupporter",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     @Override
     public void back() throws IOException {
-        inPage=false;
+        intteruptUpdate();
         super.back();
     }
 
     @Override
     public void logout() throws EntryController.NotLoggedInException, IOException {
-        inPage= false;
+        intteruptUpdate();
         super.logout();
     }
 
-    public void update(){
-        new Thread(() -> {
-            while(inPage){
+    public Thread update(){
+      Thread thread =   new Thread(() -> {
+            while(true){
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                   break;
                 }
                 setTheTable(Constants.managerController.getAllUsers());
             }
-           return;
-        }).start();
+
+        });
+      thread.start();
+      return thread;
+    }
+
+    @Override
+    public void openAllProducts() throws IOException {
+        intteruptUpdate();
+        super.openAllProducts();
+    }
+
+    @Override
+    public void openAllUsers() throws IOException {
+        intteruptUpdate();
+        super.openAllUsers();
+    }
+
+    @Override
+    public void openCategories() throws IOException {
+        intteruptUpdate();
+        super.openCategories();
+    }
+
+    @Override
+    public void openCustomerLogs() throws IOException {
+        intteruptUpdate();
+        super.openCustomerLogs();
+    }
+
+    @Override
+    public void openDiscountCodes() throws IOException {
+      intteruptUpdate();
+        super.openDiscountCodes();
+    }
+
+    @Override
+    public void openFinancialManagements() throws IOException {
+        intteruptUpdate();
+        super.openFinancialManagements();
+    }
+
+    @Override
+    public void openPersonalInfo() throws IOException {
+        intteruptUpdate();
+        super.openPersonalInfo();
+    }
+
+    @Override
+    public void openRequests() throws IOException {
+        intteruptUpdate();
+        super.openRequests();
+    }
+
+    private void intteruptUpdate(){
+        updateThread.interrupt();
     }
 }
