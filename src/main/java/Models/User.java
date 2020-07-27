@@ -184,6 +184,7 @@ public abstract class User{
         this.password = password;
         this.status = status;
         this.profilePictureUrl = profilePictureURL;
+        this.chats = new ArrayList<>();
     }
 
     public static void addToAllUsers(User user){

@@ -26,7 +26,6 @@ public class Customer extends User {
     private Wallet wallet;
     private List<Auction> winningAuctions;
 
-
     public Customer(SaveCustomer saveCustomer) {
         super(saveCustomer);
         this.saveCustomer = saveCustomer;

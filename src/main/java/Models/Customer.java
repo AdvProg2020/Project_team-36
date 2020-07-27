@@ -13,7 +13,6 @@ public class Customer extends User {
     private HashMap<Discount, Integer> allDiscountsForCustomer;
     private Wallet wallet;
     private List<Auction> winningAuctions;
-    //todo in winningAuctions save she
 
     public Customer(String username) {
         super(username);
@@ -211,6 +210,7 @@ public class Customer extends User {
         this.allDiscountsForCustomer = new HashMap<>();
         this.cart = new ArrayList<>();
         this.waitingLog = waitingLog;
+        this.winningAuctions = new ArrayList<>();
     }
 
     public static void addToAllCustomers(Customer customer) {
