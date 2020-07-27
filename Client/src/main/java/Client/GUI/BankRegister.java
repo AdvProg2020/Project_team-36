@@ -76,6 +76,7 @@ public class BankRegister {
                 }
             }
         });
+       layout.getChildren().addAll(firstname,lastname,username,password,repassword,button,label);
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
         window.setScene(scene);

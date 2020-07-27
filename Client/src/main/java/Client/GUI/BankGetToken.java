@@ -64,6 +64,7 @@ public class BankGetToken {
             }
         });
         //Display window and wait for it to be closed before returning
+        layout.getChildren().addAll(username,password,button,label);
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
