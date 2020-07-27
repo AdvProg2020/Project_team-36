@@ -265,7 +265,6 @@ public class CustomerController extends UserController {
     public CustomerLog purchaseWithBankAccount() throws NotEnoughMoney {
         WaitingLog waitingLog = ((Customer) userVariables.getLoggedInUser()).getWaitingLog();
         Customer customer = (Customer) userVariables.getLoggedInUser();
-        //todo get customer bank balance baad az comment dar bian hame paiinia
 //        if (waitingLog.getPayablePrice() > bankbalance) {
 //            waitingLog.removeDiscount();
 //            cancelPurchase();
@@ -342,7 +341,6 @@ public class CustomerController extends UserController {
         return Customer.getCustomerById(customerId).getWallet().getTotalMoney();
     }
 
-    //todo karaie lazem vase bank in
     public void chargeWallet(long money, int customerId){
         Customer.getCustomerById(customerId).getWallet().chargeWallet(money);
     }

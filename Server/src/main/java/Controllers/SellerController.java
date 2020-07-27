@@ -74,7 +74,6 @@ public class SellerController extends UserController {
         return Seller.getSellerById(sellerId).getWallet().isThereEnoughMoneyAvailable(money);
     }
 
-    //todo karaie lazem vase bank in dota
     public void chargeWallet(long money, int sellerId){
         Seller.getSellerById(sellerId).getWallet().chargeWallet(money);
     }
