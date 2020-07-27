@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        RepositoryManager.loadData();
         try {
-            RepositoryManager.loadData();
             Thread fileReaderThread = new Thread(new FileServerRead());
             Thread fileWriterThread = new Thread(new FileServerWrite());
             fileReaderThread.start();

@@ -40,8 +40,9 @@ public class Server {
                 dataOutputStream.flush();
                 socket.close();
                 counter++;
+                RepositoryManager.saveData();
                 if (counter % 20 == 0) {
-                    RepositoryManager.saveData();
+                //    RepositoryManager.saveData();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
