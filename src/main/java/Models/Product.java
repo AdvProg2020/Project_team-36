@@ -173,7 +173,7 @@ public class Product implements Pendable {
 
     public boolean isInAuction(){
         for (ProductField field : productFields) {
-            if(!field.isInAuction())
+            if(field.isInAuction())
                 return true;
         }
         return false;

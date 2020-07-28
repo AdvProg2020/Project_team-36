@@ -489,7 +489,7 @@ public class SellerController extends UserController {
     }
 
     private Response processGetAllBuyers(Query query) {
-        int productId = Integer.parseInt(query.getMethodInputs().get("product"));
+        int productId = Integer.parseInt(query.getMethodInputs().get("id"));
         Set<SaveCustomer> customers = new HashSet<>();
         getAllBuyers(Product.getProduct(productId)).forEach(customer -> customers.add(new SaveCustomer(customer)));
         Gson gson = new GsonBuilder().create();
