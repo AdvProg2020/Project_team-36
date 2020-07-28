@@ -69,6 +69,7 @@ public class AddNewSupporter extends ManagerProfileController implements Initial
         fileChooser.getExtensionFilters().add(imageFilter);
         fileChooser.setTitle("Profile");
         File file = fileChooser.showOpenDialog(Constants.getGuiManager().getLoginStage());
+        System.out.println("1"+(file==null));
         if (file != null) {
             try {
                 imageFile = file;
@@ -77,7 +78,6 @@ public class AddNewSupporter extends ManagerProfileController implements Initial
                 e.printStackTrace();
             }
         }
-        ;
     }
 
     public void register(MouseEvent mouseEvent) throws IOException {
@@ -199,6 +199,7 @@ public class AddNewSupporter extends ManagerProfileController implements Initial
         }
         try {
             String path = Client.writeFile(Files.readAllBytes(imageFile.toPath()));
+            System.out.println(path);
             entryController.setImage(path);
             return true;
         } catch (IOException e) {
