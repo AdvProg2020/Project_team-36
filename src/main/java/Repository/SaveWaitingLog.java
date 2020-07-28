@@ -24,7 +24,11 @@ public class SaveWaitingLog {
         this.discountAmount = waitingLog.getDiscountAmount();
         this.allSelectedItems = new ArrayList<>();
         waitingLog.getAllItems().forEach(selectedItem -> this.allSelectedItems.add(new SaveSelectedItem(selectedItem)));
-        this.customerId = waitingLog.getCustomer().getUserId();
+        if(waitingLog.getCustomer() != null){
+            this.customerId = waitingLog.getCustomer().getUserId();
+        }else {
+            this.customerId = -100000000;
+        }
         if(waitingLog.getDiscount() != null){
             this.discountId = waitingLog.getDiscount().getId();
         }else {

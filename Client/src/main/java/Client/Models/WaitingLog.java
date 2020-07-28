@@ -23,7 +23,7 @@ public class WaitingLog {
     private String customerAddress;
     private String customerPhoneNumber;
 
-    public WaitingLog(SaveWaitingLog saveWaitingLog){
+    public WaitingLog(SaveWaitingLog saveWaitingLog) {
         this.saveWaitingLog = saveWaitingLog;
         this.totalPrice = saveWaitingLog.getTotalPrice();
         this.giftDiscount = saveWaitingLog.getGiftDiscount();
@@ -68,6 +68,9 @@ public class WaitingLog {
     }
 
     public Customer getCustomer() {
+        if(this.saveWaitingLog.getCustomerId() == -100000000){
+            return null;
+        }
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Customer");
         query.getMethodInputs().put("id", "" + saveWaitingLog.getCustomerId());
         Response response = Client.process(query);
@@ -82,7 +85,7 @@ public class WaitingLog {
     }
 
     public Discount getDiscount() {
-        if(saveWaitingLog.getDiscountId()==-100000000)
+        if (saveWaitingLog.getDiscountId() == -100000000)
             return null;
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Discount");
         query.getMethodInputs().put("id", "" + saveWaitingLog.getDiscountId());
@@ -97,26 +100,26 @@ public class WaitingLog {
         }
     }
 
-    public boolean isOnlyFile(){
+    public boolean isOnlyFile() {
         for (SelectedItem item : allSelectedItems) {
-            if(!item.getProduct().isFileProduct())
+            if (!item.getProduct().isFileProduct())
                 return false;
         }
         return true;
     }
 
-    public boolean isThereFile(){
+    public boolean isThereFile() {
         for (SelectedItem item : allSelectedItems) {
-            if(item.getProduct().isFileProduct())
+            if (item.getProduct().isFileProduct())
                 return true;
         }
         return false;
     }
 
-    public List<Product> getFiles(){
+    public List<Product> getFiles() {
         List<Product> toBeReturned = new ArrayList<>();
         for (SelectedItem item : allSelectedItems) {
-            if(item.getProduct().isFileProduct())
+            if (item.getProduct().isFileProduct())
                 toBeReturned.add(item.getProduct());
         }
         return toBeReturned;
@@ -126,8 +129,7 @@ public class WaitingLog {
         long payable;
         if (getDiscount() == null) {
             payable = totalPrice - giftDiscount;
-        }
-        else {
+        } else {
             payable = getDiscount().getPayableAfterDiscount(totalPrice) - giftDiscount;
         }
         return payable;
