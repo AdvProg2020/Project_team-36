@@ -224,8 +224,8 @@ public class ProductsController implements ObjectController {
             result.addAll(userVariables.getFilterProductsCategory().getAllSubProducts());
         } else {
             for (Product product : Product.getAllProducts()) {
-                if(!product.isInAuction())
-                result.add(product);
+                if (!product.isInAuction())
+                    result.add(product);
             }
         }
         for (Filter filter : userVariables.getAllFiltersProducts()) {
@@ -249,7 +249,7 @@ public class ProductsController implements ObjectController {
     }
 
     public Product getChosenProduct() throws NoProductWithId {
-        if(userVariables.getProduct().isProductDeleted())
+        if (userVariables.getProduct().isProductDeleted())
             throw new NoProductWithId();
         return userVariables.getProduct();
     }
@@ -475,12 +475,12 @@ public class ProductsController implements ObjectController {
         Product.setProductToView(productToView);
     }
 
-    public void seenProduct(int productId){
+    public void seenProduct(int productId) {
         Product.getProduct(productId).seen();
     }
 
     public ProductField getBestSale(int productId) throws Product.NoSaleForProduct {
-       return Product.getProduct(productId).getBestSale();
+        return Product.getProduct(productId).getBestSale();
     }
 
     public Response processQuery(Query query) {
@@ -522,7 +522,7 @@ public class ProductsController implements ObjectController {
             case "getProductToView" -> processGetProductToView();
             case "setProductToEdit" -> processSetProductToEdit(query);
             case "setProductToView" -> processSetProductToView(query);
-            case"seenProduct" -> processSeenProduct(query);
+            case "seenProduct" -> processSeenProduct(query);
             case "getBestSale" -> processGetBestSale(query);
             default -> new Response("Error", "");
         };
@@ -534,7 +534,7 @@ public class ProductsController implements ObjectController {
             ProductField productField = getBestSale(productId);
             SaveProductField saveProductField = new SaveProductField(productField);
             Gson gson = new GsonBuilder().create();
-            return new Response("ProductField",gson.toJson(saveProductField));
+            return new Response("ProductField", gson.toJson(saveProductField));
         } catch (Product.NoSaleForProduct noSaleForProduct) {
             return new Response("NoSaleForProduct", "");
         }
@@ -577,7 +577,7 @@ public class ProductsController implements ObjectController {
             for (String s : getAllOptionalChoices().get(key)) {
                 value.add(s);
             }
-            toBeReturned.put(key,value);
+            toBeReturned.put(key, value);
         }
         String choices = gson.toJson(toBeReturned);
         return new Response("Map<String,Set<String>>", choices);
@@ -634,7 +634,8 @@ public class ProductsController implements ObjectController {
 
     private Response processSetCompanyFilter(Query query) {
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
         List<String> options = gson.fromJson(query.getMethodInputs().get("options"), type);
         ArrayList<String> allOptions = new ArrayList<>(options);
         setCompanyFilter(allOptions);
@@ -744,7 +745,8 @@ public class ProductsController implements ObjectController {
 
     private Response processSetFilterOptions(Query query) {
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        Type type = new TypeToken<ArrayList<String>>() {
+        }.getType();
         List<String> options = gson.fromJson(query.getMethodInputs().get("options"), type);
         ArrayList<String> allOptions = new ArrayList<>(options);
         setFilterOptions(allOptions);
@@ -833,26 +835,26 @@ public class ProductsController implements ObjectController {
         }
     }
 
-    private Response processGetProductToEdit(){
+    private Response processGetProductToEdit() {
         SaveProduct saveProduct = new SaveProduct(getProductToEdit());
         Gson gson = new GsonBuilder().create();
         return new Response("Product", gson.toJson(saveProduct));
     }
 
-    private Response processGetProductToView(){
+    private Response processGetProductToView() {
         SaveProduct saveProduct = new SaveProduct(getProductToView());
         Gson gson = new GsonBuilder().create();
         return new Response("Product", gson.toJson(saveProduct));
     }
 
-    private Response processSetProductToEdit(Query query){
+    private Response processSetProductToEdit(Query query) {
         int id = Integer.parseInt(query.getMethodInputs().get("productToEdit"));
         Product productToEdit = Product.getProductById(id);
         setProductToEdit(productToEdit);
         return new Response("void", "");
     }
 
-    private Response processSetProductToView(Query query){
+    private Response processSetProductToView(Query query) {
         int id = Integer.parseInt(query.getMethodInputs().get("productToView"));
         Product productToView = Product.getProductById(id);
         setProductToView(productToView);
