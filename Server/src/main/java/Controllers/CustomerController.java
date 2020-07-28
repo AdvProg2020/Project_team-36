@@ -347,8 +347,9 @@ public class CustomerController extends UserController {
 
     public boolean isOnlyFileInCart(){
         for (SelectedItem item : ((Customer) userVariables.getLoggedInUser()).getCart()) {
-            if(!item.getProduct().isFileProduct())
+            if(!item.getProduct().isFileProduct()) {
                 return false;
+            }
         }
         return true;
     }

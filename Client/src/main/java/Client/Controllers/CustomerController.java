@@ -338,19 +338,19 @@ public class CustomerController {
     public long getCartPrice(){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCartPrice");
         Response response = Client.process(query);
-        return Long.getLong(response.getData());
+        return Long.parseLong(response.getData());
     }
 
     public long getCartPriceConsideringSale(){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCartPriceConsideringSale");
         Response response = Client.process(query);
-        return Long.getLong(response.getData());
+        return Long.parseLong(response.getData());
     }
 
     public long getWaitingLogPayable(){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getWaitingLogPayable");
         Response response = Client.process(query);
-        return Long.getLong(response.getData());
+        return Long.parseLong(response.getData());
     }
 
     public boolean isOnlyFileInCart(){
