@@ -483,6 +483,10 @@ public class ProductsController implements ObjectController {
         return Product.getProduct(productId).getBestSale();
     }
 
+    public void setProduct(int productId){
+        userVariables.setProduct(Product.getProduct(productId));
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "getProduct" -> processGetProduct(query);
@@ -524,8 +528,14 @@ public class ProductsController implements ObjectController {
             case "setProductToView" -> processSetProductToView(query);
             case "seenProduct" -> processSeenProduct(query);
             case "getBestSale" -> processGetBestSale(query);
+            case "setProduct" -> processSetProduct(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processSetProduct(Query query) {
+        setProduct(Integer.parseInt(query.getMethodInputs().get("productId")));
+        return new Response("void","");
     }
 
     private Response processGetBestSale(Query query) {

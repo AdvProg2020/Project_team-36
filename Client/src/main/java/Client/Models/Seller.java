@@ -121,4 +121,18 @@ public class Seller extends User implements Pendable {
             return null;
         }
     }
+
+    @Override
+    public String toString() {
+        return "    username: " + username + '\n' +
+                "    firstname: " + firstname + '\n' +
+                "    lastname: " + lastname + '\n' +
+                "    email: " + email + '\n' +
+                "    phoneNumber: " + phoneNumber + '\n' +
+                "    password: " + password + '\n' +
+                "    company: " + companyName + '\n' +
+                "    company info: : " + companyInfo + '\n'
+                ;
+    }
+
 }

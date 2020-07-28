@@ -238,4 +238,16 @@ public class Product implements Pendable {
     public boolean isFileProduct(){
         return !(fileProduct==null);
     }
+
+    @Override
+    public String toString() {
+        return "    productId: " + productId + '\n' +
+                "    name: " + this.name + '\n' +
+                "    company: " + company + '\n' +
+                "    category: " + this.getCategory().getName() + '\n' +
+                "    information: " + information + '\n' +
+                "    price: " + this.getLowestCurrentPrice() + '\n'
+                ;
+    }
+
 }

@@ -2,6 +2,7 @@ package Client.GUI;
 
 import Client.Controllers.ChatsController;
 import Client.Models.Supporter;
+import Models.Product;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -24,7 +25,6 @@ public class ChooseSupporterController implements Initializable {
         supportersTable.setPlaceholder(new Label("there is no online supporter right now!"));
 
         ArrayList<Client.Models.Supporter> onlineSupporters = new ArrayList<>(Constants.customerController.getOnlineSupporters());
-
         profilePictureColumn.setCellValueFactory(new PropertyValueFactory<>("smallProfilePicture"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         supportersTable.getItems().addAll(onlineSupporters);
