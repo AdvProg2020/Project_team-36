@@ -22,6 +22,10 @@ public class SellerWalletController extends SellerProfileController implements I
 
     @Override
     public void initialize(int id) throws IOException {
+        if (Constants.globalVariables.getLoggedInUser() == null) {
+            Constants.getGuiManager().back();
+            return;
+        }
         sellerId=id;
         long total = Constants.sellerController.getMoneyInWallet(id);
         totalMoneyLabel.setText(Long.toString(total));
