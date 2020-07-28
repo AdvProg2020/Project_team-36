@@ -12,10 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Customer extends User {
     private SaveCustomer saveCustomer;
@@ -40,9 +37,8 @@ public class Customer extends User {
     }
 
     public List<Auction> getWinningAuctions() {
-//        return winningAuctions;
-        return null;
         //todo
+        return null;
     }
 
     @Override
