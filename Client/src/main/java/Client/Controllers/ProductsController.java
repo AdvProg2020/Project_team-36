@@ -316,6 +316,8 @@ public class ProductsController implements ObjectController {
     }
 
     public boolean canRate(Product product, User user) {
+        if(user==null)
+            return false;
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "canRate");
         query.getMethodInputs().put("product",Integer.toString(product.getProductId()));
         query.getMethodInputs().put("user",Integer.toString(user.getUserId()));

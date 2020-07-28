@@ -345,6 +345,14 @@ public class CustomerController extends UserController {
         Customer.getCustomerById(customerId).getWallet().chargeWallet(money);
     }
 
+    public boolean isOnlyFileInCart(){
+        for (SelectedItem item : ((Customer) userVariables.getLoggedInUser()).getCart()) {
+            if(!item.getProduct().isFileProduct())
+                return false;
+        }
+        return true;
+    }
+
     public Response processQuery(Query query) {
         return switch (query.getMethodName()) {
             case "isThereProductInCart" -> processIsThereProductInCart(query);
@@ -377,8 +385,13 @@ public class CustomerController extends UserController {
             case "chargeWallet" -> processChargeWallet(query);
             case "purchaseWithBankAccount" -> processPurchaseWithBankAccount();
             case "purchaseWithWallet" -> processPurchaseWithWallet();
+            case "isOnlyFileInCart" -> processIsOnlyFileInCart(query);
             default -> new Response("Error", "");
         };
+    }
+
+    private Response processIsOnlyFileInCart(Query query) {
+        return new Response("boolean",Boolean.toString(isOnlyFileInCart()));
     }
 
     private Response processGetWaitingLogPayable(Query query) {
