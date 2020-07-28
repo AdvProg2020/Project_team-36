@@ -3,6 +3,8 @@ package Client.GUI;
 import Client.Controllers.EntryController;
 import Client.Controllers.ProductsController;
 import Client.Models.User;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,6 +13,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ManageUsersController extends ManagerProfileController implements Initializable{
 
@@ -25,6 +28,7 @@ public class ManageUsersController extends ManagerProfileController implements I
     @FXML private CheckBox isAscending;
     private User user;
     private Thread updateThread ;
+    private User selectedTableItem;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -57,11 +61,10 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
     public void removeAction() {
-        TableView.TableViewSelectionModel<User> selectedUser = allUsersTable.getSelectionModel();
-        if (selectedUser.isEmpty()) {
+        User toBeRemoved = allUsersTable.getSelectionModel().getSelectedItem();
+        if (toBeRemoved ==null) {
             return;
         }
-        User toBeRemoved = selectedUser.getSelectedItem();
         if(toBeRemoved.equals(user)){
             AlertBox.display("remove can't be done","you are removing your own account!");
             return;
@@ -71,13 +74,10 @@ public class ManageUsersController extends ManagerProfileController implements I
     }
 
     public void viewUserAction() throws IOException {
-        TableView.TableViewSelectionModel<User> selectedUser = allUsersTable.getSelectionModel();
-
-        if (selectedUser.isEmpty()) {
+        User toBeViewed = allUsersTable.getSelectionModel().getSelectedItem();
+        if (toBeViewed==null) {
             return;
         }
-
-        User toBeViewed = selectedUser.getSelectedItem();
         Constants.userController.setUserToView(toBeViewed);
         intteruptUpdate();
         Constants.getGuiManager().open("ViewUser",Constants.globalVariables.getLoggedInUser().getUserId());
@@ -126,7 +126,17 @@ public class ManageUsersController extends ManagerProfileController implements I
                 } catch (InterruptedException e) {
                    break;
                 }
-                setTheTable(Constants.managerController.getAllUsers());
+                selectedTableItem = allUsersTable.getSelectionModel().getSelectedItem();
+                ArrayList<User> allUsers = Constants.managerController.getAllUsers();
+                setTheTable(allUsers);
+                if(selectedTableItem!= null){
+                    for (User allUser : allUsers) {
+                        if(allUser.getUserId()==selectedTableItem.getUserId()) {
+                            allUsersTable.getSelectionModel().select(allUser);
+                            return;
+                        }
+                    }
+                }
             }
 
         });

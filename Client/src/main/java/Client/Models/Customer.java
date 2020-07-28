@@ -24,7 +24,6 @@ public class Customer extends User {
     private WaitingLog waitingLog;
     private List<SelectedItem> cart;
     private Wallet wallet;
-    private List<Auction> winningAuctions;
 
     public Customer(SaveCustomer saveCustomer) {
         super(saveCustomer);
@@ -41,7 +40,9 @@ public class Customer extends User {
     }
 
     public List<Auction> getWinningAuctions() {
-        return winningAuctions;
+//        return winningAuctions;
+        return null;
+        //todo
     }
 
     @Override

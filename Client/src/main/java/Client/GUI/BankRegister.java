@@ -64,6 +64,7 @@ public class BankRegister {
                     return;
                 }
                 result = Constants.bankController.createAccount(firstname.getText(),lastname.getText(),username.getText(),password.getText(),repassword.getText());
+                System.out.println(result);
                 if(result.equals("passwords do not match")){
                     label.setText("invalid username or password!");
                     return;
@@ -80,7 +81,6 @@ public class BankRegister {
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
         window.setScene(scene);
-        window.showAndWait();
         return returning;
     }
 }

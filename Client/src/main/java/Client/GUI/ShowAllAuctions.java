@@ -37,8 +37,9 @@ public class ShowAllAuctions extends CustomerTemplateController implements Initi
         highestPrice.setCellValueFactory(new PropertyValueFactory<>("highestPrice"));
     }
 
-    public void openWin(ActionEvent actionEvent) {
-
+    public void openWin(ActionEvent actionEvent) throws IOException {
+        if(tableView.getSelectionModel().getSelectedItem()!=null)
+        Constants.getGuiManager().open("ShowWinAuctions",tableView.getSelectionModel().getSelectedItem().getId());
     }
 
     public void openAuction(ActionEvent actionEvent) {
