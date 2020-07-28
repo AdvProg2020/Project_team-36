@@ -57,7 +57,11 @@ public class ProductField implements Pendable{
         if (response.getReturnType().equals("Sale")) {
             Gson gson = new Gson();
             SaveSale saveSale = gson.fromJson(response.getData(), SaveSale.class);
-            return new Sale(saveSale);
+            if (saveSale != null){
+                return new Sale(saveSale);
+            }else {
+                return null;
+            }
         } else {
             System.out.println(response);
             return null;

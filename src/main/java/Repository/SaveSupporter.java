@@ -42,7 +42,7 @@ public class SaveSupporter {
         SaveSupporter saveSupporter = new SaveSupporter(supporter);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String saveSupporterGson = gson.toJson(saveSupporter);
-        FileUtil.write(FileUtil.generateAddress(Manager.class.getName(),saveSupporter.userId),saveSupporterGson);
+        FileUtil.write(FileUtil.generateAddress(Supporter.class.getName(),saveSupporter.userId),saveSupporterGson);
     }
 
     public static Supporter load(int id){
