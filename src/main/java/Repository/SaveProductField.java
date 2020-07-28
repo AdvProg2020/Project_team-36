@@ -3,6 +3,8 @@ package Repository;
 import Models.ProductField;
 import Models.Status;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class SaveProductField {
@@ -26,6 +28,7 @@ public class SaveProductField {
         }
         this.sellerId = productField.getSeller().getUserId();
         this.supply = productField.getSupply();
+        this.customerIds = new HashSet<>();
         productField.getAllBuyers().forEach(buyer -> customerIds.add(buyer.getUserId()));
         this.isInAuction = productField.isInAuction();
     }
