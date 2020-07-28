@@ -122,6 +122,7 @@ public class EntryController {
             throw new NotLoggedInException();
     }
 
+
     public boolean isUserLoggedIn() {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "isUserLoggedIn");
         Response response =Client.process(query);

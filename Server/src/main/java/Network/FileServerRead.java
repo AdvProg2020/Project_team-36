@@ -18,15 +18,18 @@ public class FileServerRead implements Runnable {
         while (true){
             try {
                 Socket socket = serverSocket.accept();
+                System.err.println("client connected");
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
                 String path = dataInputStream.readUTF();
+                System.err.println(path);
                 File file = new File(path);
                 dataOutputStream.writeInt(Files.readAllBytes(file.toPath()).length);
                 dataOutputStream.write(Files.readAllBytes(file.toPath()));
 
                 socket.close();
-            } catch (IOException e) {
+                System.err.println("client disconnected");
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
