@@ -40,7 +40,7 @@ public class EditSellerProductController extends SellerProfileController impleme
     @FXML private Label supplyError;
     @FXML private TreeTableColumn<Category, String> categoriesColumn;
     @FXML private TreeTableView<Category> categoryTable;
-    @FXML private TextField productInfo;
+    @FXML private TextArea productInfo;
     @FXML private TextField productCompany;
     @FXML private TextField productName;
     @FXML private VBox fieldsVBox;
@@ -262,6 +262,15 @@ public class EditSellerProductController extends SellerProfileController impleme
 
     private boolean getStringInput(TextField textField) {
         if (textField.getText().isEmpty()) {
+            emptyFieldsError.setVisible(true);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean getStringInput(TextArea textArea) {
+        if (textArea.getText().isEmpty()) {
             emptyFieldsError.setVisible(true);
             return false;
         }

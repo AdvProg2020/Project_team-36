@@ -10,7 +10,7 @@
    <children>
       <ScrollPane layoutY="-2.0" prefHeight="705.0" prefWidth="284.0">
          <content>
-            <VBox fx:id="chatsVBox" alignment="TOP_CENTER" prefHeight="705.0" prefWidth="265.0" spacing="10.0">
+            <VBox fx:id="chatsVBox2" alignment="TOP_CENTER" prefHeight="705.0" prefWidth="265.0" spacing="10.0">
                <children>
                   <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textAlignment="CENTER" textFill="#ebe29d">
                      <font>
@@ -47,6 +47,7 @@
                      <font>
                         <Font name="Arial Narrow Bold" size="25.0" />
                      </font></Label>
+                  <VBox fx:id="chatsVBox" prefHeight="469.0" prefWidth="255.0" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -58,7 +59,7 @@
          </content></ScrollPane>
       <ScrollPane layoutX="1076.0" prefHeight="705.0" prefWidth="284.0">
          <content>
-            <VBox fx:id="usersVBox" alignment="TOP_CENTER" prefHeight="702.0" prefWidth="280.0" spacing="10.0">
+            <VBox alignment="TOP_CENTER" prefHeight="702.0" prefWidth="280.0" spacing="10.0">
                <children>
                   <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="logout" textFill="#ebe29d">
                      <graphic>
@@ -79,6 +80,7 @@
                      <font>
                         <Font name="Arial Narrow Bold" size="25.0" />
                      </font></Label>
+                  <VBox fx:id="usersVBox" prefHeight="412.0" prefWidth="270.0" />
                </children>
                <opaqueInsets>
                   <Insets />

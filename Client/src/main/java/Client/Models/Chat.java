@@ -45,7 +45,7 @@ public class Chat {
         Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "User");
         this.saveChat.getUsersInChat().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
-        if (response.getReturnType().equals("List<Integer>")) {
+        if (response.getReturnType().equals("List<User>")) {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<SaveUser>>(){}.getType();
             List<SaveUser> allSaveUsers = gson.fromJson(response.getData(),type);

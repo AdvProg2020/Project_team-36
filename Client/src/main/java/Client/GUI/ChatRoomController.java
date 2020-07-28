@@ -6,6 +6,7 @@ import Client.Controllers.EntryController;
 import Client.Models.Supporter;
 import Models.Message;
 import Client.Models.User;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -45,6 +46,11 @@ public class ChatRoomController implements Initializable {
 
     @Override
     public void initialize(int id) throws IOException {
+        if (Constants.globalVariables.getLoggedInUser() == null) {
+            t.cancel();
+            Constants.getGuiManager().back();
+            return;
+        }
         this.writer = Constants.globalVariables.getLoggedInUser();
         writerUsername.setText(writer.getUsername() + "\n" + writer.getType());
         writerProfilePicture.setImage(writer.getProfilePicture(50, 50).getImage());
@@ -58,54 +64,56 @@ public class ChatRoomController implements Initializable {
         t.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                writer = Constants.globalVariables.getLoggedInUser();
-                setChatsVBox();
-                System.out.println("after setChatsvb");
-                if (id != -1) {
-                    try {
-                        chat = chatsController.getChatById(id);
-                        setUsersVBox();
-                        System.out.println("after setUsers");
-                    } catch (IOException exception) {
-                        exception.printStackTrace();
+                Platform.runLater(()->{
+                    writer = Constants.globalVariables.getLoggedInUser();
+                    setChatsVBox();
+                    if (id != -1) {
+                        try {
+                            chat = chatsController.getChatById(id);
+                            setUsersVBox();
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                        }
+                        setChatsArea();
                     }
-                    setChatsArea();
-                    System.out.println("after setCharArea");
-                }
+                });
             }
         }, 1000, 5000);
 
     }
 
     private void setUsersVBox() throws IOException {
+        usersVBox.getChildren().clear();
         chat = chatsController.getChatById(chatId);
         for (User user : chat.getUsersInChat()) {
             HBox hBox = new HBox();
             hBox.setSpacing(10);
             hBox.setPadding(new Insets(0, 5, 0, 5));
-
             ImageView profilePicture = new ImageView();
             profilePicture.setImage(user.getProfilePicture(50, 50).getImage());
             Label username = new Label(user.getUsername());
-
             hBox.getChildren().addAll(profilePicture, username);
             usersVBox.getChildren().add(hBox);
         }
+
     }
 
     private void setChatsVBox() {
+        chatsVBox.getChildren().clear();
         writer = Constants.globalVariables.getLoggedInUser();
-        for (Chat newChat : writer.getChats()) {
-            Hyperlink chatHyperLink = new Hyperlink("chat: " + newChat.getId());
-            chatHyperLink.setOnAction(e -> {
-                try {
-                    t.cancel();
-                    Constants.getGuiManager().open("ChatRoom", newChat.getId());
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+        if(writer instanceof Supporter) {
+            for (Chat newChat : writer.getChats()) {
+                Hyperlink chatHyperLink = new Hyperlink("chat: " + newChat.getId());
+                chatHyperLink.setOnAction(e -> {
+                    try {
+                        t.cancel();
+                        Constants.getGuiManager().open("ChatRoom", newChat.getId());
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                });
                 chatsVBox.getChildren().add(chatHyperLink);
-            });
+            }
         }
     }
 
@@ -113,9 +121,9 @@ public class ChatRoomController implements Initializable {
         StringBuilder allMessages = new StringBuilder();
         for (Message message : chat.getMessagesInChat()) {
             Date date = new Date(message.getTime());
-            SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy hh:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm");
             String strDate = formatter.format(date);
-            String madeMessage = (message.getSenderUsername() + ":  " + message.getText() + strDate + "\n\n");
+            String madeMessage = (message.getSenderUsername() + ":  " + message.getText()+ "\n" + strDate + "\n\n");
             allMessages.append(madeMessage);
         }
         chatsArea.setText(allMessages.toString());
@@ -125,7 +133,6 @@ public class ChatRoomController implements Initializable {
         if (messageArea.getText().isEmpty()) {
             return;
         }
-
         String text = messageArea.getText();
         chatsController.sendNewMessage(text, chat.getId(), writer.getUsername());
         messageArea.clear();
@@ -133,18 +140,19 @@ public class ChatRoomController implements Initializable {
     }
 
     public void back() throws IOException {
-        if(writer instanceof Supporter)
-        Constants.getGuiManager().open("SupporterPersonalInfo", writer.getUserId());
+        t.cancel();
+        if(writer instanceof Supporter){
+            Constants.getGuiManager().open("SupporterPersonalInfo", writer.getUserId());
+            return;
+        }
 
         Constants.getGuiManager().back();
     }
 
     public void logout() throws EntryController.NotLoggedInException, IOException {
+        t.cancel();
         Constants.getGuiManager().logout();
     }
 
-    public static void reopen() throws IOException {
-        Constants.getGuiManager().reopen();
-    }
 }
 
