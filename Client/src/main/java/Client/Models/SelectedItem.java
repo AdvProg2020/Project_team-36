@@ -41,7 +41,7 @@ public class SelectedItem {
     }
 
     public List<Seller> getSellers() {
-        Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Customer");
+        Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Seller");
         this.saveSelectedItem.getSellerIds().forEach(id -> query.getMethodInputs().put(id + "", ""));
         Response response = Client.process(query);
         if (response.getReturnType().equals("List<Seller>")) {

@@ -23,6 +23,7 @@ public class CustomerController {
         query.getMethodInputs().put("productId", Integer.toString(productId));
         Response response = Client.process(query);
         return Boolean.getBoolean(response.getData());
+
     }
 
     public ArrayList<Supporter> getOnlineSupporters() {
@@ -337,19 +338,25 @@ public class CustomerController {
     public long getCartPrice(){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCartPrice");
         Response response = Client.process(query);
-        return Long.getLong(response.getData());
+        return Long.parseLong(response.getData());
     }
 
     public long getCartPriceConsideringSale(){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getCartPriceConsideringSale");
         Response response = Client.process(query);
-        return Long.getLong(response.getData());
+        return Long.parseLong(response.getData());
     }
 
     public long getWaitingLogPayable(){
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getWaitingLogPayable");
         Response response = Client.process(query);
-        return Long.getLong(response.getData());
+        return Long.parseLong(response.getData());
+    }
+
+    public boolean isOnlyFileInCart(){
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "isOnlyFileInCart");
+        Response response = Client.process(query);
+        return Boolean.parseBoolean(response.getData());
     }
 
 

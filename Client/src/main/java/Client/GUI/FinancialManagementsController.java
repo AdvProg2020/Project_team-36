@@ -1,7 +1,6 @@
 package Client.GUI;
 
 import Client.Models.User;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -68,4 +67,5 @@ public class FinancialManagementsController extends ManagerProfileController imp
         long money = Long.parseLong(minimumField.getText());
         Constants.managerController.setMinimum(money);
     }
+
 }

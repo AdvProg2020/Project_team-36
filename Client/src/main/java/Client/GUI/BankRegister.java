@@ -68,7 +68,7 @@ public class BankRegister {
                 if(result.equals("passwords do not match")){
                     label.setText("invalid username or password!");
                     return;
-                }else if(result.equals("username is not valid")){
+                }else if(result.equals("username is not available")){
                     label.setText("invalid username!");
                     return;
                 }else{
