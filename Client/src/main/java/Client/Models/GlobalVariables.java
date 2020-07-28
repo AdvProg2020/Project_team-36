@@ -26,6 +26,9 @@ public class GlobalVariables {
 
     public void setProduct(Product product) {
         this.product = product;
+        Query query = new Query(Constants.globalVariables.getToken(), "ProductsController", "setProduct");
+        query.getMethodInputs().put("productId",Integer.toString(product.getProductId()));
+        Client.process(query);
     }
 
 
