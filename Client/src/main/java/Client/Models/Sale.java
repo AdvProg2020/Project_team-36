@@ -100,4 +100,14 @@ public class Sale implements Pendable {
         return (now.after(this.startTime) && now.before(this.endTime)) || now.equals(this.startTime) || now.equals(this.endTime);
 
     }
+
+    @Override
+    public String toString() {
+        return  "    offId: " + offId + '\n' +
+                "    startTime: " + startTime + '\n' +
+                "    endTime: " + endTime + '\n' +
+                "    salePercent: " + (salePercent*100) + '\n'
+                ;
+    }
+
 }

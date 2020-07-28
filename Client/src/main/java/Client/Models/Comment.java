@@ -78,4 +78,13 @@ public class Comment implements Pendable{
     public String getPendingRequestType() {
         return "comment";
     }
+
+    @Override
+    public String toString() {
+        return "User : "+this.getUser().getUsername()+'\n'+
+                "title: "+title+'\n'+
+                "comment: "+comment+'\n'+
+                "has bought: "+ (hasBought?"yes":"no");
+    }
+
 }

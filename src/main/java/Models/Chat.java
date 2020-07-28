@@ -14,6 +14,7 @@ public class Chat {
         this.usersInChat = new ArrayList<>();
         this.messagesInChat = new ArrayList<>();
         this.id = (allChatsMade+=1);
+        allChats.add(this);
     }
 
     public Chat(Supporter supporter, ArrayList<User> usersInChat) {
@@ -23,6 +24,7 @@ public class Chat {
         this.id = (allChatsMade+=1);
         supporter.setChat(this);
         usersInChat.forEach(user -> user.setChat(this));
+        allChats.add(this);
     }
 
     public void addNewMessage(Message message){

@@ -115,4 +115,18 @@ public class ProductField implements Pendable{
     public boolean isInAuction() {
         return isInAuction;
     }
+
+    @Override
+    public String toString() {
+        String result = "Seller: " + this.getSeller().getUsername();
+        result += "\nOfficial price: " + price;
+        if (this.getSale() != null && this.getSale().isSaleAvailable())
+            result += "\n**This is on SALE**\nCurrent price: " + getCurrentPrice();
+        if (supply == 0)
+            result += "\n not enough supply!";
+        else
+            result += "\nSupply: " + supply;
+        return result;
+    }
+
 }
