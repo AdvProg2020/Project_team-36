@@ -235,7 +235,7 @@ public class CustomerController {
             SaveCustomerLog saveCustomerLog = gson.fromJson(response.getData(),SaveCustomerLog.class);
             return new CustomerLog(saveCustomerLog);
         }else if(response.getReturnType().equalsIgnoreCase("NotEnoughMoney"))
-            throw new NotEnoughMoney(Long.getLong(response.getData()));
+            throw new NotEnoughMoney(Long.parseLong(response.getData()));
         else{
             System.out.println(response.getData());
             return null;
@@ -250,7 +250,7 @@ public class CustomerController {
             SaveCustomerLog saveCustomerLog = gson.fromJson(response.getData(),SaveCustomerLog.class);
             return new CustomerLog(saveCustomerLog);
         }else if(response.getReturnType().equalsIgnoreCase("NotEnoughMoney"))
-            throw new NotEnoughMoney(Long.getLong(response.getData()));
+            throw new NotEnoughMoney(Long.parseLong(response.getData()));
         else{
             System.out.println(response.getData());
             return null;

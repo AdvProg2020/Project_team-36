@@ -87,7 +87,7 @@ public class PurchaseController implements Initializable {
             return;
         }
         Constants.customerController.setPhoneNumberForPurchase(phoneNumber.getText());
-        if(!(walletButton.isSelected()&&bankButton.isSelected())){
+        if((!walletButton.isSelected()&&!bankButton.isSelected())){
             AlertBox.display("Error","select your payment method.");
             return;
         }
