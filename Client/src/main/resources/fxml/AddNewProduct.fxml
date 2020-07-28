@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -62,11 +61,6 @@
                                 <Label layoutX="90.0" layoutY="198.0" text="Information:" />
                                 <TextField fx:id="productName" layoutX="193.0" layoutY="29.0" />
                                 <TextField fx:id="productCompany" layoutX="193.0" layoutY="73.0" />
-                                <TextField fx:id="productInfo" accessibleRole="TEXT_AREA" layoutX="192.0" layoutY="186.0" prefHeight="67.0" prefWidth="252.0">
-                                    <cursor>
-                                        <Cursor fx:constant="TEXT" />
-                                    </cursor>
-                                </TextField>
                                 <TreeTableView fx:id="categoryTable" layoutX="192.0" layoutY="261.0" prefHeight="138.0" prefWidth="150.0">
                                     <columns>
                                         <TreeTableColumn fx:id="categoriesColumn" prefWidth="149.0" text="Categories" />
@@ -99,6 +93,7 @@
                                     </content>
                                 </ScrollPane>
                         <Label fx:id="fieldError" layoutX="636.0" layoutY="416.0" prefHeight="17.0" prefWidth="130.0" text="Wrong Field Value!" textFill="#f20404" visible="false" />
+                        <TextArea fx:id="productInfo" layoutX="193.0" layoutY="187.0" prefHeight="63.0" prefWidth="230.0" />
                             </children>
                         </AnchorPane>
                     </content>

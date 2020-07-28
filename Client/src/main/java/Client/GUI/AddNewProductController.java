@@ -36,7 +36,7 @@ public class AddNewProductController extends SellerProductsController implements
     @FXML
     private ImageView image;
     @FXML
-    private TextField productInfo;
+    private TextArea productInfo;
     @FXML
     private TextField productCompany;
     @FXML
@@ -257,6 +257,15 @@ public class AddNewProductController extends SellerProductsController implements
 
     private boolean getStringInput(TextField textField){
         if (textField.getText().isEmpty()){
+            emptyFieldsError.setVisible(true);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean getStringInput(TextArea textArea){
+        if (textArea.getText().isEmpty()){
             emptyFieldsError.setVisible(true);
             return false;
         }
