@@ -167,4 +167,8 @@ public class SaveCustomer {
     public Wallet getWallet() {
         return wallet;
     }
+
+    public List<Integer> getWiningAuctions() {
+        return winingAuctionIds;
+    }
 }

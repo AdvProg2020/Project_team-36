@@ -81,6 +81,7 @@ public class BankRegister {
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
         window.setScene(scene);
+        window.showAndWait();
         return returning;
     }
 }

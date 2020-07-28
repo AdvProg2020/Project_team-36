@@ -5,6 +5,7 @@ import Client.Network.Client;
 import Models.Query;
 import Models.Response;
 import Models.Wallet;
+import Repository.SaveAuction;
 import Repository.SaveChat;
 import Repository.SaveCustomer;
 import Repository.SaveDiscount;
@@ -37,8 +38,21 @@ public class Customer extends User {
     }
 
     public List<Auction> getWinningAuctions() {
-        //todo
-        return null;
+        Query query = new Query(Constants.globalVariables.getToken(), "GetAllById", "Auction");
+        this.saveCustomer.getWiningAuctions().forEach(id -> query.getMethodInputs().put(id + "", ""));
+        Response response = Client.process(query);
+        if (response.getReturnType().equals("List<Auction>")) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<SaveAuction>>() {
+            }.getType();
+            List<SaveAuction> allSaveAuctions = gson.fromJson(response.getData(), type);
+            List<Auction> allAuctions = new ArrayList<>();
+            allSaveAuctions.forEach(saveAuction -> allAuctions.add(new Auction(saveAuction)));
+            return allAuctions;
+        } else {
+            System.out.println(response);
+            return null;
+        }
     }
 
     @Override
