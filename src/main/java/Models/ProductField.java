@@ -32,6 +32,7 @@ public class ProductField implements Pendable {
         this.seller = productField.seller;
         this.supply = productField.supply;
         this.isInAuction = productField.isInAuction;
+        this.allBuyers = new HashSet<>(productField.allBuyers);
     }
 
     public Status getStatus() {
