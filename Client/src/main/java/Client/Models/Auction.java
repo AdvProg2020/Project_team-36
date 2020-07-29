@@ -46,6 +46,9 @@ public class Auction {
     }
 
     public Customer getFinalBuyer() {
+        if (saveAuction.getFinalBuyerId() == -100000000){
+            return null;
+        }
         Query query = new Query(Constants.globalVariables.getToken(), "GetById", "Customer");
         query.getMethodInputs().put("id", "" + saveAuction.getFinalBuyerId());
         Response response = Client.process(query);
