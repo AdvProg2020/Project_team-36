@@ -171,12 +171,12 @@ public class Product implements Pendable {
         this.productImageUrl = productImageURL;
     }
 
-    public boolean isInAuction(){
+    public boolean isAllInAuction(){
         for (ProductField field : productFields) {
-            if(field.isInAuction())
-                return true;
+            if(!field.isInAuction())
+                return false;
         }
-        return false;
+        return true;
     }
 
     public void setFileProduct(FileProduct fileProduct){
@@ -548,6 +548,16 @@ public class Product implements Pendable {
     public ProductField getProductFieldBySeller(Seller seller) {
         for (ProductField productField : productFields) {
             if (productField.getSeller().equals(seller))
+                return productField;
+        }
+        return null;
+    }
+
+    public ProductField getProductFieldBySeller(int sellerId) {
+        System.err.println("seller id"+sellerId);
+        for (ProductField productField : productFields) {
+            System.out.println(productField.getSeller().getUserId());
+            if (productField.getSeller().getUserId()==sellerId)
                 return productField;
         }
         return null;

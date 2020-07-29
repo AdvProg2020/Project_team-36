@@ -168,7 +168,7 @@ public class SellerController extends UserController {
     }
 
     public void sendAddSellerToProductRequest(long price, int supply, Product product) {
-        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getAllBuyers");
+        Query query = new Query(Constants.globalVariables.getToken(), controllerName, "sendAddSellerToProductRequest");
         query.getMethodInputs().put("id", Integer.toString(product.getProductId()));
         query.getMethodInputs().put("price", Long.toString(price));
         query.getMethodInputs().put("supply", Integer.toString(supply));

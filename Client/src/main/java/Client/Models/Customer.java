@@ -120,4 +120,17 @@ public class Customer extends User {
             return null;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
