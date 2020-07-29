@@ -67,13 +67,12 @@ public class ManageAllOrdersController extends ManagerProfileController implemen
         customerLogs.getItems().addAll(Constants.managerController.getAllCustomerLogs());
 
         customerLogs.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) ->{
-            itemInLog.setItems(FXCollections.observableList(newValue.getAllItems()));
-            address.setText(newValue.getAddress());
-            phoneNumber.setText(newValue.getPhoneNumber());
-            if(newValue.isOnlyFile())
-            deliverButton.setDisable(true);
-            else
-                deliverButton.setDisable(false);
+            if(newValue!= null){
+                itemInLog.setItems(FXCollections.observableList(newValue.getAllItems()));
+                address.setText(newValue.getAddress());
+                phoneNumber.setText(newValue.getPhoneNumber());
+                deliverButton.setDisable(newValue.isOnlyFile());
+            }
         });
 
 

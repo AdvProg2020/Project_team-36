@@ -29,9 +29,9 @@ public class SaveWaitingLog {
         }else {
             this.customerId = -100000000;
         }
-        if(waitingLog.getDiscount() != null){
+        if (waitingLog.getDiscount() != null) {
             this.discountId = waitingLog.getDiscount().getId();
-        }else {
+        } else {
             this.discountId = -100000000;
         }
 
@@ -39,9 +39,9 @@ public class SaveWaitingLog {
         this.customerPhoneNumber = waitingLog.getCustomerPhoneNumber();
     }
 
-    public WaitingLog generateWaitingLog(){
-        WaitingLog waitingLog = new WaitingLog(this.totalPrice,this.giftDiscount,this.discountAmount
-                ,this.customerAddress,this.customerPhoneNumber);
+    public WaitingLog generateWaitingLog() {
+        WaitingLog waitingLog = new WaitingLog(this.totalPrice, this.giftDiscount, this.discountAmount
+                , this.customerAddress, this.customerPhoneNumber);
         this.gifts.forEach(saveGift -> waitingLog.getGifts().add(saveGift.generateGift()));
         this.allSelectedItems.forEach(saveSelectedItem -> waitingLog.getAllItems().add(saveSelectedItem.generateSelectedItem()));
         return waitingLog;
@@ -81,5 +81,20 @@ public class SaveWaitingLog {
 
     public String getCustomerPhoneNumber() {
         return customerPhoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "SaveWaitingLog{" +
+                "totalPrice=" + totalPrice +
+                ", gifts=" + gifts +
+                ", giftDiscount=" + giftDiscount +
+                ", discountAmount=" + discountAmount +
+                ", allSelectedItems=" + allSelectedItems +
+                ", customerId=" + customerId +
+                ", discountId=" + discountId +
+                ", customerAddress='" + customerAddress + '\'' +
+                ", customerPhoneNumber='" + customerPhoneNumber + '\'' +
+                '}';
     }
 }

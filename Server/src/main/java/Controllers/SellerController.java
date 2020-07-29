@@ -96,7 +96,7 @@ public class SellerController extends UserController {
 
     public HashSet<Customer> getAllBuyers(Product product) {
         Seller seller = ((Seller) userVariables.getLoggedInUser());
-        return product.getProductFieldBySeller(seller).getAllBuyers();
+        return product.getProductFieldBySeller(seller.getUserId()).getAllBuyers();
     }
 
     public void sendAddSellerToProductRequest(long price, int supply, Product product) {

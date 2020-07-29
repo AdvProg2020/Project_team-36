@@ -587,9 +587,9 @@ public class ProductsMenuController implements Initializable {
     public void goToAccount(ActionEvent actionEvent) throws IOException {
         User user = Constants.globalVariables.getLoggedInUser();
         if (user instanceof Client.Models.Manager) {
-            Constants.getGuiManager().open("ManagerTemplate", user.getUserId());
+            Constants.getGuiManager().open("ManagerPersonalInfo", user.getUserId());
         } else if (user instanceof Client.Models.Seller) {
-            Constants.getGuiManager().open("SellerTemplate", user.getUserId());
+            Constants.getGuiManager().open("SellerPersonalInfo", user.getUserId());
         } else if (user instanceof Client.Models.Customer) {
             Constants.getGuiManager().open("CustomerTemplate", user.getUserId());
         }

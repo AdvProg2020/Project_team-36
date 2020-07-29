@@ -1,5 +1,7 @@
 package Client.Models;
 
+import Client.Controllers.ProductsController;
+import Client.GUI.Constants;
 import Models.ItemInLog;
 import Models.LogStatus;
 import Repository.SaveCustomerLog;
@@ -98,5 +100,27 @@ public class CustomerLog {
                 return false;
         }
         return true;
+    }
+
+    public boolean isThereFile(){
+        for (ItemInLog item : allItems) {
+            if(item.isFile())
+                return true;
+        }
+        return false;
+    }
+
+    public List<Product> getALlFiles(){
+        List<Product> allFiles = new ArrayList<>();
+        for (ItemInLog item : allItems) {
+            if(item.isFile()) {
+                try {
+                    allFiles.add(Constants.productsController.getProduct(item.getProductId()));
+                } catch (ProductsController.NoProductWithId noProductWithId) {
+                    noProductWithId.printStackTrace();
+                }
+            }
+        }
+        return allFiles;
     }
 }

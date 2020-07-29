@@ -2,7 +2,9 @@ package Client.GUI;
 
 import javafx.event.ActionEvent;
 
-public class SellerTemplateController extends SellerProfileController {
+import java.io.IOException;
+
+public class SellerTemplateController extends SellerProfileController{
 
 
 }

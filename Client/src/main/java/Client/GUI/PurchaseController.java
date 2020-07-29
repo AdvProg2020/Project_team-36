@@ -3,6 +3,7 @@ package Client.GUI;
 import Client.Controllers.CustomerController;
 import Client.Controllers.EntryController;
 import Client.Models.Customer;
+import Client.Models.CustomerLog;
 import Client.Models.Product;
 import Client.Network.Client;
 import javafx.event.ActionEvent;
@@ -30,6 +31,7 @@ public class PurchaseController implements Initializable {
     private boolean payWithWallet = false;
     private Customer customer;
     private int id;
+    private CustomerLog customerLog;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -94,11 +96,11 @@ public class PurchaseController implements Initializable {
         try {
             if(payWithWallet){
                 if (Constants.customerController.getWaitingLog().getPayablePrice() > customer.getWallet().getAvailableMoney()) {
-                    Constants.customerController.purchase();
+                  customerLog=  Constants.customerController.purchase();
                 }else
-                    Constants.customerController.purchaseWithWallet();
+                  customerLog =   Constants.customerController.purchaseWithWallet();
             } else {
-                Constants.customerController.purchaseWithBankAccount(customer.getUserId());
+               customerLog =  Constants.customerController.purchaseWithBankAccount(customer.getUserId());
             }
             afterPurchase();
             AlertBox.display("SUCCESS","All files downloaded successfully!\n returning to customer log");
@@ -110,11 +112,11 @@ public class PurchaseController implements Initializable {
     }
 
     public void afterPurchase() throws IOException {
-        if(!customer.getWaitingLog().isThereFile())
+        if(!customerLog.isThereFile())
         ((CustomerTemplateController) Constants.getGuiManager().
                 open("CustomerTemplate",customer.getUserId())).viewOrders();
         else{
-            List<Product> files = customer.getWaitingLog().getFiles();
+            List<Product> files = customerLog.getALlFiles();
             String path = getDirectoryAddress();
             downloadFiles(files,path);
         }
