@@ -556,7 +556,7 @@ public class ManagerController extends UserController {
     }
 
     private Response processSetLogSent(Query query) {
-        setLogSent(Integer.getInteger(query.getMethodInputs().get("logId")));
+        setLogSent(Integer.parseInt(query.getMethodInputs().get("logId")));
         return new Response("void", "");
     }
 

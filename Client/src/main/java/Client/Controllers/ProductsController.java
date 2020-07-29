@@ -322,7 +322,7 @@ public class ProductsController implements ObjectController {
         query.getMethodInputs().put("product",Integer.toString(product.getProductId()));
         query.getMethodInputs().put("user",Integer.toString(user.getUserId()));
         Response response = Client.process(query);
-        return Boolean.getBoolean(response.getData());
+        return Boolean.parseBoolean(response.getData());
     }
 
     public Product getProductToEdit() {

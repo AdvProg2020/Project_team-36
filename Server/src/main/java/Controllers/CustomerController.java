@@ -259,6 +259,7 @@ public class CustomerController extends UserController {
         waitingLog.applyPurchaseWithWalletChanges();
         waitingLog.addCustomerToBuyers();
         SellerLog.createSellerLogs(waitingLog);
+        customer.getCart().clear();
         return CustomerLog.createCustomerLog(waitingLog);
     }
 
@@ -273,6 +274,7 @@ public class CustomerController extends UserController {
         waitingLog.applyPurchaseWithBankChanges();
         waitingLog.addCustomerToBuyers();
         SellerLog.createSellerLogs(waitingLog);
+        customer.getCart().clear();
         return CustomerLog.createCustomerLog(waitingLog);
     }
 
