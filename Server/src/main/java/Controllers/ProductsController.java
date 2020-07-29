@@ -224,7 +224,7 @@ public class ProductsController implements ObjectController {
             result.addAll(userVariables.getFilterProductsCategory().getAllSubProducts());
         } else {
             for (Product product : Product.getAllProducts()) {
-                if (!product.isInAuction())
+                if (!product.isAllInAuction())
                     result.add(product);
             }
         }

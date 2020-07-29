@@ -171,6 +171,18 @@ public class Product implements Pendable {
         this.productImageUrl = productImageURL;
     }
 
+    public boolean isAllInAuction(){
+        for (ProductField field : productFields) {
+            if(!field.isInAuction())
+                return false;
+        }
+        return true;
+    }
+
+    public void setFileProduct(FileProduct fileProduct){
+        this.fileProduct = fileProduct;
+    }
+
     public Product(Product product, ProductField productField) {
         this.productFields = new ArrayList<>();
         this.fieldsOfCategory = new ArrayList<>(product.getFieldsOfCategory());
@@ -186,11 +198,6 @@ public class Product implements Pendable {
         this.information = product.getInformation();
     }
 
-    public void setFileProduct(FileProduct fileProduct){
-        this.fileProduct = fileProduct;
-    }
-
-
     public boolean isInAuction(){
         for (ProductField field : productFields) {
             if(field.isInAuction())
@@ -198,6 +205,7 @@ public class Product implements Pendable {
         }
         return false;
     }
+
     public Product(int productId, String name, String company, Category category,
                    ArrayList<IntegerField> integerFieldsOfCategory,ArrayList<OptionalField> optionalFieldsOfCategory,
                    String information, Date productionDate, int seenNumber, String productImageURL,FileProduct fileProduct) {
@@ -551,6 +559,16 @@ public class Product implements Pendable {
     public ProductField getProductFieldBySeller(Seller seller) {
         for (ProductField productField : productFields) {
             if (productField.getSeller().equals(seller))
+                return productField;
+        }
+        return null;
+    }
+
+    public ProductField getProductFieldBySeller(int sellerId) {
+        System.err.println("seller id"+sellerId);
+        for (ProductField productField : productFields) {
+            System.out.println(productField.getSeller().getUserId());
+            if (productField.getSeller().getUserId()==sellerId)
                 return productField;
         }
         return null;

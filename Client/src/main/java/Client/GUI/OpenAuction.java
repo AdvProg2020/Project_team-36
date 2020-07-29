@@ -43,6 +43,7 @@ public class OpenAuction extends CustomerTemplateController implements Initializ
         addNumberListener();
         currentOffer.setText("0");
         updateThread = update();
+        System.out.println(auction.getFinalBuyer().toString());
     }
 
     @Override

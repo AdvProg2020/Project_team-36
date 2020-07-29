@@ -20,6 +20,8 @@ public class SaveAuction {
         this.endDate = auction.getEndDate().getTime();
         if (auction.getFinalBuyer() != null){
             this.finalBuyerId = auction.getFinalBuyer().getUserId();
+        }else{
+            this.finalBuyerId = -100000000;
         }
         this.highestPrice = auction.getHighestPrice();
         this.chatId = auction.getChat().getId();

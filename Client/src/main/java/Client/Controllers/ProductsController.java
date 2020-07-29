@@ -202,6 +202,7 @@ public class ProductsController implements ObjectController {
             throw new NoProductWithId();
         }else
             throw new NotInTheSameCategory();
+
     }
 
     public ArrayList<Comment> getProductComments() {
