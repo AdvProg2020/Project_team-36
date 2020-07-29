@@ -171,6 +171,26 @@ public class Product implements Pendable {
         this.productImageUrl = productImageURL;
     }
 
+    public Product(Product product, ProductField productField) {
+        this.productFields = new ArrayList<>();
+        this.fieldsOfCategory = new ArrayList<>(product.getFieldsOfCategory());
+        this.allBuyers = new HashSet<>(product.getAllBuyers());
+        this.allComments = new ArrayList<>(product.getAllComments());
+        this.allScore = new ArrayList<>(product.getAllScore());
+        this.productId = product.getProductId();
+        this.name = product.getName();
+        this.company = product.getCompany();
+        this.category = product.getCategory();
+        this.productFields.add(productField);
+        this.productionDate = product.getProductionDate();
+        this.information = product.getInformation();
+    }
+
+    public void setFileProduct(FileProduct fileProduct){
+        this.fileProduct = fileProduct;
+    }
+
+
     public boolean isInAuction(){
         for (ProductField field : productFields) {
             if(field.isInAuction())
@@ -178,23 +198,6 @@ public class Product implements Pendable {
         }
         return false;
     }
-
-    public void setFileProduct(FileProduct fileProduct){
-        this.fileProduct = fileProduct;
-    }
-
-    public Product(Product product, ProductField productField) {
-        this.productFields = new ArrayList<>();
-        this.fieldsOfCategory = new ArrayList<>();
-        this.productId = product.getProductId();
-        this.name = product.getName();
-        this.company = product.getCompany();
-        this.category = product.getCategory();
-        this.productFields.add(productField);
-        this.fieldsOfCategory = new ArrayList<>(product.getFieldsOfCategory());
-        this.information = product.getInformation();
-    }
-
     public Product(int productId, String name, String company, Category category,
                    ArrayList<IntegerField> integerFieldsOfCategory,ArrayList<OptionalField> optionalFieldsOfCategory,
                    String information, Date productionDate, int seenNumber, String productImageURL,FileProduct fileProduct) {

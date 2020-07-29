@@ -1,5 +1,6 @@
 package Client.GUI;
 
+import Client.Models.Product;
 import Client.Models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -77,9 +78,15 @@ public class AddExistingProductController extends SellerProfileController implem
 
         ArrayList<Client.Models.Product> allProducts = Constants.managerController.getAllProducts();
         List<Client.Models.Product> sellerAllProducts = ((Client.Models.Seller)user).getAllProducts();
+        ArrayList<Product> productsToRemove = new ArrayList<>();
         for (Client.Models.Product product : sellerAllProducts) {
-            allProducts.remove(product);
+            for (Product toRemove : allProducts) {
+                if(toRemove.getProductId()==product.getProductId()){
+                    productsToRemove.add(toRemove);
+                }
+            }
         }
+        allProducts.remove(productsToRemove);
         setTheTable(allProducts);
     }
 
