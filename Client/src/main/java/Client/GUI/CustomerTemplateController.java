@@ -54,7 +54,7 @@ public class CustomerTemplateController implements Initializable{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/PersonalInfo.fxml"));
         Parent parent = fxmlLoader.load();
         this.personalInfoController = fxmlLoader.getController();
-        personalInfoController.initialize(user.getUserId());
+        personalInfoController.initialize(Constants.globalVariables.getLoggedInUser().getUserId());
         scrollPane.setContent(parent);
     }
 
@@ -74,14 +74,14 @@ public class CustomerTemplateController implements Initializable{
     }
 
     public void goToCart() throws IOException {
-        Constants.getGuiManager().open("Cart",user.getUserId());
+        Constants.getGuiManager().open("Cart",Constants.globalVariables.getLoggedInUser().getUserId());
     }
 
     public void getSupport() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ChooseSupporter.fxml"));
         Parent parent = fxmlLoader.load();
         this.chooseSupporterController = fxmlLoader.getController();
-        chooseSupporterController.initialize(user.getUserId());
+        chooseSupporterController.initialize(Constants.globalVariables.getLoggedInUser().getUserId());
         scrollPane.setContent(parent);
     }
 
@@ -89,7 +89,7 @@ public class CustomerTemplateController implements Initializable{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/CustomerWallet.fxml"));
         Parent parent = fxmlLoader.load();
         this.customerWalletController = fxmlLoader.getController();
-        customerWalletController.initialize(user.getUserId());
+        customerWalletController.initialize(Constants.globalVariables.getLoggedInUser().getUserId());
         customerWalletController.setCustomerTemplateController(this);
         scrollPane.setContent(parent);
     }
