@@ -1,7 +1,7 @@
 package Client.GUI;
 
-import Client.Models.Customer;
 import Client.Models.Seller;
+import Client.Models.User;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -26,6 +26,11 @@ public class SellerWalletController extends SellerProfileController implements I
             Constants.getGuiManager().back();
             return;
         }
+
+        User user = Constants.globalVariables.getLoggedInUser();
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
+
         sellerId=id;
         long total = Constants.sellerController.getMoneyInWallet(id);
         totalMoneyLabel.setText(Long.toString(total));

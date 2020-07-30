@@ -4,10 +4,13 @@ import Client.Controllers.ProductsController;
 import Client.Models.Auction;
 import Client.Models.Customer;
 import Client.Models.Product;
+import Client.Models.User;
 import Client.Network.Client;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
@@ -18,13 +21,24 @@ import java.util.List;
 
 public class ShowWinAuctions extends CustomerTemplateController implements Initializable {
 
-    public TableView<Auction> tableView;
-    public Button download;
-    public TableColumn<Auction,String> productName;
-    public TableColumn<Auction,Long> price;
-    public TextArea addressBar;
-    public TextField phoneBar;
-    public Label errorLabel;
+    @FXML
+    private TableView<Auction> tableView;
+    @FXML
+    private Button download;
+    @FXML
+    private TableColumn<Auction,String> productName;
+    @FXML
+    private TableColumn<Auction,Long> price;
+    @FXML
+    private TextArea addressBar;
+    @FXML
+    private TextField phoneBar;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Label username;
+    @FXML
+    private ImageView profilePicture;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -32,6 +46,11 @@ public class ShowWinAuctions extends CustomerTemplateController implements Initi
             Constants.getGuiManager().back();
             return;
         }
+
+        User user = Constants.globalVariables.getLoggedInUser();
+        username.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+
         setTables();
     }
 
