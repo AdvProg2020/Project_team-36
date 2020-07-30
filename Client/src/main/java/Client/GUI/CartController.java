@@ -38,9 +38,6 @@ public class CartController implements Initializable {
         if (Constants.globalVariables.getLoggedInUser() == null) {
             Constants.getGuiManager().back();
             return;
-        } else if (Constants.globalVariables.getLoggedInUser().getUserId() != id) {
-            Constants.getGuiManager().back();
-            return;
         } else {
             this.customer = (Customer) Constants.globalVariables.getLoggedInUser();
         }

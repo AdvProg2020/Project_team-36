@@ -259,8 +259,10 @@ public class CustomerController extends UserController {
         waitingLog.applyPurchaseWithWalletChanges();
         waitingLog.addCustomerToBuyers();
         SellerLog.createSellerLogs(waitingLog);
+        CustomerLog customerLog = CustomerLog.createCustomerLog(waitingLog);
         customer.getCart().clear();
-        return CustomerLog.createCustomerLog(waitingLog);
+        customer.setWaitingLog(null);
+        return customerLog;
     }
 
     public CustomerLog purchaseWithBankAccount() throws NotEnoughMoney {
@@ -274,8 +276,10 @@ public class CustomerController extends UserController {
         waitingLog.applyPurchaseWithBankChanges();
         waitingLog.addCustomerToBuyers();
         SellerLog.createSellerLogs(waitingLog);
+        CustomerLog customerLog = CustomerLog.createCustomerLog(waitingLog);
         customer.getCart().clear();
-        return CustomerLog.createCustomerLog(waitingLog);
+        customer.setWaitingLog(null);
+        return customerLog;
     }
 
     public ArrayList<CustomerLog> getAllLogs() {

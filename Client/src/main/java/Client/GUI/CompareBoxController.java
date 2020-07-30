@@ -77,7 +77,7 @@ public class CompareBoxController implements Initializable {
         chart.setPrefHeight((7+firstProduct.getFieldsOfCategory().size())*38+30);
        mainVbox.setPrefHeight(mainVbox.getPrefHeight()+(7+firstProduct.getFieldsOfCategory().size())*38+30);
 
-        addLabel("product id",Integer.toString(firstProduct.getProductId()),Integer.toString(firstProduct.getProductId()));
+        addLabel("product id",Integer.toString(firstProduct.getProductId()),Integer.toString(secondProduct.getProductId()));
 
         addLabel("company:",firstProduct.getCompany(),secondProduct.getCompany());
 

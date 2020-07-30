@@ -364,8 +364,9 @@ public class ProductsController implements ObjectController {
         Query query = new Query(Constants.globalVariables.getToken(), controllerName, "getBestSale");
         query.getMethodInputs().put("productId",Integer.toString(productId));
         Response response =Client.process(query);
-        if(response.getReturnType().equalsIgnoreCase("NoSaleForProduct"))
+        if(response.getReturnType().equalsIgnoreCase("NoSaleForProduct")) {
             throw new NoSaleForProduct();
+        }
         Gson gson = new Gson();
         return new ProductField(gson.fromJson(response.getData(),SaveProductField.class));
     }
