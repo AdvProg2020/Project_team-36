@@ -31,19 +31,6 @@ public class EditProductController {
         return editingProduct;
     }
 
-//    public Method getProductFieldEditor(String chosenField, EditProductController editProductController) throws NoSuchMethodException{
-//        for (String regex : productFieldsSetters.keySet()) {
-//            if (chosenField.matches(regex)) {
-//                return editProductController.getClass().getMethod(productFieldsSetters.get(regex),String.class,Product.class);
-//            }
-//        }
-//        throw new NoSuchMethodException();
-//    }
-
-//    public void invokeProductEditor(String newValue,Product product, Method editor) throws IllegalAccessException, InvocationTargetException {
-//        editor.invoke(this,newValue,product);
-//    }
-
     public void editProductName(String newName){
         editingProduct.setName(newName);
         editingProduct.setEditedField("name");

@@ -90,7 +90,6 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
             }
         });
 
-        addTextFieldListener();
         setAvailableCustomers();
 
     }
@@ -131,18 +130,6 @@ public class CreateDiscountCodeController extends ManagerProfileController imple
         selectedCustomers.add(toBeAdded);
         availableCustomersTable.getItems().remove(toBeAdded);
         customersIncludedTable.getItems().add(toBeAdded);
-    }
-
-    private void addTextFieldListener() {
-        startDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.matches("[^\\d]+"))
-                startDate.getEditor().setText(startDate.getEditor().getText().replaceAll("[^\\d]", ""));
-        });
-
-        endDate.getEditor().textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue.matches("[^\\d]+"))
-                endDate.getEditor().setText(endDate.getEditor().getText().replaceAll("[^\\d]", ""));
-        });
     }
 
     public void createDiscountCode() throws IOException {

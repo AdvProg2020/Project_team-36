@@ -42,6 +42,7 @@ public class CustomerWalletController implements Initializable {
         }
         if (output.equals("done successfully")) {
             Constants.customerController.chargeWallet(money, customerId);
+            AlertBox.display("Done", "wallet was successfully charged.");
             chargeField.setText("");
             customerTemplateController.openWallet();
         } else {

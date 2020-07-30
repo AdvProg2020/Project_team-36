@@ -5,29 +5,42 @@ import Client.Controllers.ChatsController;
 import Client.Controllers.EntryController;
 import Client.Models.Auction;
 import Client.Models.Chat;
+import Client.Models.User;
 import Models.Message;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OpenAuction extends CustomerTemplateController implements Initializable {
-    public TextField priceInput;
-    public TextField currentOffer;
-    public Label productName;
-    public Label alertLabel;
-    public TextArea chatsArea;
-    public TextArea messageArea;
+    @FXML
+    private TextField priceInput;
+    @FXML
+    private TextField currentOffer;
+    @FXML
+    private Label productName;
+    @FXML
+    private Label alertLabel;
+    @FXML
+    private TextArea chatsArea;
+    @FXML
+    private TextArea messageArea;
     private Auction auction;
     private int chatId;
     private final ChatsController chatsController = new ChatsController();
     private Thread updateThread;
+    @FXML
+    private Label username;
+    @FXML
+    private ImageView profilePicture;
 
     @Override
     public void initialize(int id) throws IOException {
@@ -39,6 +52,12 @@ public class OpenAuction extends CustomerTemplateController implements Initializ
             intteruptThread();
             Constants.getGuiManager().open("ShowAllAuctions", 1);
         }
+
+        User user = Constants.globalVariables.getLoggedInUser();
+        username.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150,150).getImage());
+
+
         productName.setText(auction.getProductName());
         addNumberListener();
         currentOffer.setText("0");
