@@ -54,6 +54,7 @@ public class SellerWalletController extends SellerProfileController implements I
         }
         if (output.equals("done successfully")){
             Constants.sellerController.chargeWallet(money, sellerId);
+            AlertBox.display("Done", "wallet was successfully charged.");
             Constants.getGuiManager().reopen();
         }else {
             AlertBox.display("Error",output);
@@ -70,6 +71,7 @@ public class SellerWalletController extends SellerProfileController implements I
                     ((Seller)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"Withdrawed");
             if (output.equals("done successfully")){
                 Constants.sellerController.withdrawFromWallet(money, sellerId);
+                AlertBox.display("Done", "Money was successfully withdrawn.");
                 Constants.getGuiManager().reopen();
             }else {
                 AlertBox.display("Error",output);

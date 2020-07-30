@@ -60,6 +60,7 @@ public class AddNewAuction extends SellerProfileController implements Initializa
                 Date endDate = java.sql.Date.valueOf(date);
                 Constants.auctionController.addNewAuction(product.getProductId(), endDate);
                 successAlert.setVisible(true);
+                AlertBox.display("Done", "Auction was successfully Added.");
                 try {
                     Constants.getGuiManager().reopen();
                 } catch (IOException e) {
