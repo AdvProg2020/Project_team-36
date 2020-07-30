@@ -34,7 +34,7 @@ public class FinancialManagementsController extends ManagerProfileController imp
         long minimum = Constants.managerController.getMinimum();
         minimumField.setText(Long.toString(minimum));
 
-        int wage = ((int)Constants.managerController.getWage()*100);
+        int wage = ((int)(Constants.managerController.getWage()*100));
         wageField.setText(Integer.toString(wage));
 
         minimumField.textProperty().addListener((observableValue, oldValue, newValue) -> {
