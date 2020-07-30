@@ -16,6 +16,7 @@ public class RepositoryManager {
         Gift.updateGifts();
         Sale.updateSales();
         User.updateAllUsers();
+        Auction.updateAllAuctions();
 
 
         try {
