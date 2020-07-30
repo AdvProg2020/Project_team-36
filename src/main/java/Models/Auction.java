@@ -74,6 +74,8 @@ public class Auction {
             return;
         }
         finalBuyer.addAuction(this);
+        productField.setInAuction(false);
+        productField.decreaseSupply(1);
     }
 
     public long getHighestPrice() {

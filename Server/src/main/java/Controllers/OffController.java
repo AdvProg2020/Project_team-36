@@ -219,7 +219,7 @@ public class OffController implements ObjectController {
             getInSaleCategories(result, userVariables.getFilterOffsCategory());
         } else {
             for (Product product : Product.getAllProducts()) {
-                if(!product.isAllInAuction())
+                if(!product.isAllInAuction()&&product.isProductInSale())
                     result.add(product);
             }
         }
