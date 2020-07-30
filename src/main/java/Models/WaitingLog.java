@@ -79,7 +79,7 @@ public class WaitingLog {
         for (SelectedItem item : allSelectedItems) {
             for (Seller seller : item.getSellers()) {
                 long amount = item.getSellerTotalPrice(seller);
-                seller.getWallet().chargeWallet((amount-((long) Manager.getWage()*amount)));
+                seller.getWallet().chargeWallet((amount-((long) (Manager.getWage()*amount))));
                 int count= item.getCountFromEachSeller().get(item.getSellers().indexOf(seller));
                 item.getProduct().getProductFieldBySeller(seller).buyFromSeller(count);
             }

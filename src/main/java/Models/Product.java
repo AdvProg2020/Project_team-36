@@ -22,7 +22,7 @@ public class Product implements Pendable {
     static Random random = new Random();
     private static int allProductsMade = random.nextInt(4988 - 1000) + 1000;
     private int seenNumber;
-    private String productImageUrl = "";
+    private String productImageUrl;
     private String editedField;
     private static Product productToEdit;
     private static Product productToView;
@@ -196,6 +196,8 @@ public class Product implements Pendable {
         this.productFields.add(productField);
         this.productionDate = product.getProductionDate();
         this.information = product.getInformation();
+        this.productImageUrl = product.getProductImageUrl();
+        this.seenNumber = product.getSeenNumber();
     }
 
     public boolean isInAuction(){
@@ -613,13 +615,18 @@ public class Product implements Pendable {
             return;
         }
         Product mainProduct = Product.getProductWithId(this.getProductId());
+        ProductField copiedProductField = this.productFields.get(0);
+        ProductField productField = mainProduct.getProductFieldBySeller(copiedProductField.getSeller());
         mainProduct.setProductImageUrl(this.productImageUrl);
         mainProduct.setName(this.name);
         mainProduct.setCompany(this.company);
         mainProduct.setInformation(this.information);
         mainProduct.setCategory(this.category);
         mainProduct.setFieldsOfCategory(this.fieldsOfCategory);
+        productField.setSupply(copiedProductField.getSupply());
+        productField.setPrice(copiedProductField.getPrice());
     }
+
     @Override
     public String getPendingRequestType() {
         return "product";
