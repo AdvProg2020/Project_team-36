@@ -1,7 +1,7 @@
 package Client.GUI;
 
-import Client.Models.Customer;
 import Client.Models.Seller;
+import Client.Models.User;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -26,6 +26,11 @@ public class SellerWalletController extends SellerProfileController implements I
             Constants.getGuiManager().back();
             return;
         }
+
+        User user = Constants.globalVariables.getLoggedInUser();
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
+
         sellerId=id;
         long total = Constants.sellerController.getMoneyInWallet(id);
         totalMoneyLabel.setText(Long.toString(total));
@@ -54,6 +59,7 @@ public class SellerWalletController extends SellerProfileController implements I
         }
         if (output.equals("done successfully")){
             Constants.sellerController.chargeWallet(money, sellerId);
+            AlertBox.display("Done", "wallet was successfully charged.");
             Constants.getGuiManager().reopen();
         }else {
             AlertBox.display("Error",output);
@@ -70,6 +76,7 @@ public class SellerWalletController extends SellerProfileController implements I
                     ((Seller)Constants.globalVariables.getLoggedInUser()).getWallet().getBankAccount(),"Withdrawed");
             if (output.equals("done successfully")){
                 Constants.sellerController.withdrawFromWallet(money, sellerId);
+                AlertBox.display("Done", "Money was successfully withdrawn.");
                 Constants.getGuiManager().reopen();
             }else {
                 AlertBox.display("Error",output);

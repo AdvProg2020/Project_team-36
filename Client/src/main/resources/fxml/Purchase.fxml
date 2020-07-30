@@ -8,14 +8,6 @@
 
 <AnchorPane maxHeight="705.0" maxWidth="1360.0" minHeight="705.0" minWidth="1360.0" prefHeight="705.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GUI.PurchaseController">
    <children>
-      <Button alignment="CENTER" layoutX="38.0" layoutY="30.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
       <Button alignment="BASELINE_LEFT" layoutX="1233.0" layoutY="30.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Logout" textFill="#ebe29d">
          <graphic>
             <ImageView fitHeight="35.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
@@ -101,7 +93,15 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="bankButton" layoutX="1089.0" layoutY="467.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" selected="true" text="Bank account" toggleGroup="$purchase" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="1089.0" layoutY="446.0" text="Pay with your:" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+      <Button alignment="CENTER" layoutX="38.0" layoutY="30.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="103.0" style="-fx-background-color: #8B0000;" text="Back" textFill="#ebe29d">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

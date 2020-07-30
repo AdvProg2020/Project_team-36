@@ -3,20 +3,31 @@ package Client.GUI;
 import Client.Models.Auction;
 import Client.Models.User;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.util.Date;
 
 public class ShowAllAuctions extends CustomerTemplateController implements Initializable{
-    public TableColumn<Auction,Long> highestPrice;
-    public TableColumn<Auction, Date> endTime;
-    public TableColumn<Auction,String> productName;
-    public TableView<Auction> tableView;
-    public Label enterAlert;
+    @FXML
+    private TableColumn<Auction,Long> highestPrice;
+    @FXML
+    private TableColumn<Auction, Date> endTime;
+    @FXML
+    private TableColumn<Auction,String> productName;
+    @FXML
+    private TableView<Auction> tableView;
+    @FXML
+    private Label enterAlert;
+    @FXML
+    private Label username;
+    @FXML
+    private ImageView profilePicture;
     private User user;
 
     @Override
@@ -27,6 +38,10 @@ public class ShowAllAuctions extends CustomerTemplateController implements Initi
         } else {
             this.user = Constants.globalVariables.getLoggedInUser();
         }
+
+        username.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
+
         setTable();
     }
 

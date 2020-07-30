@@ -1,11 +1,13 @@
 package Client.GUI;
 
 import Client.Models.Product;
+import Client.Models.User;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -20,6 +22,8 @@ public class AddNewAuction extends SellerProfileController implements Initializa
     public Label chooseProductAlert;
     public ComboBox<String> chooseProduct;
     public Label successAlert;
+    public Label usernameLabel;
+    public ImageView profilePicture;
     private List<Product> products = new ArrayList<>();
 
     @Override
@@ -31,6 +35,10 @@ public class AddNewAuction extends SellerProfileController implements Initializa
             Constants.getGuiManager().back();
             return;
         }
+        User user = Constants.globalVariables.getLoggedInUser();
+        usernameLabel.setText(user.getUsername());
+        profilePicture.setImage(user.getProfilePicture(150, 150).getImage());
+
         datePicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
@@ -60,6 +68,7 @@ public class AddNewAuction extends SellerProfileController implements Initializa
                 Date endDate = java.sql.Date.valueOf(date);
                 Constants.auctionController.addNewAuction(product.getProductId(), endDate);
                 successAlert.setVisible(true);
+                AlertBox.display("Done", "Auction was successfully Added.");
                 try {
                     Constants.getGuiManager().reopen();
                 } catch (IOException e) {

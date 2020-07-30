@@ -264,16 +264,15 @@ public class ProductsController implements ObjectController {
             if (field.getSeller().getUsername().equalsIgnoreCase(username) && !field.getSeller().getStatus().equals(Status.DELETED)) {
                 if (field.getSupply() > 0) {
                     userVariables.setPendingSellerOfProduct(field.getSeller());
+                    return;
                 } else {
                     userVariables.setPendingSellerOfProduct(null);
                     throw new NotEnoughSupply();
                 }
-            } else {
-                userVariables.setPendingSellerOfProduct(null);
-                throw new NoSellerWithUsername();
             }
-
         }
+        userVariables.setPendingSellerOfProduct(null);
+        throw new NoSellerWithUsername();
     }
 
     public void addToCart() throws NoSellerIsChosen, EntryController.NotLoggedInException, UserCantBuy {

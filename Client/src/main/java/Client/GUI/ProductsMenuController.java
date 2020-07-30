@@ -25,15 +25,11 @@ public class ProductsMenuController implements Initializable {
     @FXML
     private CheckBox ascendingSort;
     @FXML
-    private MenuButton companyFilterMenu;
-    @FXML
     private ScrollPane companyFilterScroll;
     @FXML
     private VBox filterNamesBox;
     @FXML
     private TextField filterName;
-    @FXML
-    private Button back;
     @FXML
     private Button cart;
     @FXML
@@ -51,7 +47,7 @@ public class ProductsMenuController implements Initializable {
     @FXML
     private VBox filterSellersBox;
     @FXML
-    private ComboBox categoryFilter;
+    private ComboBox<String> categoryFilter;
     @FXML
     private TextField minimumPrice;
     @FXML
@@ -61,7 +57,7 @@ public class ProductsMenuController implements Initializable {
     @FXML
     private VBox optionalFields;
     @FXML
-    private ComboBox sortBox;
+    private ComboBox<String> sortBox;
     @FXML
     private HBox bottomPane;
     @FXML
@@ -81,6 +77,7 @@ public class ProductsMenuController implements Initializable {
         else {
             controller = Constants.offController;
         }
+
         showAllProducts(controller.getFinalProductsList());
         setCompanyFilters();
         setCategoryFilters();
@@ -301,8 +298,9 @@ public class ProductsMenuController implements Initializable {
         HBox score = createProductScore(product.getScore());
         setProductImageEffect(product, imageView, sale);
         vBox.getChildren().addAll(sale, imageView, name, price, id);
-        if (this.pageId == 2)
+        if (this.pageId == 2) {
             vBox.getChildren().addAll(startDate, endDate, score);
+        }
         else
             vBox.getChildren().add(score);
         return vBox;
@@ -575,13 +573,10 @@ public class ProductsMenuController implements Initializable {
             header.getChildren().remove(cart);
         } else if(!(Constants.globalVariables.getLoggedInUser() instanceof Client.Models.Customer)){
             header.getChildren().remove(cart);
+            header.getChildren().remove(login);
         }else {
-            if (!(Constants.globalVariables.getLoggedInUser() instanceof Client.Models.Customer)){
-                header.getChildren().remove(cart);
-            }
             header.getChildren().remove(login);
         }
-
     }
 
     public void goToAccount(ActionEvent actionEvent) throws IOException {

@@ -34,7 +34,7 @@ public class FinancialManagementsController extends ManagerProfileController imp
         long minimum = Constants.managerController.getMinimum();
         minimumField.setText(Long.toString(minimum));
 
-        int wage = ((int)Constants.managerController.getWage()*100);
+        int wage = ((int)(Constants.managerController.getWage()*100));
         wageField.setText(Integer.toString(wage));
 
         minimumField.textProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -58,6 +58,7 @@ public class FinancialManagementsController extends ManagerProfileController imp
         }
         int wage = Integer.parseInt(wageField.getText());
         Constants.managerController.setWage(wage*0.01);
+        AlertBox.display("Done", "Wage was successfully set.");
     }
 
     public void setMinimumAction() {
@@ -66,6 +67,8 @@ public class FinancialManagementsController extends ManagerProfileController imp
         }
         long money = Long.parseLong(minimumField.getText());
         Constants.managerController.setMinimum(money);
+        AlertBox.display("Done", "Minimum money in wallet was successfully set.");
+
     }
 
 }

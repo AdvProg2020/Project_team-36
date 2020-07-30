@@ -139,10 +139,8 @@ public class ProductController implements Initializable {
             header.getChildren().remove(cart);
         } else if(!(Constants.globalVariables.getLoggedInUser() instanceof Client.Models.Customer)){
             header.getChildren().remove(cart);
+            header.getChildren().remove(login);
         }else {
-            if (!(Constants.globalVariables.getLoggedInUser() instanceof Client.Models.Customer)){
-                header.getChildren().remove(cart);
-            }
             header.getChildren().remove(login);
         }
     }
@@ -153,13 +151,13 @@ public class ProductController implements Initializable {
         double halfStar = score - completeStars;
         for (int i = 0; i < completeStars; i++) {
             ImageView star = new ImageView(new Image("images/star.png"));
-            star.setFitWidth(70);
-            star.setFitHeight(56);
+            star.setFitWidth(50);
+            star.setFitHeight(50);
             rate.getChildren().add(star);
         }
         ImageView star = new ImageView();
-        star.setFitHeight(56);
-        star.setFitWidth(70);
+        star.setFitHeight(50);
+        star.setFitWidth(50);
         if (halfStar > 0.6) {
             star.setImage(new Image("images/starPrim.png"));
             rate.getChildren().add(star);

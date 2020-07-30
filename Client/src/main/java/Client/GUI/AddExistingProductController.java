@@ -86,7 +86,7 @@ public class AddExistingProductController extends SellerProfileController implem
                 }
             }
         }
-        allProducts.remove(productsToRemove);
+        allProducts.removeAll(productsToRemove);
         setTheTable(allProducts);
     }
 
