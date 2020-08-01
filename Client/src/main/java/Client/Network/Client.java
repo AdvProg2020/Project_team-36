@@ -15,7 +15,8 @@ import java.util.Arrays;
 public class Client {
     public static Response process(Query query) {
         Socket socket = null;
-        try {
+        try {//todo
+            //socket = new Socket("0.tcp.ngrok.io", 19254);
             socket = new Socket("localhost", 8080);
             Gson gson = new GsonBuilder().create();
             String output = gson.toJson(query);
@@ -41,6 +42,8 @@ public class Client {
     }
 
     public static String writeFile(byte[] fileBytes) throws IOException {
+        //todo
+        //Socket socket = new Socket("0.tcp.ngrok.io",14321);
         Socket socket = new Socket("localhost",8181);
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
@@ -53,6 +56,8 @@ public class Client {
     }
 
     public static byte[] readFile(String path) throws IOException {
+        //todo
+       // Socket socket = new Socket("0.tcp.ngrok.io:11747",11182);
         Socket socket = new Socket("localhost",8282);
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());

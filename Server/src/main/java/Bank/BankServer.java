@@ -63,6 +63,7 @@ class ClientHandler extends Thread {
             String input = "";
             try {
                 input = dataInputStream.readUTF();
+                System.out.println("input"+input);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -90,6 +91,7 @@ class ClientHandler extends Thread {
 
     private void sendResponse(String response) {
         try {
+            System.out.println(response);
             dataOutputStream.writeUTF(response);
             dataOutputStream.flush();
         } catch (IOException e) {

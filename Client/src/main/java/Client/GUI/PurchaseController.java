@@ -48,23 +48,25 @@ public class PurchaseController implements Initializable {
             phoneNumber.setDisable(true);
             phoneNumber.setText("-");
         }
-
+        Constants.customerController.addNewWaitingLog();
         totalPrice.setText("" + Constants.customerController.getCartPrice());
         totalPayable.setText("" + Constants.customerController.getCartPriceConsideringSale());
 
         bankButton.setOnAction(actionEvent -> payWithWallet = !bankButton.isSelected());
         walletButton.setOnAction(actionEvent -> payWithWallet = walletButton.isSelected());
 
-        Constants.customerController.addNewWaitingLog();
+
     }
 
     public void apply() {
         String discountCodeString = discountCode.getText();
-        int discountCodeInteger = 0;
+        int discountCodeInteger;
         if (!discountCodeString.equals("")) {
             try {
+                System.out.println(Constants.customerController.getWaitingLogPayable());
                 discountCodeInteger = Integer.parseInt(discountCodeString);
                 Constants.customerController.setDiscountCodeForPurchase(discountCodeInteger);
+                System.out.println( Constants.customerController.getWaitingLogPayable());
                 totalPayable.setText("" + Constants.customerController.getWaitingLogPayable());
             } catch (CustomerController.NoDiscountAvailableWithId noDiscountAvailableWithId) {
                 AlertBox.display("Error","You do not have this discount!!");

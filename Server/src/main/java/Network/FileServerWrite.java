@@ -1,5 +1,6 @@
 package Network;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,20 +22,39 @@ public class FileServerWrite implements Runnable{
                 Socket socket = serverSocket.accept();
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                int length = dataInputStream.readInt();
-                byte[] fileBytes = new byte[length];
-                dataInputStream.readFully(fileBytes);
-                String path = "./Server/src/main/resources/files/" + new Date().getTime()+".dat";
-                File file = new File(path);
-                OutputStream outputStream = new FileOutputStream(file);
-                outputStream.write(fileBytes);
-                outputStream.close();
-                dataOutputStream.writeUTF(path);
-                dataOutputStream.flush();
-                socket.close();
+               write(socket,dataInputStream,dataOutputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void write(Socket socket, DataInputStream dataInputStream,DataOutputStream dataOutputStream){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int length = 0;
+                try {
+                    length = dataInputStream.readInt();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                byte[] fileBytes = new byte[length];
+                try {
+                    dataInputStream.readFully(fileBytes);
+                    String path = "./Server/src/main/resources/files/" + new Date().getTime() + ".dat";
+                    File file = new File(path);
+                    OutputStream outputStream = new FileOutputStream(file);
+                    outputStream.write(fileBytes);
+                    outputStream.close();
+                    dataOutputStream.writeUTF(path);
+                    dataOutputStream.flush();
+                    dataOutputStream.close();
+                    socket.close();
+                }catch (IOException ioException){
+
+                }
+            }
+        }).start();
     }
 }
