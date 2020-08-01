@@ -79,8 +79,24 @@ public class BankDatabase {
         throw new NoTransaction();
     }
 
+    public List<BankUser> getAllUsers() {
+        return allUsers;
+    }
+
+    public List<Transaction> getAllTransactions() {
+        return allTransactions;
+    }
+
     public void addTransaction(Transaction transaction){
         allTransactions.add(transaction);
+    }
+
+    public void setAllUsers(List<BankUser> allUsers) {
+        this.allUsers = allUsers;
+    }
+
+    public void setAllTransactions(List<Transaction> allTransactions) {
+        this.allTransactions = allTransactions;
     }
 
     public static class ThereIsUserException extends Exception{}
