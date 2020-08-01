@@ -15,7 +15,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class Customer extends User {
+public class
+Customer extends User {
     private SaveCustomer saveCustomer;
     private long credit;
     private List<CustomerLog> allLogs;
