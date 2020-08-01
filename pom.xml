@@ -23,6 +23,7 @@
     <modules>
         <module>Server</module>
         <module>Client</module>
+        <module>Bank</module>
     </modules>
     <dependencies>
         <dependency>

@@ -1,13 +1,19 @@
 package Bank;
 
+import Models.Category;
 import Models.User;
+import Repository.FileUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import org.apache.commons.io.FileUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -29,6 +35,7 @@ public class BankServer {
         System.out.println("Port number: " + port);
         System.out.println("IP Address: " + InetAddress.getLocalHost().getHostAddress());
         BankDatabase bankDatabase = BankDatabase.getInstance();
+        loadData(bankDatabase);
         ClientHandler.setBankDatabase(bankDatabase);
         while (true) {
             Socket socket = serverSocket.accept();
@@ -36,6 +43,42 @@ public class BankServer {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             new ClientHandler(socket, dataInputStream, dataOutputStream).start();
         }
+    }
+
+    private static void loadData(BankDatabase bankDatabase){
+        String allUsersString = FileUtil.read(generateAddress("allUsers"));
+        String allTransactionsString = FileUtil.read(generateAddress("allTransactions"));
+        Gson gson = new Gson();
+        Type allUsers = new TypeToken<ArrayList<BankUser>>(){}.getType();
+        Type allTransactions = new TypeToken<ArrayList<Transaction>>(){}.getType();
+        bankDatabase.setAllUsers(gson.fromJson(allUsersString,allUsers));
+        bankDatabase.setAllTransactions(gson.fromJson(allTransactionsString,allTransactions));
+    }
+
+    public static void saveData(BankDatabase bankDatabase){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String allUsersString = gson.toJson(bankDatabase.getAllUsers());
+        String allTransactionsString = gson.toJson(bankDatabase.getAllTransactions());
+
+        File resources = new File("./Bank/src/main/resources/");
+        if (resources.exists()){
+            try {
+                FileUtils.cleanDirectory(resources);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        FileUtil.write(generateAddress("allUsers"),allUsersString);
+        FileUtil.write(generateAddress("allTransactions"),allTransactionsString);
+    }
+
+    private static String generateAddress(String name){
+        File file = new File("./Bank/src/main/resources/");
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        return "./Bank/src/main/resources/"+name+".json";
     }
 
 }
@@ -92,6 +135,7 @@ class ClientHandler extends Thread {
         try {
             dataOutputStream.writeUTF(response);
             dataOutputStream.flush();
+            BankServer.saveData(bankDatabase);
         } catch (IOException e) {
             e.printStackTrace();
         }
