@@ -1,0 +1,11 @@
+[
+  {
+    "username": "shop",
+    "firstname": "shop",
+    "lastname": "keeper",
+    "password": "11111111",
+    "accountId": 1001,
+    "allTransactions": [],
+    "balance": 600000
+  }
+]

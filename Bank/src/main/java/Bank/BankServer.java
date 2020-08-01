@@ -51,8 +51,14 @@ public class BankServer {
         Gson gson = new Gson();
         Type allUsers = new TypeToken<ArrayList<BankUser>>(){}.getType();
         Type allTransactions = new TypeToken<ArrayList<Transaction>>(){}.getType();
-        bankDatabase.setAllUsers(gson.fromJson(allUsersString,allUsers));
-        bankDatabase.setAllTransactions(gson.fromJson(allTransactionsString,allTransactions));
+
+        if(allUsersString != null){
+            bankDatabase.setAllUsers(gson.fromJson(allUsersString,allUsers));
+        }
+
+        if (allTransactionsString != null){
+            bankDatabase.setAllTransactions(gson.fromJson(allTransactionsString,allTransactions));
+        }
     }
 
     public static void saveData(BankDatabase bankDatabase){
@@ -108,6 +114,7 @@ class ClientHandler extends Thread {
                 input = dataInputStream.readUTF();
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             }
             String[] splited = input.split(" ");
             if (input.startsWith("create_account")) {

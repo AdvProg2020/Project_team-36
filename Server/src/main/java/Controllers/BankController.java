@@ -15,7 +15,7 @@ public class BankController {
     private String host = "localhost";
     private int port = 8383;
     private GlobalVariables globalVariables;
-    private static String shopBankAccountId = "10001";
+    private static String shopBankAccountId = "1001";
     private static String shopBankUsername = "shop";
     private static String shopBankPassword = "11111111";
 

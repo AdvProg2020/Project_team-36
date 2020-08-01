@@ -1,0 +1,11 @@
+[
+  {
+    "transactionId": 1001,
+    "receiptType": "move",
+    "money": 100,
+    "sourceAccountId": 1002,
+    "destAccountId": 1001,
+    "description": "walletCharged",
+    "paid": 0
+  }
+]
