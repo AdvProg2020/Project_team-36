@@ -38,4 +38,7 @@ public class Token {
                 username.equals(token1.username);
     }
 
+    public String getToken() {
+        return token;
+    }
 }

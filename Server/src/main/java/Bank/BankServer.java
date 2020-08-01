@@ -117,13 +117,13 @@ class ClientHandler extends Thread {
             bankUser = bankDatabase.getUser(username);
             if (!bankUser.getPassword().equals(password))
                 throw new BankDatabase.NoUserWithUsername();
+            Token token = new Token(bankUser.getUsername());
+            bankDatabase.addToken(bankUser, token);
+            Gson gson = new Gson();
+            sendResponse(gson.toJson(token));
         } catch (BankDatabase.NoUserWithUsername noUserWithUsername) {
             sendResponse("username or password is invalid");
         }
-        Token token = new Token(bankUser.getUsername());
-        bankDatabase.addToken(bankUser, token);
-        Gson gson = new GsonBuilder().create();
-        sendResponse(gson.toJson(token));
     }
 
     private void createReceipt(String[] input) {
@@ -133,7 +133,7 @@ class ClientHandler extends Thread {
             return;
         }
         String money = input[3];
-        if (!money.matches("\\d+")) {
+        if (!money.matches("^\\d{1,18}$")) {
             sendResponse("invalid money");
             return;
         }
@@ -141,7 +141,7 @@ class ClientHandler extends Thread {
             sendResponse("invalid parameters passed");
             return;
         }
-        if (!input[4].matches("^\\d+") || !input[5].matches("^\\d+")) {
+        if (!input[4].matches("^\\d+|-1") || !input[5].matches("^\\d+|-1")) {
             sendResponse("invalid parameters passed");
             return;
         }
@@ -275,14 +275,14 @@ class ClientHandler extends Thread {
             sendResponse("invalid receipt id");
             return;
         }
-        if(transaction.isPaid()){
+        if (transaction.isPaid()) {
             sendResponse("receipt is paid before");
             return;
         }
         int sourceId = transaction.getSourceAccountId();
         int destId = transaction.getDestAccountId();
         BankUser sourceUser = null;
-        BankUser destUser =null;
+        BankUser destUser = null;
         try {
             if (sourceId != -1)
                 sourceUser = bankDatabase.getUser(sourceId);
@@ -292,20 +292,20 @@ class ClientHandler extends Thread {
             sendResponse("invalid account id");
             return;
         }
-        synchronized (bankDatabase){
-            if(sourceId==-1){
+        synchronized (bankDatabase) {
+            if (sourceId == -1) {
                 destUser.addMoney(transaction.getMoney());
                 destUser.addTransaction(transaction);
-            }else {
+            } else {
                 try {
                     sourceUser.withdrawMoney(transaction.getMoney());
                     sourceUser.addTransaction(transaction);
-                    if(destId!=-1) {
+                    if (destId != -1) {
                         destUser.addMoney(transaction.getMoney());
                         destUser.addTransaction(transaction);
                     }
                 } catch (BankUser.NotEnoughMoney notEnoughMoney) {
-                    sendResponse("source account doesnot have enough money");
+                    sendResponse("source account does not have enough money");
                     return;
                 }
             }
