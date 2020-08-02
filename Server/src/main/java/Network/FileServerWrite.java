@@ -33,9 +33,11 @@ public class FileServerWrite implements Runnable{
         new Thread(new Runnable() {
             @Override
             public void run() {
+                System.out.println("writing file started");
                 int length = 0;
                 try {
                     length = dataInputStream.readInt();
+                    System.out.println("length of file"+length);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -47,10 +49,12 @@ public class FileServerWrite implements Runnable{
                     OutputStream outputStream = new FileOutputStream(file);
                     outputStream.write(fileBytes);
                     outputStream.close();
+                    System.out.println("path is "+path);
                     dataOutputStream.writeUTF(path);
                     dataOutputStream.flush();
                     dataOutputStream.close();
                     socket.close();
+                    System.out.println("file writing ended ");
                 }catch (IOException ioException){
 
                 }

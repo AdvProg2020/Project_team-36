@@ -95,6 +95,7 @@ public class ManagerRegisterController implements Initializable {
             alertLabel.setText("username already exists!");
             return false;
         }
+
     }
 
     private boolean setPassword() {
